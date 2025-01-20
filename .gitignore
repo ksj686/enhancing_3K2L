@@ -1,2 +1,40 @@
+SKL_spring/HELP.md
+SKL_spring/.gradle
+SKL_spring/build/
+SKL_spring/!gradle/wrapper/gradle-wrapper.jar
+!SKL_spring/**/src/main/**/build/
+!SKL_spring/**/src/test/**/build/
+
+### STS ###
+SKL_spring/.apt_generated
+SKL_spring/.classpath
+SKL_spring/.factorypath
+SKL_spring/.project
+SKL_spring/.settings
+SKL_spring/.springBeans
+SKL_spring/.sts4-cache
+SKL_spring/bin/
+!SKL_spring/**/src/main/**/bin/
+!SKL_spring/**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+SKL_spring/.idea
+SKL_spring/*.iws
+SKL_spring/*.iml
+SKL_spring/*.ipr
+SKL_spring/out/
+!SKL_spring/**/src/main/**/out/
+!SKL_spring/**/src/test/**/out/
+
 ### VS Code ###
 .vscode/
+
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+
