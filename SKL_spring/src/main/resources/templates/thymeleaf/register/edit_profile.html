@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/thymeleaf/default_layout_main}">
+	
+<th:block layout:fragment="css">
+    <style>
+    /* 레이아웃 설정 */
+        .layout {
+            display: flex;
+            height: calc(100vh - 80px); /* 헤더 높이를 제외한 높이 */
+        }
+
+        /* 사이드바 스타일 */
+        .sidebar {
+            width: 200px;
+            background-color: #f0f0f8;
+            padding: 20px;
+            box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar a {
+            display: block;
+            margin: 10px 0;
+            text-decoration: none;
+            color: #000000; /* 검은색으로 변경 */
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+      
+
+        /* 메인 콘텐츠 스타일 */
+        .main-content {
+            flex-grow: 1;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .main-content h2 {
+            font-size: 2rem;
+            color: #000000; /* 검은색으로 변경 */
+            margin-bottom: 20px;
+        }
+
+        .main-content p {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        /* 섹션 숨기기 */
+        .section {
+            display: none;
+        }
+
+        /* 기본 섹션 표시 */
+        .section.active {
+            display: block;
+            padding-right: 150px;
+        }
+
+        /* 버튼 스타일 */
+        .btn {
+            background-color: #00aaff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: #007bb5;
+        }
+
+        /* 목록 스타일 */
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #ffffff;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 추가된 "profile-container" 스타일 */
+        .profile-container {
+            width: 100%;
+            max-width: 360px; /* 아이디 찾기 페이지의 최대 너비와 일치 */
+            padding: 20px;
+            
+            margin: auto;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-container h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+            font-family: 'Courier New', monospace; /* 필기체 폰트에서 Courier New로 변경 */
+        }
+
+        .profile-container .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .profile-container label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .profile-container .form-control-static {
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            color: #555;
+        }
+
+      .profile-container .btn-edit {
+		    background-color: #4682B4;
+		    color: #fff;
+		    border: none;
+		    padding: 10px 20px;
+		    border-radius: 5px;
+		    cursor: pointer;
+		    width: 100%;
+		    font-size: 1rem;
+		    text-decoration: none; /* 밑줄 제거 */
+		    font-family: 'Playfair Display', serif; /* 새로운 폰트 적용 */
+		    letter-spacing: 1px; /* 글자 간격 추가 */
+		    box-sizing: border-box; /* 추가된 속성 */
+		    transition: background-color 0.3s, padding 0.3s, border 0.3s; /* 추가된 속성 */
+		}
+		
+		.profile-container .btn-edit:hover {
+		    background-color: #5f9ea0;
+		   
+		}
+
+
+        /* 반응형 디자인 유지 */
+        @media (max-width: 768px) {
+            .layout {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                display: flex;
+                justify-content: space-around;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .profile-container {
+                max-width: 100%;
+            }
+        }
+        /* 하이퍼링크의 기본 색상과 밑줄 제거 */
+
+
+		.main-content a {
+		    color: #3AA0E4; /* 텍스트 색상을 상속받음 */
+		    text-decoration: none; /* 밑줄 제거 */
+		}
+
+        /* 프로필 수정 컨테이너 스타일 */
+        .profile-edit-container {
+            max-width: 400px; /* 너비 줄임 */
+            margin: 65px auto; /* 세로 중앙 정렬 */
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .profile-edit-container h1 {
+            font-family: 'Courier New', monospace;
+            font-size: 1.75rem;
+            color: #333;
+            margin-bottom: 10px;
+            
+            
+            text-align: center;
+        }
+
+        .profile-edit-container .profile-item {
+            margin-bottom: 15px;
+            text-align: left;
+            font-family: 'Courier New', monospace;
+        }
+
+        .profile-edit-container label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .profile-edit-container input {
+            font-family: 'Courier New', monospace;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            color: #333;
+        }
+
+        /* 버튼 스타일 */
+        .profile-edit-container .btn-primary, .profile-edit-container .btn-secondary {
+            font-family: 'Courier New', monospace;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 1rem;
+            display: inline-block;
+            background-color: #4682B4;
+            color: white;
+            border: none;
+            margin-top: 10px;
+            width: auto;
+        }
+
+        .profile-edit-container .btn-primary:hover, .profile-edit-container .btn-secondary:hover {
+            background-color: #5f9ea0;
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 768px) {
+            .layout {
+                flex-direction: column;
+            }
+
+            .profile-edit-container {
+                max-width: 100%;
+            }
+        }
+        
+        .btn-secondary{
+        	color:white !important;
+        }
+        
+        .btn-padding{
+        	padding-top: 10px;
+        }
+
+    </style>
+</th:block>
+
+
+<div layout:fragment="content">
+    
+
+    <!-- 프로필 수정 -->
+    <div class="layout">
+    	<!-- 사이드바 -->
+        <div class="sidebar">
+            <nav>
+                <!-- <a th:href="@{/profile/{userId}(userId=${member.userId})}">내 프로필</a> -->
+                <a href="/profile/insert">내 프로필</a>
+                <a onclick="showSection('profile')">내 정보</a>
+                <a href="/journals" th:if="${session.userid != null}">수업일지</a>
+                <a onclick="showSection('posts')">내가 쓴 게시글</a>
+                <a onclick="showSection('comments')">내가 쓴 댓글</a>
+                <a href="/message/received" th:if="${session.userid != null}">내 쪽지함</a>
+            </nav>
+        </div>
+    
+        <div class="main-content">
+            <div id="profile" class="section active">
+                <div class="profile-container">
+                    <h2>정보 수정</h2>
+	                <form th:action="@{/members/edit}" th:object="${member}" method="post">
+	                    <!-- Hidden field for userId -->
+	                    <input type="hidden" name="userId" th:field="*{userId}">
+	                    <div class="profile-item">
+	                        <label for="userName"><strong>이름:</strong></label>
+	                        <input type="text" id="userName" name="userName" th:field="*{userName}" class="form-control">
+	                    </div>
+	                    <div class="profile-item">
+	                        <label for="email"><strong>이메일:</strong></label>
+	                        <input type="email" id="email" name="email" th:field="*{email}" class="form-control">
+	                    </div>
+	                    <div class="profile-item">
+	                        <label for="phoneNumber"><strong>전화번호:</strong></label>
+	                        <input type="text" id="phoneNumber" name="phoneNumber" th:field="*{phoneNumber}" class="form-control">
+	                    </div>
+	                    <div class="btn-padding">
+	                        <button type="submit" class="btn btn-primary">저장</button>
+	                        <a class="btn btn-secondary" href="/members/mypage">취소</a>
+	                    </div>
+	                </form>
+	             </div>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block layout:fragment="script">
+</th:block>
+</html>
