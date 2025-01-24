@@ -71,7 +71,7 @@
             color: #333;
         }
 
-        .userIdMessage {
+        .memberIdMessage {
             font-size: 13px;
             color: #495057;
             margin-top: 5px;
@@ -111,14 +111,14 @@
     <!-- 로고와 텍스트 위치 -->
     <div class="logo-container">
         <img class="logo-img" src="/assets/logo_transparent.png" alt="로고 이미지">
-        <div class="logo-text">Code Connect</div>
+        <div class="logo-text">logo text</div>
     </div>
 
     <form class="form-signin" action="/members/insert" method="post" id="signupForm" enctype="multipart/form-data">
         <h1 class="h4 mb-3 font-weight-normal">회원가입</h1>
 
         <input type="text" id="memberId" name="memberId" class="form-control" placeholder="아이디" required onblur="checkDuplicate()">
-        <div id="userIdError" class="error-message">이미 사용 중인 아이디입니다.</div>
+        <div id="memberIdError" class="error-message">이미 사용 중인 아이디입니다.</div>
         
         <input type="password" id="memberPwd" name="memberPwd" class="form-control" placeholder="비밀번호" required>
         <input type="text" name="memberName" class="form-control" placeholder="이름" required>
@@ -138,13 +138,13 @@
 
 <script>
     function checkDuplicate() {
-        var userId = document.getElementById('userId').value;
-        var userIdError = document.getElementById('userIdError');
+        var memberId = document.getElementById('memberId').value;
+        var memberIdError = document.getElementById('memberIdError');
 
-        if (userId.length > 0) {
-            var encodedUserId = encodeURIComponent(userId);
-            console.log(`Sending request to /members/check-userid with userId: ${encodedUserId}`);
-            var url = `http://127.0.0.1/members/check-userid?userId=${encodedUserId}`;
+        if (memberId.length > 0) {
+            var encodedmemberId = encodeURIComponent(memberId);
+            console.log(`Sending request to /members/check-memberid with memberId: ${encodedmemberId}`);
+            var url = `http://127.0.0.1/members/check-memberid?memberId=${encodedmemberId}`;
             fetch(url)
                 .then(response => {
                     console.log(`Received response with status: ${response.status}`);
@@ -156,11 +156,11 @@
                 .then(data => {
                     console.log(`Received JSON data: ${data}`);
                     if (data) {
-                        userIdError.style.display = 'block';
-                        document.getElementById('userId').classList.add('invalid-input');
+                        memberIdError.style.display = 'block';
+                        document.getElementById('memberId').classList.add('invalid-input');
                     } else {
-                        userIdError.style.display = 'none';
-                        document.getElementById('userId').classList.remove('invalid-input');
+                        memberIdError.style.display = 'none';
+                        document.getElementById('memberId').classList.remove('invalid-input');
                     }
                 })
                 .catch(error => {
@@ -168,8 +168,8 @@
                     alert('Error fetching the data: ' + error.message);
                 });
         } else {
-            userIdError.style.display = 'none';
-            document.getElementById('userId').classList.remove('invalid-input');
+            memberIdError.style.display = 'none';
+            document.getElementById('memberId').classList.remove('invalid-input');
         }
     }
 
@@ -194,7 +194,7 @@
         }
 
         $('#signupForm').on('submit', function(event) {
-            if ($('#userIdError').is(':visible')) {
+            if ($('#memberIdError').is(':visible')) {
                 event.preventDefault();
                 alert('아이디를 수정해주세요.');
             }

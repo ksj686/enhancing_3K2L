@@ -26,8 +26,8 @@ public class MemberController {
     private static final Logger logger = LoggerFactory.getLogger(BasicMemberService.class);
 
     // 아이디 중복 확인을 위한 API
-    @GetMapping("/members/check-userid")
-    public ResponseEntity<Boolean> checkUserId(@RequestParam(name = "memberId") String memberId) {
+    @GetMapping("/members/check-memberid")
+    public ResponseEntity<Boolean> checkMemberId(@RequestParam(name = "memberId") String memberId) {
         boolean isDuplicated = memberService.isUserIdDuplicated(memberId);
         logger.debug("memberID check for: {}, isDuplicated: {}", memberId, isDuplicated);
 
@@ -35,10 +35,10 @@ public class MemberController {
     }
 
     // 회원가입 폼을 반환하는 메서드
-    @GetMapping("/register/insertform")
-    public String showInsertForm(Model model) {
-        return "insertform";  // templates/insertform.html 파일을 반환
-    }
+//    @GetMapping("/register/insertform")
+//    public String showInsertForm(Model model) {
+//        return "thymeleaf/register/insertform";
+//    }
     
     // 기본 메서드들: 서버의 시간을 반환하는 홈 페이지
     @GetMapping(value = {"/members", "/members/"})

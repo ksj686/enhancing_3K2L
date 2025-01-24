@@ -1,8 +1,8 @@
 package app.labs.register.model;
 
 
-import java.sql.Date;
-import java.sql.Timestamp;
+//import java.sql.Date;
+//import java.sql.Timestamp;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +21,7 @@ public class Member {
 //	private byte[] memberProfile;
 	private String memberPhone;
 	private String memberBirthdate;
-	private Date memberSignupDate;
-	private Date lastLogin;
+	private String memberSignupDate;
+	private String lastLogin;
 }
 
