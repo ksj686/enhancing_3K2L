@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="app.labs.diary.dao.DiaryRepository">
+
+	<select id="getDiaryCount" parameterType="int" resultType="int">
+		SELECT COUNT(*) FROM DIARY
+		WHERE MEMBER_ID = #{memberId}
+	</select>
+	
+	<select id="getDiaryList" resultType="app.labs.diary.model.Diary">
+		SELECT * FROM DIARY
+		WHERE MEMBER_ID = #{memberId}
+	</select>
+	
+	<select id="getDiaryInfo" parameterType="int" resultType="app.labs.diary.model.Diary">
+		SELECT 	*
+		FROM DIARY WHERE DIARY_ID = #{diaryId}
+	</select>
+
+	<update id="updateDiary" parameterType="app.labs.diary.model.Diary">
+		UPDATE DIARY 
+		SET DIARY_TITLE=#{diaryTitle}, DIARY_UPDATE=#{diaryUpdate}, DIARY_CONTENT=#{diaryContent, jdbcType=CLOB},
+			DIARY_FEED=#{diaryFeed}, DIARY_EMOTION=#{diaryEmotion} 
+		WHERE DIARY_ID=#{diaryId}
+	</update>
+	
+	<insert id="insertDiary" parameterType="app.labs.diary.model.Diary">
+		INSERT INTO DIARY (
+			DIARY_TITLE, DIARY_DATE, DIARY_CONTENT)
+		VALUES (
+			#{diaryTitle}, #{diaryDate}, #{diaryContent, jdbcType=CLOB})
+	</insert>
+	
+	<delete id="deleteDiary" parameterType="map">
+		DELETE FROM DIARY
+		WHERE DIARY_ID = #{diaryId}
+	</delete>
+</mapper>
