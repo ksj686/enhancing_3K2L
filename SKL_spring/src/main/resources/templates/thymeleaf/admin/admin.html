@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>MemberList</h1>
+    <!-- 회원 목록을 표시할 컨테이너 -->
+    <div id="memberListContainer" th:fragment="memberListFragment">
+        <table>
+            <thead>
+                <tr>
+                    <th>회원 ID</th>
+                    <th>이름</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="member : ${memberList}">
+                    <td th:text="${member.memberId}">회원 ID</td>
+                    <td th:text="${member.memberName}">이름</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<script>
+        $(document).ready(function(){
+            var table = $('#dataTable');
+            var trs = '';
+            
+            $.ajax({
+                type: 'POST',
+                url: 'admin/getMemberList',
+                success: function(fragment) {
+                    $('#memberListContainer').html(fragment);
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

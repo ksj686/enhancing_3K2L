@@ -1,55 +1,72 @@
 package app.labs.admin.controller;
 
 import java.util.List;
-import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import app.labs.admin.service.AdminService;
-
 import app.labs.register.model.Member;
 
 @Controller
 public class AdminController {
 
-	@Autowired
+    @Autowired
     private AdminService adminService;
-	
-	// 회원목록
-    @GetMapping("/admin/getMemberList")
-    public List<Member> getMemberList(@RequestParam(name = "memberId") String memberId
-    		, @RequestParam(name = "memberName") String memberName
-    		, Model model) {
-    	List<Member> members = new ArrayList<>();
-//    	memberId 또는 memberName이 있으면 해당 맴버만 조회, 없으면 전체 회원 조회
-    	model.addAttribute("memberList", members);
-        return members;
+    
+    // 홈페이지
+    @GetMapping("/admin")
+    public String adminPage() {
+        return "thymeleaf/admin/admin";
     }
+
+    // 회원목록 - 페이지 전체 반환
+    @GetMapping("/admin/members")
+    public String memberListPage(Model model) {
+        return "thymeleaf/admin/admin";
+    }
+
+    // 회원목록 - 부분 페이지 갱신
+    @PostMapping("/admin/getMemberList")
+    public String getMemberList(@RequestParam(name = "memberId", required = false) String memberId
+            , @RequestParam(name = "memberName", required = false) String memberName
+    		, Model model) {
+        List<Member> members = adminService.getMemberList(memberId, memberName);
+    	model.addAttribute("memberList", members);
+        return "thymeleaf/admin/admin :: memberListFragment";  // Thymeleaf fragment 반환
+    }
+    // 회원목록 - JSON 데이터 반환
+    // @PostMapping("/admin/getMemberList")
+    // @ResponseBody
+    // public List<Member> getMemberList(@RequestParam(name = "memberId", required = false) String memberId
+    //         , @RequestParam(name = "memberName", required = false) String memberName) {
+    //     return adminService.getMemberList(memberId, memberName);
+    // }
     
-    
+    // 회원 상태 - 연도별
     @GetMapping("/admin/member-status/year")
     public String memberStatusByYear(Model model) {
-    	model.addAttribute("memberStatus", adminService.getMemberStatusByYear());
-    	
-        return "/admin/member-status/year";
+        model.addAttribute("memberStatus", adminService.getMemberStatusByYear());
+        return "thymeleaf/admin/admin :: yearlyStatsFragment";
     }
     
+    // 회원 상태 - 월별
     @GetMapping("/admin/member-status/month")
     public String memberStatusByMonth(Model model) {
-    	model.addAttribute("memberStatus", adminService.getMemberStatusByMonth());
-    	
-        return "/admin/member-status/month";
+        model.addAttribute("memberStatus", adminService.getMemberStatusByMonth());
+        return "thymeleaf/admin/admin :: monthlyStatsFragment";
     }
     
+    // 회원 상태 - 일별
     @GetMapping("/admin/member-status/day")
     public String memberStatusByDay(Model model) {
-    	model.addAttribute("memberStatus", adminService.getMemberStatusByDay());
-    	
-        return "/admin/member-status/day";
+        model.addAttribute("memberStatus", adminService.getMemberStatusByDay());
+        return "thymeleaf/admin/admin :: dailyStatsFragment";
     }
     
     // 미션 달성 현황
@@ -60,7 +77,7 @@ public class AdminController {
     	model.addAttribute("", "");
     	
     	//??
-        return "/admin/mission-status";
+        return "thymeleaf/admin/mission-status";
     }
     
     // 사용자 감정통계. diary 테이블에서 전체 emotion 날짜 단위로 가져오기?
@@ -71,7 +88,7 @@ public class AdminController {
     	model.addAttribute("", "");
     	
     	//??
-        return "/admin/emotion-stat";
+        return "thymeleaf/admin/emotion-stat";
     }
     
     // 게시글 관리
@@ -81,7 +98,7 @@ public class AdminController {
     	model.addAttribute("", "");
     	
     	//??
-        return "/admin/manage-board";
+        return "thymeleaf/admin/manage-board";
     }
     
 }

@@ -19,12 +19,7 @@ public class BasicAdminService implements AdminService {
 
     @Override
     public List<Member> getMemberList(String memberId, String memberName) {
-        if (memberId != null && !memberId.isEmpty()) {
-            return adminRepository.findByMemberId(memberId);
-        } else if (memberName != null && !memberName.isEmpty()) {
-            return adminRepository.findByMemberName(memberName);
-        }
-        return adminRepository.getMemberList();
+        return adminRepository.getMemberList(memberId, memberName);
     }
 
     @Override

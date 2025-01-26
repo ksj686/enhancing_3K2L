@@ -11,9 +11,9 @@ import app.labs.register.model.Member;
 @Mapper
 public interface AdminRepository {
     // 회원 목록 조회 관련
-    List<Member> getMemberList();
-    List<Member> findByMemberId(String memberId);
-    List<Member> findByMemberName(String memberName);
+    List<Member> getMemberList(@Param("memberId") String memberId, @Param("memberName") String memberName);
+    // List<Member> findByMemberId(String memberId);
+    // List<Member> findByMemberName(String memberName);
 
     // 회원 상태 통계 관련
     List<Map<String, Object>> getMemberStatsByYear();
