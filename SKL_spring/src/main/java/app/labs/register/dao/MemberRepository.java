@@ -14,9 +14,4 @@ public interface MemberRepository {
     Member findByEmailOrPhone(@Param("emailOrPhone") String emailOrPhone);
 	Member findByUserId(String userId);
 	int existsByUserId(String memberId);
-   }
-   
-   
-       
-      
-   
+}
