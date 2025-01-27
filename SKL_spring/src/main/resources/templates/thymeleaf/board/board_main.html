@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+	</head>
+	<body>
+		<h5 th:if="${session.memberid != null}">[[${session.memberid}]]님</h5>
+		<a href="/login" th:if="${session.memberid == null}">로그인</a>
+		<a href="/members/insert"  th:if="${session.memberid == null}">회원가입</a>
+		<a href="/logout" th:if="${session.memberid != null}">로그아웃</a>
+		<div style="text-align:center;">
+			<h1> Hello board! </h1>
+			<P>  기쁨의 방 </P>
+			<P>  슬픔의 방 </P>
+			<P>  걱정의 방 </P>
+			<P>  응원의 방 </P>
+		</div>
+	</body>
+</html>
