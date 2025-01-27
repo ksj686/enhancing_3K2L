@@ -27,9 +27,9 @@
 	
 	<insert id="insertDiary" parameterType="app.labs.diary.model.Diary">
 		INSERT INTO DIARY (
-			DIARY_TITLE, DIARY_DATE, DIARY_CONTENT)
+			DIARY_TITLE, DIARY_DATE, DIARY_CONTENT, MEMBER_ID)
 		VALUES (
-			#{diaryTitle}, #{diaryDate}, #{diaryContent, jdbcType=CLOB})
+			#{diaryTitle}, #{diaryDate}, #{diaryContent, jdbcType=CLOB}, #{memberId})
 	</insert>
 	
 	<delete id="deleteDiary" parameterType="map">

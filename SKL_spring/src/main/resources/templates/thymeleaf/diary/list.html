@@ -9,11 +9,13 @@
 	<a th:href="@{/diary/insert}" class="btn btn-primary">일기 추가하기</a>
 	<table border="1" class="table">
 	<tr>
-		<th>DIARY_TITLE</th>
-		<th>DIARY_DATE</th>
+		<th>no.</th>
+		<th>Title</th>
+		<th>DATE</th>
 	</tr>
 	<tr th:each="diary : ${diaryList}"> <!--/* for each 문을 thmeleaf 문으로 교체 */-->
-		<td><a th:href="@{/hr/{id}(id=${diaryList.diaryId},)}" th:utext="${diary.diaryTitle}"></a></td>
+		<td th:utext="${diary.diaryId}"></td>
+		<td><a th:href="@{/diary/{id}(id=${diary.diaryId},)}" th:utext="${diary.diaryTitle}"></a></td>
 		<td th:utext="${diary.diaryDate}"></td>
 	</tr>
 	</table>

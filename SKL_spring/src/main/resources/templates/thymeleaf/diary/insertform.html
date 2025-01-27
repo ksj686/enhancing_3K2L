@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<div layout:fragment="content">
+	<form action="./insert" method="post">
+	<table border="1">
+	<tr>
+		<th>Title</th>
+		<td><input type="text" name="diaryTitle"></td>
+	</tr>
+	<tr>
+		<th>Date</th>
+		<td><input type="date" name="diaryDate"></td>
+	</tr>
+	<tr>
+		<th>Content</th>
+		<td><input type="text" name="diaryContent"></td>
+	</tr>
+	<tr>
+		<th>&nbsp;</th>
+		<td>
+			<input type="submit" value="저장"> 
+			<input type="reset" value="취소">
+		</td>
+	</tr>
+	</table>
+	</form>
+</div>
+
+</html>
