@@ -3,12 +3,12 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="app.labs.diary.dao.DiaryRepository">
 
-	<select id="getDiaryCount" parameterType="int" resultType="int">
+	<select id="getDiaryCount" parameterType="string" resultType="int">
 		SELECT COUNT(*) FROM DIARY
 		WHERE MEMBER_ID = #{memberId}
 	</select>
 	
-	<select id="getDiaryList" resultType="app.labs.diary.model.Diary">
+	<select id="getDiaryList" parameterType="string" resultType="app.labs.diary.model.Diary">
 		SELECT * FROM DIARY
 		WHERE MEMBER_ID = #{memberId}
 	</select>

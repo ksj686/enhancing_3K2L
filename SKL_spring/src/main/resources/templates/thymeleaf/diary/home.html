@@ -8,7 +8,7 @@
 		<div style="text-align:center;">
 			<h1> Hello Diary!!! </h1>
 			<P>  The time on the server is [[ ${serverTime} ]]. </P>
-			<!-- <a href="/hr/list">HR</a> -->
+			<a th:href="@{/diary/list/{session.memberId}}">Diary List</a>
 		</div>
 	</body>
 </html>
