@@ -20,6 +20,9 @@ public interface AdminRepository {
     List<Map<String, Object>> getMemberStatsByMonth(@Param("year") int year);
     List<Map<String, Object>> getMemberStatsByDay(@Param("yearMonth") String yearMonth);
 
+    // 회원 상태 수정
+    int updateMemberStatus(@Param("memberId") String memberId, @Param("memberStatus") String memberStatus);
+
     // 미션 현황 관련
     List<Map<String, Object>> getMissionCompletionStats();
     List<Map<String, Object>> getMissionParticipationStats();

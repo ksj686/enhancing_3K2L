@@ -14,4 +14,9 @@
             </if>
         </where>
     </select>
+    <update id="updateMemberStatus">
+        UPDATE MEMBER
+        SET MEMBER_STATUS = #{memberStatus}
+        WHERE MEMBER_ID = #{memberId}
+    </update>
 </mapper>

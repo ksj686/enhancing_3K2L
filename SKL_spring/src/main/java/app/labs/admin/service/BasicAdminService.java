@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import app.labs.admin.dao.AdminRepository;
 import app.labs.register.model.Member;
@@ -79,5 +80,17 @@ public class BasicAdminService implements AdminService {
     @Override
     public boolean updateBoardStatus(Long boardId, String status) {
         return adminRepository.updateBoardStatus(boardId, status) > 0;
+    }
+
+    @Override
+    @Transactional
+    public void updateMemberStatusList(List<String> memberIdList, List<String> memberStatusList) {
+        if (memberIdList.size() != memberStatusList.size()) {
+            throw new IllegalArgumentException("Member ID list and status list must have the same size");
+        }
+        
+        for (int i = 0; i < memberIdList.size(); i++) {
+            adminRepository.updateMemberStatus(memberIdList.get(i), memberStatusList.get(i));
+        }
     }
 }

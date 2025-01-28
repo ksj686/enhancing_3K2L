@@ -21,6 +21,9 @@ public interface AdminService {
     Map<String, Object> getEmotionStats();
     Map<String, Object> getEmotionTrends(String startDate, String endDate);
     
+    // 회원 상태 일괄 수정
+    void updateMemberStatusList(List<String> memberIdList, List<String> memberStatusList);
+    
     // 게시글 관리
     Map<String, Object> getBoardManagementData();
     boolean updateBoardStatus(Long boardId, String status);

@@ -76,7 +76,13 @@
                 <td th:text="${member.memberName}">이름</td>
                 <td th:text="${member.memberNickname}">닉네임</td>
                 <td th:text="${member.memberEmail}">이메일</td>
-                <td th:text="${member.memberStatus}">상태</td>
+                <td>
+                    <select th:id="'memberStatus' + ${member.memberId}" th:value="${member.memberStatus}">
+                        <option value="ACTIVE" th:selected="${member.memberStatus == 'ACTIVE'}">ACTIVE</option>
+                        <option value="INACTIVE" th:selected="${member.memberStatus == 'INACTIVE'}">INACTIVE</option>
+                        <option value="CLOSED" th:selected="${member.memberStatus == 'CLOSED'}">CLOSED</option>
+                    </select>
+                </td>
                 <td th:text="${member.memberClass}">회원등급</td>
                 <td th:text="${member.memberPhone}">전화번호</td>
                 <td th:text="${member.memberBirthdate}">생년월일</td>
@@ -85,7 +91,38 @@
             </tr>
         </tbody>
     </table>
+    
+    <button type="button" onclick="updateMemberStatus()">수정</button>
 </div>
+
+<script>
+    function updateMemberStatus() {
+        var memberIdList = [];
+        var memberStatusList = [];
+        $('select[id^="memberStatus"]').each(function() {
+            var memberId = $(this).attr('id').replace('memberStatus', '');
+            var memberStatus = $(this).val();
+            memberIdList.push(memberId);
+            memberStatusList.push(memberStatus);
+        });
+        
+        $.ajax({
+            type: 'POST',
+            url: 'admin/updateMemberStatusList',
+            data: {
+                memberIdList: memberIdList,
+                memberStatusList: memberStatusList
+            },
+            success: function(data) {
+                if (data.success) {
+                    alert('수정 성공');
+                } else {
+                    alert('수정 실패');
+                }
+            }
+        });
+    }
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 <script>

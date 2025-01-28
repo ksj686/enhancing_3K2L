@@ -1,6 +1,8 @@
 package app.labs.admin.controller;
 
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -67,6 +69,21 @@ public class AdminController {
     public String memberStatusByDay(Model model) {
         model.addAttribute("memberStatus", adminService.getMemberStatusByDay());
         return "thymeleaf/admin/admin :: dailyStatsFragment";
+    }
+    
+    // 회원 상태 일괄 수정
+    @PostMapping("/admin/updateMemberStatusList")
+    @ResponseBody
+    public Map<String, Boolean> updateMemberStatusList(@RequestParam("memberIdList[]") List<String> memberIdList,
+                                                     @RequestParam("memberStatusList[]") List<String> memberStatusList) {
+        Map<String, Boolean> response = new HashMap<>();
+        try {
+            adminService.updateMemberStatusList(memberIdList, memberStatusList);
+            response.put("success", true);
+        } catch (Exception e) {
+            response.put("success", false);
+        }
+        return response;
     }
     
     // 미션 달성 현황
