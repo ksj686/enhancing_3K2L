@@ -12,13 +12,11 @@ import app.labs.register.model.Member;
 public interface AdminRepository {
     // 회원 목록 조회 관련
     List<Member> getMemberList(@Param("memberId") String memberId, @Param("memberName") String memberName);
-    // List<Member> findByMemberId(String memberId);
-    // List<Member> findByMemberName(String memberName);
 
-    // 회원 상태 통계 관련
+    // 회원 통계 관련
     List<Map<String, Object>> getMemberStatsByYear();
-    List<Map<String, Object>> getMemberStatsByMonth(@Param("year") int year);
-    List<Map<String, Object>> getMemberStatsByDay(@Param("yearMonth") String yearMonth);
+    List<Map<String, Object>> getMemberStatsByMonth();
+    List<Map<String, Object>> getMemberStatsByDay();
 
     // 회원 상태 수정
     int updateMemberStatus(@Param("memberId") String memberId, @Param("memberStatus") String memberStatus);

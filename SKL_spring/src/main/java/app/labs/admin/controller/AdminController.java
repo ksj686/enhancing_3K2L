@@ -22,15 +22,15 @@ public class AdminController {
     private AdminService adminService;
     
     // 홈페이지
-    @GetMapping("/admin")
+    @GetMapping("/admin/member-list")
     public String adminPage() {
-        return "thymeleaf/admin/admin";
+        return "thymeleaf/admin/member_list";
     }
 
     // 회원목록 - 페이지 전체 반환
     @GetMapping("/admin/members")
-    public String memberListPage(Model model) {
-        return "thymeleaf/admin/admin";
+    public String memberListFullPage(Model model) {
+        return "thymeleaf/admin/member_list";
     }
 
     // 회원목록 - 부분 페이지 갱신
@@ -40,7 +40,7 @@ public class AdminController {
     		, Model model) {
         List<Member> members = adminService.getMemberList(memberId, memberName);
     	model.addAttribute("memberList", members);
-        return "thymeleaf/admin/admin :: memberListFragment";  // Thymeleaf fragment 반환
+        return "thymeleaf/admin/member_list :: memberListFragment";  // Thymeleaf fragment 반환
     }
     // 회원목록 - JSON 데이터 반환
     // @PostMapping("/admin/getMemberList")
@@ -49,26 +49,30 @@ public class AdminController {
     //         , @RequestParam(name = "memberName", required = false) String memberName) {
     //     return adminService.getMemberList(memberId, memberName);
     // }
-    
-    // 회원 상태 - 연도별
-    @GetMapping("/admin/member-status/year")
-    public String memberStatusByYear(Model model) {
-        model.addAttribute("memberStatus", adminService.getMemberStatusByYear());
-        return "thymeleaf/admin/admin :: yearlyStatsFragment";
+    @GetMapping("/admin/member-stats")
+    public String memberStats(Model model) {
+        return "thymeleaf/admin/member_stats";
+    }
+
+    // 회원 통계 - 연도별
+    @GetMapping("/admin/member-stats/year")
+    @ResponseBody
+    public List<Map<String, Object>> memberStatByYear() {
+        return (List<Map<String, Object>>) adminService.getMemberStatsByYear().get("yearlyStats");
     }
     
-    // 회원 상태 - 월별
-    @GetMapping("/admin/member-status/month")
-    public String memberStatusByMonth(Model model) {
-        model.addAttribute("memberStatus", adminService.getMemberStatusByMonth());
-        return "thymeleaf/admin/admin :: monthlyStatsFragment";
+    // 회원 통계 - 월별
+    @GetMapping("/admin/member-stats/month")
+    @ResponseBody
+    public List<Map<String, Object>> memberStatByMonth() {
+        return (List<Map<String, Object>>) adminService.getMemberStatsByMonth().get("monthlyStats");
     }
     
-    // 회원 상태 - 일별
-    @GetMapping("/admin/member-status/day")
-    public String memberStatusByDay(Model model) {
-        model.addAttribute("memberStatus", adminService.getMemberStatusByDay());
-        return "thymeleaf/admin/admin :: dailyStatsFragment";
+    // 회원 통계 - 일별
+    @GetMapping("/admin/member-stats/day")
+    @ResponseBody
+    public List<Map<String, Object>> memberStatByDay() {
+        return (List<Map<String, Object>>) adminService.getMemberStatsByDay().get("dailyStats");
     }
     
     // 회원 상태 일괄 수정

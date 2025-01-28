@@ -24,26 +24,23 @@ public class BasicAdminService implements AdminService {
     }
 
     @Override
-    public Map<String, Object> getMemberStatusByYear() {
+    public Map<String, Object> getMemberStatsByYear() {
         Map<String, Object> result = new HashMap<>();
         result.put("yearlyStats", adminRepository.getMemberStatsByYear());
         return result;
     }
 
     @Override
-    public Map<String, Object> getMemberStatusByMonth() {
+    public Map<String, Object> getMemberStatsByMonth() {
         Map<String, Object> result = new HashMap<>();
-        LocalDate now = LocalDate.now();
-        result.put("monthlyStats", adminRepository.getMemberStatsByMonth(now.getYear()));
+        result.put("monthlyStats", adminRepository.getMemberStatsByMonth());
         return result;
     }
 
     @Override
-    public Map<String, Object> getMemberStatusByDay() {
+    public Map<String, Object> getMemberStatsByDay() {
         Map<String, Object> result = new HashMap<>();
-        LocalDate now = LocalDate.now();
-        String yearMonth = now.format(DateTimeFormatter.ofPattern("yyyy-MM"));
-        result.put("dailyStats", adminRepository.getMemberStatsByDay(yearMonth));
+        result.put("dailyStats", adminRepository.getMemberStatsByDay());
         return result;
     }
 

@@ -9,10 +9,10 @@ public interface AdminService {
     // 회원 목록 조회
     List<Member> getMemberList(String memberId, String memberName);
     
-    // 회원 상태 통계
-    Map<String, Object> getMemberStatusByYear();
-    Map<String, Object> getMemberStatusByMonth();
-    Map<String, Object> getMemberStatusByDay();
+    // 회원 통계
+    Map<String, Object> getMemberStatsByYear();
+    Map<String, Object> getMemberStatsByMonth();
+    Map<String, Object> getMemberStatsByDay();
     
     // 미션 현황
     Map<String, Object> getMissionStatus();

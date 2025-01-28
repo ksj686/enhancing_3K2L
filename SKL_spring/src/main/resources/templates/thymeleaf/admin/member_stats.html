@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/thymeleaf/admin/admin_default_layout}">
+
+<th:block layout:fragment="css">
+<style>
+    .chart-container {
+        margin: 20px 0;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .chart-title {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+        color: #333;
+    }
+</style>
+</th:block>
+
+<div layout:fragment="content">
+    <h2 class="mb-4">회원 통계</h2>
+
+    <!-- 일별 회원수 그래프 -->
+    <div class="chart-container">
+        <h3 class="chart-title">일별 회원수</h3>
+        <canvas id="dailyChart"></canvas>
+    </div>
+
+    <!-- 월별 회원수 그래프 -->
+    <div class="chart-container">
+        <h3 class="chart-title">월별 회원수</h3>
+        <canvas id="monthlyChart"></canvas>
+    </div>
+
+    <!-- 연도별 회원수 그래프 -->
+    <div class="chart-container">
+        <h3 class="chart-title">연도별 회원수</h3>
+        <canvas id="yearlyChart"></canvas>
+    </div>
+
+    <!-- 통계 데이터를 담을 영역 -->
+    <div id="yearlyStatsFragment" th:fragment="yearlyStatsFragment"></div>
+    <div id="monthlyStatsFragment" th:fragment="monthlyStatsFragment"></div>
+    <div id="dailyStatsFragment" th:fragment="dailyStatsFragment"></div>
+</div>
+
+<th:block layout:fragment="script">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // 차트 객체를 저장할 변수들
+        let dailyChart, monthlyChart, yearlyChart;
+
+        // 차트 생성 함수들
+        function createDailyChart(data) {
+            const ctx = document.getElementById('dailyChart').getContext('2d');
+            if (dailyChart) dailyChart.destroy();
+            dailyChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: '일별 회원수',
+                        data: data.values,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function createMonthlyChart(data) {
+            const ctx = document.getElementById('monthlyChart').getContext('2d');
+            if (monthlyChart) monthlyChart.destroy();
+            monthlyChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: '월별 회원수',
+                        data: data.values,
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgb(54, 162, 235)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function createYearlyChart(data) {
+            const ctx = document.getElementById('yearlyChart').getContext('2d');
+            if (yearlyChart) yearlyChart.destroy();
+            yearlyChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: '연도별 회원수',
+                        data: data.values,
+                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                        borderColor: 'rgb(255, 99, 132)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // 데이터 로드 함수들
+        function loadYearlyStats() {
+            $.get('/admin/member-stats/year', function(response) {
+                const data = {
+                    labels: response.map(item => item.year),
+                    values: response.map(item => item.count)
+                };
+                createYearlyChart(data);
+            });
+        }
+
+        function loadMonthlyStats() {
+            $.get('/admin/member-stats/month', function(response) {
+                const data = {
+                    labels: response.map(item => item.month),
+                    values: response.map(item => item.count)
+                };
+                createMonthlyChart(data);
+            });
+        }
+
+        function loadDailyStats() {
+            $.get('/admin/member-stats/day', function(response) {
+                const data = {
+                    labels: response.map(item => item.day),
+                    values: response.map(item => item.count)
+                };
+                createDailyChart(data);
+            });
+        }
+
+        // 페이지 로드 시 모든 통계 로드
+        $(document).ready(function() {
+            loadDailyStats();
+            loadMonthlyStats();
+            loadYearlyStats();
+        });
+    </script>
+</th:block>
+</html>
