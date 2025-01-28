@@ -98,7 +98,6 @@
 </div>
 
 <th:block layout:fragment="script">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
     <script>
         function updateMemberStatus() {
             var memberIdList = [];
@@ -112,7 +111,7 @@
             
             $.ajax({
                 type: 'POST',
-                url: 'admin/updateMemberStatusList',
+                url: '/admin/updateMemberStatusList',
                 data: {
                     memberIdList: memberIdList,
                     memberStatusList: memberStatusList
@@ -133,7 +132,7 @@
             
             $.ajax({
                 type: 'POST',
-                url: 'admin/getMemberList',
+                url: '/admin/getMemberList',
                 data: {
                     memberId: memberId,
                     memberName: memberName
