@@ -7,10 +7,10 @@
         SELECT * FROM MEMBER
         <where>
             <if test="memberId != null and memberId != ''">
-                MEMBER_ID = #{memberId}
+                MEMBER_ID LIKE '%' || #{memberId} || '%'
             </if>
             <if test="memberName != null and memberName != ''">
-                AND MEMBER_NAME = #{memberName}
+                AND MEMBER_NAME LIKE '%' || #{memberName} || '%'
             </if>
         </where>
     </select>
