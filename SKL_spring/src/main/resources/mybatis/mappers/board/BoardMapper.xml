@@ -1,48 +1,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="app.labs.board.dao.BoardRepository">
-    <!-- 회원 정보 업데이트 쿼리 -->
-    <update id="updateMember" parameterType="map">
-        UPDATE MEMBER
-        SET MEMBER_NAME = #{userName}, 
-            MEMBER_EMAIL = #{email}, 
-            MEMBER_PHONE = #{phoneNumber}
-        WHERE MEMBER_ID = #{userId}
-    </update>
 
-    <!-- 회원 정보 삽입 쿼리 -->
-    <insert id="insertMember" parameterType="app.labs.register.model.Member">
-        INSERT INTO MEMBER (
-            MEMBER_ID, MEMBER_PWD, MEMBER_NAME, MEMBER_NICKNAME, MEMBER_EMAIL, MEMBER_PHONE, MEMBER_BIRTHDATE
-        )
+    <!-- 글 목록 조회 -->
+    <select id="getBoardList" parameterType="String" resultType="app.labs.board.model.Board">
+        SELECT BOARD_ID, BOARD_TITLE, BOARD_CATEGORY, BOARD_DATE, BOARD_UPDATE, BOARD_CONTENT, BOARD_OFFENSIVE, MEMBER_ID
+        FROM BOARD
+        WHERE BOARD_CATEGORY = #{boardCategory}
+          AND BOARD_DATE >= SYSDATE - 1
+          AND BOARD_OFFENSIVE = 'F';
+    </select>
+
+    <!-- 글 조회 -->
+    <select id="getBoardInfo" parameterType="int" resultType="app.labs.board.model.Board">
+        SELECT BAORD_ID, BOARD_TITLE, BOARD_CATEGORY, BOARD_DATE, BOARD_UPDATE, BOARD_CONTENT, BOARD_OFFENSIVE, MEMBER_ID
+        FROM BOARD
+        WHERE BOARD_ID = #{boardId};
+    </select>
+
+    <!-- 글 등록 -->
+    <insert id="createBoard" parameterType="app.labs.board.model.Board">
+        INSERT INTO BOARD (
+            BOARD_TITLE, BOARD_CATEGORY, BOARD_CONTENT, MEMBER_ID)
         VALUES (
-            #{memberId}, #{memberPwd}, #{memberName}, #{memberNickname}, #{memberEmail}, #{memberPhone}, #{memberBirthdate}
-        )
+            #{boardTitle}, #{boardCategory}, #{boardContent}, #{memberId})
     </insert>
 
-    <!-- 특정 회원 ID로 회원 정보 조회 쿼리 -->
-    <select id="findByUserId" parameterType="string" resultType="app.labs.register.model.Member">
-        SELECT MEMBER_ID, MEMBER_PWD, MEMBER_NAME, MEMBER_EMAIL, MEMBER_PHONE
-        FROM MEMBER
-        WHERE MEMBER_ID = #{userId}
-    </select>
-
-    <!-- 로그인 쿼리 -->
-    <select id="loginMember" parameterType="app.labs.register.model.Member" resultType="app.labs.register.model.Member">
-        SELECT MEMBER_ID, MEMBER_PWD, MEMBER_NAME, MEMBER_EMAIL, MEMBER_PHONE
-        FROM MEMBER
-        WHERE MEMBER_ID = #{userId}
-        AND MEMBER_PWD = #{userPwd}
-    </select>
-
-    <!-- 이메일 또는 전화번호로 회원 정보 조회 쿼리 -->
-    <select id="findByEmailOrPhone" resultType="app.labs.register.model.Member">
-        SELECT * FROM MEMBER
-        WHERE (MEMBER_EMAIL = #{emailOrPhone} OR MEMBER_phone = #{emailOrPhone})
-    </select>
-    
-    <!-- 아이디 중복 체크 쿼리 -->
-    <select id="existsByUserId" resultType="int" parameterType="String">
-        SELECT COUNT(*) FROM MEMBER WHERE MEMBER_ID = #{memberId}
-    </select>
 </mapper>

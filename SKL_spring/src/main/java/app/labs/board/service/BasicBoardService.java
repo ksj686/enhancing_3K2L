@@ -12,7 +12,7 @@ import app.labs.board.model.Board;
 public class BasicBoardService implements BoardService {
 	
 	@Autowired
-	BoardRepository boardRepository;
+	private BoardRepository boardRepository;
 	
 	@Override
 	public List<Board> getBoardList(String boardCategory) {
@@ -22,11 +22,6 @@ public class BasicBoardService implements BoardService {
 	@Override
 	public Board getBoardInfo(int boardId) {
 		return boardRepository.getBoardInfo(boardId);
-	}
-	
-	@Override
-	public int createBoardId() {
-		return boardRepository.createBoardId();
 	}
 	
 	@Override
