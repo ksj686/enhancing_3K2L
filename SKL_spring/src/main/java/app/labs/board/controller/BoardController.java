@@ -38,6 +38,4 @@ public class BoardController {
 		model.addAttribute("boardCategory", boardCategory);
 		return "thymeleaf/board/board_new";
 	}
-
-	@PostMapping()
 }
