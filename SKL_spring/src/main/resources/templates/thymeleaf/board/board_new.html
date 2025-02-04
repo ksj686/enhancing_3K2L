@@ -1,0 +1,67 @@
+<!-- content-form.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+<body>
+	<form class="form" th:action="@{/emo/{boardCategory}/new(boardCategory=${boardCategory},)}" th:object="${board}" method="post" enctype="multipart/form-data">
+
+		<input class="title" type="text" id="title" name="title"  maxlength="50" placeholder="제목 입력, 최대 50자까지 가능합니다" th:value="${content.title}" required />
+		<input type="hidden" name="memeberId" th:value="${session.memeberid}" />
+		<input type="hidden" name="boardCategory" th:value="${boardCategory}" />
+
+		<div contenteditable="true" id="editor" name="content"></div>
+
+		<input class = "write-content" id="text" name="text" rows="20" cols="20" th:value="${content.text}" style="display: none;" />
+
+		<input type="file" id="imageInput" name="image" accept="image/*" style="display: none;" />
+		<button class = "img-btn" type="button" id="uploadBtn">이미지 업로드</button>
+
+		<button class = "submit-btn" type="submit">제출</button>
+	</form>
+
+	<script>
+		document.getElementById('uploadBtn').addEventListener('click', function () {
+			document.getElementById('imageInput').click();
+		});
+
+		document.getElementById('imageInput').addEventListener('change', function (event) {
+			const file = event.target.files[0];
+			if (file) {
+				const reader = new FileReader();
+				reader.onload = function (e) {
+					const base64Image = e.target.result;
+					insertImageAtCursor(base64Image);
+				};
+				reader.readAsDataURL(file);
+			}
+		});
+
+		function insertImageAtCursor(base64Image) {
+			const editor = document.getElementById('editor');
+			const imgTag = `<img src="${base64Image}" alt="uploaded image" style="max-width: 100%;" />`;
+
+			const selection = window.getSelection();
+			if (selection.rangeCount > 0) {
+				const range = selection.getRangeAt(0);
+				if (editor.contains(range.commonAncestorContainer)) {
+					range.deleteContents();
+					range.insertNode(document.createRange().createContextualFragment(imgTag));
+				} else {
+					editor.innerHTML += imgTag;
+				}
+			} else {
+				editor.innerHTML += imgTag;
+			}
+		}
+
+		// 폼 제출 시 contenteditable 영역의 HTML을 textarea로 전송
+		document.querySelector('form').addEventListener('submit', function () {
+			const editorContent = document.getElementById('editor').innerHTML;
+			document.getElementById('text').value = editorContent; // HTML 내용 전송
+		});
+	</script>
+</body>
+</html>
