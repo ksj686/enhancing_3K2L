@@ -31,22 +31,21 @@
     </select>
 
     <select id="getMemberStatsByMonth" resultType="map">
-        SELECT TO_CHAR(SYSDATE, 'YYYY') as year,
+        SELECT TO_CHAR(member_signup_date, 'YYYY') as year,
                TO_CHAR(member_signup_date, 'YYYY-MM') as month, 
                COUNT(*) as count
         FROM member
         WHERE EXTRACT(YEAR FROM member_signup_date) = EXTRACT(YEAR FROM SYSDATE)
-        GROUP BY TO_CHAR(SYSDATE, 'YYYY'), TO_CHAR(member_signup_date, 'YYYY-MM')
+        GROUP BY TO_CHAR(member_signup_date, 'YYYY'), TO_CHAR(member_signup_date, 'YYYY-MM')
         ORDER BY month
     </select>
 
     <select id="getMemberStatsByDay" resultType="map">
-        SELECT TO_CHAR(SYSDATE, 'YYYY-MM') as month,
+        SELECT TO_CHAR(member_signup_date, 'YYYY-MM') as month,
                TO_CHAR(member_signup_date, 'YYYY-MM-DD') as day, 
                COUNT(*) as count
         FROM member
-        WHERE TO_CHAR(member_signup_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM')
-        GROUP BY TO_CHAR(SYSDATE, 'YYYY-MM'), TO_CHAR(member_signup_date, 'YYYY-MM-DD')
+        GROUP BY TO_CHAR(member_signup_date, 'YYYY-MM'), TO_CHAR(member_signup_date, 'YYYY-MM-DD')
         ORDER BY day
     </select>
 </mapper>
