@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<div layout:fragment="content">
+    [[ ${message} ]] <!-- 리다이렉트 메시지 출력 -->
+    <form action="/diary/update" method="post">
+    <input type="hidden" th:field="${diary.diaryId}" />
+    <table border="1" th:object="${diary}" class="table">
+    	<tr>
+    		<th>제목</th>
+    		<td th:text="*{diaryTitle}"></td> <!-- 🔹 diaryTitle을 h1 태그에 출력 -->
+        </tr>
+        <tr>
+            <th>작성일</th>
+            <td th:text="*{diaryDate}"></td>
+        </tr>
+        <tr>
+            <th>수정일</th>
+            <td th:text="*{diaryUpdate}"></td>
+        </tr>
+        <tr>
+            <th>일기 내용</th>
+            <td>
+                <textarea th:text="*{diaryContent}" rows="10" cols="50"></textarea> <!-- 🔹 여러 줄 일기 내용 -->
+            </td>
+        </tr>
+        <tr>
+            <th>Emotion</th>
+            <td th:text="*{diaryEmotion}">AI Emotion</td>
+        </tr>
+        <tr>
+            <th>AI FEED</th>
+            <td>
+                <textarea th:text="*{diaryFeed}" rows="10" cols="50" readonly>AI Feed</textarea> <!-- 🔹 여러 줄 일기 내용 -->
+            </td>
+        </tr>
+        <tr>
+			<th>&nbsp;</th>
+			<td>
+				<input type="submit" value="수정" class="btn btn-primary"> 
+				<input type="reset" value="취소"class="btn btn-secondary">
+			</td>
+		</tr>
+    </table>
+    </form>
+</div>
+
+</html>

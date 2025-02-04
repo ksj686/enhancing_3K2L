@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>일기 상세</title>
+    <style>
+        .diary-content {
+            width: 100%;
+            height: 200px;
+            resize: none;
+        }
+        .image-preview {
+            max-width: 300px;
+            max-height: 300px;
+        }
+    </style>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <h1 th:text="${diary.diaryTitle}">일기 제목</h1>
+
+    <!-- 🔹 리다이렉트 메시지가 있을 때만 출력 -->
+    <div th:if="${message}" class="alert alert-info">
+        [[ ${message} ]]
+    </div>
+
+    <table border="1" th:object="${diary}" class="table">
+        <tr>
+            <th>작성일</th>
+            <td th:text="*{diaryDate}"></td>
+        </tr>
+        <tr>
+            <th>수정일</th>
+            <td th:text="*{diaryUpdate} ?: ' '"></td>
+        </tr>
+        <tr>
+            <th>일기 내용</th>
+            <td>
+                <textarea th:text="*{diaryContent}" class="diary-content" readonly></textarea>
+            </td>
+        </tr>
+        <tr>
+            <th>AI FEED</th>
+            <td>
+                <textarea th:text="*{diaryFeed}" class="diary-content" readonly></textarea>
+            </td>
+        </tr>
+
+        <!-- 🔹 첨부파일 표시 -->
+        <tr th:if="${attach != null}">
+            <th>첨부파일</th>
+            <td>
+                <p>파일명: <a th:href="@{${attach.attachUrl}}" th:text="${attach.attachName}" download></a></p>
+                
+                <!-- 이미지 파일이면 미리보기 추가 -->
+                <div th:if="${attach.attachName != null && #strings.endsWith(attach.attachName, '.jpg') 
+                                                    || #strings.endsWith(attach.attachName, '.jpeg') 
+                                                    || #strings.endsWith(attach.attachName, '.png') 
+                                                    || #strings.endsWith(attach.attachName, '.gif')}">
+                    <img th:src="@{${attach.attachUrl}}" class="image-preview" alt="첨부 이미지">
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <!-- 🔹 수정 및 삭제 버튼 -->
+    <a th:href="@{/diary/update(diaryId=${diary.diaryId})}" class="btn btn-warning">수정하기</a> 
+    <a th:href="@{/diary/delete(diaryId=${diary.diaryId})}" class="btn btn-danger" 
+       onclick="return confirm('정말 삭제하시겠습니까?');">삭제하기</a>
+
+</div>
+
+</body>
+</html>

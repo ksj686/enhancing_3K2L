@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http//www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	<!-- layout:decorate="~{/thymeleaf/mybatis/default_layout}" -->
+
+<div layout:fragment="content">
+	<h1>diary list</h1>
+	[[ ${message } ]] <!-- 리다이렉트 메시지 출력 -->
+	<a th:href="@{/diary/insert}" class="btn btn-primary">일기 추가하기</a>
+	<table border="1" class="table">
+	<tr>
+		<th>no.</th>
+		<th>Title</th>
+		<th>DATE</th>
+	</tr>
+	<tr th:each="diary : ${diaryList}"> <!--/* for each 문을 thmeleaf 문으로 교체 */-->
+		<td th:utext="${diary.diaryId}"></td>
+		<td><a th:href="@{/diary/{id}(id=${diary.diaryId},)}" th:utext="${diary.diaryTitle}"></a></td>
+		<td th:utext="${diary.diaryDate}"></td>
+	</tr>
+	</table>
+</div>
+
+</html>

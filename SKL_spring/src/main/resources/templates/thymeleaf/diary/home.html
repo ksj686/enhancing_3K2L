@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+	</head>
+	<body>
+		<div style="text-align:center;">
+			<h1> Hello Diary!!! </h1>
+			<P>  The time on the server is [[ ${serverTime} ]]. </P>
+			<a th:href="@{/diary/list/{id}(id=${memberId})}">Diary List</a>
+		</div>
+	</body>
+</html>
