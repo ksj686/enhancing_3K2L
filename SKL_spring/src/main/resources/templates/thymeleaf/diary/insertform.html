@@ -3,28 +3,11 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <div layout:fragment="content">
-	<form action="./insert" method="post">
-	<table border="1">
-	<tr>
-		<th>Title</th>
-		<td><input type="text" name="diaryTitle"></td>
-	</tr>
-	<tr>
-		<th>Date</th>
-		<td><input type="date" name="diaryDate"></td>
-	</tr>
-	<tr>
-		<th>Content</th>
-		<td><input type="text" name="diaryContent"></td>
-	</tr>
-	<tr>
-		<th>&nbsp;</th>
-		<td>
-			<input type="submit" value="저장"> 
-			<input type="reset" value="취소">
-		</td>
-	</tr>
-	</table>
+	<form action="/diary/insert" method="post" enctype="multipart/form-data">
+		<input type="text" name="diaryTitle" placeholder="일기 제목" required />
+    	<textarea name="diaryContent" placeholder="일기 내용"></textarea>
+    	<input type="file" name="attach" />  <!-- 파일 업로드 필드 -->
+    	<button type="submit">등록</button>
 	</form>
 </div>
 

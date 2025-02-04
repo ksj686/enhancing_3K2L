@@ -3,19 +3,20 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="app.labs.attach.dao.AttachRepository">
 
-    <!-- 특정 다이어리의 첨부 파일 가져오기 -->
-    <select id="getAttachFile" parameterType="int" resultType="app.labs.attach.model.Attach">
-        SELECT ATTACH_ID, ATTACH_NAME, ATTACH_SIZE, ATTACH_URL, DIARY_ID
-        FROM ATTACH
-        WHERE DIARY_ID = #{diaryId}
-    </select>
-<!-- 
-    특정 다이어리의 첨부 파일 리스트 가져오기
-    <select id="getAttachList" parameterType="int" resultType="app.labs.attach.model.Attach">
-        SELECT ATTACH_ID, ATTACH_NAME, ATTACH_SIZE, ATTACH_URL, DIARY_ID
-        FROM ATTACH
-        WHERE DIARY_ID = #{diaryId}
-    </select> -->
+    <!-- 특정 다이어리의 특정 첨부 파일 가져오기 -->
+	<select id="getAttachFile" parameterType="int" resultType="app.labs.attach.model.Attach">
+    	SELECT ATTACH_ID, ATTACH_NAME, ATTACH_SIZE, ATTACH_URL, DIARY_ID
+    	FROM ATTACH
+    	WHERE DIARY_ID = #{diaryId}
+	</select>
+
+	<!-- 특정 다이어리의 첨부 파일 리스트 가져오기 -->
+	<!-- <select id="getAttachList" parameterType="int" resultType="app.labs.attach.model.Attach">
+    	SELECT ATTACH_ID, ATTACH_NAME, ATTACH_SIZE, ATTACH_URL, DIARY_ID
+    	FROM ATTACH
+    	WHERE DIARY_ID = #{diaryId}
+	</select> -->
+
 
     <!-- 첨부 파일 삽입 -->
     <insert id="insertAttach" parameterType="app.labs.attach.model.Attach">
@@ -48,7 +49,7 @@
             ATTACH_NAME = #{attachName},
             ATTACH_SIZE = #{attachSize},
             ATTACH_URL = #{attachUrl}
-        WHERE DIARY_ID = #{diaryId}
+        WHERE ATTACH_ID = #{attachId}
     </update>
 
     <!-- 첨부 파일 삭제 (DIARY_ID 기준) -->
