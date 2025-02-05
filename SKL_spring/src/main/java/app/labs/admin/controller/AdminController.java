@@ -109,17 +109,17 @@ public class AdminController {
     	model.addAttribute("", "");
     	
     	//??
-        return "thymeleaf/admin/emotion-stat";
+        return "thymeleaf/admin/emotion_stat";
     }
     
-    // 게시글 관리
-    @GetMapping("/admin/manage-board")	//statistics
+    // 게시글 관리 - 이전 프로젝트에서 게시판 목록 불러오는 방법으로 해보기
+    @GetMapping("/admin/board-list")	//statistics
     public String manageBoard(Model model) {
 //    	조회한 데이터 전달
     	model.addAttribute("", "");
     	
     	//??
-        return "thymeleaf/admin/manage-board";
+        return "thymeleaf/admin/board_list";
     }
     
 }
