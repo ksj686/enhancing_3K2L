@@ -48,4 +48,45 @@
         GROUP BY TO_CHAR(member_signup_date, 'YYYY-MM'), TO_CHAR(member_signup_date, 'YYYY-MM-DD')
         ORDER BY day
     </select>
+    
+    <!-- 게시글 목록 조회 -->
+    <select id="getBoardList" resultType="app.labs.board.model.Board">
+        SELECT 
+            board_id AS boardId,
+            board_title AS boardTitle,
+            board_category AS boardCategory,
+            board_offensive AS boardOffensive,
+            board_report AS boardReport,
+            member_id AS memberId,
+            TO_CHAR(board_date, 'YYYY-MM-DD HH24:MI:SS') AS boardDate,
+            TO_CHAR(board_update, 'YYYY-MM-DD HH24:MI:SS') AS boardUpdate
+        FROM board
+        ORDER BY board_date DESC
+    </select>
+
+    <!-- 게시글 상세 조회 -->
+    <select id="getBoardDetail" parameterType="string" resultType="app.labs.board.model.Board">
+        SELECT 
+            board_id AS boardId,
+            board_title AS boardTitle,
+            board_category AS boardCategory,
+            board_content AS boardContent,
+            board_offensive AS boardOffensive,
+            board_report AS boardReport,
+            member_id AS memberId,
+            TO_CHAR(board_date, 'YYYY-MM-DD HH24:MI:SS') AS boardDate,
+            TO_CHAR(board_update, 'YYYY-MM-DD HH24:MI:SS') AS boardUpdate
+        FROM board
+        WHERE board_id = #{boardId}
+    </select>
+
+    <!-- 게시글 상태 수정 (단일) -->
+    <update id="updateBoardStatus" parameterType="map">
+        UPDATE board 
+        SET 
+            board_offensive = #{boardOffensive},
+            board_report = #{boardReport},
+            board_update = CURRENT_TIMESTAMP
+        WHERE board_id = #{boardId}
+    </update>
 </mapper>

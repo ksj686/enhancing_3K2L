@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import app.labs.register.model.Member;
+import app.labs.board.model.Board;
 
 @Mapper
 public interface AdminRepository {
@@ -29,8 +30,10 @@ public interface AdminRepository {
     List<Map<String, Object>> getEmotionStats();
     List<Map<String, Object>> getEmotionTrendsByPeriod(@Param("startDate") String startDate, @Param("endDate") String endDate);
     
-    // 게시글 관리 관련
-    List<Map<String, Object>> getBoardList();
-    List<Map<String, Object>> getReportedPosts();
-    int updateBoardStatus(@Param("boardId") Long boardId, @Param("status") String status);
+    // Board 관련 메서드
+    List<Board> getBoardList();
+    void updateBoardStatus(Map<String, Object> paramMap);
+    
+    // 게시글 상세 조회
+    Board getBoardDetail(String boardId);
 }

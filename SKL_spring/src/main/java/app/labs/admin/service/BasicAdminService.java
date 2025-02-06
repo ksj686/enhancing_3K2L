@@ -12,7 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import app.labs.admin.dao.AdminRepository;
 import app.labs.register.model.Member;
+import lombok.extern.slf4j.Slf4j;
+import app.labs.board.model.Board;
 
+@Slf4j
 @Service
 public class BasicAdminService implements AdminService {
     @Autowired
@@ -45,6 +48,18 @@ public class BasicAdminService implements AdminService {
     }
 
     @Override
+    @Transactional
+    public void updateMemberStatusList(List<String> memberIdList, List<String> memberStatusList) {
+        if (memberIdList.size() != memberStatusList.size()) {
+            throw new IllegalArgumentException("Member ID list and status list must have the same size");
+        }
+        
+        for (int i = 0; i < memberIdList.size(); i++) {
+            adminRepository.updateMemberStatus(memberIdList.get(i), memberStatusList.get(i));
+        }
+    }
+
+    @Override
     public Map<String, Object> getMissionStatus() {
         Map<String, Object> result = new HashMap<>();
         result.put("completionStats", adminRepository.getMissionCompletionStats());
@@ -67,27 +82,37 @@ public class BasicAdminService implements AdminService {
     }
 
     @Override
-    public Map<String, Object> getBoardManagementData() {
-        Map<String, Object> result = new HashMap<>();
-        result.put("boardList", adminRepository.getBoardList());
-        result.put("reportedPosts", adminRepository.getReportedPosts());
-        return result;
+    public List<Board> getBoardList() {
+        return adminRepository.getBoardList();
     }
 
     @Override
-    public boolean updateBoardStatus(Long boardId, String status) {
-        return adminRepository.updateBoardStatus(boardId, status) > 0;
+    public Board getBoardDetail(String boardId) {
+        return adminRepository.getBoardDetail(boardId);
     }
 
     @Override
     @Transactional
-    public void updateMemberStatusList(List<String> memberIdList, List<String> memberStatusList) {
-        if (memberIdList.size() != memberStatusList.size()) {
-            throw new IllegalArgumentException("Member ID list and status list must have the same size");
+    public int updateBoardList(List<String> boardIdList, List<String> boardOffensiveList, List<Integer> boardReportList) {
+        // 리스트 크기 검증
+        if (boardIdList.size() != boardOffensiveList.size() || boardIdList.size() != boardReportList.size()) {
+            throw new IllegalArgumentException("Board ID list, offensive list, and report list must have the same size");
         }
-        
-        for (int i = 0; i < memberIdList.size(); i++) {
-            adminRepository.updateMemberStatus(memberIdList.get(i), memberStatusList.get(i));
+
+        int updatedCount = 0;
+        for (int i = 0; i < boardIdList.size(); i++) {
+            try {
+                Map<String, Object> paramMap = new HashMap<>();
+                paramMap.put("boardId", boardIdList.get(i));
+                paramMap.put("boardOffensive", boardOffensiveList.get(i));
+                paramMap.put("boardReport", boardReportList.get(i));
+                adminRepository.updateBoardStatus(paramMap);
+                updatedCount++;
+            } catch (Exception e) {
+                // 개별 업데이트 실패 시 로그 기록하고 계속 진행
+                log.error("Failed to update board status for boardId: " + boardIdList.get(i), e);
+            }
         }
+        return updatedCount;
     }
 }

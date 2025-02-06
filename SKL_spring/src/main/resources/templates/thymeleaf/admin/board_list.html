@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/thymeleaf/admin/admin_default_layout}">
+
+<th:block layout:fragment="css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/dataTables.bootstrap4.min.css" integrity="sha512-PT0RvABaDhDQugEbpNMwgYBCnGCiTZMh9yOzUsJHDgl/dMhD9yjHAwoumnUk3JydV3QTcIkNDuN40CJxik5+WQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+    #dataTable thead th {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        min-width: 100px;
+        max-width: 200px;
+    }
+    .table-responsive {
+        overflow-x: auto;
+    }
+    #dataTable td select {
+        width: 100%;
+        padding: 5px;
+        border: 1px solid #d1d3e2;
+        border-radius: 4px;
+        background-color: #fff;
+        height: 30px;
+    }
+    #dataTable td {
+        vertical-align: middle;
+        padding: 0.75rem;
+    }
+    .table-actions {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        text-align: right;
+        padding-right: 1rem;
+    }
+    .btn-update {
+        color: #fff;
+        background-color: #4e73df;
+        border-color: #4e73df;
+        padding: 0.375rem 0.75rem;
+        font-size: 0.875rem;
+        line-height: 1.5;
+        border-radius: 0.25rem;
+        font-weight: 400;
+        text-align: center;
+        vertical-align: middle;
+        cursor: pointer;
+        border: 1px solid transparent;
+        transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+    .btn-update:hover {
+        background-color: #2e59d9;
+        border-color: #2653d4;
+    }
+</style>
+</th:block>
+
+<div layout:fragment="content">
+    
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">게시글 목록</h1>
+    
+
+    <!-- DataTales -->
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div id="boardListContainer" class="table-responsive" >
+                <div class="table-actions">
+                    <button type="button" class="btn-update" onclick="updateBoardStatus()">
+                        <i class="fas fa-sync-alt mr-1"></i>Update Status
+                    </button>
+                </div>
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" th:fragment="boardListFragment">
+                    <thead>
+                        <tr>
+                            <th>게시글 ID</th>
+                            <th>제목</th>
+                            <th>카테고리</th>
+                            <!-- <th>내용</th> -->
+                            <th>차단여부</th>
+                            <th>신고횟수</th>
+                            <th>작성자 ID</th>
+                            <th>작성일</th>
+                            <th>수정일</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="board : ${boardList}">
+                            <td th:text="${board.boardId}">게시글 ID</td>
+                            <td><a href="#" onclick="showBoardDetail(this)" th:data-board-id="${board.boardId}" th:text="${board.boardTitle}">제목</a></td>
+                            <td th:text="${board.boardCategory}">카테고리</td>
+                            <!-- <td th:text="${board.boardContent}">내용</td> -->
+                            <td>
+                                <select th:id="'boardOffensive' + ${board.boardId}" th:value="${board.boardOffensive}" th:data-report="${board.boardReport}">
+                                    <option value="F" th:selected="${board.boardOffensive == 'F'}">F</option>
+                                    <option value="T" th:selected="${board.boardOffensive == 'T'}">T</option>
+                                </select>
+                            </td>
+                            <td th:text="${board.boardReport}">신고횟수</td>
+                            <td th:text="${board.memberId}">작성자 ID</td>
+                            <td th:text="${board.boardDate}">작성일</td>
+                            <td th:text="${board.boardUpdate}">수정일</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 게시글 상세 모달 -->
+<div class="modal fade" id="boardDetailModal" tabindex="-1" role="dialog" aria-labelledby="boardDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="boardDetailModalLabel">게시글 상세</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>게시글 ID:</strong> <span id="modalBoardId"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <strong>카테고리:</strong> <span id="modalBoardCategory"></span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <strong>제목:</strong> <span id="modalBoardTitle"></span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <strong>내용:</strong>
+                        <div id="modalBoardContent" class="border p-3 mt-2" style="min-height: 200px;"></div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>작성자:</strong> <span id="modalMemberId"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <strong>작성일:</strong> <span id="modalBoardDate"></span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>차단 여부:</strong> <span id="modalBoardOffensive"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <strong>신고 횟수:</strong> <span id="modalBoardReport"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block layout:fragment="script">
+    <script src="https://cdn.jsdelivr.net/npm/datatables.net@1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/dataTables.bootstrap4.min.js" integrity="sha512-OQlawZneA7zzfI6B1n1tjUuo3C5mtYuAWpQdg+iI9mkDoo7iFzTqnQHf+K5ThOWNJ9AbXL4+ZDwH7ykySPQc+A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+        var dataTable;
+        
+        $(document).ready(function() {
+            initializeDataTable();
+            searchBoards();  // 초기 데이터 로드
+        });
+
+        function initializeDataTable() {
+            if (dataTable) {
+                dataTable.destroy();
+            }
+            
+            dataTable = $('#dataTable').DataTable({
+                "language": {
+                    "lengthMenu": "페이지당 _MENU_ 개씩 보기",
+                    "zeroRecords": "검색 결과가 없습니다",
+                    "info": "_START_ - _END_ / _TOTAL_",
+                    "infoEmpty": "0 - 0 / 0",
+                    "infoFiltered": "(전체 _MAX_ 개 중 검색결과)",
+                    "search": "검색:",
+                    "paginate": {
+                        "first": "처음",
+                        "last": "마지막",
+                        "next": "다음",
+                        "previous": "이전"
+                    }
+                },
+                "destroy": true
+            });
+        }
+
+        function searchBoards() {
+            $.ajax({
+                type: 'POST',
+                url: '/admin/getBoardList',
+                data: {},
+                success: function(fragment) {
+                    $('#dataTable').html(fragment);
+                    initializeDataTable();
+                },
+                error: function(xhr, status, error) {
+                    alert('게시글 조회 중 오류가 발생했습니다.');
+                    console.error('Error:', error);
+                }
+            });
+        }
+
+        function updateBoardStatus() {
+            var boardIdList = [];
+            var boardOffensiveList = [];
+            var boardReportList = [];
+
+            // 각 행의 데이터 수집
+            $('select[id^="boardOffensive"]').each(function() {
+                var boardId = $(this).attr('id').replace('boardOffensive', '');
+                boardIdList.push(boardId);
+                boardOffensiveList.push($(this).val());
+                boardReportList.push(parseInt($(this).data('report')));
+            });
+
+            $.ajax({
+                url: '/admin/updateBoardList',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    boardIdList: boardIdList,
+                    boardOffensiveList: boardOffensiveList,
+                    boardReportList: boardReportList
+                }),
+                success: function(response) {
+                    if(response.success) {
+                        alert('업데이트가 완료되었습니다.');
+                        searchBoards();  // 목록 새로고침
+                    } else {
+                        alert('업데이트 중 오류가 발생했습니다.');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                    alert('업데이트 중 오류가 발생했습니다.');
+                }
+            });
+        }
+
+        function showBoardDetail(element) {
+            var boardId = $(element).data('board-id');
+            
+            // AJAX로 게시글 상세 정보 가져오기
+            $.ajax({
+                type: 'GET',
+                url: '/admin/getBoardDetail',
+                data: { boardId: boardId },
+                success: function(board) {
+                    // 모달에 데이터 채우기
+                    $('#modalBoardId').text(board.boardId);
+                    $('#modalBoardCategory').text(board.boardCategory);
+                    $('#modalBoardTitle').text(board.boardTitle);
+                    $('#modalBoardContent').html(board.boardContent.replace(/\n/g, '<br>'));
+                    $('#modalMemberId').text(board.memberId);
+                    $('#modalBoardDate').text(board.boardDate);
+                    $('#modalBoardOffensive').text(board.boardOffensive === 'T' ? '차단됨' : '정상');
+                    $('#modalBoardReport').text(board.boardReport);
+                    
+                    // 모달 표시
+                    $('#boardDetailModal').modal('show');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                    alert('게시글 상세 정보를 불러오는데 실패했습니다.');
+                }
+            });
+
+            return false;
+        }
+    </script>
+</th:block>
+</html>

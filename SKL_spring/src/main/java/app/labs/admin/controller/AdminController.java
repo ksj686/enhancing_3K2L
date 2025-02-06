@@ -11,10 +11,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import app.labs.admin.service.AdminService;
 import app.labs.register.model.Member;
+import lombok.extern.slf4j.Slf4j;
+import app.labs.board.model.Board;
 
+@Slf4j
 @Controller
 public class AdminController {
 
@@ -35,9 +39,10 @@ public class AdminController {
 
     // 회원목록 - 부분 페이지 갱신
     @PostMapping("/admin/getMemberList")
-    public String getMemberList(@RequestParam(name = "memberId", required = false) String memberId
-            , @RequestParam(name = "memberName", required = false) String memberName
-    		, Model model) {
+    public String getMemberList(
+        @RequestParam(name = "memberId", required = false) String memberId,
+        @RequestParam(name = "memberName", required = false) String memberName,
+        Model model) {
         List<Member> members = adminService.getMemberList(memberId, memberName);
     	model.addAttribute("memberList", members);
         return "thymeleaf/admin/member_list :: memberListFragment";  // Thymeleaf fragment 반환
@@ -112,14 +117,48 @@ public class AdminController {
         return "thymeleaf/admin/emotion_stat";
     }
     
-    // 게시글 관리 - 이전 프로젝트에서 게시판 목록 불러오는 방법으로 해보기
+    // 게시글 관리 페이지
     @GetMapping("/admin/board-list")	//statistics
     public String manageBoard(Model model) {
-//    	조회한 데이터 전달
-    	model.addAttribute("", "");
-    	
-    	//??
         return "thymeleaf/admin/board_list";
+    }
+
+    // 게시글 조회
+    @PostMapping("/admin/getBoardList")	//statistics
+    public String getBoardList(Model model) {
+        List<Board> boards = adminService.getBoardList();
+    	model.addAttribute("boardList", boards);
+        return "thymeleaf/admin/board_list :: boardListFragment";
+    }
+
+    // 게시글 상세 정보 조회
+    @GetMapping("/admin/getBoardDetail")
+    @ResponseBody
+    public Board getBoardDetail(@RequestParam("boardId") String boardId) {
+        return adminService.getBoardDetail(boardId);
+    }
+
+    // 게시글 상태 일괄 수정
+    @PostMapping("/admin/updateBoardList")
+    @ResponseBody
+    public Map<String, Boolean> updateBoardList(@RequestBody Map<String, Object> requestData) {
+        Map<String, Boolean> response = new HashMap<>();
+        try {
+            @SuppressWarnings("unchecked")
+            List<String> boardIdList = (List<String>) requestData.get("boardIdList");
+            @SuppressWarnings("unchecked")
+            List<String> boardOffensiveList = (List<String>) requestData.get("boardOffensiveList");
+            @SuppressWarnings("unchecked")
+            List<Integer> boardReportList = (List<Integer>) requestData.get("boardReportList");
+            
+            int result = adminService.updateBoardList(boardIdList, boardOffensiveList, boardReportList);
+            response.put("success", true);
+            log.info(result + "개 변경사항");
+        } catch (Exception e) {
+            response.put("success", false);
+            log.error("Error updating board status: ", e);
+        }
+        return response;
     }
     
 }
