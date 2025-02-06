@@ -242,14 +242,16 @@
             //         "targets": 3, // 4번째 컬럼
             //         "orderable": false // 정렬 비활성화
             //     }],
+            // "columnDefs": [{
+            //         "targets": 3, // 차단 여부 컬럼
+            //         "orderData": [3, 0], // 정렬 기준을 select의 값으로 설정
+            //         "render": function(data, type, row) {
+            //             return row[3]; // select의 값을 반환
+            //         }
+            //     }],
 
             dataTable = $('#dataTable').DataTable({
                 language: {
-                    buttons: {
-                        selectAll: "모두 선택",
-                        selectNone: "선택 해제",
-                        colvis: "컬럼 선택"
-                    },
                     lengthMenu: "페이지당 _MENU_ 개씩 보기",
                     zeroRecords: "검색 결과가 없습니다",
                     info: "_START_ - _END_ / _TOTAL_",

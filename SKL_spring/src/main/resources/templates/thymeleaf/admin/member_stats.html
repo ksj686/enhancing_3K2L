@@ -6,16 +6,20 @@
 <th:block layout:fragment="css">
 <style>
     .chart-container {
-        margin: 20px 0;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px; /* 차트 간의 간격 */
+        margin: 20px;
     }
     .chart-title {
         font-size: 1.2rem;
         margin-bottom: 15px;
         color: #333;
+    }
+    .chart-wrapper {
+        border: 1px solid rgba(0, 0, 0, 0.1); /* 연한 사각형 선 */
+        border-radius: 8px;
+        padding: 10px;
     }
 </style>
 </th:block>
@@ -25,20 +29,18 @@
 
     <!-- 일별 회원수 그래프 -->
     <div class="chart-container">
-        <h3 class="chart-title">일별 회원수</h3>
-        <canvas id="dailyChart"></canvas>
-    </div>
-
-    <!-- 월별 회원수 그래프 -->
-    <div class="chart-container">
-        <h3 class="chart-title">월별 회원수</h3>
-        <canvas id="monthlyChart"></canvas>
-    </div>
-
-    <!-- 연도별 회원수 그래프 -->
-    <div class="chart-container">
-        <h3 class="chart-title">연도별 회원수</h3>
-        <canvas id="yearlyChart"></canvas>
+        <div class="chart-wrapper">
+            <h3 class="chart-title">일별 회원수</h3>
+            <canvas id="dailyChart"></canvas>
+        </div>
+        <div class="chart-wrapper">
+            <h3 class="chart-title">월별 회원수</h3>
+            <canvas id="monthlyChart"></canvas>
+        </div>
+        <div class="chart-wrapper">
+            <h3 class="chart-title">연도별 회원수</h3>
+            <canvas id="yearlyChart"></canvas>
+        </div>
     </div>
 
     <!-- 통계 데이터를 담을 영역 -->
