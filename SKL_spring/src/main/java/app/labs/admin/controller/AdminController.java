@@ -108,13 +108,13 @@ public class AdminController {
     
     // 사용자 감정통계. diary 테이블에서 전체 emotion 날짜 단위로 가져오기?
     // 감정 게시판 통계는 추후?
-    @GetMapping("/admin/emotion-stat")	//statistics
+    @GetMapping("/admin/emotion-stats")	//statistics
     public String emotionStat(Model model) {
 //    	조회한 데이터 전달
-    	model.addAttribute("", "");
+    	// model.addAttribute("", "");
     	
-    	//??
-        return "thymeleaf/admin/emotion_stat";
+    	// //??
+        return "thymeleaf/admin/emotion_stats";
     }
     
     // 게시글 관리 페이지
