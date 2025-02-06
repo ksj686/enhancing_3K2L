@@ -31,7 +31,7 @@ public interface AdminService {
     List<Board> getBoardList();
     
     // 게시글 상세 조회
-    Board getBoardDetail(String boardId);
+    Board getBoardDetail(int boardId);
 
     // 게시글 상태 일괄 수정
     int updateBoardList(List<String> boardIdList, List<String> boardOffensiveList, List<Integer> boardReportList);

@@ -35,5 +35,5 @@ public interface AdminRepository {
     void updateBoardStatus(Map<String, Object> paramMap);
     
     // 게시글 상세 조회
-    Board getBoardDetail(String boardId);
+    Board getBoardDetail(int boardId);
 }

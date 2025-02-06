@@ -87,7 +87,7 @@ public class BasicAdminService implements AdminService {
     }
 
     @Override
-    public Board getBoardDetail(String boardId) {
+    public Board getBoardDetail(int boardId) {
         return adminRepository.getBoardDetail(boardId);
     }
 

@@ -134,7 +134,7 @@ public class AdminController {
     // 게시글 상세 정보 조회
     @GetMapping("/admin/getBoardDetail")
     @ResponseBody
-    public Board getBoardDetail(@RequestParam("boardId") String boardId) {
+    public Board getBoardDetail(@RequestParam("boardId") int boardId) {
         return adminService.getBoardDetail(boardId);
     }
 

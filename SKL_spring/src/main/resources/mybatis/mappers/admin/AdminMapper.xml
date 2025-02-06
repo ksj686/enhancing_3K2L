@@ -65,7 +65,7 @@
     </select>
 
     <!-- 게시글 상세 조회 -->
-    <select id="getBoardDetail" parameterType="string" resultType="app.labs.board.model.Board">
+    <select id="getBoardDetail" parameterType="int" resultType="app.labs.board.model.Board">
         SELECT 
             board_id AS boardId,
             board_title AS boardTitle,
