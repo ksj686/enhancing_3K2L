@@ -4,26 +4,32 @@
 
     <!-- 글 목록 조회 -->
     <select id="getBoardList" parameterType="String" resultType="app.labs.board.model.Board">
-        SELECT BOARD_ID, BOARD_TITLE, BOARD_CATEGORY, BOARD_DATE, BOARD_UPDATE, BOARD_CONTENT, BOARD_OFFENSIVE, MEMBER_ID
+        SELECT BOARD_ID, BOARD_TITLE, BOARD_CATEGORY, BOARD_DATE, BOARD_CONTENT, BOARD_OFFENSIVE, MEMBER_ID
         FROM BOARD
         WHERE BOARD_CATEGORY = #{boardCategory}
           AND BOARD_DATE >= SYSDATE - 1
-          AND BOARD_OFFENSIVE = 'F';
+          AND BOARD_OFFENSIVE = 'F'
     </select>
 
     <!-- 글 조회 -->
     <select id="getBoardInfo" parameterType="int" resultType="app.labs.board.model.Board">
-        SELECT BAORD_ID, BOARD_TITLE, BOARD_CATEGORY, BOARD_DATE, BOARD_UPDATE, BOARD_CONTENT, BOARD_OFFENSIVE, MEMBER_ID
+        SELECT BOARD_ID, BOARD_TITLE, BOARD_CATEGORY, BOARD_DATE, BOARD_UPDATE, BOARD_CONTENT, BOARD_OFFENSIVE, MEMBER_ID
         FROM BOARD
-        WHERE BOARD_ID = #{boardId};
+        WHERE BOARD_ID = #{boardId}
     </select>
+
+    <!-- 글 ID 생성 -->
+    <select id="createBoardId" resultType="int">
+		SELECT BOARD_SEQ.NEXTVAL
+		FROM DUAL
+	</select>
 
     <!-- 글 등록 -->
     <insert id="createBoard" parameterType="app.labs.board.model.Board">
         INSERT INTO BOARD (
-            BOARD_TITLE, BOARD_CATEGORY, BOARD_CONTENT, MEMBER_ID)
+            BOARD_ID, BOARD_TITLE, BOARD_CATEGORY, BOARD_CONTENT, MEMBER_ID)
         VALUES (
-            #{boardTitle}, #{boardCategory}, #{boardContent}, #{memberId})
+            #{boardId}, #{boardTitle}, #{boardCategory}, #{boardContent, jdbcType=CLOB}, #{memberId})
     </insert>
 
 </mapper>

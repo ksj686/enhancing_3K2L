@@ -1,67 +1,54 @@
-<!-- content-form.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
-	<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <style>
+        * {
+            text-align: center;
+        }
+        #editor {
+            width: 50%;
+            margin: 0 auto;
+        }
+    </style>
+    <!-- TUI 에디터 CSS CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.min.css"/>
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
 </head>
 <body>
-	<form class="form" th:action="@{/emo/{boardCategory}/new(boardCategory=${boardCategory},)}" th:object="${board}" method="post" enctype="multipart/form-data">
+    <form id="boardForm" th:action="@{/emo/{boardCategory}/new(boardCategory=${boardCategory})}" th:object="${board}"  method="post">
+        <input type="hidden" th:value="${session.memeberid}" />
+        <input type="hidden" th:value="${boardCategory}" /> <!-- boardCategory -->
+        <input type="hidden" id="content" th:field="*{boardContent}" /> <!-- 에디터 내용이 저장될 숨겨진 필드 -->
 
-		<input class="title" type="text" id="title" name="title"  maxlength="50" placeholder="제목 입력, 최대 50자까지 가능합니다" th:value="${content.title}" required />
-		<input type="hidden" name="memeberId" th:value="${session.memeberid}" />
-		<input type="hidden" name="boardCategory" th:value="${boardCategory}" />
+        <input type="text" th:field="*{boardTitle}" required />
+        <div id="editor"></div> <!-- 에디터 영역 -->
 
-		<div contenteditable="true" id="editor" name="content"></div>
+        <button class="submit-btn" type="submit">제출</button>
 
-		<input class = "write-content" id="text" name="text" rows="20" cols="20" th:value="${content.text}" style="display: none;" />
+    <!-- TUI 에디터 JS CDN -->
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+    <script>
+        const editor = new toastui.Editor({
+            el: document.querySelector('#editor'),
+            height: '500px',
+            initialEditType: 'wysiwyg',
+            initialValue: '',
+            previewStyle: 'vertical'
+        });
 
-		<input type="file" id="imageInput" name="image" accept="image/*" style="display: none;" />
-		<button class = "img-btn" type="button" id="uploadBtn">이미지 업로드</button>
+        const onSubmit = (event) => {
+            event.preventDefault(); // 기본 폼 제출 방지
 
-		<button class = "submit-btn" type="submit">제출</button>
-	</form>
+            let content = editor.getHTML(); // 에디터의 HTML 내용 가져오기
+            document.getElementById('content').value = content; // 숨겨진 필드에 내용 저장
+            // 폼 제출
+            document.getElementById('boardForm').submit(); // 폼 제출
+        };
 
-	<script>
-		document.getElementById('uploadBtn').addEventListener('click', function () {
-			document.getElementById('imageInput').click();
-		});
-
-		document.getElementById('imageInput').addEventListener('change', function (event) {
-			const file = event.target.files[0];
-			if (file) {
-				const reader = new FileReader();
-				reader.onload = function (e) {
-					const base64Image = e.target.result;
-					insertImageAtCursor(base64Image);
-				};
-				reader.readAsDataURL(file);
-			}
-		});
-
-		function insertImageAtCursor(base64Image) {
-			const editor = document.getElementById('editor');
-			const imgTag = `<img src="${base64Image}" alt="uploaded image" style="max-width: 100%;" />`;
-
-			const selection = window.getSelection();
-			if (selection.rangeCount > 0) {
-				const range = selection.getRangeAt(0);
-				if (editor.contains(range.commonAncestorContainer)) {
-					range.deleteContents();
-					range.insertNode(document.createRange().createContextualFragment(imgTag));
-				} else {
-					editor.innerHTML += imgTag;
-				}
-			} else {
-				editor.innerHTML += imgTag;
-			}
-		}
-
-		// 폼 제출 시 contenteditable 영역의 HTML을 textarea로 전송
-		document.querySelector('form').addEventListener('submit', function () {
-			const editorContent = document.getElementById('editor').innerHTML;
-			document.getElementById('text').value = editorContent; // HTML 내용 전송
-		});
-	</script>
+        // 제출 버튼에 이벤트 리스너 추가
+        document.querySelector('.submit-btn').addEventListener('click', onSubmit);
+    </script>
 </body>
 </html>

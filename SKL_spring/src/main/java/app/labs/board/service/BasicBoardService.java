@@ -25,6 +25,11 @@ public class BasicBoardService implements BoardService {
 	}
 	
 	@Override
+	public int createBoardId() {
+		return boardRepository.createBoardId();
+	}
+
+	@Override
 	public void createBoard(Board board) {
 		boardRepository.createBoard(board);
 	}
