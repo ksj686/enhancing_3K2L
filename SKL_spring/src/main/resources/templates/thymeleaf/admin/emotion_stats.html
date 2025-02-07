@@ -21,8 +21,15 @@
         border: 1px solid rgba(0, 0, 0, 0.1);
         border-radius: 8px;
         padding: 20px;
-        background-color: white;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        height: 400px;  /* 고정 높이 설정 */
+        width: 100%;    /* 너비 100% */
+        display: flex;  /* Flexbox 사용 */
+        justify-content: center;  /* 수평 중앙 정렬 */
+        align-items: center;      /* 수직 중앙 정렬 */
+    }
+    canvas {
+        max-width: 100%;  /* 캔버스 최대 너비 제한 */
+        max-height: 100%; /* 캔버스 최대 높이 제한 */
     }
     .chart-section {
         margin-bottom: 30px;
@@ -41,14 +48,14 @@
 
     <!-- 당일 감정 통계 -->
     <div class="chart-section">
-        <h3 class="section-title">당일 감정 통계</h3>
+        <!-- <h3 class="section-title">당일 감정 통계</h3> -->
         <div class="chart-container">
             <div class="chart-wrapper">
-                <h3 class="chart-title">오늘의 일기 감정</h3>
+                <!-- <h3 class="chart-title">오늘의 일기 감정</h3> -->
                 <canvas id="todayDiaryChart"></canvas>
             </div>
             <div class="chart-wrapper">
-                <h3 class="chart-title">오늘의 게시판 감정</h3>
+                <!-- <h3 class="chart-title">오늘의 게시판 감정</h3> -->
                 <canvas id="todayBoardChart"></canvas>
             </div>
         </div>
@@ -56,14 +63,14 @@
 
     <!-- 전체 감정 통계 -->
     <div class="chart-section">
-        <h3 class="section-title">전체 기간 감정 통계</h3>
+        <!-- <h3 class="section-title">전체 기간 감정 통계</h3> -->
         <div class="chart-container">
             <div class="chart-wrapper">
-                <h3 class="chart-title">전체 일기 감정</h3>
+                <!-- <h3 class="chart-title">전체 일기 감정</h3> -->
                 <canvas id="totalDiaryChart"></canvas>
             </div>
             <div class="chart-wrapper">
-                <h3 class="chart-title">전체 게시판 감정</h3>
+                <!-- <h3 class="chart-title">전체 게시판 감정</h3> -->
                 <canvas id="totalBoardChart"></canvas>
             </div>
         </div>
@@ -71,8 +78,10 @@
 </div>
 
 <th:block layout:fragment="script">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        // Chart.js에 플러그인 등록
+        Chart.register(ChartDataLabels);
+
         // 차트 객체를 저장할 변수들
         let todayDiaryChart, todayBoardChart, totalDiaryChart, totalBoardChart;
 
@@ -96,26 +105,54 @@
 
         // 도넛 차트 생성 함수
         function createDonutChart(ctx, data, title) {
+            const total = data.reduce((sum, item) => sum + (item.COUNT_EMOTION || item.COUNT_CATEGORY), 0);
+            
             return new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: data.map(item => item.EMOTION),
+                    labels: data.map(item => item.DIARY_EMOTION || item.BOARD_CATEGORY),
                     datasets: [{
-                        data: data.map(item => item.COUNT),
-                        backgroundColor: emotionColors.backgroundColor,
+                        data: data.map(item => item.COUNT_EMOTION || item.COUNT_CATEGORY),
+                        backgroundColor: emotionColors.backgroundColor.map(color => color.replace('0.6', '0.9')),  // 더 어두운 배경색
                         borderColor: emotionColors.borderColor,
                         borderWidth: 1
                     }]
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: true,
+                    aspectRatio: 1.5,
                     plugins: {
+                        datalabels: {
+                            formatter: (value) => {
+                                const percentage = ((value / total) * 100).toFixed(1);
+                                return `${percentage}%`;
+                            },
+                            color: '#fff',  // 글씨색만 흰색으로
+                            font: {
+                                weight: 'bold',
+                                size: 12
+                            }
+                        },
                         legend: {
-                            position: 'right'
+                            position: 'right',
+                            labels: {
+                                font: {
+                                    size: 14
+                                }
+                            }
                         },
                         title: {
                             display: true,
-                            text: title
+                            text: title,
+                            font: {
+                                size: 18,
+                                weight: 'bold'
+                            },
+                            padding: {
+                                top: 10,
+                                bottom: 20
+                            }
                         }
                     },
                     cutout: '60%'
@@ -125,20 +162,45 @@
 
         // 스택 바 차트 생성 함수
         function createStackedBarChart(ctx, data, title) {
+            // 날짜 포맷 변환 함수
+            function formatDate(dateString) {
+                const date = new Date(dateString);
+                return date.toISOString().split('T')[0]; // YYYY-MM-DD 형식으로 변환
+            }
+
             // 날짜별로 데이터 구성
-            const dates = [...new Set(data.map(item => item.DATE))];
-            const emotions = [...new Set(data.map(item => item.EMOTION))];
+            const dates = [...new Set(data.map(item => 
+                formatDate(item.DIARY_DATE || item.BOARD_DATE)
+            ))];
+            const emotions = [...new Set(data.map(item => 
+                item.DIARY_EMOTION || item.BOARD_CATEGORY
+            ))];
             
             const datasets = emotions.map((emotion, index) => ({
                 label: emotion,
                 data: dates.map(date => {
-                    const item = data.find(d => d.DATE === date && d.EMOTION === emotion);
-                    return item ? item.COUNT : 0;
+                    const item = data.find(d => 
+                        formatDate(d.DIARY_DATE || d.BOARD_DATE) === date && 
+                        (d.DIARY_EMOTION === emotion || d.BOARD_CATEGORY === emotion)
+                    );
+                    return item ? (item.COUNT_EMOTION || item.COUNT_CATEGORY) : 0;
                 }),
-                backgroundColor: emotionColors.backgroundColor[index],
+                backgroundColor: emotionColors.backgroundColor[index].replace('0.6', '0.9'),  // 더 어두운 배경색
                 borderColor: emotionColors.borderColor[index],
                 borderWidth: 1
             }));
+
+            // 날짜별 전체 합계 계산
+            const dailyTotals = dates.reduce((acc, date) => {
+                acc[date] = emotions.reduce((sum, emotion) => {
+                    const item = data.find(d => 
+                        formatDate(d.DIARY_DATE || d.BOARD_DATE) === date && 
+                        (d.DIARY_EMOTION === emotion || d.BOARD_CATEGORY === emotion)
+                    );
+                    return sum + (item ? (item.COUNT_EMOTION || item.COUNT_CATEGORY) : 0);
+                }, 0);
+                return acc;
+            }, {});
 
             return new Chart(ctx, {
                 type: 'bar',
@@ -148,13 +210,45 @@
                 },
                 options: {
                     responsive: true,
+                    maintainAspectRatio: true,
+                    aspectRatio: 1.5,
                     plugins: {
+                        datalabels: {
+                            formatter: (value, context) => {
+                                const dateIndex = context.dataIndex;
+                                const currentDate = dates[dateIndex];
+                                const total = dailyTotals[currentDate];
+                                if (value === 0) return '';
+                                const percentage = ((value / total) * 100).toFixed(1);
+                                return `${percentage}%`;
+                            },
+                            color: '#fff',  // 글씨색만 흰색으로
+                            font: {
+                                weight: 'bold',
+                                size: 11
+                            },
+                            anchor: 'center',
+                            align: 'center'
+                        },
                         legend: {
-                            position: 'right'
+                            position: 'right',
+                            labels: {
+                                font: {
+                                    size: 14
+                                }
+                            }
                         },
                         title: {
                             display: true,
-                            text: title
+                            text: title,
+                            font: {
+                                size: 18,
+                                weight: 'bold'
+                            },
+                            padding: {
+                                top: 10,
+                                bottom: 20
+                            }
                         }
                     },
                     scales: {

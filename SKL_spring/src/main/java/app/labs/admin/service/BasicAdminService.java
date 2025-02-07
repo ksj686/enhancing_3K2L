@@ -53,7 +53,7 @@ public class BasicAdminService implements AdminService {
         if (memberIdList.size() != memberStatusList.size()) {
             throw new IllegalArgumentException("Member ID list and status list must have the same size");
         }
-        
+
         for (int i = 0; i < memberIdList.size(); i++) {
             adminRepository.updateMemberStatus(memberIdList.get(i), memberStatusList.get(i));
         }
@@ -64,20 +64,6 @@ public class BasicAdminService implements AdminService {
         Map<String, Object> result = new HashMap<>();
         result.put("completionStats", adminRepository.getMissionCompletionStats());
         result.put("participationStats", adminRepository.getMissionParticipationStats());
-        return result;
-    }
-
-    @Override
-    public Map<String, Object> getEmotionStats() {
-        Map<String, Object> result = new HashMap<>();
-        result.put("emotionStats", adminRepository.getEmotionStats());
-        return result;
-    }
-
-    @Override
-    public Map<String, Object> getEmotionTrends(String startDate, String endDate) {
-        Map<String, Object> result = new HashMap<>();
-        result.put("emotionTrends", adminRepository.getEmotionTrendsByPeriod(startDate, endDate));
         return result;
     }
 
@@ -93,10 +79,12 @@ public class BasicAdminService implements AdminService {
 
     @Override
     @Transactional
-    public int updateBoardList(List<String> boardIdList, List<String> boardOffensiveList, List<Integer> boardReportList) {
+    public int updateBoardList(List<String> boardIdList, List<String> boardOffensiveList,
+            List<Integer> boardReportList) {
         // 리스트 크기 검증
         if (boardIdList.size() != boardOffensiveList.size() || boardIdList.size() != boardReportList.size()) {
-            throw new IllegalArgumentException("Board ID list, offensive list, and report list must have the same size");
+            throw new IllegalArgumentException(
+                    "Board ID list, offensive list, and report list must have the same size");
         }
 
         int updatedCount = 0;
@@ -114,5 +102,25 @@ public class BasicAdminService implements AdminService {
             }
         }
         return updatedCount;
+    }
+
+    @Override
+    public List<Map<String, Object>> getDailyEmoDiary() {
+        return adminRepository.getDailyEmoDiary();
+    }
+
+    @Override
+    public List<Map<String, Object>> getTotalEmoDiary() {
+        return adminRepository.getTotalEmoDiary();
+    }
+
+    @Override
+    public List<Map<String, Object>> getDailyEmoBoard() {
+        return adminRepository.getDailyEmoBoard();
+    }
+
+    @Override
+    public List<Map<String, Object>> getTotalEmoBoard() {
+        return adminRepository.getTotalEmoBoard();
     }
 }

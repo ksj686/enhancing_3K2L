@@ -89,4 +89,37 @@
             board_update = CURRENT_TIMESTAMP
         WHERE board_id = #{boardId}
     </update>
+
+    <!-- 감정 통계 관련 -->
+    <!-- 당일 감정 통계 -->
+    <select id="getDailyEmoDiary" resultType="map">
+        SELECT DIARY_EMOTION, COUNT(DIARY_EMOTION) AS COUNT_EMOTION 
+        FROM DIARY
+        WHERE TRUNC(DIARY_DATE) = TRUNC(SYSDATE)
+        GROUP BY DIARY_EMOTION
+    </select>
+
+    <!-- 전체 기간 감정 통계 -->
+    <select id="getTotalEmoDiary" resultType="map">
+        SELECT TRUNC(DIARY_DATE) AS DIARY_DATE, DIARY_EMOTION, COUNT(DIARY_EMOTION) AS COUNT_EMOTION 
+        FROM DIARY
+        GROUP BY TRUNC(DIARY_DATE), DIARY_EMOTION
+        ORDER BY DIARY_DATE
+    </select>
+
+    <!-- 당일 게시판 감정 통계 -->
+    <select id="getDailyEmoBoard" resultType="map">
+        SELECT BOARD_CATEGORY, COUNT(BOARD_CATEGORY) AS COUNT_CATEGORY 
+        FROM BOARD
+        WHERE TRUNC(BOARD_DATE) = TRUNC(SYSDATE)
+        GROUP BY BOARD_CATEGORY
+    </select>
+
+    <!-- 전체 기간 게시판 감정 통계 -->
+    <select id="getTotalEmoBoard" resultType="map">
+        SELECT TRUNC(BOARD_DATE) AS BOARD_DATE, BOARD_CATEGORY, COUNT(BOARD_CATEGORY) AS COUNT_CATEGORY 
+        FROM BOARD
+        GROUP BY TRUNC(BOARD_DATE), BOARD_CATEGORY
+        ORDER BY BOARD_DATE
+    </select>
 </mapper>
