@@ -77,14 +77,29 @@
         </div>
 
          <!-- Nav Item - Tables -->
-         <li class="nav-item">
+         <!-- <li class="nav-item">
             <a class="nav-link" href="/admin/member-list">
-                <!-- <i class="fas fa-fw fa-table"></i> -->
                 <i class="fas fa-fw fa-user"></i>
                 <span>사용자 관리</span></a>
-        </li>
+        </li> -->
 
         <!-- Nav Item - Charts -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages3"
+                aria-expanded="true" aria-controls="collapsePages3">
+                <i class="fas fa-fw fa-book-open"></i>
+                <span>이벤트 스토리 보드</span></a>
+            </a>
+            <div id="collapsePages3" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <!-- <h6 class="collapse-header">Login Screens:</h6> -->
+                    <a class="collapse-item" href="#"><i class="fas fa-fw fa-tasks"></i> 미션 관리</a>
+                    <a class="collapse-item" href="#"><i class="fas fa-fw fa-bullseye"></i>미션 달성률</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Nav Item -->
         <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages2"
                 aria-expanded="true" aria-controls="collapsePages2">
@@ -94,9 +109,10 @@
             <div id="collapsePages2" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <!-- <h6 class="collapse-header">Login Screens:</h6> -->
-                    <a class="collapse-item" href="/admin/member-stats">가입률 / 탈퇴율</a>
-                    <a class="collapse-item" href="/register.html">미션 달성률</a>
+                    <a class="collapse-item" href="/admin/member-list"><i class="fas fa-fw fa-user"></i> 사용자 관리</a>
+                    <a class="collapse-item" href="/admin/member-stats"><i class="fas fa-fw fa-arrow-trend-up"></i> 가입률 / <i class="fas fa-fw fa-arrow-trend-down"></i> 탈퇴율</a>
                 </div>
+
             </div>
         </li>
 
