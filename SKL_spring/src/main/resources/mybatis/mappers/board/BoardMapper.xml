@@ -13,7 +13,7 @@
 
     <!-- 글 조회 -->
     <select id="getBoardInfo" parameterType="int" resultType="app.labs.board.model.Board">
-        SELECT BOARD_ID, BOARD_TITLE, BOARD_CATEGORY, BOARD_DATE, BOARD_UPDATE, BOARD_CONTENT, BOARD_OFFENSIVE, MEMBER_ID
+        SELECT BOARD_ID, BOARD_TITLE, BOARD_CATEGORY, BOARD_DATE, BOARD_CONTENT, BOARD_OFFENSIVE, MEMBER_ID
         FROM BOARD
         WHERE BOARD_ID = #{boardId}
     </select>
