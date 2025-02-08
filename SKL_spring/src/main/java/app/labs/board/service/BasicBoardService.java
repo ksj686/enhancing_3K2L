@@ -38,4 +38,17 @@ public class BasicBoardService implements BoardService {
 	public void updateBoard(Board board) {
 		boardRepository.updateBoard(board);
 	}
+
+	@Override
+	public void reportBoard(int boardId) {
+		boardRepository.reportBoard(boardId);
+	}
+
+	@Override
+	public int countReportBoard(int boardId) { return boardRepository.countReportBoard(boardId); }
+
+	@Override
+	public void offensiveBoard(int boardId) {
+		boardRepository.offensiveBoard(boardId);
+	}
 }

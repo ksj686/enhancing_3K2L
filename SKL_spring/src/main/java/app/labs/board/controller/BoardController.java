@@ -3,15 +3,14 @@ package app.labs.board.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import app.labs.board.model.Board;
 import app.labs.board.service.BoardService;
@@ -69,4 +68,21 @@ public class BoardController {
 			return "redirect:/login";
 		}
 	}
+
+	@PutMapping("/report")
+	@ResponseBody
+	public Map<String, Object> reportBoard(@RequestParam int boardId) {
+		boardService.reportBoard(boardId);
+		int countReport = boardService.countReportBoard(boardId);
+        if (countReport >= 5) {
+            boardService.offensiveBoard(boardId);
+        }
+        
+		        // 응답에 status와 reportCount 추가
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", "OK");
+        response.put("reportCount", countReport);
+        
+        return response;
+    }
 }

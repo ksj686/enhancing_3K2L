@@ -13,7 +13,7 @@
 
     <!-- 글 조회 -->
     <select id="getBoardInfo" parameterType="int" resultType="app.labs.board.model.Board">
-        SELECT BOARD_ID, BOARD_TITLE, BOARD_CATEGORY, BOARD_DATE, BOARD_CONTENT, BOARD_OFFENSIVE, MEMBER_ID
+        SELECT BOARD_ID, BOARD_TITLE, BOARD_CATEGORY, BOARD_DATE, BOARD_CONTENT, BOARD_REPORT, MEMBER_ID
         FROM BOARD
         WHERE BOARD_ID = #{boardId}
     </select>
@@ -32,4 +32,24 @@
             #{boardId}, #{boardTitle}, #{boardCategory}, #{boardContent, jdbcType=CLOB}, #{memberId})
     </insert>
 
+    <!-- 글 신고 -->
+    <update id="reportBoard" parameterType="int">
+        UPDATE BOARD
+        SET BOARD_REPORT = BOARD_REPORT + 1
+        WHERE BOARD_ID = #{boardId}
+    </update>
+
+    <!-- 글 숨김 처리 -->
+    <update id="offensiveBoard" parameterType="int">
+        UPDATE BOARD
+        SET BOARD_OFFENSIVE = 'T'
+        WHERE BOARD_ID = #{boardId}
+    </update>
+
+    <!-- 신고수 조회 -->
+    <select id="countReportBoard" parameterType="int" resultType="int">
+        SELECT BOARD_REPORT
+        FROM BOARD
+        WHERE BOARD_ID = #{boardId}
+    </select>
 </mapper>

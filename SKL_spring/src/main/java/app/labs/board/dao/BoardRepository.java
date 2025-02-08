@@ -14,5 +14,8 @@ public interface BoardRepository {
 	int createBoardId();
 	void createBoard(Board board);
 	void updateBoard(Board board);
-	// 삭제 기능은 없음 
+	void reportBoard(int boardId);
+	int countReportBoard(int boardId);
+	void offensiveBoard(int boardId);
+	// 삭제 기능은 없음
 }

@@ -14,7 +14,7 @@
 
 	<ul th:each="board: ${boardList}">
 		<a th:href="@{/emo/Id/{boardId}(boardId=${board.boardId})}">
-			<span th:text="${board.boardTitle}"></span>
+			<span th:text="|제목: ${board.boardTitle}, 작성자: ${board.memberId}, 작성일: ${board.boardDate}|"></span>
 		</a>
 	</ul>
 

@@ -3,14 +3,54 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script> 
 </head>
 <body>
 	<ul th:object=${board}>
-		<li th:text="*{memberId}"></li>
-		<li th:text="*{boardCategory}"></li>
-		<li th:text="*{boardDate}"></li>
-		<li th:text="*{boardTitle}"></li>
-		<li th:utext="*{boardContent}"></li>
+		<li th:text="|작성자: *{memberId}|"></li>
+		<li th:text="|(감정: *{boardCategory})|"></li>
+		<li th:text="|날짜: *{boardDate}|"></li>
+		<li th:text="|제목: *{boardTitle}|"></li>
+		<li th:utext="|내용: *{boardContent}|"></li>
 	</ul>
+	<th:block>
+		<th:block th:if="${board.memberId} != ${session.memberid}">
+			<button id="report-btn">🚨</button>
+		</th:block>
+		<th:block th:if="${board.memberId} == ${session.memberid}">
+			<p th:text="|🚨신고 누적수: ${board.boardReport}|"></p>
+		</th:block>
+	</th:block>
+
+	<script>
+		const boardId = [[${board.boardId}]];
+		const boardCategory = `[[${board.boardCategory}]]`;
+
+		$('#report-btn').on('click', function() {
+			$.ajax({
+				url: '/emo/report',
+				method: 'PUT',
+				data: { boardId: boardId },
+				success: function(response) {
+					if (response.status === "OK") {
+						console.log("신고 성공");
+						window.confirm("신고 완료 처리되었습니다.")
+						const reportCount = response.reportCount;
+						console.log(reportCount);
+						if (reportCount >= 5) {
+							window.confirm("게시글이 숨김 처리되었습니다.")
+							window.location.href = `/emo/${boardCategory}`;
+						}
+					} else {
+						console.error("신고 실패:", response);
+					}
+
+				},
+				error: function(xhr, status, error) {
+					console.error("신고 실패:", error);
+				}
+			});
+		});
+	</script>
 </body>
 </html>
