@@ -19,7 +19,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 		String firstName = (String)session.getAttribute("memberid");
 		
         if (firstName == null) {
-            response.sendRedirect("./login");
+            response.sendRedirect("/login");
             return false;
         }
 	
