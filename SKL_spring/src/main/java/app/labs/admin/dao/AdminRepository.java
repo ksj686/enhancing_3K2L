@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 import app.labs.register.model.Member;
 import app.labs.board.model.Board;
+import app.labs.admin.model.Events;
 
 @Mapper
 public interface AdminRepository {
@@ -48,4 +49,13 @@ public interface AdminRepository {
     List<Map<String, Object>> getDailyEmoBoard();
 
     List<Map<String, Object>> getTotalEmoBoard();
+
+    // 이벤트
+    List<Events> getEvents();
+
+    void updateEvent(Events event);
+
+    void insertEvent(Events event);
+
+    void deleteEvent(int eventId);
 }

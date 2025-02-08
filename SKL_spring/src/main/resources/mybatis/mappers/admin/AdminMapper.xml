@@ -129,4 +129,27 @@
         GROUP BY TRUNC(BOARD_DATE), BOARD_CATEGORY
         ORDER BY BOARD_DATE
     </select>
+
+    <!-- 이벤트 목록 조회 -->
+    <select id="getEvents" resultType="app.labs.admin.model.Events">
+        SELECT EVENT_ID, EVENT_NAME, EVENT_DESCRIPTION
+        FROM EVENTS
+        ORDER BY EVENT_ID
+    </select>
+
+    <insert id="insertEvent" parameterType="app.labs.admin.model.Events">
+        INSERT INTO EVENTS (EVENT_NAME, EVENT_DESCRIPTION)
+        VALUES (#{eventName}, #{eventDescription})
+    </insert>
+
+    <update id="updateEvent" parameterType="app.labs.admin.model.Events">
+        UPDATE EVENTS 
+        SET EVENT_NAME = #{eventName},
+            EVENT_DESCRIPTION = #{eventDescription}
+        WHERE EVENT_ID = #{eventId}
+    </update>
+
+    <delete id="deleteEvent" parameterType="int">
+        DELETE FROM EVENTS WHERE EVENT_ID = #{eventId}
+    </delete>
 </mapper>

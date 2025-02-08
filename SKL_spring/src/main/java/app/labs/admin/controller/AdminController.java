@@ -21,10 +21,11 @@ import app.labs.admin.service.AdminService;
 import app.labs.register.model.Member;
 import lombok.extern.slf4j.Slf4j;
 import app.labs.board.model.Board;
+import app.labs.admin.model.Events;
 
 @Slf4j
 @Controller
-//@RestController
+// @RestController
 public class AdminController {
 
     @Autowired
@@ -38,7 +39,8 @@ public class AdminController {
 
     // 로그인 처리 메서드
     @PostMapping("/admin/login")
-    public String adminLogin(@RequestParam("id") String id, @RequestParam("pwd") String pwd, HttpSession session, RedirectAttributes redirectAttrs) {
+    public String adminLogin(@RequestParam("id") String id, @RequestParam("pwd") String pwd, HttpSession session,
+            RedirectAttributes redirectAttrs) {
         Map<String, Object> admin = adminService.findById(id);
         if (admin != null) {
             if (admin.get("ADMIN_PWD").equals(pwd)) {
@@ -215,5 +217,61 @@ public class AdminController {
     @ResponseBody
     public List<Map<String, Object>> getTotalEmoBoard() {
         return adminService.getTotalEmoBoard();
+    }
+
+    @GetMapping("/admin/event_storyboard")
+    public String eventStoryboard(Model model) {
+        return "thymeleaf/admin/event_storyboard";
+    }
+
+    @PostMapping("/admin/getEvents")
+    public String getEvents(Model model) {
+        List<Events> events = adminService.getEvents();
+        // log.info(events.toString());
+        model.addAttribute("events", events);
+        return "thymeleaf/admin/event_storyboard :: eventListFragment";
+    }
+
+    @PostMapping("/admin/insertEvent")
+    @ResponseBody
+    public Map<String, Object> insertEvent(@RequestBody Events event) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            adminService.insertEvent(event);
+            response.put("success", true);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("error", e.getMessage());
+        }
+        return response;
+    }
+
+    @PostMapping("/admin/updateEvent")
+    @ResponseBody
+    public Map<String, Object> updateEvent(@RequestBody Map<String, Object> requestData) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            // log.info(requestData.toString());
+            adminService.updateEvent(requestData);
+            response.put("success", true);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("error", e.getMessage());
+        }
+        return response;
+    }
+
+    @PostMapping("/admin/deleteEvent")
+    @ResponseBody
+    public Map<String, Object> deleteEvent(@RequestParam("eventId") int eventId) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            adminService.deleteEvent(eventId);
+            response.put("success", true);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("error", e.getMessage());
+        }
+        return response;
     }
 }

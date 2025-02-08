@@ -14,6 +14,7 @@ import app.labs.admin.dao.AdminRepository;
 import app.labs.register.model.Member;
 import lombok.extern.slf4j.Slf4j;
 import app.labs.board.model.Board;
+import app.labs.admin.model.Events;
 
 @Slf4j
 @Service
@@ -21,11 +22,11 @@ public class BasicAdminService implements AdminService {
     @Autowired
     private AdminRepository adminRepository;
 
-    //관리자 로그인
+    // 관리자 로그인
     @Override
     public Map<String, Object> findById(String id) {
-		return adminRepository.findById(id);
-	}
+        return adminRepository.findById(id);
+    }
 
     @Override
     public List<Member> getMemberList(String memberId, String memberName) {
@@ -128,5 +129,34 @@ public class BasicAdminService implements AdminService {
     @Override
     public List<Map<String, Object>> getTotalEmoBoard() {
         return adminRepository.getTotalEmoBoard();
+    }
+
+    @Override
+    public List<Events> getEvents() {
+        return adminRepository.getEvents();
+    }
+
+    @Override
+    public void insertEvent(Events event) {
+        adminRepository.insertEvent(event);
+    }
+
+    @Override
+    public void updateEvent(Map<String, Object> requestData) {
+        try {
+            Events event = new Events();
+            event.setEventId(Integer.parseInt(requestData.get("eventId").toString()));
+            event.setEventName((String) requestData.get("eventName"));
+            event.setEventDescription((String) requestData.get("eventDescription"));
+            adminRepository.updateEvent(event);
+        } catch (Exception e) {
+            log.error("Error updating event: ", e);
+            throw e;
+        }
+    }
+
+    @Override
+    public void deleteEvent(int eventId) {
+        adminRepository.deleteEvent(eventId);
     }
 }

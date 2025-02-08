@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/thymeleaf/admin/admin_default_layout}">
+
+<th:block layout:fragment="css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/dataTables.bootstrap4.min.css" integrity="sha512-PT0RvABaDhDQugEbpNMwgYBCnGCiTZMh9yOzUsJHDgl/dMhD9yjHAwoumnUk3JydV3QTcIkNDuN40CJxik5+WQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css">
+<style>
+    #dataTable thead th {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        min-width: 100px;
+        max-width: 200px;
+    }
+    .table-responsive {
+        overflow-x: auto;
+    }
+    #dataTable td select {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        border: 1px solid #d1d3e2;
+        text-align: center; /* 중앙 정렬 */
+    }
+    #dataTable td {
+        vertical-align: middle;
+        padding: 0.75rem;
+    }
+    /* .table-actions {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        text-align: right;
+        padding-right: 1rem;
+    } */
+    .btn-update {
+        color: #fff;
+        background-color: #4e73df;
+        border-color: #4e73df;
+        padding: 0.375rem 0.75rem;
+        font-size: 0.875rem;
+        line-height: 1.5;
+        border-radius: 0.25rem;
+        font-weight: 400;
+        text-align: center;
+        vertical-align: middle;
+        cursor: pointer;
+        border: 1px solid transparent;
+        transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+    .btn-update:hover {
+        background-color: #2e59d9;
+        border-color: #2653d4;
+    }
+    .reset-button {
+        float: right;
+    }
+    .modal-select {
+        width: 50%;
+        display: inline-flex;
+        text-align: center;
+    }
+
+    .modal-reset {
+        margin-left: 10px; /* 오른쪽으로 이동 */
+    }
+    /* 추가된 CSS */
+    /* .modal-body .row.mb-3 {
+        
+        align-items: center;
+    } */
+    /* .modal-body .row.mb-3 > div:first-child {
+        margin-right: 10px;
+    } */
+    .modal-component {
+        height: 50px; /* 원하는 높이 설정 */
+        display: flex;
+        align-items: center;
+    }
+
+    .swal-title {
+        font-size: 1.6em !important; /* 제목 폰트 크기 */
+    }
+
+    /* 이벤트 설명 컬럼 말줄임표 처리 */
+    #dataTable td:last-child {
+        max-width: 100px;  /* 원하는 최대 너비 설정 */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    /* 모달에서는 전체 텍스트 표시 */
+    #modalEventDescription {
+        white-space: pre-wrap;
+        word-break: break-all;
+    }
+</style>
+</th:block>
+
+<div layout:fragment="content">
+    
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">이벤트 스토리 보드</h1>
+    
+
+    <!-- DataTales -->
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <div id="eventListContainer" class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" th:fragment="eventListFragment">
+                    <thead>
+                        <tr>
+                            <th>이벤트 ID</th>
+                            <th>이벤트명</th>
+                            <th>이벤트 설명</th>
+                            <!-- <th>등록일</th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="event : ${events}">
+                            <td th:text="${event.eventId}">이벤트 ID</td>
+                            <td>
+                                <span class="event-title" 
+                                      style="cursor: pointer; color: #4e73df; text-decoration: none;"
+                                      onmouseover="this.style.textDecoration='underline'"
+                                      onmouseout="this.style.textDecoration='none'"
+                                      onclick="showEventDetail(this)"
+                                      th:text="${event.eventName}">이벤트명</span>
+                            </td>
+                            <td th:text="${event.eventDescription}">이벤트 설명</td>
+                            <!-- <td th:text="${event.eventDate}">등록일</td> -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- 이벤트 상세 모달 -->
+    <div class="modal fade" id="eventDetailModal" tabindex="-1" role="dialog" aria-labelledby="eventDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eventDetailModalLabel">이벤트 상세</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>이벤트ID:</strong> <span id="modalEventId"></span>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>이벤트명: </strong>
+                            <input type="text" 
+                                   id="modalEventName" 
+                                   class="form-control">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <strong>이벤트 설명</strong>
+                            <textarea id="modalEventDescription" 
+                                      class="form-control" 
+                                      rows="3" 
+                                      style="margin-top: 10px; resize: none;"></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>작성일:</strong> <span id="modalEventDate"></span>
+                        </div>
+                    </div> -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-update" onclick="updateEventDetail()">
+                        <i class="fas fa-sync-alt mr-1"></i>수정
+                    </button>
+                    <button type="button" class="btn-delete" onclick="updateDelEvent()">
+                        <i class="fas fa-trash mr-1"></i>삭제
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 이벤트 등록 모달 -->
+    <div class="modal fade" id="addEventModal" tabindex="-1" role="dialog" aria-labelledby="addEventModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addEventModalLabel">이벤트 등록</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>이벤트ID:</strong> <span id="modalAddEventId"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <strong>이벤트명:</strong> <span id="modalAddEventName"></span>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <strong>이벤트 설명:</strong> <span id="modalAddEventDescription"></span>
+                        </div>
+                    </div>
+                    
+                    <!-- <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>작성일:</strong> <span id="modalEventDate"></span>
+                        </div>
+                    </div> -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-add" onclick="addEvent()">
+                        <i class="fas fa-plus mr-1"></i>등록
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<th:block layout:fragment="script">
+    <script src="https://cdn.jsdelivr.net/npm/datatables.net@1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/dataTables.bootstrap4.min.js" integrity="sha512-OQlawZneA7zzfI6B1n1tjUuo3C5mtYuAWpQdg+iI9mkDoo7iFzTqnQHf+K5ThOWNJ9AbXL4+ZDwH7ykySPQc+A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
+
+    <script type="text/javascript">
+        var dataTable;
+        
+        $(document).ready(function() {
+            initializeDataTable();
+            searchEvents();  // 초기 데이터 로드
+        });
+
+        function initializeDataTable() {
+            if (dataTable) {
+                dataTable.destroy();
+            }
+
+            dataTable = $('#dataTable').DataTable({
+                language: {
+                    lengthMenu: "페이지당 _MENU_ 개씩 보기",
+                    zeroRecords: "검색 결과가 없습니다",
+                    info: "_START_ - _END_ / _TOTAL_",
+                    infoEmpty: "0 - 0 / 0",
+                    infoFiltered: "(전체 _MAX_ 개 중 검색결과)",
+                    search: "검색:",
+                    paginate: {
+                        first: "처음",
+                        last: "마지막",
+                        next: "다음",
+                        previous: "이전"
+                    }
+                },
+                destroy: true
+            });
+        }
+
+        function searchEvents() {
+            $.ajax({
+                type: 'POST',
+                url: '/admin/getEvents',
+                data: {},
+                success: function(fragment) {
+                    $('#eventListContainer').html(fragment);  // 컨테이너에 fragment 삽입
+                    initializeDataTable();  // 데이터 로드 후 DataTable 초기화
+                },
+                error: function(xhr, status, error) {
+                    alert('이벤트 조회 중 오류가 발생했습니다.');
+                    console.error('Error:', error);
+                }
+            });
+        }
+
+        // function updateEventStatus() {
+        //     var eventId = [];
+        //     var eventName = [];
+        //     var eventDescription = [];
+
+        //     // 각 행의 데이터 수집
+        //     $('select[id^="boardOffensive"]').each(function() {
+        //         var boardId = $(this).attr('id').replace('boardOffensive', '');
+        //         var currentOffensive = $(this).val();
+        //         var currentReport = parseInt($(this).data('report'));
+
+        //         // 변경된 데이터만 수집
+        //         if (currentOffensive !== $(this).data('original-offensive') || currentReport !== $(this).data('original-report')) {
+        //             boardIdList.push(boardId);
+        //             boardOffensiveList.push(currentOffensive);
+        //             boardReportList.push(currentReport);
+        //         }
+        //     });
+
+        //     if (boardIdList.length > 0) {
+        //         $.ajax({
+        //             url: '/admin/updateBoardList',
+        //             type: 'POST',
+        //             contentType: 'application/json',
+        //             data: JSON.stringify({
+        //                 boardIdList: boardIdList,
+        //                 boardOffensiveList: boardOffensiveList,
+        //                 boardReportList: boardReportList
+        //             }),
+        //             success: function(response) {
+        //                 if(response.success) {
+        //                     // alert('업데이트가 완료되었습니다.');
+        //                     Swal.fire({
+        //                         title: '업데이트가 완료되었습니다!',
+        //                         icon: 'success',
+        //                         draggable: false,
+        //                         customClass: {
+        //                             title: 'swal-title'
+        //                         }
+        //                     });
+        //                     searchBoards();  // 목록 새로고침
+        //                 } else {
+        //                     alert('업데이트 중 오류가 발생했습니다.');
+        //                 }
+        //             },
+        //             error: function(xhr, status, error) {
+        //                 console.error('Error:', error);
+        //                 alert('업데이트 중 오류가 발생했습니다.');
+        //             }
+        //         });
+        //     } else {
+        //         // alert('변경된 데이터가 없습니다.');
+        //         Swal.fire({text:'변경된 사항이 없습니다.'});
+        //     }
+        // }
+
+        function updateEventDetail() {
+            var eventId = $('#modalEventId').text();
+            var eventName = $('#modalEventName').val();
+            var eventDescription = $('#modalEventDescription').val();
+            
+            // 변경사항 확인
+            if (eventName !== $("#modalEventName").data('original-name') || eventDescription !== $("#modalEventDescription").data('original-description')) {
+                $.ajax({
+                    url: '/admin/updateEvent',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        eventId: eventId,
+                        eventName: eventName,
+                        eventDescription: eventDescription
+                    }),
+                    success: function(response) {
+                        if(response.success) {
+                            // alert('업데이트가 완료되었습니다.');
+                            Swal.fire({
+                                title: '업데이트가 완료되었습니다!',
+                                icon: 'success',
+                                draggable: false,
+                                customClass: {
+                                    title: 'swal-title'
+                                }
+                            });
+                            closeModal();
+                            searchEvents();  // 목록 새로고침
+                        } else {
+                            alert('업데이트 중 오류가 발생했습니다.');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                        alert('업데이트 중 오류가 발생했습니다.');
+                    }
+                });
+            } else {
+                // alert('변경된 사항이 없습니다.');
+                Swal.fire({text:'변경된 사항이 없습니다.'});
+            }
+        }
+
+        function showEventDetail(element) {
+            // var row = $(element).closest('tr');  // span -> td -> tr
+            var row = $(element).parent().parent();  // span -> td -> tr
+            
+            // 행에서 데이터 추출
+            var eventId = row.find('td:first').text();
+            var eventName = $(element).text();
+            var eventDescription = row.find('td:last').text();
+            
+            // 모달에 데이터 채우기
+            $('#modalEventId').text(eventId);
+            $('#modalEventName').val(eventName);
+            $('#modalEventDescription').val(eventDescription);
+            
+            // 원본 데이터 저장 (수정 여부 확인용)
+            $("#modalEventName").data('original-name', eventName);
+            $("#modalEventDescription").data('original-description', eventDescription);
+            
+            // 모달 표시
+            $('#eventDetailModal').modal('show');
+            
+            return false;
+        }
+
+        function closeModal() {
+            $('#eventDetailModal').modal('hide');
+        }
+    </script>
+</th:block>
+</html>

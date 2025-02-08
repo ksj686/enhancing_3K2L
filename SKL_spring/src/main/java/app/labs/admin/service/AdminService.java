@@ -5,9 +5,10 @@ import java.util.Map;
 
 import app.labs.register.model.Member;
 import app.labs.board.model.Board;
+import app.labs.admin.model.Events;
 
 public interface AdminService {
-    
+
     // 관리자 로그인
     Map<String, Object> findById(String id);
 
@@ -43,4 +44,12 @@ public interface AdminService {
 
     // 게시글 상태 일괄 수정
     int updateBoardList(List<String> boardIdList, List<String> boardOffensiveList, List<Integer> boardReportList);
+
+    List<Events> getEvents();
+
+    void updateEvent(Map<String, Object> requestData);
+
+    void insertEvent(Events event);
+
+    void deleteEvent(int eventId);
 }
