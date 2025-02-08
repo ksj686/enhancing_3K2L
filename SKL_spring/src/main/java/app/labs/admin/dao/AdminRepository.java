@@ -11,6 +11,10 @@ import app.labs.board.model.Board;
 
 @Mapper
 public interface AdminRepository {
+
+    // 관리자 로그인
+    Map<String, Object> findById(String id);
+
     // 회원 목록 조회 관련
     List<Member> getMemberList(@Param("memberId") String memberId, @Param("memberName") String memberName);
 

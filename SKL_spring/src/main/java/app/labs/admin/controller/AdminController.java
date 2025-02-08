@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+//import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jakarta.servlet.http.HttpSession;
 
 import app.labs.admin.service.AdminService;
 import app.labs.register.model.Member;
@@ -27,14 +30,42 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
-    // 홈페이지
-    @GetMapping("/admin/member-list")
-    public String adminPage() {
-        return "thymeleaf/admin/member_list";
+    // 관리자 로그인
+    @GetMapping("/admin/login")
+    public String adminLogin() {
+        return "thymeleaf/admin/loginform";
+    }
+
+    // 로그인 처리 메서드
+    @PostMapping("/admin/login")
+    public String adminLogin(@RequestParam("id") String id, @RequestParam("pwd") String pwd, HttpSession session, RedirectAttributes redirectAttrs) {
+        Map<String, Object> admin = adminService.findById(id);
+        if (admin != null) {
+            if (admin.get("ADMIN_PWD").equals(pwd)) {
+                session.setMaxInactiveInterval(600); // 10분
+                session.setAttribute("adminId", id);
+                return "redirect:/admin/member-list";
+            } else {
+                session.invalidate();
+                redirectAttrs.addFlashAttribute("message", "아이디 또는 패스워드가 잘못되었습니다.");
+                return "redirect:/admin/login";
+            }
+        } else {
+            session.invalidate();
+            redirectAttrs.addFlashAttribute("message", "아이디 또는 패스워드가 잘못되었습니다.");
+            return "redirect:/admin/login";
+        }
+    }
+
+    // 로그아웃 메서드
+    @GetMapping("/admin/logout")
+    public String adminLogout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/admin/login";
     }
 
     // 회원목록 - 페이지 전체 반환
-    @GetMapping("/admin/members")
+    @GetMapping("/admin/member-list")
     public String memberListFullPage(Model model) {
         return "thymeleaf/admin/member_list";
     }

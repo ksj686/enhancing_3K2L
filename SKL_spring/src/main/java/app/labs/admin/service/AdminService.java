@@ -7,6 +7,10 @@ import app.labs.register.model.Member;
 import app.labs.board.model.Board;
 
 public interface AdminService {
+    
+    // 관리자 로그인
+    Map<String, Object> findById(String id);
+
     // 회원 목록 조회
     List<Member> getMemberList(String memberId, String memberName);
 

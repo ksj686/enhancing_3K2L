@@ -21,6 +21,12 @@ public class BasicAdminService implements AdminService {
     @Autowired
     private AdminRepository adminRepository;
 
+    //관리자 로그인
+    @Override
+    public Map<String, Object> findById(String id) {
+		return adminRepository.findById(id);
+	}
+
     @Override
     public List<Member> getMemberList(String memberId, String memberName) {
         return adminRepository.getMemberList(memberId, memberName);
