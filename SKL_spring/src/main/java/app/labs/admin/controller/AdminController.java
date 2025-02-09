@@ -219,7 +219,7 @@ public class AdminController {
         return adminService.getTotalEmoBoard();
     }
 
-    @GetMapping("/admin/event_storyboard")
+    @GetMapping("/admin/event-storyboard")
     public String eventStoryboard(Model model) {
         return "thymeleaf/admin/event_storyboard";
     }
