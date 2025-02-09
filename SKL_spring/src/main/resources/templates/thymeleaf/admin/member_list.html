@@ -4,57 +4,7 @@
       layout:decorate="~{/thymeleaf/admin/admin_default_layout}">
 
 <th:block layout:fragment="css">
-<style>
-    #dataTable thead th {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        min-width: 100px;
-        max-width: 200px;
-    }
-    .table-responsive {
-        overflow-x: auto;
-    }
-    #dataTable td select {
-        width: 100%;
-        margin: 0;
-        padding: 0;
-        border: 1px solid #d1d3e2;
-        /* border-radius: 4px;
-        background-color: #fff;
-        height: 30px; */
-        text-align: center; 
-    }
-    #dataTable td {
-        vertical-align: middle;
-        padding: 0.75rem;
-    }
-    .table-actions {
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-        text-align: right;
-        padding-right: 1rem;
-    }
-    .btn-update {
-        color: #fff;
-        background-color: #4e73df;
-        border-color: #4e73df;
-        padding: 0.375rem 0.75rem;
-        font-size: 0.875rem;
-        line-height: 1.5;
-        border-radius: 0.25rem;
-        font-weight: 400;
-        text-align: center;
-        vertical-align: middle;
-        cursor: pointer;
-        border: 1px solid transparent;
-        transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-    }
-    .btn-update:hover {
-        background-color: #2e59d9;
-        border-color: #2653d4;
-    }
-</style>
+    <link rel="stylesheet" th:href="@{/css/admin/member_list.css}" />
 </th:block>
 
 <div layout:fragment="content">
@@ -131,80 +81,6 @@
 </div>
 
 <th:block layout:fragment="script">
-    <script type="text/javascript">
-        var dataTable;
-
-        function initializeDataTable() {
-            if (dataTable) {
-                dataTable.destroy();
-            }
-            dataTable = $('#dataTable').DataTable({
-                "language": {
-                    "lengthMenu": "페이지당 _MENU_ 개씩 보기",
-                    "zeroRecords": "검색 결과가 없습니다",
-                    "info": "_START_ - _END_ / _TOTAL_",
-                    "infoEmpty": "0 - 0 / 0",
-                    "infoFiltered": "(전체 _MAX_ 개 중 검색결과)",
-                    "search": "검색:",
-                    "paginate": {
-                        "first": "처음",
-                        "last": "마지막",
-                        "next": "다음",
-                        "previous": "이전"
-                    }
-                }
-            });
-        }
-
-        function updateMemberStatus() {
-            var memberIdList = [];
-            var memberStatusList = [];
-            $('select[id^="memberStatus"]').each(function() {
-                var memberId = $(this).attr('id').replace('memberStatus', '');
-                var memberStatus = $(this).val();
-                memberIdList.push(memberId);
-                memberStatusList.push(memberStatus);
-            });
-            
-            $.ajax({
-                type: 'POST',
-                url: '/admin/updateMemberStatusList',
-                data: {
-                    memberIdList: memberIdList,
-                    memberStatusList: memberStatusList
-                },
-                success: function(data) {
-                    if (data.success) {
-                        alert('수정 성공');
-                        searchMembers();
-                    } else {
-                        alert('수정 실패');
-                    }
-                }
-            });
-        }
-
-        function searchMembers() {
-            $.ajax({
-                type: 'POST',
-                url: '/admin/getMemberList',
-                data: {
-                },
-                success: function(fragment) {
-                    $('#dataTable').html(fragment);
-                    initializeDataTable();
-                },
-                error: function(xhr, status, error) {
-                    alert('회원 조회 중 오류가 발생했습니다.');
-                    console.error('Error:', error);
-                }
-            });
-        }
-
-        // Initialize DataTable when document is ready
-        $(document).ready(function() {
-            searchMembers();
-        });
-    </script>
+    <script type="text/javascript" th:src="@{/js/admin/member_list.js}"></script>
 </th:block>
 </html>
