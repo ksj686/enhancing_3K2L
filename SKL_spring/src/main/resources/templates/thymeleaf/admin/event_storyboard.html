@@ -4,8 +4,6 @@
       layout:decorate="~{/thymeleaf/admin/admin_default_layout}">
 
 <th:block layout:fragment="css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/dataTables.bootstrap4.min.css" integrity="sha512-PT0RvABaDhDQugEbpNMwgYBCnGCiTZMh9yOzUsJHDgl/dMhD9yjHAwoumnUk3JydV3QTcIkNDuN40CJxik5+WQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css">
 <style>
     #dataTable thead th {
         white-space: nowrap;
@@ -96,6 +94,22 @@
         white-space: pre-wrap;
         word-break: break-all;
     }
+
+    .event-title {
+        cursor: pointer;
+        color: #4e73df;
+        text-decoration: none;
+    }
+    
+    .event-title:hover {
+        text-decoration: underline;
+    }
+    
+    .modal-event-description {
+        margin-top: 10px;
+        resize: none;
+        width: 100%;
+    }
 </style>
 </th:block>
 
@@ -123,9 +137,6 @@
                             <td th:text="${event.eventId}">이벤트 ID</td>
                             <td>
                                 <span class="event-title" 
-                                      style="cursor: pointer; color: #4e73df; text-decoration: none;"
-                                      onmouseover="this.style.textDecoration='underline'"
-                                      onmouseout="this.style.textDecoration='none'"
                                       onclick="showEventDetail(this)"
                                       th:text="${event.eventName}">이벤트명</span>
                             </td>
@@ -157,17 +168,15 @@
                         <div class="col-md-6">
                             <strong>이벤트명: </strong>
                             <input type="text" 
-                                   id="modalEventName" 
-                                   class="form-control">
+                                   id="modalEventName">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-12">
                             <strong>이벤트 설명</strong>
                             <textarea id="modalEventDescription" 
-                                      class="form-control" 
-                                      rows="3" 
-                                      style="margin-top: 10px; resize: none;"></textarea>
+                                      class="modal-event-description" 
+                                      rows="3"></textarea>
                         </div>
                     </div>
                     
@@ -235,9 +244,6 @@
 
 
 <th:block layout:fragment="script">
-    <script src="https://cdn.jsdelivr.net/npm/datatables.net@1.10.25/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/dataTables.bootstrap4.min.js" integrity="sha512-OQlawZneA7zzfI6B1n1tjUuo3C5mtYuAWpQdg+iI9mkDoo7iFzTqnQHf+K5ThOWNJ9AbXL4+ZDwH7ykySPQc+A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
 
     <script type="text/javascript">
         var dataTable;
