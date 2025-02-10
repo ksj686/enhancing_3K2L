@@ -3,7 +3,7 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="app.labs.attach.dao.AttachRepository">
 
-    <!-- 특정 다이어리의 특정 첨부 파일 가져오기 -->
+    <!-- 특정 다이어리의 첨부 파일 가져오기 -->
 	<select id="getAttachFile" parameterType="int" resultType="app.labs.attach.model.Attach">
     	SELECT ATTACH_ID, ATTACH_NAME, ATTACH_SIZE, ATTACH_URL, DIARY_ID
     	FROM ATTACH
@@ -52,16 +52,16 @@
         WHERE ATTACH_ID = #{attachId}
     </update>
 
-    <!-- 첨부 파일 삭제 (DIARY_ID 기준) -->
+    <!-- 첨부 파일 삭제 attach_ID 기준) -->
     <delete id="deleteAttach" parameterType="int">
         DELETE FROM ATTACH
-        WHERE DIARY_ID = #{diaryId}
+        WHERE ATTACH_ID = #{attachId}
     </delete>
 
-    <!-- 첨부 파일 삭제 (ATTACH_ID 기준) -->
-    <delete id="deleteAttachById" parameterType="int">
+    <!-- 첨부 파일 삭제 (diary_ID 기준) -->
+    <delete id="deleteAttachByDiary" parameterType="int">
         DELETE FROM ATTACH
-        WHERE ATTACH_ID = #{attachId}
+        WHERE DIARY_ID = #{diaryId}
     </delete>
     
 </mapper>

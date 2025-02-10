@@ -1,8 +1,6 @@
 package app.labs.diary.controller;
 
 import java.io.File;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,38 +25,27 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 public class DiaryController {
-	@Autowired
-	AttachService attachService;
 	
 	@Autowired
 	DiaryService diaryService;
 	
-	// 파일 저장 경로 지정
-	private final String uploadDir = "C:/labs_python/SamkimILee/SKL_spring/src/main/resources/static/attach/";
-	
+	@Autowired
+	AttachService attachService;
+		
 	@GetMapping("/diary/test")
 	public String home(Model model,HttpServletRequest request) {
-		HttpSession session = request.getSession();
-    	String memberId = (String) session.getAttribute("memberid");
-    	log.info("memberId: " + memberId);
-    	model.addAttribute("memberId", memberId);
 		model.addAttribute("serverTime", "서버시간");
 		
 		return "thymeleaf/diary/home";
 	}
 	
-	@GetMapping("/diary/list/{memberId}")
-	public String getAllDiary(@PathVariable("memberId") String memberId, Model model, HttpSession session) {
-		String sessionMemberId = (String) session.getAttribute("memberid");
+	@GetMapping("/diary/list")
+	public String getAllDiary(Model model, HttpSession session) {
+		String memberId = (String) session.getAttribute("memberid");
 
 	    // 🔹 로그인 상태 확인 (세션에 memberid가 없는 경우 로그인 페이지로 리다이렉트)
-	    if (sessionMemberId == null) {
+	    if (memberId == null) {
 	        return "redirect:/login"; // 로그인 페이지로 이동
-	    }
-
-	    // 🔹 세션에 저장된 ID와 URL의 memberId가 일치하는지 확인 -> 아직 테스트 못해봄
-	    if (!sessionMemberId.equals(memberId)) {
-	        return "redirect:/"; // 권한 없으면 메인 페이지로 이동
 	    }
 		
 		List<Diary> diaryList = diaryService.getDiaryList(memberId);
@@ -68,19 +55,32 @@ public class DiaryController {
 		return "thymeleaf/diary/list";
 	}
 	
+	@GetMapping("/diary/{diaryId}")
+	public String getDiaryInfo(@PathVariable("diaryId") int diaryId, Model model) {
+		
+		Diary diary = diaryService.getDiaryInfo(diaryId);
+		model.addAttribute("diary", diary);
+		
+		Attach attach = attachService.getAttachFile(diaryId);
+		model.addAttribute("attach", attach);
+		
+		log.info("diary id: " + diaryId + " attach info: " + attach );
+				
+	    return "thymeleaf/diary/view";
+	}
+
+	
 	@GetMapping("/diary/insert")
-	public String insertDiary(Model model, HttpSession session) {
+	public String insertDiary(Model model, RedirectAttributes redirectAttributes) {
     	
-		String memberId = (String)session.getAttribute("memberid");
-		model.addAttribute("memberId", memberId);
 		model.addAttribute("diary", new Diary());
 		
-		return "thymeleaf/diary/insertform";
+		return "thymeleaf/diary/diaryform";
 	}
 	
 	@PostMapping("/diary/insert")
 	public String insertDiary(@ModelAttribute Diary diary, HttpServletRequest request,
-	                          @RequestParam("file") MultipartFile attach,
+	                          @RequestParam(value= "file", required = false) MultipartFile file,
 	                          RedirectAttributes redirectAttributes) {
 	    HttpSession session = request.getSession();
 	    String memberId = (String) session.getAttribute("memberid");
@@ -92,94 +92,112 @@ public class DiaryController {
 	        int diaryId = diary.getDiaryId(); // ✅ 자동 증가된 diaryId 가져오기
 	        log.info("새로 생성된 diaryId: " + diaryId); // 🔥 로그 추가
 
-	        if (attach != null && !attach.isEmpty()) {  // ✅ attach 사용
-	            log.info("업로드된 파일명: " + attach.getOriginalFilename());
-	            String filePath = uploadDir + attach.getOriginalFilename();
-	            attach.transferTo(new File(filePath));
-
-	            Attach newAttach = new Attach();
-	            newAttach.setDiaryId(diaryId);
-	            newAttach.setAttachName(attach.getOriginalFilename());  // ✅ attach에서 데이터 가져옴
-	            newAttach.setAttachSize(String.valueOf(attach.getSize()));
-	            newAttach.setAttachUrl("/static/attach/" + attach.getOriginalFilename());
-	            
-	            log.info("저장될 Attach 정보: " + attach); // 🔥 로그 추가
-	            attachService.insertAttach(newAttach);
-	            }
+	       if(file != null && !file.isEmpty()) {
+	    	   log.info("파일명: " + file.getOriginalFilename());
+	    	   
+	    	   Attach attach = new Attach();
+	    	   attach.setDiaryId(diaryId);
+	    	   
+	    	   String attachName = file.getOriginalFilename();
+	    	   attach.setAttachName(file.getOriginalFilename());
+	    	   
+	    	   long attachSize = file.getSize();
+	    	   attach.setAttachSize(attachSize);
+	    	   
+	    	   String attachDir = "C:/labs_python/SamkimILee/SKL_spring/src/main/resources/static/attach/" + attachName;
+	    	   file.transferTo(new File(attachDir));
+	    	   attach.setAttachUrl(attachDir);
+	    	   
+	    	   attachService.insertAttach(attach);
+	       }
+	        
 	        redirectAttributes.addFlashAttribute("message", "일기가 등록되었습니다.");
 	        log.info("일기 등록 성공");
+	        
 	    } catch (Exception ex) {
 	    		ex.printStackTrace();
 	    		log.error("일기 등록 오류: ", ex.getMessage());
 	    }
-	    return "redirect:/diary/list/" + memberId;
+	    return "redirect:/diary/list";
 	}
 
-	
-	@GetMapping("/diary/{diaryId}")
-	public String getDiaryInfo(@PathVariable("diaryId") int diaryId, Model model) {
-		// 🔹 일기 정보 가져오기
+	@GetMapping("/diary/update")
+	public String updateDiary(@RequestParam("diaryId") int diaryId, Model model) {
 	    Diary diary = diaryService.getDiaryInfo(diaryId);
 	    model.addAttribute("diary", diary);
+	    model.addAttribute("update", true);
 
-	    // 🔹 첨부파일 가져오기
 	    Attach attach = attachService.getAttachFile(diaryId);
-	    model.addAttribute("attach", attach);
+	    model.addAttribute("attach", attach); // 🔥 첨부파일 모델 추가
 
-	    // 🔹 로그 출력 (디버깅용)
-	    log.info("조회된 Diary ID: " + diaryId);
-	    log.info("Diary 정보: " + diary);
-	    log.info("Attach 정보: " + attach);
-
-	    return "thymeleaf/diary/view";
-	}
-
-	
-	@GetMapping("/diary/update")
-	public String updateDiary(@RequestParam("diaryId") int diaryId, Model model) {   	
-		model.addAttribute("diary", diaryService.getDiaryInfo(diaryId));
-		return "thymeleaf/diary/updateform";
+	    return "thymeleaf/diary/diaryform";
 	}
 	
 	@PostMapping("/diary/update")
-	public String updateDiary(Diary diary, RedirectAttributes redirectAttributes, HttpSession session) {  
-	    String memberId = (String) session.getAttribute("memberid");
+	public String updateDiary(@ModelAttribute Diary diary, RedirectAttributes redirectAttributes, 
+		                      HttpServletRequest request, @RequestParam(value= "file", required = false) MultipartFile file) {  
+		try {
+		    log.info("수정 요청된 Diary: " + diary); // ✅ 수정 요청된 Diary 로그 확인
+		    
+		    diaryService.updateDiary(diary);
+		    
+		    if(file != null && !file.isEmpty()) {
+		    	   
+		    	   Attach attach = new Attach();
+		    	   attach.setDiaryId(diary.getDiaryId());
+		    	   
+		    	   String attachName = file.getOriginalFilename();
+		    	   attach.setAttachName(attachName);
+		    	   
+		    	   String attachDir = "C:/labs_python/SamkimILee/SKL_spring/src/main/resources/static/attach/" + attachName;
+		    	   file.transferTo(new File(attachDir));
+		    	   attach.setAttachUrl(attachDir);
+	    		   
+	    		   long attachSize = file.getSize();
+		    	   attach.setAttachSize(attachSize);
+		    	   
+		    	   // 기본 첨부파일 확인
+		    	   Attach existingAttach = attachService.getAttachFile(diary.getDiaryId());
+		    	   
+		    	   if(existingAttach != null) {
+		    		   attachService.updateAttach(attach);
+		    	   } else {
+		    		   			    	   
+		    		   attachService.insertAttach(attach);
+		    	   }
 
-	    // 기존 Diary 데이터 가져오기
-	    Diary existingDiary = diaryService.getDiaryInfo(diary.getDiaryId());
-	    if (existingDiary == null) {
-	        redirectAttributes.addFlashAttribute("message", "수정할 일기를 찾을 수 없습니다.");
-	        return "redirect:/diary/list/" + memberId;
-	    }
+		       }
 
-	    // 1️⃣ 기존 데이터 유지
-	    if (diary.getDiaryTitle() == null || diary.getDiaryTitle().trim().isEmpty()) {
-	        diary.setDiaryTitle(existingDiary.getDiaryTitle());
-	    }
-	    if (diary.getDiaryContent() == null || diary.getDiaryContent().trim().isEmpty()) {
-	        diary.setDiaryContent(existingDiary.getDiaryContent());
-	    }
-	    if (diary.getDiaryEmotion() == null || diary.getDiaryEmotion().trim().isEmpty()) {
-	        diary.setDiaryEmotion(existingDiary.getDiaryEmotion());
-	    }
-	    if (diary.getDiaryFeed() == null || diary.getDiaryFeed().trim().isEmpty()) {
-	        diary.setDiaryFeed(existingDiary.getDiaryFeed());
-	    }
+		    redirectAttributes.addFlashAttribute("message", "일기가 수정되었습니다.");
+		    log.info("일기 수정 성공");
 
-	    // 2️⃣ 일기 수정 시간 업데이트
-	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-	    diary.setDiaryUpdate(LocalDateTime.now().format(formatter));
-
-	    try {
-	        diaryService.updateDiary(diary);
-	        redirectAttributes.addFlashAttribute("message", "수정되었습니다.");
-	    } catch (RuntimeException e) {
-	        e.printStackTrace();
-	    }
-
-	    return "redirect:/diary/" + diary.getDiaryId();
+		} catch (Exception ex) {
+		    ex.printStackTrace();
+		    log.error("일기 수정 오류: ", ex.getMessage());
+		}
+		return "redirect:/diary/list";
 	}
 
+
+	
+	@GetMapping("diary/delete")
+	public String deleteDiary(@RequestParam("diaryId") int diaryId, HttpServletRequest request,
+							  RedirectAttributes redirectAttributes) {
+		
+		HttpSession session = request.getSession();
+		String sessionId = (String) session.getAttribute("memberid");
+	
+		Diary diary = diaryService.getDiaryInfo(diaryId);
+		String memberId = diary.getMemberId();
+		
+		if(sessionId.equals(memberId)) {
+			diaryService.deleteDiary(diaryId);
+		}
+		
+		redirectAttributes.addFlashAttribute("message", "일기가 삭제되었습니다.");
+		
+		return "redirect:/diary/list";
+	}
 
 
 	

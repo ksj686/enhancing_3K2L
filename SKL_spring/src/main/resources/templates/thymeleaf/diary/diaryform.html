@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      <!-- layout:decorate="~{/thymeleaf/choco/default_layout}" -->
+
+<head>
+    <title>JOURNIVERSE | DIARY FORM</title>
+</head>
+
+<th:block>
+    <div class="content-wrapper">
+        <div class="main-content-wrapper">
+        	<!-- 일기 리스트 링크 -->
+        	<div class="top-navigation">
+        		<a th:href="@{/diary/list}" class="back-to-list">← 리스트로 돌아가기</a>
+        	</div>
+        	
+            <form id="diaryform" th:action="${update != null ? '/diary/update' : '/diary/insert'}" 
+            	  method="post" enctype="multipart/form-data" th:object="${diary}">
+                
+                <input type="hidden" th:field="*{diaryId}">
+                
+                <div class="form-title">
+                    <!-- 제목 입력 -->
+                    <label for="title">제목 작성</label>
+                    <input type="text" th:field="*{diaryTitle}" placeholder="제목을 입력하세요." required>
+                </div>
+				
+				<!-- 날짜 입력 -->
+                <div class="form-date">
+                    <label for="diaryDate">날짜 선택</label>
+                    <input type="date" id="diaryDate" th:field="*{diaryDate}" 
+       						th:value="${diary.diaryDate != null ? #strings.substring(diary.diaryDate, 0, 10) : #dates.format(#dates.createNow(), 'yyyy-MM-dd')}" 
+       						required>
+                </div>
+				
+                <!-- 내용 입력 -->
+                <div class="form-content">
+                    <label for="content">일기 내용 작성</label>
+                    <textarea th:field="*{diaryContent}" rows="10" placeholder="내용을 입력하세요."></textarea>
+                </div>
+
+                <!-- 파일 첨부 -->
+                <div class="file-upload">
+                    <label for="file">파일 첨부</label>
+                    <div class="file-input-wrapper">
+                        <input type="text" id="fileName" placeholder="파일을 선택해주세요." readonly>
+                        <label for="file" class="file-button">파일 선택</label>
+                        <input type="file" id="file" name="file" th:object="${attach}" onchange="updateFileName()">
+                    </div>
+                </div>
+
+                <!-- 작성 완료 버튼 -->
+                <button class="submit-btn" type="submit" th:text="${update != null ? '수정' : '저장'}"></button>
+                <button class="cancel-btn" type="button" onclick="resetForm()">취소</button>
+            </form>
+        </div>
+    </div>
+</th:block>
+
+
+	<script>
+      	function updateFileName() {
+            const fileInput = document.getElementById('file');
+            const fileNameInput = document.getElementById('fileName');
+
+            if (fileInput.files.length > 0) {
+                fileNameInput.value = fileInput.files[0].name;
+              }
+        }
+        
+        function resetForm() {
+            if (confirm("작성 중인 내용이 사라집니다. 정말 취소하시겠습니까?")) {
+            	document.getElementById("diaryform").reset();
+            	document.getElementById("fileName").value="";
+            }               
+        }
+	</script>
+
+
+</html>

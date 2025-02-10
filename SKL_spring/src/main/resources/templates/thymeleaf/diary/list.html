@@ -1,24 +1,39 @@
 <!DOCTYPE html>
-<html xmlns:th="http//www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<!-- layout:decorate="~{/thymeleaf/mybatis/default_layout}" -->
 
-<div layout:fragment="content">
-	<h1>diary list</h1>
-	[[ ${message } ]] <!-- 리다이렉트 메시지 출력 -->
-	<a th:href="@{/diary/insert}" class="btn btn-primary">일기 추가하기</a>
-	<table border="1" class="table">
-	<tr>
-		<th>no.</th>
-		<th>Title</th>
-		<th>DATE</th>
-	</tr>
-	<tr th:each="diary : ${diaryList}"> <!--/* for each 문을 thmeleaf 문으로 교체 */-->
-		<td th:utext="${diary.diaryId}"></td>
-		<td><a th:href="@{/diary/{id}(id=${diary.diaryId},)}" th:utext="${diary.diaryTitle}"></a></td>
-		<td th:utext="${diary.diaryDate}"></td>
-	</tr>
-	</table>
-</div>
+<head>
+	<title>JOURNIVERSE | DIARY LIST</title>
+</head>
+
+<th:block>		
+	<div class="content-wrapper">
+		<div class="diary-container">
+			<h2>일기 목록</h2>
+			
+			<div class="btn-box">
+				<button onclick="location.href='/diary/insert'" class="diary-btn write scale">일기쓰기</button>
+			</div>
+			
+			<!-- 검색 -->
+			<div class="search-box">
+				<input class="search-txt" type="text" name="searchKeyword" placeholder="search">
+				<button class="search-btn" type="submit">🔍</button>
+					<!-- <img src="" /> 검색버튼에 이미지 사용시 사용-->	
+			</div>
+			
+			<div class="diary-list-container">
+				<div class="diary-item" th:each="diary:${diaryList}">
+					<a th:href="@{/diary/{id}(id=${diary.diaryId})}" class="diary-link">
+						<span class="diary-title" th:utext="${diary.diaryTitle}"></span>
+						<span class="diary-date" th:utext="${diary.diaryDate}"></span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+		
+</th:block>
 
 </html>
