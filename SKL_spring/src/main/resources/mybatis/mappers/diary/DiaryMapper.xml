@@ -9,39 +9,22 @@
 	</select>
 	
 	<select id="getDiaryList" parameterType="string" resultType="app.labs.diary.model.Diary">
-    	SELECT 
-        	D.DIARY_ID,
-        	D.DIARY_TITLE,
-        	DBMS_LOB.SUBSTR(D.DIARY_CONTENT, 100, 1) AS DIARY_CONTENT,
-        	TO_CHAR(D.DIARY_DATE, 'YYYY.MM.DD HH24:MI') AS DIARY_DATE,
-        	NVL(M.MEMBER_NICKNAME, D.MEMBER_ID) AS MEMBER_ID,
-        	A.ATTACH_NAME AS ATTACH_NAME
-    	FROM DIARY D
-    	JOIN MEMBER M ON D.MEMBER_ID = M.MEMBER_ID
-    	LEFT JOIN ATTACH A ON D.DIARY_ID = A.DIARY_ID
-    	<if test="memberId != null">
-        	WHERE D.MEMBER_ID = #{memberId}
-    	</if>
-    	ORDER BY D.DIARY_DATE DESC, ATTACH_NAME NULLS LAST
-	</select>
+    	SELECT *
+    	FROM DIARY
+   	</select>
 
 	
 	<select id="getDiaryInfo" parameterType="int" resultType="app.labs.diary.model.Diary">
-		SELECT
-        	DIARY_ID,
-        	DIARY_TITLE,
-        	DIARY_CONTENT,
-        	MEMBER_ID,
-        	TO_CHAR(DIARY_DATE, 'YYYY.MM.DD HH24:MI') AS DIARY_DATE
+		SELECT *
     	FROM DIARY
    		WHERE DIARY_ID = #{diaryId}
 	</select>
 
 	<update id="updateDiary" parameterType="app.labs.diary.model.Diary">
-		UPDATE DIARY
+    	UPDATE DIARY
     	SET DIARY_TITLE = #{diaryTitle},
-        	DIARY_CONTENT = #{diaryContent},
-        	DIARY_UPDATE = CURRENT_TIMESTAMP
+        	DIARY_DATE = #{diaryDate},
+        	DIARY_CONTENT = #{diaryContent}
     	WHERE DIARY_ID = #{diaryId}
 	</update>
 	
@@ -49,7 +32,7 @@
     	INSERT INTO DIARY (
         	DIARY_ID, DIARY_TITLE, DIARY_CONTENT, DIARY_DATE, MEMBER_ID)
     	VALUES (
-        	diary_seq.NEXTVAL, #{diaryTitle}, #{diaryContent}, CURRENT_TIMESTAMP, #{memberId})
+        	diary_seq.NEXTVAL, #{diaryTitle}, #{diaryContent}, #{diaryDate}, #{memberId})
 	</insert>
 
 	

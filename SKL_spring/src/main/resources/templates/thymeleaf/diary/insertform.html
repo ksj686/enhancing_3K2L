@@ -1,14 +1,36 @@
 <!DOCTYPE html>
-<html xmlns:th="http//www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <div layout:fragment="content">
-	<form action="/diary/insert" method="post" enctype="multipart/form-data">
-		<input type="text" name="diaryTitle" placeholder="일기 제목" required />
-    	<textarea name="diaryContent" placeholder="일기 내용"></textarea>
-    	<input type="file" name="attach" />  <!-- 파일 업로드 필드 -->
-    	<button type="submit">등록</button>
-	</form>
+    <form th:action="${update != null? '/diary/update' : '/diary/insert'" method="post" enctype="multipart/form-data">
+  	<div class="diary-group">
+  		<!-- 일기 제목 -->
+  		<div class="diary-title">
+  			<label for="title">제목</label>
+  			<input type="text" th:field="${diary.diaryTitle}" placeholder="제목을 입력하세요." required>
+  		</div>
+  		
+  		<!-- 파일 첨부 -->
+  		<div class="file-upload">
+  			<label for="file">파일 첨부</label>
+  			<div class="file-input-wrapper">
+  				<input type="text" id="attachName" placeholder="파일을 선택해주세요." readonly>
+  				<label for="file" class="file-button">파일 선택</label>
+  				<input type="file" id="file" name="attach" multiple onchange="updateFileName()">
+  			</div>
+  		</div>
+  		
+  		<!-- 일기 내용 -->
+  		<div class="diary-content">
+  			<label for="content">일기 내용 작성</label>
+  			<textarea th:field="${diary.diaryContent" rows="30" placeholder="내용을 입력하세요."></textarea>
+  		</div>
+  		
+  		<!-- 버튼 -->
+  		<button class="submit-btn" type="submit" th:text="${update!=null?'수정 완료':'작성 완료'}"></button>
+  	</div>       
+    </form>
 </div>
 
 </html>
