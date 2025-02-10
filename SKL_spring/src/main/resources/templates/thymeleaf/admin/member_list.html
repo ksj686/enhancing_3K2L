@@ -5,7 +5,34 @@
 
 <th:block layout:fragment="css">
     <link rel="stylesheet" th:href="@{/css/admin/member_list.css}" />
+    <style>
+        /* DataTables 컨트롤과 테이블 액션 고정 */
+        /* .dataTables_wrapper > .row:first-child,
+        .table-actions {
+            position: absolute;
+            
+            width: calc(100% - 40px);
+        }
+
+        .card-body {
+            position: relative;  
+            padding-top: 125px;
+        }
+
+        .table-actions {
+            top: 0;
+            padding: 20px 16px;
+            right: 20px;
+            text-align: right;
+        }
+        
+        .dataTables_wrapper > .row:first-child{
+            top: 76px;
+            padding: 5px 6px;
+        } */
+    </style>
 </th:block>
+
 
 <div layout:fragment="content">
     <!-- <h1>회원 목록 관리</h1>
