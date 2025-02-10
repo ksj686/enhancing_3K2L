@@ -274,4 +274,9 @@ public class AdminController {
         }
         return response;
     }
+
+    @GetMapping("/admin/event-stats")
+    public String eventStats(Model model) {
+        return "thymeleaf/admin/event_stats";
+    }
 }
