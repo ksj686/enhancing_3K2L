@@ -30,10 +30,6 @@
 			<p>😆</p>
 			<p th:text="*{cheer}" style="font-size: 20px;"></p>
 		</div>
-		<div id="surprise-btn" style="cursor: pointer;">
-			<p>😮</p>
-			<p th:text="*{surprise}" style="font-size: 20px;"></p>
-		</div>
 		<div id="worry-btn" style="cursor: pointer;">
 			<p>🥺</p>
 			<p th:text="*{worry}" style="font-size: 20px;"></p>
@@ -82,7 +78,7 @@
 			});
 		});
 
-		const emojis = ['joy', 'cheer', 'surprise', 'worry', 'sad'];
+		const emojis = ['joy', 'cheer', 'worry', 'sad'];
 		
 		emojis.forEach(emoji => {
 			$(`#${emoji}-btn`).on('click', function() {
