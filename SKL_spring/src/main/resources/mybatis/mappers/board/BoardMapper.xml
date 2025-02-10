@@ -4,16 +4,19 @@
 
     <!-- 글 목록 조회 -->
     <select id="getBoardList" parameterType="String" resultType="app.labs.board.model.Board">
-        SELECT BOARD_ID, BOARD_TITLE, BOARD_CATEGORY, BOARD_DATE, BOARD_CONTENT, BOARD_OFFENSIVE, MEMBER_ID
+        SELECT BOARD_ID, BOARD_TITLE, BOARD_CATEGORY, 
+               TO_CHAR(BOARD_DATE, 'YYYY"년"MM"월"DD"일" HH24"시"MI"분"SS"초"') AS BOARD_DATE, 
+               BOARD_CONTENT, BOARD_OFFENSIVE, MEMBER_ID
         FROM BOARD
         WHERE BOARD_CATEGORY = #{boardCategory}
           AND BOARD_DATE >= SYSDATE - 1
-          AND BOARD_OFFENSIVE = 'F'
     </select>
 
     <!-- 글 조회 -->
     <select id="getBoardInfo" parameterType="int" resultType="app.labs.board.model.Board">
-        SELECT BOARD_ID, BOARD_TITLE, BOARD_CATEGORY, BOARD_DATE, BOARD_CONTENT, BOARD_REPORT, MEMBER_ID
+        SELECT BOARD_ID, BOARD_TITLE, BOARD_CATEGORY, 
+               TO_CHAR(BOARD_DATE, 'YYYY"년"MM"월"DD"일" HH24"시"MI"분"SS"초"') AS BOARD_DATE, 
+               BOARD_CONTENT, BOARD_OFFENSIVE, BOARD_REPORT, MEMBER_ID
         FROM BOARD
         WHERE BOARD_ID = #{boardId}
     </select>
@@ -47,7 +50,7 @@
     </update>
 
     <!-- 신고수 조회 -->
-    <select id="countReportBoard" parameterType="int" resultType="int">
+    <select id="getBoardReport" parameterType="int" resultType="int">
         SELECT BOARD_REPORT
         FROM BOARD
         WHERE BOARD_ID = #{boardId}

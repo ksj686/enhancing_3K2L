@@ -2,5 +2,22 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="app.labs.emoji.dao.EmojiRepository">
 
+    <!-- 공감수 조회 -->
+    <select id="getEmojiCount" parameterType="int" resultType="hashmap">
+        SELECT EMOJI_CATEGORY, COUNT(1) AS COUNT
+        FROM EMOJI
+        WHERE BOARD_ID = #{boardId}
+        GROUP BY EMOJI_CATEGORY
+    </select>
 
+    <!-- 공감수 추가 -->
+    <insert id="insertEmoji" parameterType="hashmap">
+        INSERT INTO EMOJI (
+            EMOJI_CATEGORY, MEMBER_ID, BOARD_ID)
+        VALUES (
+            #{emojiCategory,jdbcType=VARCHAR},
+            #{memberId,jdbcType=VARCHAR},
+            #{boardId,jdbcType=INTEGER}
+        )
+    </insert>
 </mapper>

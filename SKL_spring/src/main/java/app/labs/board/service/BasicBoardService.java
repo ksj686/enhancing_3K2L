@@ -45,7 +45,8 @@ public class BasicBoardService implements BoardService {
 	}
 
 	@Override
-	public int countReportBoard(int boardId) { return boardRepository.countReportBoard(boardId); }
+	public int getBoardReport(int boardId) {
+		return boardRepository.getBoardReport(boardId); }
 
 	@Override
 	public void offensiveBoard(int boardId) {
