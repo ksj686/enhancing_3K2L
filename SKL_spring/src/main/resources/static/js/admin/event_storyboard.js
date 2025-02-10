@@ -35,9 +35,10 @@ function searchEvents() {
         url: '/admin/getEvents',
         data: {},
         success: function(fragment) {
-            $('#eventListContainer').html(fragment);  // 컨테이너에 fragment 삽입
+            $('#dataTable').html(fragment);  // 컨테이너에 fragment 삽입
             initializeDataTable();  // 데이터 로드 후 DataTable 초기화
         },
+
         error: function(xhr, status, error) {
             alert('이벤트 조회 중 오류가 발생했습니다.');
             console.error('Error:', error);
@@ -169,6 +170,92 @@ function showEventDetail(element) {
     return false;
 }
 
+function showNewEvent() {
+    $('#addEventModal').modal('show');
+}
+
+async function deleteEvent() {
+    var eventId = parseInt($('#modalEventId').text());
+
+    var result = await Swal.fire({
+        title: '삭제 확인',
+        text: '정말 삭제하시겠습니까?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: '삭제',
+        cancelButtonText: '취소'
+    });
+
+    if (result.isConfirmed) {
+        $.ajax({
+            url: '/admin/deleteEvent',
+            type: 'POST',
+            data: {
+                eventId: eventId
+            },
+            success: function(response) {
+                if (response.success) {
+
+                    Swal.fire({
+                        title: '삭제가 완료되었습니다!',
+                        icon: 'success',
+                        draggable: false,
+                        customClass: {
+                            title: 'swal-title'
+                        }
+                    });
+
+                    closeModal();
+                    searchEvents();  // 페이지 새로고침
+                } else {
+                    alert('삭제 실패: ' + response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('오류가 발생했습니다: ' + error);
+            }
+        });
+    }
+}
+
+function addEvent() {
+    var eventName = $('#modalAddEventName').val();
+    var eventDescription = $('#modalAddEventDescription').val();
+
+    $.ajax({
+        url: '/admin/insertEvent',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({
+            eventName: eventName,
+            eventDescription: eventDescription
+        }),
+        success: function(response) {
+            if(response.success) {
+                Swal.fire({
+                    title: '이벤트가 추가되었습니다!',
+                    icon: 'success',
+                    draggable: false,
+                    customClass: {
+                        title: 'swal-title'
+                    }
+                });
+                searchEvents();
+                closeModal();
+            } else {
+                alert('이벤트 추가 실패: ' + response.message);
+            }
+
+        },
+        error: function(xhr, status, error) {
+            alert('오류가 발생했습니다: ' + error);
+        }
+    });
+}
+
 function closeModal() {
     $('#eventDetailModal').modal('hide');
+    $('#addEventModal').modal('hide');
 }

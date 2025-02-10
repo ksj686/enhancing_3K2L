@@ -17,6 +17,11 @@
     <div class="card shadow mb-4">
         <div class="card-body">
             <div id="eventListContainer" class="table-responsive">
+                <div class="table-actions">
+                    <button type="button" class="btn btn-new" onclick="showNewEvent()">
+                        <i class="fas fa-plus mr-1"></i>새 이벤트 등록
+                    </button>
+                </div>
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" th:fragment="eventListFragment">
                     <thead>
                         <tr>
@@ -81,13 +86,13 @@
                     </div> -->
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-update" onclick="updateEventDetail()">
+                    <button type="button" class="btn btn-primary" onclick="updateEventDetail()">
                         <i class="fas fa-sync-alt mr-1"></i>수정
                     </button>
-                    <button type="button" class="btn-delete" onclick="updateDelEvent()">
+                    <button type="button" class="btn btn-danger" onclick="deleteEvent()">
                         <i class="fas fa-trash mr-1"></i>삭제
                     </button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
                 </div>
             </div>
         </div>
@@ -106,15 +111,17 @@
                 <div class="modal-body">
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <strong>이벤트ID:</strong> <span id="modalAddEventId"></span>
-                        </div>
-                        <div class="col-md-6">
-                            <strong>이벤트명:</strong> <span id="modalAddEventName"></span>
+                            <strong>이벤트명:</strong>
+                                <input type="text" 
+                                   id="modalAddEventName">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-12">
-                            <strong>이벤트 설명:</strong> <span id="modalAddEventDescription"></span>
+                            <strong>이벤트 설명:</strong> 
+                            <textarea id="modalAddEventDescription" 
+                                      class="modal-event-description" 
+                                      rows="3"></textarea>
                         </div>
                     </div>
                     
@@ -125,10 +132,10 @@
                     </div> -->
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-add" onclick="addEvent()">
+                    <button type="button" class="btn btn-primary" onclick="addEvent()">
                         <i class="fas fa-plus mr-1"></i>등록
                     </button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
                 </div>
             </div>
         </div>
