@@ -11,7 +11,11 @@ import app.labs.board.model.Board;
 public interface BoardRepository {
 	List<Board> getBoardList(@Param("boardCategory") String boardCategory);
 	Board getBoardInfo(int boardId);
+	int createBoardId();
 	void createBoard(Board board);
 	void updateBoard(Board board);
-	// 삭제 기능은 없음 
+	void reportBoard(int boardId);
+	int getBoardReport(int boardId);
+	void offensiveBoard(int boardId);
+	// 삭제 기능은 없음
 }

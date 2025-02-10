@@ -11,6 +11,13 @@
 <a href="/logout" th:if="${session.memberid != null}">로그아웃</a>
 <div style="text-align:center;">
 	<h1> [[${boardCategory}]] board! </h1>
+
+	<ul th:each="board: ${boardList}">
+		<a th:href="@{/emo/Id/{boardId}(boardId=${board.boardId})}">
+			<span th:text="|제목: ${board.boardTitle}, 작성자: ${board.memberId}, 작성일: ${board.boardDate}|"></span>
+		</a>
+	</ul>
+
 	<button th:onclick="|location.href='@{/emo/{boardCategory}/new(boardCategory=${boardCategory},)}'|"> 글 작성하기 </button>
 </div>
 </body>
