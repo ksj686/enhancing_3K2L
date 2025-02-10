@@ -46,7 +46,14 @@ function updateMemberStatus() {
         },
         success: function(data) {
             if (data.success) {
-                alert('수정 성공');
+                Swal.fire({
+                    title: '수정이 완료되었습니다!',
+                    icon: 'success',
+                    draggable: false,
+                    customClass: {
+                        title: 'swal-title'
+                    }
+                });
                 searchMembers();
             } else {
                 alert('수정 실패');
