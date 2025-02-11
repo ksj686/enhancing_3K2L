@@ -27,6 +27,7 @@
             display: flex;  /* Flexbox 사용 */
             justify-content: center;  /* 수평 중앙 정렬 */
             align-items: center;      /* 수직 중앙 정렬 */
+            flex-direction: column;
         }
         canvas {
             max-width: 100%;  /* 캔버스 최대 너비 제한 */
@@ -41,61 +42,130 @@
             color: #2c3e50;
             text-align: center;
         }
+        .period-control {
+            display: flex;
+            gap: 10px;
+            /* margin-bottom: 20px; */
+            align-items: center;
+        }
+        .date-range {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .unit-select {
+            width: 100px;
+        }
+
+        .select-event {
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 20px;
+        }
+
+        #eventSelect {
+            width: 200px;
+            text-align: center;
+            font-weight: bold;
+        }
     </style>
 </th:block>
 
 
 <div layout:fragment="content">
-    <h2 class="mb-4">이벤트 달성률</h2>
+    <h2 class="mb-4">이벤트 참여율</h2>
+    <div class="select-event">
+        <select id="eventSelect" class="form-control">
+            <option th:each="event, iterStat : ${eventList}" 
+                    th:value="${event.eventId}" 
+                    th:text="${event.eventName + ' 이벤트'}"
+                    th:selected="${iterStat.first}">이벤트명</option>
+        </select>
+    </div>
 
     <!-- 당일 이벤트 통계 -->
     <div class="chart-section">
         <!-- <h3 class="section-title">당일 이벤트 통계</h3> -->
         <div class="chart-container">
             <div class="chart-wrapper">
-                <!-- <h3 class="chart-title">오늘의 이벤트 달성률</h3> -->
-                <canvas id="todayDiaryChart"></canvas>
+                <canvas id="todayEventChart"></canvas>
             </div>
             <div class="chart-wrapper">
-                <!-- <h3 class="chart-title">여기는 필요없을듯. 하나만 해놓기! select box로 이벤트 선택 가능하도록</h3> -->
-                <canvas id="todayBoardChart"></canvas>
+                <div class="period-control">
+                    <div class="date-range">
+                        <input type="date" id="startDate" class="form-control">
+                        <span>~</span>
+                        <input type="date" id="endDate" class="form-control">
+                    </div>
+                    <div class="unit-select">
+                        <select id="periodUnit" class="form-control">
+                            <option value="day" selected>일별</option>
+                            <option value="month">월별</option>
+                            <option value="year">연별</option>
+                        </select>
+                    </div>
+                    <button id="updateChart" class="btn btn-primary">조회</button>
+                </div>
+                <canvas id="pastEventChart"></canvas>
             </div>
         </div>
     </div>
 
-    <!-- 전체 감정 통계 -->
-    <div class="chart-section">
-        <!-- <h3 class="section-title">전체 기간 이벤트 통계</h3> -->
+    <!-- <div class="chart-section">
         <div class="chart-container">
             <div class="chart-wrapper">
-                <!-- <h3 class="chart-title">전체 이벤트 달성률</h3> -->
                 <canvas id="totalDiaryChart"></canvas>
             </div>
             <div class="chart-wrapper">
-
-                <!-- <h3 class="chart-title">추후 삭제 예정</h3> -->
                 <canvas id="totalBoardChart"></canvas>
             </div>
         </div>
-    </div>
+    </div> -->
 </div>
 
 <th:block layout:fragment="script">
-    <script type="text/javascript" th:src="@{/js/admin/emotion_stats.js}"></script>
+    <!-- <script type="text/javascript" th:src="@{/js/admin/emotion_stats.js}"></script> -->
     <script type="text/javascript">
+        let selectedEventId;
+        // 차트 객체를 저장할 변수들
+        let todayEventChart, pastEventChart;
+
         // 페이지 로드 시 모든 통계 로드
         $(document).ready(function() {
-            loadTodayDiaryStats();
-            loadTodayBoardStats();
-            loadTotalDiaryStats();
-            loadTotalBoardStats();
+            selectedEventId = parseInt($('#eventSelect').val());
+
+            // 초기 날짜 설정 (기본값: 최근 1개월)
+            const today = new Date();
+            const maxDate = formatDate(today);
+            const lastMonth = new Date(today);
+            lastMonth.setMonth(lastMonth.getMonth() - 1);
+
+            // date input에 max 속성 설정
+            $('#startDate').attr('max', maxDate);
+            $('#endDate').attr('max', maxDate);
+            
+            $('#endDate').val(maxDate);
+            $('#startDate').val(formatDate(lastMonth));
+
+            // 차트 업데이트 버튼 클릭 이벤트
+            $('#updateChart').click(function() {
+                loadPastEventStats(selectedEventId);
+            });
+            loadPastEventStats(selectedEventId);
+            loadTodayEventStats(selectedEventId);
+        });
+
+        // 이벤트 선택 시 차트 업데이트
+        $('#eventSelect').change(function() {
+            selectedEventId = parseInt($(this).val());
+            if (selectedEventId) {
+                loadTodayEventStats(selectedEventId);
+                loadPastEventStats(selectedEventId);
+            }
         });
 
         // Chart.js에 플러그인 등록
         Chart.register(ChartDataLabels);
-
-        // 차트 객체를 저장할 변수들
-        let todayDiaryChart, todayBoardChart, totalDiaryChart, totalBoardChart;
 
         // 색상 설정
         const emotionColors = {
@@ -115,200 +185,275 @@
             ]
         };
 
-        // 도넛 차트 생성 함수
-        function createDonutChart(ctx, data, title) {
-            const total = data.reduce((sum, item) => sum + (item.COUNT_EMOTION || item.COUNT_CATEGORY), 0);
+        // 게이지 차트 생성 함수
+        function createGaugeChart(ctx, data, title) {
+            const value = data.achievementRate || 0;
+            const gaugeLabels = ['0%', '25%', '50%', '75%', '100%'];
             
             return new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: data.map(item => item.DIARY_EMOTION || item.BOARD_CATEGORY),
                     datasets: [{
-                        data: data.map(item => item.COUNT_EMOTION || item.COUNT_CATEGORY),
-                        backgroundColor: emotionColors.backgroundColor.map(color => color.replace('0.6', '0.9')),  // 더 어두운 배경색
-                        borderColor: emotionColors.borderColor,
-                        borderWidth: 1
+                        // 메인 게이지
+                        data: [value, 100 - value],
+                        backgroundColor: [
+                            createGradient(ctx, ['#ff0000', '#ffff00', '#00ff00']),  // 빨강-노랑-초록 그라데이션
+                            'rgba(200, 200, 200, 0.2)'
+                        ],
+                        borderWidth: 0,
+                        circumference: 180,
+                        rotation: 270
+                    }, {
+                        // 눈금 표시를 위한 더미 데이터
+                        data: Array(5).fill(100/5),  // 5개 구간으로 수정
+                        backgroundColor: 'transparent',
+                        borderWidth: 0,
+                        circumference: 180,
+                        rotation: 270
+                    }],
+                    labels: gaugeLabels
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    aspectRatio: 2,
+                    plugins: {
+                        datalabels: [{
+                            // 참여율 표시
+                            formatter: (value, ctx) => {
+                                if (ctx.datasetIndex === 0 && ctx.dataIndex === 0) {
+                                    return value.toFixed(1) + '%';
+                                }
+                                return '';
+                            },
+                            color: '#333',
+                            font: {
+                                size: 30,
+                                weight: 'bold'
+                            },
+                            anchor: 'center',
+                            align: 'center',
+                            offset: -20
+                        }, {
+                            // 눈금 레이블 표시
+                            formatter: (value, ctx) => {
+                                if (ctx.datasetIndex === 1) {
+                                    return gaugeLabels[ctx.dataIndex];
+                                }
+                                return '';
+                            },
+                            color: '#666',
+                            font: {
+                                size: 12
+                            },
+                            anchor: 'end',
+                            align: 'center',
+                            offset: 10
+                        }],
+                        legend: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: title,
+                            font: {
+                                size: 18,
+                                weight: 'bold'
+                            },
+                            padding: {
+                                top: 10,
+                                bottom: 20
+                            }
+                        }
+                    },
+                    rotation: -90,
+                    cutout: '75%',
+                    layout: {
+                        padding: {
+                            top: 20,
+                            bottom: 20
+                        }
+                    }
+                },
+                plugins: [{
+                    // 눈금선과 바늘 그리기
+                    afterDraw: (chart) => {
+                        const ctx = chart.ctx;
+                        const xCenter = chart.chartArea.left + (chart.chartArea.right - chart.chartArea.left) / 2;
+                        const yCenter = chart.chartArea.bottom;
+                        const radius = Math.min(chart.chartArea.right - chart.chartArea.left, 
+                                              chart.chartArea.bottom - chart.chartArea.top) / 2;
+                        const outerRadius = radius * 2;
+
+                        ctx.save();
+                        ctx.strokeStyle = '#666';
+                        ctx.lineWidth = 1;
+
+                        // 기존 눈금선 그리기 코드
+                        for (let i = 0; i <= 20; i++) {
+                            const angle = (i * Math.PI) / 20;
+                            const isMainTick = i % 5 === 0;
+                            const length = isMainTick ? 15 : 7;
+
+                            const startX = xCenter + outerRadius * Math.cos(angle);
+                            const startY = yCenter - outerRadius * Math.sin(angle);
+                            const endX = xCenter + (outerRadius - length) * Math.cos(angle);
+                            const endY = yCenter - (outerRadius - length) * Math.sin(angle);
+
+                            ctx.beginPath();
+                            ctx.moveTo(startX, startY);
+                            ctx.lineTo(endX, endY);
+                            ctx.lineWidth = isMainTick ? 2 : 1;
+                            ctx.stroke();
+                        }
+
+                        // 게이지 외곽선 그리기
+                        ctx.beginPath();
+                        ctx.arc(xCenter, yCenter, outerRadius, Math.PI, 0);
+                        ctx.strokeStyle = '#999';
+                        ctx.lineWidth = 2;
+                        ctx.stroke();
+
+                        // 바늘 그리기
+                        const value = chart.data.datasets[0].data[0];
+                        const needleAngle = ((value / 100) * Math.PI) + Math.PI; // 값에 따른 각도 계산
+                        const needleLength = radius * 1.8; // 바늘 길이
+                        const needleBaseWidth = 8; // 바늘 밑부분 너비
+                        
+                        // 바늘 그리기
+                        ctx.beginPath();
+                        ctx.save();
+                        ctx.translate(xCenter, yCenter);
+                        ctx.rotate(needleAngle);
+                        
+                        // 바늘 모양 정의
+                        ctx.beginPath();
+                        ctx.moveTo(0, -needleBaseWidth/2); // 바늘 밑부분 왼쪽
+                        ctx.lineTo(needleLength, 0);       // 바늘 끝
+                        ctx.lineTo(0, needleBaseWidth/2);  // 바늘 밑부분 오른쪽
+                        ctx.lineTo(0, -needleBaseWidth/2); // 다시 시작점으로
+                        
+                        // 바늘 스타일 설정
+                        ctx.fillStyle = '#000000'; // 검은색 바늘로 변경
+                        ctx.fill();
+                        ctx.strokeStyle = '#000000'; // 테두리도 검은색으로 변경
+                        ctx.stroke();
+                        
+                        // 바늘 중심점 원 그리기
+                        ctx.beginPath();
+                        ctx.arc(0, 0, needleBaseWidth/10*9, 0, Math.PI * 2);
+                        ctx.fillStyle = '#000000'; // 중심점도 검은색으로 변경
+                        ctx.fill();
+                        ctx.strokeStyle = '#FFFFFF';
+                        ctx.stroke();
+                        
+                        ctx.restore();
+                        ctx.restore();
+                    }
+                }]
+            });
+        }
+
+        // 그라데이션 생성 함수 수정
+        function createGradient(ctx, colors) {
+            // 45도 회전을 위한 시작점과 끝점 계산
+            const gradient = ctx.createLinearGradient(
+                ctx.canvas.width * 0.15,      // 시작 x
+                ctx.canvas.height * 0.85,     // 시작 y
+                ctx.canvas.width * 0.85,      // 끝 x
+                ctx.canvas.height * 0.15      // 끝 y
+            );
+            colors.forEach((color, index) => {
+                gradient.addColorStop(index / (colors.length - 1), color);
+            });
+            return gradient;
+        }
+
+        function loadTodayEventStats(eventId) {
+            // API 호출 (현재는 더미 데이터 사용)
+            const dummyData = {
+                achievementRate: 75
+            };
+            
+            const ctx = document.getElementById('todayEventChart').getContext('2d');
+            if (todayEventChart) todayEventChart.destroy();
+            todayEventChart = createGaugeChart(ctx, dummyData, '오늘의 이벤트 참여율');
+        }
+
+        function loadPastEventStats(eventId) {
+            const startDate = $('#startDate').val();
+            const endDate = $('#endDate').val();
+            const periodUnit = $('#periodUnit').val();
+
+            $.get('/admin/event-stats/past', {
+                eventId: eventId,
+                startDate: startDate,
+                endDate: endDate,
+                periodUnit: periodUnit
+            }, function(response) {
+                // 데이터 형식 변환
+                const chartData = {
+                    labels: response.map(item => item.SUCCESS_DATE),
+                    values: response.map(item => item.EVENT_COUNT)
+                };
+                updatePastEventChart(chartData);
+            });
+        }
+
+        function updatePastEventChart(data) {
+            const ctx = document.getElementById('pastEventChart').getContext('2d');
+            
+            if (pastEventChart) {
+                pastEventChart.destroy();
+            }
+
+            pastEventChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: '참여 인원',
+                        data: data.values,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1,
+                        fill: false
                     }]
                 },
                 options: {
                     responsive: true,
-                    maintainAspectRatio: true,
-                    aspectRatio: 1.5,
                     plugins: {
-                        datalabels: {
-                            formatter: (value) => {
-                                const percentage = ((value / total) * 100).toFixed(1);
-                                return `${percentage}%`;
-                            },
-                            color: '#fff',  // 글씨색만 흰색으로
-                            font: {
-                                weight: 'bold',
-                                size: 12
-                            }
-                        },
-                        legend: {
-                            position: 'right',
-                            labels: {
-                                font: {
-                                    size: 14
+                        // title: {
+                        //     display: true,
+                        //     text: '이벤트 참여 인원'
+                        // },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `참여 인원: ${context.parsed.y}명`;
                                 }
                             }
                         },
-                        title: {
-                            display: true,
-                            text: title,
-                            font: {
-                                size: 18,
-                                weight: 'bold'
-                            },
-                            padding: {
-                                top: 10,
-                                bottom: 20
-                            }
-                        }
-                    },
-                    cutout: '60%'
-                }
-            });
-        }
-
-        // 스택 바 차트 생성 함수
-        function createStackedBarChart(ctx, data, title) {
-            // 날짜 포맷 변환 함수
-            function formatDate(dateString) {
-                const date = new Date(dateString);
-                return date.toISOString().split('T')[0]; // YYYY-MM-DD 형식으로 변환
-            }
-
-            // 날짜별로 데이터 구성
-            const dates = [...new Set(data.map(item => 
-                formatDate(item.DIARY_DATE || item.BOARD_DATE)
-            ))];
-            const emotions = [...new Set(data.map(item => 
-                item.DIARY_EMOTION || item.BOARD_CATEGORY
-            ))];
-            
-            const datasets = emotions.map((emotion, index) => ({
-                label: emotion,
-                data: dates.map(date => {
-                    const item = data.find(d => 
-                        formatDate(d.DIARY_DATE || d.BOARD_DATE) === date && 
-                        (d.DIARY_EMOTION === emotion || d.BOARD_CATEGORY === emotion)
-                    );
-                    return item ? (item.COUNT_EMOTION || item.COUNT_CATEGORY) : 0;
-                }),
-                backgroundColor: emotionColors.backgroundColor[index].replace('0.6', '0.9'),  // 더 어두운 배경색
-                borderColor: emotionColors.borderColor[index],
-                borderWidth: 1
-            }));
-
-            // 날짜별 전체 합계 계산
-            const dailyTotals = dates.reduce((acc, date) => {
-                acc[date] = emotions.reduce((sum, emotion) => {
-                    const item = data.find(d => 
-                        formatDate(d.DIARY_DATE || d.BOARD_DATE) === date && 
-                        (d.DIARY_EMOTION === emotion || d.BOARD_CATEGORY === emotion)
-                    );
-                    return sum + (item ? (item.COUNT_EMOTION || item.COUNT_CATEGORY) : 0);
-                }, 0);
-                return acc;
-            }, {});
-
-            return new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: dates,
-                    datasets: datasets
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    aspectRatio: 1.5,
-                    plugins: {
                         datalabels: {
-                            formatter: (value, context) => {
-                                const dateIndex = context.dataIndex;
-                                const currentDate = dates[dateIndex];
-                                const total = dailyTotals[currentDate];
-                                if (value === 0) return '';
-                                const percentage = ((value / total) * 100).toFixed(1);
-                                return `${percentage}%`;
-                            },
-                            color: '#fff',  // 글씨색만 흰색으로
-                            font: {
-                                weight: 'bold',
-                                size: 11
-                            },
-                            anchor: 'center',
-                            align: 'center'
-                        },
-                        legend: {
-                            position: 'right',
-                            labels: {
-                                font: {
-                                    size: 14
-                                }
-                            }
-                        },
-                        title: {
-                            display: true,
-                            text: title,
-                            font: {
-                                size: 18,
-                                weight: 'bold'
-                            },
-                            padding: {
-                                top: 10,
-                                bottom: 20
-                            }
+                            display: false  // 데이터 라벨 표시 제거
                         }
                     },
                     scales: {
-                        x: {
-                            stacked: true
-                        },
                         y: {
-                            stacked: true,
-                            beginAtZero: true
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '명';
+                                }
+                            }
                         }
                     }
                 }
             });
         }
 
-        // 데이터 로드 함수들
-        function loadTodayDiaryStats() {
-            $.get('/admin/emotion-stats/diary/today', function(response) {
-                const ctx = document.getElementById('todayDiaryChart').getContext('2d');
-                if (todayDiaryChart) todayDiaryChart.destroy();
-                todayDiaryChart = createDonutChart(ctx, response, '오늘의 일기 감정 분포');
-            });
+        function formatDate(date) {
+            return date.toISOString().split('T')[0];
         }
-
-        function loadTodayBoardStats() {
-            $.get('/admin/emotion-stats/board/today', function(response) {
-                const ctx = document.getElementById('todayBoardChart').getContext('2d');
-                if (todayBoardChart) todayBoardChart.destroy();
-                todayBoardChart = createDonutChart(ctx, response, '오늘의 게시판 감정 분포');
-            });
-        }
-
-        function loadTotalDiaryStats() {
-            $.get('/admin/emotion-stats/diary/total', function(response) {
-                const ctx = document.getElementById('totalDiaryChart').getContext('2d');
-                if (totalDiaryChart) totalDiaryChart.destroy();
-                totalDiaryChart = createStackedBarChart(ctx, response, '전체 일기 감정 추이');
-            });
-        }
-
-        function loadTotalBoardStats() {
-            $.get('/admin/emotion-stats/board/total', function(response) {
-                const ctx = document.getElementById('totalBoardChart').getContext('2d');
-                if (totalBoardChart) totalBoardChart.destroy();
-                totalBoardChart = createStackedBarChart(ctx, response, '전체 게시판 감정 추이');
-            });
-        }
-
     </script>
 </th:block>
 </html>

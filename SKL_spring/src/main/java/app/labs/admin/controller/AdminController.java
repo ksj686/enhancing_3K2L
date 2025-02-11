@@ -283,6 +283,26 @@ public class AdminController {
 
     @GetMapping("/admin/event-stats")
     public String eventStats(Model model) {
+        List<Events> eventList = adminService.getEvents();
+        model.addAttribute("eventList", eventList);
         return "thymeleaf/admin/event_stats";
+    }
+
+    @GetMapping("/admin/event-stats/past")
+    @ResponseBody
+    public List<Map<String, Object>> getPastEventStats(@RequestParam("eventId") int eventId,
+            @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate,
+            @RequestParam("periodUnit") String periodUnit) {
+
+        List<Map<String, Object>> pastEventStats = adminService.getPastEventStats(eventId, startDate, endDate,
+                periodUnit);
+
+        return pastEventStats;
+    }
+
+    @GetMapping("/admin/event-stats/today")
+    @ResponseBody
+    public List<Map<String, Object>> getTodayEventStats(@RequestParam("eventId") int eventId) {
+        return adminService.getTodayEventStats(eventId);
     }
 }

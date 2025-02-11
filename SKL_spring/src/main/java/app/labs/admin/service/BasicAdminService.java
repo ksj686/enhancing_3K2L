@@ -159,4 +159,15 @@ public class BasicAdminService implements AdminService {
     public void deleteEvent(int eventId) {
         adminRepository.deleteEvent(eventId);
     }
+
+    @Override
+    public List<Map<String, Object>> getPastEventStats(int eventId, String startDate, String endDate,
+            String periodUnit) {
+        return adminRepository.getPastEventStats(eventId, startDate, endDate, periodUnit);
+    }
+
+    @Override
+    public List<Map<String, Object>> getTodayEventStats(int eventId) {
+        return adminRepository.getTodayEventStats(eventId);
+    }
 }

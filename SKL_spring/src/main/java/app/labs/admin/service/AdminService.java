@@ -52,4 +52,8 @@ public interface AdminService {
     void insertEvent(Events event);
 
     void deleteEvent(int eventId);
+
+    List<Map<String, Object>> getPastEventStats(int eventId, String startDate, String endDate, String periodUnit);
+
+    List<Map<String, Object>> getTodayEventStats(int eventId);
 }

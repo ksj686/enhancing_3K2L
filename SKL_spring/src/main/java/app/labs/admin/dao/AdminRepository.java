@@ -58,4 +58,9 @@ public interface AdminRepository {
     void insertEvent(Events event);
 
     void deleteEvent(int eventId);
+
+    List<Map<String, Object>> getPastEventStats(@Param("eventId") int eventId, @Param("startDate") String startDate,
+            @Param("endDate") String endDate, @Param("periodUnit") String periodUnit);
+
+    List<Map<String, Object>> getTodayEventStats(@Param("eventId") int eventId);
 }

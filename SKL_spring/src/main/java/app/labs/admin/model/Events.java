@@ -11,4 +11,5 @@ public class Events {
     private int eventId;
     private String eventName;
     private String eventDescription;
+    private String eventCreatedAt;
 }
