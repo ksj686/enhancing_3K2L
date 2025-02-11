@@ -108,7 +108,7 @@ function updateBoardStatus() {
                 if(response.success) {
                     // alert('업데이트가 완료되었습니다.');
                     Swal.fire({
-                        title: '업데이트가 완료되었습니다!',
+                        title: '변경사항이 적용되었습니다!',
                         icon: 'success',
                         draggable: false,
                         customClass: {
@@ -161,7 +161,7 @@ function updateBoardDetail() {
                 if(response.success) {
                     // alert('업데이트가 완료되었습니다.');
                     Swal.fire({
-                        title: '업데이트가 완료되었습니다!',
+                        title: '변경사항이 적용되었습니다!',
                         icon: 'success',
                         draggable: false,
                         customClass: {

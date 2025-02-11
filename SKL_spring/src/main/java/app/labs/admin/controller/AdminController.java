@@ -31,6 +31,12 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
+    // 관리자 메인 페이지
+    @GetMapping("/admin")
+    public String adminPage() {
+        return "thymeleaf/admin/member_list";
+    }
+
     // 관리자 로그인
     @GetMapping("/admin/login")
     public String adminLogin() {

@@ -47,7 +47,7 @@ function updateMemberStatus() {
         success: function(data) {
             if (data.success) {
                 Swal.fire({
-                    title: '수정이 완료되었습니다!',
+                    title: '변경사항이 적용되었습니다!',
                     icon: 'success',
                     draggable: false,
                     customClass: {

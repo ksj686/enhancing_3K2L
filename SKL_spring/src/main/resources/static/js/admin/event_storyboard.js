@@ -122,7 +122,7 @@ function updateEventDetail() {
                 if(response.success) {
                     // alert('업데이트가 완료되었습니다.');
                     Swal.fire({
-                        title: '업데이트가 완료되었습니다!',
+                        title: '변경사항이 적용되었습니다!',
                         icon: 'success',
                         draggable: false,
                         customClass: {
@@ -199,7 +199,7 @@ async function deleteEvent() {
                 if (response.success) {
 
                     Swal.fire({
-                        title: '삭제가 완료되었습니다!',
+                        title: '삭제되었습니다!',
                         icon: 'success',
                         draggable: false,
                         customClass: {
@@ -235,7 +235,7 @@ function addEvent() {
         success: function(response) {
             if(response.success) {
                 Swal.fire({
-                    title: '이벤트가 추가되었습니다!',
+                    title: '이벤트가 등록되었습니다!',
                     icon: 'success',
                     draggable: false,
                     customClass: {
@@ -245,7 +245,7 @@ function addEvent() {
                 searchEvents();
                 closeModal();
             } else {
-                alert('이벤트 추가 실패: ' + response.message);
+                alert('이벤트 등록 실패: ' + response.message);
             }
 
         },

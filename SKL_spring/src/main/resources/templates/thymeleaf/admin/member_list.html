@@ -63,7 +63,7 @@
             <div id="memberListContainer" class="table-responsive" >
                 <div class="table-actions">
                     <button type="button" class="btn-update" onclick="updateMemberStatus()">
-                        <i class="fas fa-sync-alt mr-1"></i>Update Status
+                        <i class="fas fa-sync-alt mr-1"></i>변경사항 적용
                     </button>
                 </div>
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" th:fragment="memberListFragment">
@@ -88,10 +88,10 @@
                             <td th:text="${member.memberNickname}">닉네임</td>
                             <td th:text="${member.memberEmail}">이메일</td>
                             <td>
-                                <select th:id="'memberStatus' + ${member.memberId}" th:value="${member.memberStatus}">
-                                    <option value="ACTIVE" th:selected="${member.memberStatus == 'ACTIVE'}">ACTIVE</option>
-                                    <option value="INACTIVE" th:selected="${member.memberStatus == 'INACTIVE'}">INACTIVE</option>
-                                    <option value="CLOSED" th:selected="${member.memberStatus == 'CLOSED'}">CLOSED</option>
+                                <select class="form-control" th:id="'memberStatus' + ${member.memberId}" th:value="${member.memberStatus}">
+                                    <option value="ACTIVE" th:selected="${member.memberStatus == 'ACTIVE'}">정상 계정</option>
+                                    <option value="INACTIVE" th:selected="${member.memberStatus == 'INACTIVE'}">휴먼 계정</option>
+                                    <option value="CLOSED" th:selected="${member.memberStatus == 'CLOSED'}">차단 계정</option>
                                 </select>
                             </td>
                             <td th:text="${member.memberClass}">회원등급</td>
