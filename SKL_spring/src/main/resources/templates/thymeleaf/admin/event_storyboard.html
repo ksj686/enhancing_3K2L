@@ -28,7 +28,7 @@
                             <th>이벤트 ID</th>
                             <th>이벤트명</th>
                             <th>이벤트 설명</th>
-                            <!-- <th>등록일</th> -->
+                            <th>등록일</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,7 +40,7 @@
                                       th:text="${event.eventName}">이벤트명</span>
                             </td>
                             <td th:text="${event.eventDescription}">이벤트 설명</td>
-                            <!-- <td th:text="${event.eventDate}">등록일</td> -->
+                            <td th:text="${event.eventCreatedAt}">등록일</td>
                         </tr>
                     </tbody>
                 </table>
@@ -78,12 +78,11 @@
                                       rows="3"></textarea>
                         </div>
                     </div>
-                    
-                    <!-- <div class="row mb-3">
+                    <div class="row mb-3">
                         <div class="col-md-6">
-                            <strong>작성일:</strong> <span id="modalEventDate"></span>
+                            <strong>등록일:</strong> <span id="modalEventCreatedAt"></span>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" onclick="updateEventDetail()">

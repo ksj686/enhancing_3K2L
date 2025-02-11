@@ -148,23 +148,21 @@ function updateEventDetail() {
 
 function showEventDetail(element) {
     // var row = $(element).closest('tr');  // span -> td -> tr
-    var row = $(element).parent().parent();  // span -> td -> tr
+    var row = $(element).parent().parent();
     
-    // 행에서 데이터 추출
     var eventId = row.find('td:first').text();
     var eventName = $(element).text();
-    var eventDescription = row.find('td:last').text();
+    var eventDescription = row.find('td:eq(2)').text();
+    var eventCreatedAt = row.find('td:last').text();
     
-    // 모달에 데이터 채우기
     $('#modalEventId').text(eventId);
     $('#modalEventName').val(eventName);
     $('#modalEventDescription').val(eventDescription);
+    $('#modalEventCreatedAt').text(eventCreatedAt);
     
-    // 원본 데이터 저장 (수정 여부 확인용)
     $("#modalEventName").data('original-name', eventName);
     $("#modalEventDescription").data('original-description', eventDescription);
     
-    // 모달 표시
     $('#eventDetailModal').modal('show');
     
     return false;
