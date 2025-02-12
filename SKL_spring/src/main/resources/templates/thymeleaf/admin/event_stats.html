@@ -8,10 +8,16 @@
     <style>
         .chart-container {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            /* grid-template-columns: repeat(2, 1fr); */
+            grid-template-areas: 
+            "chart1 chart2"
+            "chart3 chart3";
             gap: 20px;
             margin: 20px;
         }
+        .chart-wrapper:nth-child(1) { grid-area: chart1; }
+        .chart-wrapper:nth-child(2) { grid-area: chart2; }
+        .chart-wrapper:nth-child(3) { grid-area: chart3; }
         .chart-title {
             font-size: 1.2rem;
             margin-bottom: 15px;
@@ -47,6 +53,7 @@
             gap: 10px;
             /* margin-bottom: 20px; */
             align-items: center;
+            padding-top: 5px;
         }
         .date-range {
             display: flex;
@@ -136,7 +143,12 @@
                 </div>
                 <canvas id="pastEventChart"></canvas>
             </div>
+            <div class="chart-wrapper">
+                <canvas id="totalEventChart"></canvas>
+            </div>
+            
         </div>
+        
     </div>
 
     <!-- <div class="chart-section">
@@ -162,7 +174,7 @@
     <script type="text/javascript">
         let selectedEventId;
         // 차트 객체를 저장할 변수들
-        let todayEventChart, pastEventChart;
+        let todayEventChart, pastEventChart, totalEventChart;
 
         // 페이지 로드 시 모든 통계 로드
         $(document).ready(function() {
@@ -177,6 +189,10 @@
             // date input에 max 속성 설정
             $('#startDate').attr('max', maxDate);
             $('#endDate').attr('max', maxDate);
+
+            //date input에 min 속성 설정 - 임의로 2024년 1월 1일로 설정
+            $('#startDate').attr('min', formatDate(new Date('2024')));
+            $('#endDate').attr('min', formatDate(new Date('2024')));
             
             $('#endDate').val(maxDate);
             $('#startDate').val(formatDate(lastMonth));
@@ -187,6 +203,7 @@
             });
             loadPastEventStats(selectedEventId);
             loadTodayEventStats(selectedEventId);
+            loadTotalEventStats(selectedEventId);
 
             // $('.yesterday').addClass('active');
             
@@ -464,6 +481,84 @@
         function formatDate(date) {
             return date.toISOString().split('T')[0];
         }
+
+        function loadTotalEventStats(eventId) {
+            // $.get('/admin/event-stats/total', {
+            //     eventId: eventId
+            // }, function(response) {
+            //     console.log(response);
+            // });
+
+            const ctx = document.getElementById('totalEventChart').getContext('2d');
+            if (totalEventChart) totalEventChart.destroy();
+
+            totalEventChart = createBarChart(ctx);
+        }
+
+        function createBarChart(ctx) {
+            const labels = ['1월', '2월', '3월', '4월', '5월', '6월', '7월'];
+            const data = {
+                labels: labels,
+                datasets: [
+                    {
+                        label: '이벤트1',
+                        data: [65, 59, 80, 81, 56, 55, 40],
+                        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                        borderColor: 'rgb(75, 192, 192)',
+                        borderWidth: 2,
+                        borderRadius: 5,
+                        borderSkipped: false,
+                    },
+                    {
+                        label: '이벤트2',
+                        data: [28, 48, 40, 19, 86, 27, 90],
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgb(54, 162, 235)',
+                        borderWidth: 2,
+                        borderRadius: 5,
+                        borderSkipped: false,
+                    },
+                    {
+                        label: '이벤트3',
+                        data: [28, 48, 40, 19, 86, 27, 90],
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgb(54, 162, 235)',
+                        borderWidth: 2,
+                        borderRadius: 5,
+                        borderSkipped: false,
+                    },
+                    {
+                        label: '이벤트4',
+                        data: [28, 48, 40, 19, 86, 27, 90],
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgb(54, 162, 235)',
+                        borderWidth: 2,
+                        borderRadius: 5,
+                        borderSkipped: false,
+                    }
+                ]
+            };
+
+            const config = {
+                type: 'bar',
+                data: data,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: '월별 통계'
+                        }
+                    }
+                },
+            };
+
+            return new Chart(ctx, config);
+        }
+
     </script>
 </th:block>
 </html>
