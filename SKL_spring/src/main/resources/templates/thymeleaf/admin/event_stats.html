@@ -68,6 +68,33 @@
             text-align: center;
             font-weight: bold;
         }
+
+        .btn-toggle {
+            top: 20px;
+            right: 20px;
+        }
+        
+        .btn-toggle .active {
+            color: #ffffff;  /* 활성화된 텍스트는 순수 흰색 */
+            font-weight: bold;
+            text-shadow: 0 0 2px rgba(255, 255, 255, 0.8);  /* 텍스트 그림자 효과 강화 */
+            opacity: 1;      /* 완전 불투명 */
+        }
+        
+        .btn-toggle span {
+            cursor: pointer;
+            padding: 0 5px;
+            color: #b7c2e9;  /* 비활성화된 텍스트 색상 */
+            opacity: 0.5;    /* 더 투명하게 조정 */
+            transition: all 0.3s ease;  /* 부드러운 전환 효과 */
+        }
+
+        #toggle {
+            background-color: #b5bac7; /* 회색 */
+            border: 1px solid #4668c9;
+            border-radius: 4px;
+            padding: 5px 10px;
+        }
     </style>
 </th:block>
 
@@ -88,6 +115,7 @@
         <!-- <h3 class="section-title">당일 이벤트 통계</h3> -->
         <div class="chart-container">
             <div class="chart-wrapper">
+                <div class="btn-toggle"><button id="toggle" class="btn"><span class="yesterday">어제 </span>|<span class="today"> 오늘</span></button></div>
                 <canvas id="todayEventChart"></canvas>
             </div>
             <div class="chart-wrapper">
@@ -125,6 +153,12 @@
 
 <th:block layout:fragment="script">
     <!-- <script type="text/javascript" th:src="@{/js/admin/emotion_stats.js}"></script> -->
+     <!-- Chart.js Annotation 플러그인 -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+
+    <!-- Chart.js Datalabels 플러그인 -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script> -->
+
     <script type="text/javascript">
         let selectedEventId;
         // 차트 객체를 저장할 변수들
@@ -153,6 +187,21 @@
             });
             loadPastEventStats(selectedEventId);
             loadTodayEventStats(selectedEventId);
+
+            // $('.yesterday').addClass('active');
+            
+            // $('#toggle').click(function() {
+            //     $('.yesterday, .today').toggleClass('active');
+                
+            //     // 여기에 실제 데이터 로드 로직 추가
+            //     if ($('.today').hasClass('active')) {
+            //         // 오늘 데이터 로드
+            //         loadTodayEventStats(selectedEventId);
+            //     } else {
+            //         // 어제 데이터 로드
+            //         loadYesterdayEventStats(selectedEventId);
+            //     }
+            // });
         });
 
         // 이벤트 선택 시 차트 업데이트
@@ -185,199 +234,149 @@
             ]
         };
 
-        // 게이지 차트 생성 함수
-        function createGaugeChart(ctx, data, title) {
-            const value = data.achievementRate || 0;
-            const gaugeLabels = ['0%', '25%', '50%', '75%', '100%'];
-            
-            return new Chart(ctx, {
+        function createRadicalBarChart(ctx, chartData, title) { 
+            const COLORS = ['rgb(40, 158, 71)', 'rgb(239, 198, 0)', 'rgb(231, 24, 49)'];
+
+            function index(perc) {
+                return perc < 33 ? 2 : perc < 66 ? 1 : 0;
+            }
+
+            let value = ((chartData.values[0]/chartData.cntMember[0]) * 100).toFixed(2);
+
+            let color = COLORS[index(value)];
+
+            const data = {
+                datasets: [{
+                    // label: title,
+                    data: [value, 100 - value],
+                    backgroundColor: [
+                        color,
+                        'rgb(218, 227, 220)'
+                    ],
+                    hoverOffset: 4
+                }]
+            };
+
+            const config = {
                 type: 'doughnut',
-                data: {
-                    datasets: [{
-                        // 메인 게이지
-                        data: [value, 100 - value],
-                        backgroundColor: [
-                            createGradient(ctx, ['#ff0000', '#ffff00', '#00ff00']),  // 빨강-노랑-초록 그라데이션
-                            'rgba(200, 200, 200, 0.2)'
-                        ],
-                        borderWidth: 0,
-                        circumference: 180,
-                        rotation: 270
-                    }, {
-                        // 눈금 표시를 위한 더미 데이터
-                        data: Array(5).fill(100/5),  // 5개 구간으로 수정
-                        backgroundColor: 'transparent',
-                        borderWidth: 0,
-                        circumference: 180,
-                        rotation: 270
-                    }],
-                    labels: gaugeLabels
-                },
+                data: data,
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    aspectRatio: 2,
                     plugins: {
-                        datalabels: [{
-                            // 참여율 표시
-                            formatter: (value, ctx) => {
-                                if (ctx.datasetIndex === 0 && ctx.dataIndex === 0) {
-                                    return value.toFixed(1) + '%';
-                                }
-                                return '';
-                            },
-                            color: '#333',
-                            font: {
-                                size: 30,
-                                weight: 'bold'
-                            },
-                            anchor: 'center',
-                            align: 'center',
-                            offset: -20
-                        }, {
-                            // 눈금 레이블 표시
-                            formatter: (value, ctx) => {
-                                if (ctx.datasetIndex === 1) {
-                                    return gaugeLabels[ctx.dataIndex];
-                                }
-                                return '';
-                            },
-                            color: '#666',
-                            font: {
-                                size: 12
-                            },
-                            anchor: 'end',
-                            align: 'center',
-                            offset: 10
-                        }],
-                        legend: {
-                            display: false
+                        datalabels: {
+                            display: false  // 차트 위의 숫자 라벨 숨기기
                         },
-                        title: {
-                            display: true,
-                            text: title,
-                            font: {
-                                size: 18,
-                                weight: 'bold'
-                            },
-                            padding: {
-                                top: 10,
-                                bottom: 20
+                        annotation: {
+                            annotations: {
+                                doughnutLabel: {
+                                    type: 'doughnutLabel',
+                                    content: [
+                                        value + '%',      // 첫 번째 줄: 퍼센트
+                                        title       // 두 번째 줄: 제목
+                                    ],
+                                    font: [
+                                        {size: 30, weight: 'bold'},    // 퍼센트 폰트
+                                        {size: 16, weight: 'bold'}                     // 제목 폰트
+                                    ],
+                                    color: ['#333', '#06070a']  // 각 줄의 색상
+                                }
                             }
                         }
-                    },
-                    rotation: -90,
-                    cutout: '75%',
-                    layout: {
-                        padding: {
-                            top: 20,
-                            bottom: 20
-                        }
                     }
-                },
-                plugins: [{
-                    // 눈금선과 바늘 그리기
-                    afterDraw: (chart) => {
-                        const ctx = chart.ctx;
-                        const xCenter = chart.chartArea.left + (chart.chartArea.right - chart.chartArea.left) / 2;
-                        const yCenter = chart.chartArea.bottom;
-                        const radius = Math.min(chart.chartArea.right - chart.chartArea.left, 
-                                              chart.chartArea.bottom - chart.chartArea.top) / 2;
-                        const outerRadius = radius * 2;
+                }
+            };
 
-                        ctx.save();
-                        ctx.strokeStyle = '#666';
-                        ctx.lineWidth = 1;
+            return new Chart(ctx, config);
+        }
+        /*
+        function createGaugeChart(ctx
+                                    // , data
+                                    , title
+                                ) { 
+            const COLORS = ['rgb(40, 158, 71)', 'rgb(239, 198, 0)', 'rgb(231, 24, 49)'];
+            const MIN = 0;
+            const MAX = 100;
 
-                        // 기존 눈금선 그리기 코드
-                        for (let i = 0; i <= 20; i++) {
-                            const angle = (i * Math.PI) / 20;
-                            const isMainTick = i % 5 === 0;
-                            const length = isMainTick ? 15 : 7;
+            const value = 70;
 
-                            const startX = xCenter + outerRadius * Math.cos(angle);
-                            const startY = yCenter - outerRadius * Math.sin(angle);
-                            const endX = xCenter + (outerRadius - length) * Math.cos(angle);
-                            const endY = yCenter - (outerRadius - length) * Math.sin(angle);
-
-                            ctx.beginPath();
-                            ctx.moveTo(startX, startY);
-                            ctx.lineTo(endX, endY);
-                            ctx.lineWidth = isMainTick ? 2 : 1;
-                            ctx.stroke();
-                        }
-
-                        // 게이지 외곽선 그리기
-                        ctx.beginPath();
-                        ctx.arc(xCenter, yCenter, outerRadius, Math.PI, 0);
-                        ctx.strokeStyle = '#999';
-                        ctx.lineWidth = 2;
-                        ctx.stroke();
-
-                        // 바늘 그리기
-                        const value = chart.data.datasets[0].data[0];
-                        const needleAngle = ((value / 100) * Math.PI) + Math.PI; // 값에 따른 각도 계산
-                        const needleLength = radius * 1.8; // 바늘 길이
-                        const needleBaseWidth = 8; // 바늘 밑부분 너비
-                        
-                        // 바늘 그리기
-                        ctx.beginPath();
-                        ctx.save();
-                        ctx.translate(xCenter, yCenter);
-                        ctx.rotate(needleAngle);
-                        
-                        // 바늘 모양 정의
-                        ctx.beginPath();
-                        ctx.moveTo(0, -needleBaseWidth/2); // 바늘 밑부분 왼쪽
-                        ctx.lineTo(needleLength, 0);       // 바늘 끝
-                        ctx.lineTo(0, needleBaseWidth/2);  // 바늘 밑부분 오른쪽
-                        ctx.lineTo(0, -needleBaseWidth/2); // 다시 시작점으로
-                        
-                        // 바늘 스타일 설정
-                        ctx.fillStyle = '#000000'; // 검은색 바늘로 변경
-                        ctx.fill();
-                        ctx.strokeStyle = '#000000'; // 테두리도 검은색으로 변경
-                        ctx.stroke();
-                        
-                        // 바늘 중심점 원 그리기
-                        ctx.beginPath();
-                        ctx.arc(0, 0, needleBaseWidth/10*9, 0, Math.PI * 2);
-                        ctx.fillStyle = '#000000'; // 중심점도 검은색으로 변경
-                        ctx.fill();
-                        ctx.strokeStyle = '#FFFFFF';
-                        ctx.stroke();
-                        
-                        ctx.restore();
-                        ctx.restore();
-                    }
+            const data = {
+            datasets: [{
+                data: [value, 100 - value],
+                backgroundColor(ctx) {
+                if (ctx.type !== 'data') {
+                    return;
+                }
+                if (ctx.index === 1) {
+                    return 'rgb(191, 189, 189)';
+                }
+                return COLORS[index(ctx.raw)];
+                }
                 }]
-            });
-        }
+            };
 
-        // 그라데이션 생성 함수 수정
-        function createGradient(ctx, colors) {
-            // 45도 회전을 위한 시작점과 끝점 계산
-            const gradient = ctx.createLinearGradient(
-                ctx.canvas.width * 0.15,      // 시작 x
-                ctx.canvas.height * 0.85,     // 시작 y
-                ctx.canvas.width * 0.85,      // 끝 x
-                ctx.canvas.height * 0.15      // 끝 y
-            );
-            colors.forEach((color, index) => {
-                gradient.addColorStop(index / (colors.length - 1), color);
-            });
-            return gradient;
-        }
+            const annotation = {
+            type: 'doughnutLabel',
+            content: ({chart}) => [
+                chart.data.datasets[0].data[0].toFixed(2) + ' %',
+                title,
+            ],
+            drawTime: 'beforeDraw',
+            position: {
+                y: '-50%'
+            },
+            font: [{size: 50, weight: 'bold'}, {size: 20}],
+                color: ({chart}) => [COLORS[index(chart.data.datasets[0].data[0])], 'black']
+            };
+
+            const config = {
+                type: 'doughnut',
+                data,
+                options: {
+                    aspectRatio: 2,
+                    circumference: 180,
+                    rotation: -90,
+                    plugins: {
+                    annotation: {
+                        annotations: {
+                        annotation
+                        }
+                    },
+                    datalabels: {
+                        display: false
+                    }
+                    }
+                }
+            };
+
+
+
+            // <block:utils:2>
+            function index(perc) {
+                return perc < 33 ? 2 : perc < 66 ? 1 : 0;
+            }
+
+            return new Chart(ctx, config);
+        }*/
 
         function loadTodayEventStats(eventId) {
             // API 호출 (현재는 더미 데이터 사용)
-            const dummyData = {
-                achievementRate: 75
-            };
+            $.get('/admin/event-stats/today', {
+                eventId: eventId,
+            }, function(response) {
+                // 데이터 형식 변환
+                const chartData = {
+                    labels: response.map(item => item.SUCCESS_DATE),
+                    values: response.map(item => item.EVENT_COUNT),
+                    cntMember: response.map(item => item.CNT_MEMBER)
+                };
+                let title = $('#eventSelect').find(':selected').text() + ' 참여율';
             
-            const ctx = document.getElementById('todayEventChart').getContext('2d');
-            if (todayEventChart) todayEventChart.destroy();
-            todayEventChart = createGaugeChart(ctx, dummyData, '오늘의 이벤트 참여율');
+                const ctx = document.getElementById('todayEventChart').getContext('2d');
+                if (todayEventChart) todayEventChart.destroy();
+                todayEventChart = createRadicalBarChart(ctx
+                                                    , chartData
+                                                    , title
+                                                );
+            });
         }
 
         function loadPastEventStats(eventId) {
@@ -441,8 +440,11 @@
                         y: {
                             beginAtZero: true,
                             ticks: {
+                                stepSize: 1,  // 정수 단위로만 표시
                                 callback: function(value) {
-                                    return value + '명';
+                                    if (Math.floor(value) === value) {  // 정수인 경우만 표시
+                                        return value + '명';
+                                    }
                                 }
                             }
                         }

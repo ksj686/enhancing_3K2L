@@ -156,42 +156,77 @@
 
     <!-- 이벤트 통계 관련 -->
     <select id="getPastEventStats" resultType="map">
-        SELECT 
-            <choose>
-                <when test="periodUnit == 'year'">
-                    TO_CHAR(SUCCESS_DATE, 'YYYY') AS SUCCESS_DATE
-                </when>
-                <when test="periodUnit == 'month'">
-                    TO_CHAR(SUCCESS_DATE, 'YYYY-MM') AS SUCCESS_DATE
-                </when>
-                <otherwise>
-                    TO_CHAR(SUCCESS_DATE, 'YYYY-MM-DD') AS SUCCESS_DATE
-                </otherwise>
-            </choose>,
-            COUNT(EVENT_ID) AS EVENT_COUNT
-        FROM EVENT_JOIN
-        WHERE EVENT_ID = #{eventId}
-        AND TO_CHAR(SUCCESS_DATE, 'YYYY-MM-DD') BETWEEN #{startDate} AND #{endDate}
-        GROUP BY 
-            <choose>
-                <when test="periodUnit == 'year'">
-                    TO_CHAR(SUCCESS_DATE, 'YYYY')
-                </when>
-                <when test="periodUnit == 'month'">
-                    TO_CHAR(SUCCESS_DATE, 'YYYY-MM')
-                </when>
-                <otherwise>
-                    TO_CHAR(SUCCESS_DATE, 'YYYY-MM-DD')
-                </otherwise>
-            </choose>
-        ORDER BY SUCCESS_DATE
+        WITH DATE_SERIES (SUCCESS_DATE) AS (
+    SELECT 
+        <choose>
+            <when test="periodUnit == 'year'">
+                TO_CHAR(TO_DATE(#{startDate}, 'YYYY-MM-DD'), 'YYYY') AS SUCCESS_DATE
+            </when>
+            <when test="periodUnit == 'month'">
+                TO_CHAR(TO_DATE(#{startDate}, 'YYYY-MM-DD'), 'YYYY-MM') AS SUCCESS_DATE
+            </when>
+            <otherwise>
+                TO_CHAR(TO_DATE(#{startDate}, 'YYYY-MM-DD'), 'YYYY-MM-DD') AS SUCCESS_DATE
+            </otherwise>
+        </choose>
+    FROM DUAL
+    UNION ALL
+    SELECT
+        <choose>
+            <when test="periodUnit == 'year'">
+                TO_CHAR(TO_DATE(SUCCESS_DATE, 'YYYY') + INTERVAL '1' YEAR, 'YYYY')
+            </when>
+            <when test="periodUnit == 'month'">
+                TO_CHAR(TO_DATE(SUCCESS_DATE, 'YYYY-MM') + INTERVAL '1' MONTH, 'YYYY-MM')
+            </when>
+            <otherwise>
+                TO_CHAR(TO_DATE(SUCCESS_DATE, 'YYYY-MM-DD') + INTERVAL '1' DAY, 'YYYY-MM-DD')
+            </otherwise>
+        </choose>
+    FROM DATE_SERIES DS
+    WHERE 
+        SUCCESS_DATE &lt;
+        <choose>
+            <when test="periodUnit == 'year'">
+                TO_CHAR(TO_DATE(#{endDate}, 'YYYY-MM-DD'), 'YYYY')
+            </when>
+            <when test="periodUnit == 'month'">
+                TO_CHAR(TO_DATE(#{endDate}, 'YYYY-MM-DD'), 'YYYY-MM')
+            </when>
+            <otherwise>
+                TO_CHAR(TO_DATE(#{endDate}, 'YYYY-MM-DD'), 'YYYY-MM-DD')
+            </otherwise>
+        </choose>
+)
+SELECT 
+    DS.SUCCESS_DATE,
+    COALESCE(COUNT(EJ.EVENT_ID), 0) AS EVENT_COUNT
+FROM DATE_SERIES DS
+LEFT JOIN EVENT_JOIN EJ 
+    ON TO_CHAR(EJ.SUCCESS_DATE, 
+        <choose>
+            <when test="periodUnit == 'year'">
+                'YYYY'
+            </when>
+            <when test="periodUnit == 'month'">
+                'YYYY-MM'
+            </when>
+            <otherwise>
+                'YYYY-MM-DD'
+            </otherwise>
+        </choose>
+    ) = DS.SUCCESS_DATE
+    AND EJ.EVENT_ID = #{eventId}
+GROUP BY DS.SUCCESS_DATE
+ORDER BY DS.SUCCESS_DATE
+
     </select>
     
     <select id="getTodayEventStats" resultType="map">
-    
         SELECT 
             TO_CHAR(SUCCESS_DATE, 'YYYY-MM-DD') AS SUCCESS_DATE,
             COUNT(EVENT_ID) AS EVENT_COUNT
+            ,(SELECT COUNT(MEMBER_ID) FROM MEMBER) AS CNT_MEMBER
         FROM EVENT_JOIN
         WHERE EVENT_ID = #{eventId}
         AND TO_CHAR(SUCCESS_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
