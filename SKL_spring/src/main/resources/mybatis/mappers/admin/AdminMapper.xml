@@ -157,7 +157,7 @@
     <!-- 이벤트 통계 관련 -->
     <select id="getPastEventStats" resultType="map">
         WITH DATE_SERIES (SUCCESS_DATE) AS (
-    SELECT 
+    	SELECT 
         <choose>
             <when test="periodUnit == 'year'">
                 TO_CHAR(TO_DATE(#{startDate}, 'YYYY-MM-DD'), 'YYYY') AS SUCCESS_DATE
@@ -169,9 +169,9 @@
                 TO_CHAR(TO_DATE(#{startDate}, 'YYYY-MM-DD'), 'YYYY-MM-DD') AS SUCCESS_DATE
             </otherwise>
         </choose>
-    FROM DUAL
-    UNION ALL
-    SELECT
+	    FROM DUAL
+	    UNION ALL
+	    SELECT
         <choose>
             <when test="periodUnit == 'year'">
                 TO_CHAR(TO_DATE(SUCCESS_DATE, 'YYYY') + INTERVAL '1' YEAR, 'YYYY')
@@ -183,9 +183,9 @@
                 TO_CHAR(TO_DATE(SUCCESS_DATE, 'YYYY-MM-DD') + INTERVAL '1' DAY, 'YYYY-MM-DD')
             </otherwise>
         </choose>
-    FROM DATE_SERIES DS
-    WHERE 
-        SUCCESS_DATE &lt;
+	    FROM DATE_SERIES DS
+	    WHERE 
+	        SUCCESS_DATE &lt;
         <choose>
             <when test="periodUnit == 'year'">
                 TO_CHAR(TO_DATE(#{endDate}, 'YYYY-MM-DD'), 'YYYY')
@@ -197,13 +197,13 @@
                 TO_CHAR(TO_DATE(#{endDate}, 'YYYY-MM-DD'), 'YYYY-MM-DD')
             </otherwise>
         </choose>
-)
-SELECT 
-    DS.SUCCESS_DATE,
-    COALESCE(COUNT(EJ.EVENT_ID), 0) AS EVENT_COUNT
-FROM DATE_SERIES DS
-LEFT JOIN EVENT_JOIN EJ 
-    ON TO_CHAR(EJ.SUCCESS_DATE, 
+		)
+		SELECT 
+		    DS.SUCCESS_DATE,
+		    COALESCE(COUNT(EJ.EVENT_ID), 0) AS EVENT_COUNT
+		FROM DATE_SERIES DS
+		LEFT JOIN EVENT_JOIN EJ 
+		    ON TO_CHAR(EJ.SUCCESS_DATE, 
         <choose>
             <when test="periodUnit == 'year'">
                 'YYYY'
@@ -215,10 +215,10 @@ LEFT JOIN EVENT_JOIN EJ
                 'YYYY-MM-DD'
             </otherwise>
         </choose>
-    ) = DS.SUCCESS_DATE
-    AND EJ.EVENT_ID = #{eventId}
-GROUP BY DS.SUCCESS_DATE
-ORDER BY DS.SUCCESS_DATE
+	    ) = DS.SUCCESS_DATE
+	    AND EJ.EVENT_ID = #{eventId}
+	GROUP BY DS.SUCCESS_DATE
+	ORDER BY DS.SUCCESS_DATE
 
     </select>
     
