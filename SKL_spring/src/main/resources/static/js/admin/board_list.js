@@ -43,6 +43,17 @@ function initializeDataTable() {
                 previous: "이전"
             }
         },
+        columnDefs: [{
+            targets: 'board-offensive-column',
+            type: 'string',
+            render: function(data, type, row) {
+                if (type === 'sort') {
+                    // 정렬 시 선택된 옵션의 텍스트 반환
+                    return $(data).find('option:selected').val();
+                }
+                return data;
+            }
+        }],
         destroy: true
     });
 
