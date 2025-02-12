@@ -73,7 +73,7 @@
                             <th>이름</th>
                             <th>닉네임</th>
                             <th>이메일</th>
-                            <th>상태</th>
+                            <th class="member-status-column">계정 상태</th>
                             <th>회원등급</th>
                             <th>전화번호</th>
                             <th>생년월일</th>
@@ -92,6 +92,7 @@
                                     <option value="ACTIVE" th:selected="${member.memberStatus == 'ACTIVE'}">정상 계정</option>
                                     <option value="INACTIVE" th:selected="${member.memberStatus == 'INACTIVE'}">휴면 계정</option>
                                     <option value="CLOSED" th:selected="${member.memberStatus == 'CLOSED'}">차단 계정</option>
+                                    <option value="REMOVED" th:selected="${member.memberStatus == 'REMOVED'}">탈퇴 계정</option>
                                 </select>
                             </td>
                             <td th:text="${member.memberClass}">회원등급</td>

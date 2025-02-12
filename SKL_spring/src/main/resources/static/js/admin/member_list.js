@@ -23,7 +23,18 @@ function initializeDataTable() {
                 "next": "다음",
                 "previous": "이전"
             }
-        }
+        },
+        columnDefs: [{
+            targets: 'member-status-column',  // member_status 컬럼의 class나 인덱스
+            type: 'string',
+            render: function(data, type, row) {
+                if (type === 'sort') {
+                    // 정렬 시 선택된 옵션의 텍스트 반환
+                    return $(data).find('option:selected').val();
+                }
+                return data;
+            }
+        }]
     });
 }
 
