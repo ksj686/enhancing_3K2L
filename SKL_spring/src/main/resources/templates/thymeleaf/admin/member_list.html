@@ -90,7 +90,7 @@
                             <td>
                                 <select class="form-control" th:id="'memberStatus' + ${member.memberId}" th:value="${member.memberStatus}">
                                     <option value="ACTIVE" th:selected="${member.memberStatus == 'ACTIVE'}">정상 계정</option>
-                                    <option value="INACTIVE" th:selected="${member.memberStatus == 'INACTIVE'}">휴먼 계정</option>
+                                    <option value="INACTIVE" th:selected="${member.memberStatus == 'INACTIVE'}">휴면 계정</option>
                                     <option value="CLOSED" th:selected="${member.memberStatus == 'CLOSED'}">차단 계정</option>
                                 </select>
                             </td>
