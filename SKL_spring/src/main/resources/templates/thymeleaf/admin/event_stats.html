@@ -241,9 +241,17 @@
                 return perc < 33 ? 2 : perc < 66 ? 1 : 0;
             }
 
-            let value = ((chartData.values[0]/chartData.cntMember[0]) * 100).toFixed(2);
+            let value, color;
 
-            let color = COLORS[index(value)];
+            if(chartData.values[0] !== undefined){
+                value = ((chartData.values[0]/chartData.cntMember[0]) * 100).toFixed(2);
+                color = COLORS[index(value)];
+            }else{
+                value = 0;
+                color = 'rgb(218, 227, 220)';
+            }
+
+            
 
             const data = {
                 datasets: [{
