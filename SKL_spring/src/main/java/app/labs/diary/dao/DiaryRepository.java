@@ -12,9 +12,12 @@ public interface DiaryRepository {
 	int getDiaryCount();
 	int getDiaryCount(@Param("memberId") String memberId);
 	List <Diary> getDiaryList(@Param("memberId") String memberId);
+	int createDiaryId();
 	Diary getDiaryInfo(int diaryId);
 	void insertDiary(Diary diary);
 	void updateDiary(Diary diary);
 	int deleteDiary(@Param("diaryId") int diaryId);
+	
+	List<Diary> getDiaryListByMonth(String memberId, int year, int month);
 	
 }

@@ -17,4 +17,6 @@ public class Diary {
 	private String diaryEmotion;
 	private String memberId;
 	
+	private int month;
+	private int year;
 }
