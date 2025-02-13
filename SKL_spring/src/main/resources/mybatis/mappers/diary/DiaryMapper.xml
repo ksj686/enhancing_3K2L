@@ -11,9 +11,15 @@
 	<select id="getDiaryList" parameterType="string" resultType="app.labs.diary.model.Diary">
     	SELECT *
     	FROM DIARY
+    	ORDER BY DIARY_DATE DESC
    	</select>
 
-	
+	<!-- 일기 id 생성 -->
+	<select id="createDiaryId" resultType="int">
+		SELECT DIARY_SEQ.NEXTVAL
+		FROM DUAL
+	</select>
+		
 	<select id="getDiaryInfo" parameterType="int" resultType="app.labs.diary.model.Diary">
 		SELECT *
     	FROM DIARY
@@ -32,7 +38,7 @@
     	INSERT INTO DIARY (
         	DIARY_ID, DIARY_TITLE, DIARY_CONTENT, DIARY_DATE, MEMBER_ID)
     	VALUES (
-        	diary_seq.NEXTVAL, #{diaryTitle}, #{diaryContent}, #{diaryDate}, #{memberId})
+        	#{diaryId}, #{diaryTitle}, #{diaryContent}, #{diaryDate}, #{memberId})
 	</insert>
 
 	

@@ -49,7 +49,7 @@
             ATTACH_NAME = #{attachName},
             ATTACH_SIZE = #{attachSize},
             ATTACH_URL = #{attachUrl}
-        WHERE ATTACH_ID = #{attachId}
+        WHERE DIARY_ID = #{diaryId}
     </update>
 
     <!-- 첨부 파일 삭제 attach_ID 기준) -->

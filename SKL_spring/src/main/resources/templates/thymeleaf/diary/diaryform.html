@@ -1,13 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-      <!-- layout:decorate="~{/thymeleaf/choco/default_layout}" -->
 
 <head>
+	<!-- TUI 에디터 CSS CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.min.css"/>
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+	<style>
+        * {
+            text-align: center;
+        }
+        #editor {
+            width: 50%;
+            margin: 0 auto;
+        }
+    </style>
+
     <title>JOURNIVERSE | DIARY FORM</title>
 </head>
 
-<th:block>
+<body>
     <div class="content-wrapper">
         <div class="main-content-wrapper">
         	<!-- 일기 리스트 링크 -->
@@ -16,7 +28,7 @@
         	</div>
         	
             <form id="diaryform" th:action="${update != null ? '/diary/update' : '/diary/insert'}" 
-            	  method="post" enctype="multipart/form-data" th:object="${diary}">
+            	  method="post" th:object="${diary}" enctype="multipart/form-data">
                 
                 <input type="hidden" th:field="*{diaryId}">
                 
@@ -27,28 +39,35 @@
                 </div>
 				
 				<!-- 날짜 입력 -->
-                <div class="form-date">
-                    <label for="diaryDate">날짜 선택</label>
-                    <input type="date" id="diaryDate" th:field="*{diaryDate}" 
-       						th:value="${diary.diaryDate != null ? #strings.substring(diary.diaryDate, 0, 10) : #dates.format(#dates.createNow(), 'yyyy-MM-dd')}" 
-       						required>
+				<div class="form-date">
+    				<label for="diaryDate">날짜 선택</label>
+    				<input type="date" th:field="*{diaryDate}" required>
                 </div>
 				
+				<!-- 첨부 파일 -->
+				<div class="file-upload">
+					<label for="file">파일 첨부</label>
+					<div class="file-input-wrapper">
+						<input type="text" id="fileName" placeholder="파일을 선택해주세요." readonly>
+						<label for="file" class="file-button">파일 선택</label>
+						<input type="file" th:object="${attach}" id="file" name="file" onchange="updateFileName()">		
+					</div>
+				</div>
+				
+				<!-- 기존 첨부 파일이 있을 때 -->
+				<!-- <div class="file-upload" th:if="${attach != null}">
+    				<label>기존 첨부 파일</label>
+    				<div class="file-preview">
+        				파일명만 표시  				
+            			<a th:text="${attach.attachName}"></a>     			
+        				파일 삭제 버튼
+        				<button type="button" class="delete-file-btn" onclick="deleteFile()">파일 삭제</button>
+    				</div>
+				</div> -->
+				
                 <!-- 내용 입력 -->
-                <div class="form-content">
-                    <label for="content">일기 내용 작성</label>
-                    <textarea th:field="*{diaryContent}" rows="10" placeholder="내용을 입력하세요."></textarea>
-                </div>
-
-                <!-- 파일 첨부 -->
-                <div class="file-upload">
-                    <label for="file">파일 첨부</label>
-                    <div class="file-input-wrapper">
-                        <input type="text" id="fileName" placeholder="파일을 선택해주세요." readonly>
-                        <label for="file" class="file-button">파일 선택</label>
-                        <input type="file" id="file" name="file" th:object="${attach}" onchange="updateFileName()">
-                    </div>
-                </div>
+             	<input type="hidden" id="content" th:field="*{diaryContent}" /> <!-- 에디터 내용이 저장될 숨겨진 필드 -->
+        		<div id="editor" th:data-content="${diary.diaryContent}"></div> <!-- 에디터 영역 -->
 
                 <!-- 작성 완료 버튼 -->
                 <button class="submit-btn" type="submit" th:text="${update != null ? '수정' : '저장'}"></button>
@@ -56,26 +75,63 @@
             </form>
         </div>
     </div>
-</th:block>
 
-
-	<script>
-      	function updateFileName() {
-            const fileInput = document.getElementById('file');
-            const fileNameInput = document.getElementById('fileName');
-
-            if (fileInput.files.length > 0) {
-                fileNameInput.value = fileInput.files[0].name;
-              }
+	
+	<!-- TUI 에디터 JS CDN / 글씨 굵기, 크기 등 변경하는 포맷 추가하기.(board new 에서 참고) -->
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+    <script>
+        function updateFileName(){
+        	const fileInput = document.getElementById('file');
+        	const fileNameInput = document.getElementById('fileName');
+        	
+        	if (fileInput.files.length > 0) {
+        		fileNameInput.value = fileInput.files[0].name;
+        	}
         }
+    
+    	const editor = new toastui.Editor({
+            el: document.querySelector('#editor'),
+            height: '500px',
+            initialEditType: 'wysiwyg',
+            initialValue: document.querySelector('#editor').getAttribute('data-content') || '',
+            previewStyle: 'vertical'
+        });
         
         function resetForm() {
             if (confirm("작성 중인 내용이 사라집니다. 정말 취소하시겠습니까?")) {
             	document.getElementById("diaryform").reset();
-            	document.getElementById("fileName").value="";
+            	editor.setHTML(''); // 에디터 내용 초기화
+            	document.getElementById('fileName').value = ''; // 🌟 파일명 필드 초기화
+                document.getElementById('file').value = ''; // 🌟 파일 선택 초기화
             }               
         }
-	</script>
+   		
+ 		const onSubmit = (event) => {
+ 			event.preventDefault();
+ 			
+ 			let content = editor.getHTML(); // 에디터의 HTML 내용 가져오기
+            document.getElementById('content').value = content; // 숨겨진 필드에 내용 저장
+            // 폼 제출
+            document.getElementById('diaryform').submit(); // 폼 제출
+        };
+     	// 제출 버튼에 이벤트 리스너 추가
+        document.querySelector('.submit-btn').addEventListener('click', onSubmit);
+     	
+        /* function deleteFile() {
+            if (confirm("기존 파일을 삭제하시겠습니까?")) {
+                document.querySelector('.file-preview').remove(); // 미리보기 제거
+                document.getElementById("file").value = ""; // 파일 선택 초기화
+                document.getElementById("fileName").value = ""; // 파일명 초기화
+                
+                // 서버에서 파일 삭제 처리 (숨겨진 필드 추가)
+                let hiddenDeleteField = document.createElement("input");
+                hiddenDeleteField.type = "hidden";
+                hiddenDeleteField.name = "deleteFile";
+                hiddenDeleteField.value = "true";
+                document.getElementById("diaryform").appendChild(hiddenDeleteField);
+            }
+        } */
 
-
+    </script>
+</body>
 </html>

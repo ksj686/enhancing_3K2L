@@ -35,6 +35,11 @@ public class BasicDiaryService implements DiaryService {
 	}
 
 	@Override
+	public int createDiaryId() {
+		return diaryRepository.createDiaryId();
+	}
+	
+	@Override
 	public Diary getDiaryInfo(int diaryId) {
 		return diaryRepository.getDiaryInfo(diaryId);
 	}
