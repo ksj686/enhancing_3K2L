@@ -32,6 +32,17 @@ const emotionColors = {
 
 // 도넛 차트 생성 함수
 function createDonutChart(ctx, data, title) {
+    // 데이터가 없을 경우 처리
+    if (!data || data.length === 0) {
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // 차트 초기화
+        ctx.font = '20px Arial';
+        ctx.fillStyle = '#000'; // 텍스트 색상
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('오늘의 데이터가 없습니다', ctx.canvas.width / 2, ctx.canvas.height / 2); // 중앙에 메시지 표시
+        return; // 함수 종료
+    }
+
     const total = data.reduce((sum, item) => sum + (item.COUNT_EMOTION || item.COUNT_CATEGORY), 0);
     
     return new Chart(ctx, {
