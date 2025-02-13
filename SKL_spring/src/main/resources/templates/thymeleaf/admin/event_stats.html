@@ -76,32 +76,32 @@
             font-weight: bold;
         }
 
-        .btn-toggle {
+        /* .btn-toggle {
             top: 20px;
             right: 20px;
         }
         
         .btn-toggle .active {
-            color: #ffffff;  /* 활성화된 텍스트는 순수 흰색 */
+            color: #ffffff;
             font-weight: bold;
-            text-shadow: 0 0 2px rgba(255, 255, 255, 0.8);  /* 텍스트 그림자 효과 강화 */
-            opacity: 1;      /* 완전 불투명 */
+            text-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
+            opacity: 1;
         }
         
         .btn-toggle span {
             cursor: pointer;
             padding: 0 5px;
-            color: #b7c2e9;  /* 비활성화된 텍스트 색상 */
-            opacity: 0.5;    /* 더 투명하게 조정 */
-            transition: all 0.3s ease;  /* 부드러운 전환 효과 */
+            color: #b7c2e9;
+            opacity: 0.5;
+            transition: all 0.3s ease;
         }
 
         #toggle {
-            background-color: #b5bac7; /* 회색 */
+            background-color: #b5bac7;
             border: 1px solid #4668c9;
             border-radius: 4px;
             padding: 5px 10px;
-        }
+        } */
     </style>
 </th:block>
 
@@ -122,7 +122,7 @@
         <!-- <h3 class="section-title">당일 이벤트 통계</h3> -->
         <div class="chart-container">
             <div class="chart-wrapper">
-                <div class="btn-toggle"><button id="toggle" class="btn"><span class="yesterday">어제 </span>|<span class="today"> 오늘</span></button></div>
+                <!-- <div class="btn-toggle"><button id="toggle" class="btn"><span class="yesterday">어제 </span>|<span class="today"> 오늘</span></button></div> -->
                 <canvas id="todayEventChart"></canvas>
             </div>
             <div class="chart-wrapper">
@@ -253,6 +253,17 @@
         };
 
         function createRadicalBarChart(ctx, chartData, title) { 
+            // chartData가 없을 경우 처리
+            if (!chartData || chartData.values.length === 0) {
+                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // 차트 초기화
+                ctx.font = '20px Arial';
+                ctx.fillStyle = '#000'; // 텍스트 색상
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('오늘의 데이터가 없습니다', ctx.canvas.width / 2, ctx.canvas.height / 2); // 중앙에 메시지 표시
+                return; // 함수 종료
+            }
+
             const COLORS = ['rgb(40, 158, 71)', 'rgb(239, 198, 0)', 'rgb(231, 24, 49)'];
 
             function index(perc) {
