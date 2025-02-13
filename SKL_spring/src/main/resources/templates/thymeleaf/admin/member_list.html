@@ -6,30 +6,9 @@
 <th:block layout:fragment="css">
     <link rel="stylesheet" th:href="@{/css/admin/member_list.css}" />
     <style>
-        /* DataTables 컨트롤과 테이블 액션 고정 */
-        /* .dataTables_wrapper > .row:first-child,
-        .table-actions {
-            position: absolute;
-            
-            width: calc(100% - 40px);
+        .hidden {
+            display: none;
         }
-
-        .card-body {
-            position: relative;  
-            padding-top: 125px;
-        }
-
-        .table-actions {
-            top: 0;
-            padding: 20px 16px;
-            right: 20px;
-            text-align: right;
-        }
-        
-        .dataTables_wrapper > .row:first-child{
-            top: 76px;
-            padding: 5px 6px;
-        } */
     </style>
 </th:block>
 
@@ -88,11 +67,15 @@
                             <td th:text="${member.memberNickname}">닉네임</td>
                             <td th:text="${member.memberEmail}">이메일</td>
                             <td>
-                                <select class="form-control" th:id="'memberStatus' + ${member.memberId}" th:value="${member.memberStatus}">
+                                <select class="form-control" th:id="'memberStatus' + ${member.memberId}" 
+                                        th:value="${member.memberStatus}"
+                                        th:disabled="${member.memberStatus == 'REMOVED'}">
                                     <option value="ACTIVE" th:selected="${member.memberStatus == 'ACTIVE'}">정상 계정</option>
                                     <option value="INACTIVE" th:selected="${member.memberStatus == 'INACTIVE'}">휴면 계정</option>
                                     <option value="CLOSED" th:selected="${member.memberStatus == 'CLOSED'}">차단 계정</option>
-                                    <option value="REMOVED" th:selected="${member.memberStatus == 'REMOVED'}">탈퇴 계정</option>
+                                    <option value="REMOVED" th:selected="${member.memberStatus == 'REMOVED'}" 
+                                            th:class="${member.memberStatus != 'REMOVED' ? 'hidden' : ''}"
+                                            style="display: none;">탈퇴 계정</option>
                                 </select>
                             </td>
                             <td th:text="${member.memberClass}">회원등급</td>
