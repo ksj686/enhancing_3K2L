@@ -1,6 +1,8 @@
 package app.labs.diary.controller;
 
 import java.io.File;
+import java.security.Principal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -34,12 +36,15 @@ public class DiaryController {
 	@Autowired
 	AttachService attachService;
 		
-	@GetMapping("/diary/test")
-	public String home(Model model,HttpServletRequest request) {
-		model.addAttribute("serverTime", "서버시간");
+	@GetMapping(value = {"/diary", "/diary/"})
+	public String diaryHome(@RequestParam(value = "year", required = false) Integer year,
+            				@RequestParam(value = "month", required = false) Integer month,
+            				Model model, HttpSession session) {
 		
+
 		return "thymeleaf/diary/home";
 	}
+
 	
 	@GetMapping("/diary/list")
 	public String getAllDiary(Model model, HttpSession session) {

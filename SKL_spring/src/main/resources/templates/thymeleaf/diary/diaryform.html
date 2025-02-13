@@ -54,18 +54,7 @@
 					</div>
 				</div>
 				
-				<!-- 기존 첨부 파일이 있을 때 -->
-				<!-- <div class="file-upload" th:if="${attach != null}">
-    				<label>기존 첨부 파일</label>
-    				<div class="file-preview">
-        				파일명만 표시  				
-            			<a th:text="${attach.attachName}"></a>     			
-        				파일 삭제 버튼
-        				<button type="button" class="delete-file-btn" onclick="deleteFile()">파일 삭제</button>
-    				</div>
-				</div> -->
-				
-                <!-- 내용 입력 -->
+				<!-- 내용 입력 -->
              	<input type="hidden" id="content" th:field="*{diaryContent}" /> <!-- 에디터 내용이 저장될 숨겨진 필드 -->
         		<div id="editor" th:data-content="${diary.diaryContent}"></div> <!-- 에디터 영역 -->
 
@@ -117,20 +106,6 @@
      	// 제출 버튼에 이벤트 리스너 추가
         document.querySelector('.submit-btn').addEventListener('click', onSubmit);
      	
-        /* function deleteFile() {
-            if (confirm("기존 파일을 삭제하시겠습니까?")) {
-                document.querySelector('.file-preview').remove(); // 미리보기 제거
-                document.getElementById("file").value = ""; // 파일 선택 초기화
-                document.getElementById("fileName").value = ""; // 파일명 초기화
-                
-                // 서버에서 파일 삭제 처리 (숨겨진 필드 추가)
-                let hiddenDeleteField = document.createElement("input");
-                hiddenDeleteField.type = "hidden";
-                hiddenDeleteField.name = "deleteFile";
-                hiddenDeleteField.value = "true";
-                document.getElementById("diaryform").appendChild(hiddenDeleteField);
-            }
-        } */
 
     </script>
 </body>

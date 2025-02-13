@@ -2,7 +2,6 @@ package app.labs.diary.service;
 
 import java.util.List;
 
-import app.labs.attach.model.Attach;
 import app.labs.diary.model.Diary;
 
 public interface DiaryService {
@@ -14,4 +13,8 @@ public interface DiaryService {
 	void insertDiary(Diary diary);
 	void updateDiary(Diary diary);
 	int deleteDiary(int diaryId);
+	
+	
+	
+
 }
