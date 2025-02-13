@@ -9,4 +9,5 @@ import java.util.Map;
 public interface EmojiRepository {
     List<Map<String, Object>> getEmojiCount(int BoardId);
     void insertEmoji(Map<String, Object> emoji);
+    int getEmoji(int boardId, String emojiCategory);
 }

@@ -13,7 +13,6 @@ public interface BoardRepository {
 	Board getBoardInfo(int boardId);
 	int createBoardId();
 	void createBoard(Board board);
-	void updateBoard(Board board);
 	void reportBoard(int boardId);
 	int getBoardReport(int boardId);
 	void offensiveBoard(int boardId);

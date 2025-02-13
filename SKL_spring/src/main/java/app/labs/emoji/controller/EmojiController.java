@@ -1,6 +1,7 @@
 package app.labs.emoji.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,6 +40,22 @@ public class EmojiController {
             log.error("emoji 추가 실패: ", e);
             response.put("status", "ERROR");
             response.put("message", "emoji 추가에 실패했습니다.");
+        }
+        return response;
+    }
+
+    @GetMapping("/emoji/{boardId}/{emojiCategory}")
+    @ResponseBody
+    public Map<String, Object> getEmoji(@PathVariable int boardId, @PathVariable String emojiCategory) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            int emojiCnt = emojiService.getEmoji(boardId, emojiCategory);
+            log.info("emojiCnt = {}", emojiCnt);
+            response.put("status", "OK");
+            response.put("emojiCnt", emojiCnt);
+        } catch (Exception e) {
+            response.put("status", "ERROR");
+            response.put("message", e.getMessage());
         }
         return response;
     }

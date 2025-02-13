@@ -9,7 +9,8 @@
                BOARD_CONTENT, BOARD_OFFENSIVE, MEMBER_ID
         FROM BOARD
         WHERE BOARD_CATEGORY = #{boardCategory}
-          AND BOARD_DATE >= SYSDATE - 1
+          AND BOARD_DATE >= SYSDATE - 7
+          <!-- AND BOARD_DATE >= SYSDATE - 1 -->
     </select>
 
     <!-- 글 조회 -->

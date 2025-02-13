@@ -10,6 +10,12 @@
         GROUP BY EMOJI_CATEGORY
     </select>
 
+    <select id="getEmoji" parameterType="hashmap" resultType="int">
+        SELECT COUNT(1) AS COUNT
+        FROM EMOJI
+        WHERE EMOJI_CATEGORY = #{emojiCategory} AND BOARD_ID = #{boardId}
+    </select>
+
     <!-- 공감수 추가 -->
     <insert id="insertEmoji" parameterType="hashmap">
         INSERT INTO EMOJI (
