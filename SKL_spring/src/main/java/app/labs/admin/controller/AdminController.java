@@ -102,26 +102,29 @@ public class AdminController {
         return "thymeleaf/admin/member_stats";
     }
 
-    // 회원 통계 - 연도별
-    @GetMapping("/admin/member-stats/year")
-    @ResponseBody
-    public List<Map<String, Object>> memberStatByYear() {
-        return (List<Map<String, Object>>) adminService.getMemberStatsByYear().get("yearlyStats");
-    }
+    // // 회원 통계 - 연도별
+    // @GetMapping("/admin/member-stats/year")
+    // @ResponseBody
+    // public List<Map<String, Object>> memberStatByYear() {
+    // return (List<Map<String, Object>>)
+    // adminService.getMemberStatsByYear().get("yearlyStats");
+    // }
 
-    // 회원 통계 - 월별
-    @GetMapping("/admin/member-stats/month")
-    @ResponseBody
-    public List<Map<String, Object>> memberStatByMonth() {
-        return (List<Map<String, Object>>) adminService.getMemberStatsByMonth().get("monthlyStats");
-    }
+    // // 회원 통계 - 월별
+    // @GetMapping("/admin/member-stats/month")
+    // @ResponseBody
+    // public List<Map<String, Object>> memberStatByMonth() {
+    // return (List<Map<String, Object>>)
+    // adminService.getMemberStatsByMonth().get("monthlyStats");
+    // }
 
-    // 회원 통계 - 일별
-    @GetMapping("/admin/member-stats/day")
-    @ResponseBody
-    public List<Map<String, Object>> memberStatByDay() {
-        return (List<Map<String, Object>>) adminService.getMemberStatsByDay().get("dailyStats");
-    }
+    // // 회원 통계 - 일별
+    // @GetMapping("/admin/member-stats/day")
+    // @ResponseBody
+    // public List<Map<String, Object>> memberStatByDay() {
+    // return (List<Map<String, Object>>)
+    // adminService.getMemberStatsByDay().get("dailyStats");
+    // }
 
     // 회원 상태 일괄 수정
     @PostMapping("/admin/updateMemberStatusList")
@@ -310,5 +313,17 @@ public class AdminController {
     @ResponseBody
     public List<Map<String, Object>> getTotalEventStats() {
         return adminService.getTotalEventStats();
+    }
+
+    @GetMapping("/admin/member-stats/sign-up")
+    @ResponseBody
+    public List<Map<String, Object>> getSignUpStats(@RequestParam("startDate") String startDate,
+            @RequestParam("endDate") String endDate,
+            @RequestParam("periodUnit") String periodUnit) {
+        log.info(startDate + " " + endDate + " " + periodUnit);
+
+        List<Map<String, Object>> signUpStats = adminService.getSignUpStats(startDate, endDate, periodUnit);
+
+        return signUpStats;
     }
 }

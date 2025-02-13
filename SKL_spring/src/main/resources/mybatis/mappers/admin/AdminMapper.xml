@@ -264,4 +264,69 @@
             Q.YEAR
     </select>
 
+    <select id="getSignUpStats" resultType="map">
+        WITH DATE_SERIES (SIGNUP_DATE) AS (
+    	SELECT 
+        <choose>
+            <when test="periodUnit == 'year'">
+                TO_CHAR(TO_DATE(#{startDate}, 'YYYY-MM-DD'), 'YYYY') AS SIGNUP_DATE
+            </when>
+            <when test="periodUnit == 'month'">
+                TO_CHAR(TO_DATE(#{startDate}, 'YYYY-MM-DD'), 'YYYY-MM') AS SIGNUP_DATE
+            </when>
+            <otherwise>
+                TO_CHAR(TO_DATE(#{startDate}, 'YYYY-MM-DD'), 'YYYY-MM-DD') AS SIGNUP_DATE
+            </otherwise>
+        </choose>
+	    FROM DUAL
+	    UNION ALL
+	    SELECT
+        <choose>
+            <when test="periodUnit == 'year'">
+                TO_CHAR(TO_DATE(SIGNUP_DATE, 'YYYY') + INTERVAL '1' YEAR, 'YYYY')
+            </when>
+            <when test="periodUnit == 'month'">
+                TO_CHAR(TO_DATE(SIGNUP_DATE, 'YYYY-MM') + INTERVAL '1' MONTH, 'YYYY-MM')
+            </when>
+            <otherwise>
+                TO_CHAR(TO_DATE(SIGNUP_DATE, 'YYYY-MM-DD') + INTERVAL '1' DAY, 'YYYY-MM-DD')
+            </otherwise>
+        </choose>
+	    FROM DATE_SERIES DS
+	    WHERE 
+	        SIGNUP_DATE &lt;
+        <choose>
+            <when test="periodUnit == 'year'">
+                TO_CHAR(TO_DATE(#{endDate}, 'YYYY-MM-DD'), 'YYYY')
+            </when>
+            <when test="periodUnit == 'month'">
+                TO_CHAR(TO_DATE(#{endDate}, 'YYYY-MM-DD'), 'YYYY-MM')
+            </when>
+            <otherwise>
+                TO_CHAR(TO_DATE(#{endDate}, 'YYYY-MM-DD'), 'YYYY-MM-DD')
+            </otherwise>
+        </choose>
+		)
+		SELECT 
+		    DS.SIGNUP_DATE,
+		    COALESCE(COUNT(M.MEMBER_ID), 0) AS MEMBER_COUNT
+		FROM DATE_SERIES DS
+		LEFT JOIN MEMBER M 
+		    ON TO_CHAR(M.MEMBER_SIGNUP_DATE, 
+        <choose>
+            <when test="periodUnit == 'year'">
+                'YYYY'
+            </when>
+            <when test="periodUnit == 'month'">
+                'YYYY-MM'
+            </when>
+            <otherwise>
+                'YYYY-MM-DD'
+            </otherwise>
+        </choose>
+	    ) = DS.SIGNUP_DATE
+        GROUP BY DS.SIGNUP_DATE
+        ORDER BY DS.SIGNUP_DATE
+    </select>
+
 </mapper>

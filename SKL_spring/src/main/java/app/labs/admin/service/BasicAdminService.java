@@ -175,4 +175,9 @@ public class BasicAdminService implements AdminService {
     public List<Map<String, Object>> getTotalEventStats() {
         return adminRepository.getTotalEventStats();
     }
+
+    @Override
+    public List<Map<String, Object>> getSignUpStats(String startDate, String endDate, String periodUnit) {
+        return adminRepository.getSignUpStats(startDate, endDate, periodUnit);
+    }
 }

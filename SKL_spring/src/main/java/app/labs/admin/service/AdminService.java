@@ -58,4 +58,6 @@ public interface AdminService {
     List<Map<String, Object>> getTodayEventStats(int eventId);
 
     List<Map<String, Object>> getTotalEventStats();
+
+    List<Map<String, Object>> getSignUpStats(String startDate, String endDate, String periodUnit);
 }

@@ -5,6 +5,48 @@
 
 <th:block layout:fragment="css">
     <link rel="stylesheet" th:href="@{/css/admin/member_stats.css}" />
+    <style>
+        .chart-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-areas: 
+            "chart1 chart2"
+            "chart3 chart3";
+            gap: 20px;
+            margin: 20px;
+        }
+        /* .chart-wrapper:nth-child(1) { grid-area: chart1; }
+        .chart-wrapper:nth-child(2) { grid-area: chart2; }
+        .chart-wrapper:nth-child(3) { grid-area: chart3; } */
+
+        .chart-wrapper {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            height: 400px;  /* 고정 높이 설정 */
+            width: 100%;    /* 너비 100% */
+            display: flex;  /* Flexbox 사용 */
+            justify-content: center;  /* 수평 중앙 정렬 */
+            align-items: center;      /* 수직 중앙 정렬 */
+            flex-direction: column;
+        }
+
+        .period-control {
+            display: flex;
+            gap: 10px;
+            /* margin-bottom: 20px; */
+            align-items: center;
+            padding-top: 10px;
+        }
+        .date-range {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .unit-select {
+            width: 100px;
+        }
+    </style>
 </th:block>
 
 <div layout:fragment="content">
@@ -13,26 +55,246 @@
     <!-- 일별 회원수 그래프 -->
     <div class="chart-container">
         <div class="chart-wrapper">
-            <h3 class="chart-title">일별 회원수</h3>
-            <canvas id="dailyChart"></canvas>
+            <div class="period-control">
+                <div class="date-range">
+                    <input type="date" id="startDateS" class="form-control">
+                    <span>~</span>
+                    <input type="date" id="endDateS" class="form-control">
+                </div>
+                <div class="unit-select">
+                    <select id="periodUnitS" class="form-control">
+                        <option value="day" selected>일별</option>
+                        <option value="month">월별</option>
+                        <option value="year">연별</option>
+                    </select>
+                </div>
+                <button id="updateChartS" class="btn btn-primary">조회</button>
+            </div>
+            <canvas id="signUpChart"></canvas>
         </div>
         <div class="chart-wrapper">
-            <h3 class="chart-title">월별 회원수</h3>
-            <canvas id="monthlyChart"></canvas>
+            <div class="period-control">
+                <div class="date-range">
+                    <input type="date" id="startDateD" class="form-control">
+                    <span>~</span>
+                    <input type="date" id="endDateD" class="form-control">
+                </div>
+                <div class="unit-select">
+                    <select id="periodUnitD" class="form-control">
+                        <option value="day" selected>일별</option>
+                        <option value="month">월별</option>
+                        <option value="year">연별</option>
+                    </select>
+                </div>
+                <button id="updateChartD" class="btn btn-primary">조회</button>
+            </div>
+            <canvas id="dropOutChart"></canvas>
         </div>
-        <div class="chart-wrapper">
+        <!-- <div class="chart-wrapper">
             <h3 class="chart-title">연도별 회원수</h3>
             <canvas id="yearlyChart"></canvas>
-        </div>
+        </div> -->
     </div>
 
     <!-- 통계 데이터를 담을 영역 -->
-    <div id="yearlyStatsFragment" th:fragment="yearlyStatsFragment"></div>
+    <!-- <div id="yearlyStatsFragment" th:fragment="yearlyStatsFragment"></div>
     <div id="monthlyStatsFragment" th:fragment="monthlyStatsFragment"></div>
-    <div id="dailyStatsFragment" th:fragment="dailyStatsFragment"></div>
+    <div id="dailyStatsFragment" th:fragment="dailyStatsFragment"></div> -->
 </div>
 
 <th:block layout:fragment="script">
-    <script type="text/javascript" th:src="@{/js/admin/member_stats.js}"></script>
+    <!-- <script type="text/javascript" th:src="@{/js/admin/member_stats.js}"></script> -->
+    <script type="text/javascript">
+        // 페이지 로드 시 모든 통계 로드
+        $(document).ready(function() {
+            let selectedEventId = 1;
+
+            // 초기 날짜 설정 (기본값: 최근 1개월)
+            const today = new Date();
+            const maxDate = formatDate(today);
+            const lastMonth = new Date(today);
+            lastMonth.setMonth(lastMonth.getMonth() - 1);
+
+            // date input에 max 속성 설정
+            $('#startDateS, #startDateD').attr('max', maxDate);
+            $('#endDateS, #endDateD').attr('max', maxDate);
+
+            //date input에 min 속성 설정 - 임의로 2024년 1월 1일로 설정
+            $('#startDateS, #startDateD').attr('min', formatDate(new Date('2024')));
+            $('#endDateS, #endDateD').attr('min', formatDate(new Date('2024')));
+            
+            $('#endDateS, #endDateD').val(maxDate);
+            $('#startDateS, #startDateD').val(formatDate(lastMonth));
+
+            loadSignUpStats();
+            loadDropOutStats(selectedEventId);
+        });
+
+        // 차트 객체를 저장할 변수들
+        let signUpChart, dropOutChart;
+
+        function loadSignUpStats() {
+            const startDate = $('#startDateS').val();
+            const endDate = $('#endDateS').val();
+            const periodUnit = $('#periodUnitS').val();
+
+            $.get('/admin/member-stats/sign-up', {
+                startDate: startDate,
+                endDate: endDate,
+                periodUnit: periodUnit
+            }, function(response) {
+                // 데이터 형식 변환
+                const chartData = {
+                    labels: response.map(item => item.SIGNUP_DATE),
+                    values: response.map(item => item.MEMBER_COUNT)
+                };
+                updateSignUpChart(chartData);
+            });
+        }
+
+        function loadDropOutStats(eventId) {
+            const startDate = $('#startDateD').val();
+            const endDate = $('#endDateD').val();
+            const periodUnit = $('#periodUnitD').val();
+
+            $.get('/admin/event-stats/past', {
+                eventId: eventId,
+                startDate: startDate,
+                endDate: endDate,
+                periodUnit: periodUnit
+            }, function(response) {
+                // 데이터 형식 변환
+                const chartData = {
+                    labels: response.map(item => item.SUCCESS_DATE),
+                    values: response.map(item => item.EVENT_COUNT)
+                };
+                updateDropOutChart(chartData);
+            });
+        }
+
+        function updateSignUpChart(data) {
+            const ctx = document.getElementById('signUpChart').getContext('2d');
+            
+            if (signUpChart) {
+                signUpChart.destroy();
+            }
+
+            signUpChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: '가입 인원',
+                        data: data.values,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: '회원 가입률',
+                            position: 'bottom',
+                            font: {
+                                size: 15,  // 폰트 크기
+                                weight: 'bold',  // 폰트 두께
+                                family: 'Arial'  // 폰트 패밀리
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `가입 인원: ${context.parsed.y}명`;
+                                }
+                            }
+                        },
+                        datalabels: {
+                            display: false  // 데이터 라벨 표시 제거
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1,  // 정수 단위로만 표시
+                                callback: function(value) {
+                                    if (Math.floor(value) === value) {  // 정수인 경우만 표시
+                                        return value + '명';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateDropOutChart(data) {
+            const ctx = document.getElementById('dropOutChart').getContext('2d');
+            
+            if (dropOutChart) {
+                dropOutChart.destroy();
+            }
+
+            dropOutChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: '탈퇴 인원',
+                        data: data.values,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: '회원 탈퇴율',
+                            position: 'bottom',
+                            font: {
+                                size: 15,  // 폰트 크기
+                                weight: 'bold',  // 폰트 두께
+                                family: 'Arial'  // 폰트 패밀리
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `탈퇴 인원: ${context.parsed.y}명`;
+                                }
+                            }
+                        },
+                        datalabels: {
+                            display: false  // 데이터 라벨 표시 제거
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1,  // 정수 단위로만 표시
+                                callback: function(value) {
+                                    if (Math.floor(value) === value) {  // 정수인 경우만 표시
+                                        return value + '명';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function formatDate(date) {
+            return date.toISOString().split('T')[0];
+        }
+    </script>
 </th:block>
 </html>
