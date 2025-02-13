@@ -63,4 +63,6 @@ public interface AdminRepository {
             @Param("endDate") String endDate, @Param("periodUnit") String periodUnit);
 
     List<Map<String, Object>> getTodayEventStats(@Param("eventId") int eventId);
+
+    List<Map<String, Object>> getTotalEventStats();
 }

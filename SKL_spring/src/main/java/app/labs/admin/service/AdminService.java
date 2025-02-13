@@ -56,4 +56,6 @@ public interface AdminService {
     List<Map<String, Object>> getPastEventStats(int eventId, String startDate, String endDate, String periodUnit);
 
     List<Map<String, Object>> getTodayEventStats(int eventId);
+
+    List<Map<String, Object>> getTotalEventStats();
 }

@@ -203,7 +203,8 @@
             });
             loadPastEventStats(selectedEventId);
             loadTodayEventStats(selectedEventId);
-            loadTotalEventStats(selectedEventId);
+            // loadTotalEventStats(selectedEventId);
+            loadTotalEventStats();
 
             // $('.yesterday').addClass('active');
             
@@ -482,61 +483,75 @@
             return date.toISOString().split('T')[0];
         }
 
-        function loadTotalEventStats(eventId) {
-            // $.get('/admin/event-stats/total', {
-            //     eventId: eventId
-            // }, function(response) {
-            //     console.log(response);
-            // });
-
-            const ctx = document.getElementById('totalEventChart').getContext('2d');
-            if (totalEventChart) totalEventChart.destroy();
-
-            totalEventChart = createBarChart(ctx);
+        function loadTotalEventStats() {
+            $.get('/admin/event-stats/total', {
+            }, function(response) {
+                const ctx = document.getElementById('totalEventChart').getContext('2d');
+                if (totalEventChart) totalEventChart.destroy();
+                
+                // 분기 데이터 추출 및 중복 제거
+                const quarters = [...new Set(response.map(item => item.YEAR))].sort();
+                
+                // 이벤트별로 데이터 그룹화
+                const eventGroups = {};
+                
+                // 각 이벤트별로 초기 데이터 구조 생성
+                response.forEach(item => {
+                    if (!eventGroups[item.EVENT_NAME]) {
+                        eventGroups[item.EVENT_NAME] = {
+                            label: item.EVENT_NAME,
+                            data: new Array(quarters.length).fill(0),  // 모든 분기를 0으로 초기화
+                            // backgroundColor: getRandomColor(0.5),
+                            // borderColor: getRandomColor(1),
+                            borderWidth: 2,
+                            borderRadius: 5,
+                            borderSkipped: false
+                        };
+                    }
+                    
+                    // 해당 분기의 데이터 입력
+                    const quarterIndex = quarters.indexOf(item.YEAR);
+                    if (quarterIndex !== -1) {
+                        eventGroups[item.EVENT_NAME].data[quarterIndex] = item.EVENT_COUNT;
+                    }
+                });
+                
+                updateTotalEventChart(ctx, quarters, Object.values(eventGroups));
+            });
         }
 
-        function createBarChart(ctx) {
-            const labels = ['1월', '2월', '3월', '4월', '5월', '6월', '7월'];
+        function updateTotalEventChart(ctx, labels, datasGroup) {
+            /*
+            // 현재 날짜 가져오기
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            const currentMonth = now.getMonth() + 1; // 0-based index
+            const currentQuarter = Math.ceil(currentMonth / 3);
+
+            // 라벨 생성 함수
+            function generateQuarterLabels() {
+                const labels = [];
+                const startYear = 2024;
+                
+                for (let year = startYear; year <= currentYear; year++) {
+                    // 현재 연도인 경우 현재 분기 이전까지만 처리
+                    const endQuarter = (year === currentYear) ? currentQuarter - 1 : 4;
+                    
+                    for (let quarter = 1; quarter <= endQuarter; quarter++) {
+                        labels.push(`${year}년 ${quarter}분기`);
+                    }
+                }
+                return labels;
+            }
+
+            const labels = generateQuarterLabels();*/
+
+            
+
+
             const data = {
                 labels: labels,
-                datasets: [
-                    {
-                        label: '이벤트1',
-                        data: [65, 59, 80, 81, 56, 55, 40],
-                        backgroundColor: 'rgba(75, 192, 192, 0.5)',
-                        borderColor: 'rgb(75, 192, 192)',
-                        borderWidth: 2,
-                        borderRadius: 5,
-                        borderSkipped: false,
-                    },
-                    {
-                        label: '이벤트2',
-                        data: [28, 48, 40, 19, 86, 27, 90],
-                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                        borderColor: 'rgb(54, 162, 235)',
-                        borderWidth: 2,
-                        borderRadius: 5,
-                        borderSkipped: false,
-                    },
-                    {
-                        label: '이벤트3',
-                        data: [28, 48, 40, 19, 86, 27, 90],
-                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                        borderColor: 'rgb(54, 162, 235)',
-                        borderWidth: 2,
-                        borderRadius: 5,
-                        borderSkipped: false,
-                    },
-                    {
-                        label: '이벤트4',
-                        data: [28, 48, 40, 19, 86, 27, 90],
-                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
-                        borderColor: 'rgb(54, 162, 235)',
-                        borderWidth: 2,
-                        borderRadius: 5,
-                        borderSkipped: false,
-                    }
-                ]
+                datasets: datasGroup
             };
 
             const config = {
@@ -550,7 +565,7 @@
                         },
                         title: {
                             display: true,
-                            text: '월별 통계'
+                            text: '이벤트 분기별 통계'
                         }
                     }
                 },

@@ -170,4 +170,9 @@ public class BasicAdminService implements AdminService {
     public List<Map<String, Object>> getTodayEventStats(int eventId) {
         return adminRepository.getTodayEventStats(eventId);
     }
+
+    @Override
+    public List<Map<String, Object>> getTotalEventStats() {
+        return adminRepository.getTotalEventStats();
+    }
 }

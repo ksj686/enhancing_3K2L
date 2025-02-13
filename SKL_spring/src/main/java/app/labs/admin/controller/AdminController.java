@@ -305,4 +305,10 @@ public class AdminController {
     public List<Map<String, Object>> getTodayEventStats(@RequestParam("eventId") int eventId) {
         return adminService.getTodayEventStats(eventId);
     }
+
+    @GetMapping("/admin/event-stats/total")
+    @ResponseBody
+    public List<Map<String, Object>> getTotalEventStats() {
+        return adminService.getTotalEventStats();
+    }
 }
