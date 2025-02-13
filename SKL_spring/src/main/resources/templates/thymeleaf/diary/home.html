@@ -16,12 +16,12 @@
 
     <div class="container">
         <div class="main-content">
-            <h1>I decide my own feelings.<br>Today, it's going to be <span class="highlight">happiness</span>.</h1>
-            <p class="quote">“내 기분은 내가 정해. 오늘은 행복으로 할래” - 이상한 나라의 앨리스</p>
+            <h1>I decide my own feelings.<br>Today, it's going to be <span class="highlight">happiness.</span></h1>
+            <p class="quote">“내 기분은 내가 정해. 오늘은 행복으로 할래.” - 이상한 나라의 앨리스</p>
 
             <div class="button-group">
                 <a href="/diary/insert" class="btn write-journal">Write Journal</a>
-                <a href="/diary/list" class="btn read-journal">Read Journal</a>
+                <a href="#" id="readJournalBtn" class="btn read-journal">Read Journal</a>
             </div>
         </div>
 
@@ -43,7 +43,23 @@
                 console.error("🚨 TUI Calendar 라이브러리가 로드되지 않음!");
                 return;
             }
+			
+         // ✅ 오늘 날짜를 가져와서 "YYYY-MM-DD" 형식으로 변환하는 함수
+            function getTodayDate() {
+                let today = new Date();
+                let year = today.getFullYear();
+                let month = String(today.getMonth() + 1).padStart(2, '0'); // 2자리로 변환
+                let day = String(today.getDate()).padStart(2, '0'); // 2자리로 변환
+                return `${year}-${month}-${day}`;
+            }
 
+            // ✅ Read Journal 버튼 클릭 시, 오늘 날짜를 포함한 URL로 이동
+            document.getElementById("readJournalBtn").addEventListener("click", function(event) {
+                event.preventDefault(); // 기본 동작 방지
+                let todayDate = getTodayDate(); // 오늘 날짜 가져오기
+                window.location.href = `/diary/${todayDate}`; // URL 이동
+            });
+            
             // ✅ 년도와 월 선택을 위한 select 박스 설정
             const yearSelect = document.getElementById("yearSelect");
             const monthSelect = document.getElementById("monthSelect");

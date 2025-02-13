@@ -60,5 +60,10 @@ public class BasicDiaryService implements DiaryService {
 		return diaryRepository.deleteDiary(diaryId);
 	}
 	
+	@Override
+	public List<Diary> getDiaryListByMonth(String memberId, int year, int month) {
+	    return diaryRepository.getDiaryListByMonth(memberId, year, month);
+	}
+
 	
 }

@@ -18,5 +18,6 @@ public interface DiaryRepository {
 	void updateDiary(Diary diary);
 	int deleteDiary(@Param("diaryId") int diaryId);
 	
+	List<Diary> getDiaryListByMonth(String memberId, int year, int month);
 	
 }

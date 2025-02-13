@@ -2,6 +2,8 @@ package app.labs.diary.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import app.labs.diary.model.Diary;
 
 public interface DiaryService {
@@ -14,7 +16,7 @@ public interface DiaryService {
 	void updateDiary(Diary diary);
 	int deleteDiary(int diaryId);
 	
-	
+	List<Diary> getDiaryListByMonth(String memberId, int year, int month);
 	
 
 }

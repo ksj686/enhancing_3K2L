@@ -5,6 +5,8 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +64,8 @@ public class DiaryController {
 		return "thymeleaf/diary/list";
 	}
 	
-	@GetMapping("/diary/{diaryId}")
+	// 정수만 허용
+	@GetMapping("/diary/{diaryId:\\d+}")
 	public String getDiaryInfo(@PathVariable("diaryId") int diaryId, Model model) {
 		Diary diary = diaryService.getDiaryInfo(diaryId);
 		Attach attach = attachService.getAttachFile(diaryId);
@@ -76,6 +79,30 @@ public class DiaryController {
 		
 		return "thymeleaf/diary/list";
 	}
+	
+	// 날짜 별 일기 리스트
+	@GetMapping("/diary/{year}/{month}")
+	public String getDiaryListByMonth(
+	        @PathVariable("year") int year, 
+	        @PathVariable("month") int month, 
+	        Model model, HttpSession session) {
+	    
+	    String memberId = (String) session.getAttribute("memberid");
+
+	    if (memberId == null) {
+	        return "redirect:/login";
+	    }
+
+	    List<Diary> diaryList = diaryService.getDiaryListByMonth(memberId, year, month);
+
+	    model.addAttribute("year", year);
+	    model.addAttribute("month", month);
+	    model.addAttribute("diaryList", diaryList);
+	    
+	    return "thymeleaf/diary/datelist";
+	}
+
+
 
 	
 	@GetMapping("/diary/insert")

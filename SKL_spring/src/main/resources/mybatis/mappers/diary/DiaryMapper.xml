@@ -8,11 +8,23 @@
 		WHERE MEMBER_ID = #{memberId}
 	</select>
 	
+	<!-- 모든 일기 리스트 -->
 	<select id="getDiaryList" parameterType="string" resultType="app.labs.diary.model.Diary">
     	SELECT *
     	FROM DIARY
+    	WHERE MEMBER_ID = #{memberId}
     	ORDER BY DIARY_DATE DESC
    	</select>
+
+	<!-- 날짜별 일기 리스트 -->
+	<select id="getDiaryListByMonth" resultType="app.labs.diary.model.Diary">
+    	SELECT * FROM DIARY
+    	WHERE MEMBER_ID = #{memberId}
+      	AND EXTRACT(YEAR FROM DIARY_DATE) = #{year}
+      	AND EXTRACT(MONTH FROM DIARY_DATE) = #{month}
+    	ORDER BY DIARY_DATE DESC
+	</select>
+
 
 	<!-- 일기 id 생성 -->
 	<select id="createDiaryId" resultType="int">
