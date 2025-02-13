@@ -7,9 +7,9 @@
     <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin/emotion-stats">
             <div class="sidebar-brand-icon">
-                <!-- <i class="fas fa-laugh-wink"></i> -->
+                <i class="fas fa-chalkboard"></i>
                 <!-- <i class="fas fa-tachometer-alt"></i> -->
             </div>
             <div class="sidebar-brand-text mx-3">관리자 게시판 <!--<sup>2</sup>--></div>
@@ -20,7 +20,7 @@
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="/admin/emotion-stats">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span></a>
         </li>
@@ -83,21 +83,7 @@
                 <span>사용자 관리</span></a>
         </li> -->
 
-        <!-- Nav Item - Charts -->
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages3"
-                aria-expanded="true" aria-controls="collapsePages3">
-                <i class="fas fa-fw fa-book-open"></i>
-                <span>이벤트 현황</span></a>
-            </a>
-            <div id="collapsePages3" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <!-- <h6 class="collapse-header">Login Screens:</h6> -->
-                    <a class="collapse-item" href="/admin/event-storyboard"><i class="fas fa-fw fa-tasks"></i> 이벤트 관리</a>
-                    <a class="collapse-item" href="/admin/event-stats"><i class="fas fa-fw fa-bullseye"></i> 이벤트 참여율</a>
-                </div>
-            </div>
-        </li>
+        
 
         <!-- Nav Item -->
         <li class="nav-item">
@@ -132,8 +118,23 @@
                 <span>게시글 관리</span></a>
         </li>
 
-        <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages3"
+                aria-expanded="true" aria-controls="collapsePages3">
+                <i class="fas fa-fw fa-book-open"></i>
+                <span>이벤트 현황</span></a>
+            </a>
+            <div id="collapsePages3" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <!-- <h6 class="collapse-header">Login Screens:</h6> -->
+                    <a class="collapse-item" href="/admin/event-storyboard"><i class="fas fa-fw fa-tasks"></i> 이벤트 관리</a>
+                    <a class="collapse-item" href="/admin/event-stats"><i class="fas fa-fw fa-bullseye"></i> 이벤트 참여율</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Nav Item - Pages Collapse Menu -->
+        <!-- <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                 aria-expanded="true" aria-controls="collapsePages">
                 <i class="fas fa-fw fa-folder"></i>
@@ -151,7 +152,7 @@
                     <a class="collapse-item" href="blank.html">Blank Page</a>
                 </div>
             </div>
-        </li>
+        </li> -->
 
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
@@ -162,11 +163,11 @@
         </div>
 
         <!-- Sidebar Message -->
-        <div class="sidebar-card d-none d-lg-flex">
-            <!-- <img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="..."> -->
+        <!-- <div class="sidebar-card d-none d-lg-flex">
+            <img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="...">
             <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>
             <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
-        </div>
+        </div> -->
 
     </ul>
 </div>
@@ -394,7 +395,7 @@
     </div>
 </div> -->
 
-<div th:fragment="footer">
+<div class="div-footer" th:fragment="footer">
     <footer class="sticky-footer bg-white">
         <div class="container my-auto">
             <div class="copyright text-center my-auto">

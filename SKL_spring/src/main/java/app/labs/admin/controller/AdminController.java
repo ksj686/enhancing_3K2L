@@ -34,7 +34,7 @@ public class AdminController {
     // 관리자 메인 페이지
     @GetMapping("/admin")
     public String adminPage() {
-        return "thymeleaf/admin/member_list";
+        return "thymeleaf/admin/emotion-stats";
     }
 
     // 관리자 로그인
@@ -52,7 +52,7 @@ public class AdminController {
             if (admin.get("ADMIN_PWD").equals(pwd)) {
                 session.setMaxInactiveInterval(600); // 10분
                 session.setAttribute("adminId", id);
-                return "redirect:/admin/member-list";
+                return "redirect:/admin/emotion-stats";
             } else {
                 session.invalidate();
                 redirectAttrs.addFlashAttribute("message", "아이디 또는 패스워드가 잘못되었습니다.");

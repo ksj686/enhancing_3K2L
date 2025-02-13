@@ -17,7 +17,18 @@
 
     <!-- Custom styles for this template-->
     <link th:href="@{/css/admin/sb-admin-2.min.css}" rel="stylesheet">
-    
+    <style type="text/css">
+        .div-footer{
+            padding-top: 60px;
+        }
+        .sticky-footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -1px 3px rgba(0,0,0,.1);  /* 상단에 약간의 그림자 효과 */
+            z-index: 0;
+        }
+    </style>
     <th:block layout:fragment="css"></th:block>
 </head>
 
