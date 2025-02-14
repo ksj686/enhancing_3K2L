@@ -124,7 +124,7 @@
         <h1 class="h4 mb-3 font-weight-normal"></h1>
 
         <!-- 메시지 박스 (초록색 배경) -->
-       <div th:if="${message}" class="alert alert-success" id="errorMessage">
+       <div th:if="${message}" class="alert alert-danger" id="errorMessage">
     <span th:text="${message}"></span>
        </div>
 
@@ -147,13 +147,6 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            var successMessage = document.getElementById("successMessage");
-            if (successMessage) {
-                setTimeout(function() {
-                    successMessage.style.display = "none";
-                }, 3000); // 3초 후에 메시지 숨기기
-            }
-
             var errorMessage = document.getElementById("errorMessage");
             if (errorMessage) {
                 setTimeout(function() {

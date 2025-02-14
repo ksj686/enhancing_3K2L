@@ -22,7 +22,7 @@
 
     <!-- 특정 회원 ID로 회원 정보 조회 쿼리 -->
     <select id="findByUserId" parameterType="string" resultType="app.labs.register.model.Member">
-        SELECT MEMBER_ID, MEMBER_PWD, MEMBER_NAME, MEMBER_EMAIL, MEMBER_PHONE
+        SELECT MEMBER_ID, MEMBER_PWD, MEMBER_NAME, MEMBER_EMAIL, MEMBER_PHONE, MEMBER_STATUS
         FROM MEMBER
         WHERE MEMBER_ID = #{userId}
     </select>
@@ -44,5 +44,23 @@
     <!-- 아이디 중복 체크 쿼리 -->
     <select id="existsByUserId" resultType="int" parameterType="String">
         SELECT COUNT(*) FROM MEMBER WHERE MEMBER_ID = #{memberId}
+    </select>
+
+    <!-- 마지막 로그인 시간 업데이트 쿼리 -->
+    <update id="updateLastLogin" parameterType="String">
+        UPDATE MEMBER SET MEMBER_LAST_LOGIN = SYSDATE WHERE MEMBER_ID = #{memberId}
+    </update>
+
+    <!-- 참석 이벤트 추가 쿼리 -->
+    <insert id="addAttendJoin" parameterType="String">
+        INSERT INTO EVENT_JOIN (MEMBER_ID, EVENT_ID) VALUES (#{memberId}, 1)
+    </insert>
+
+    <!-- 참석 이벤트 조회 쿼리 -->
+    <select id="checkAttendJoin" resultType="map">
+        SELECT * FROM EVENT_JOIN 
+        WHERE MEMBER_ID = #{memberId} 
+        AND 
+        TRUNC(SUCCESS_DATE) = TRUNC(SYSDATE)
     </select>
 </mapper>
