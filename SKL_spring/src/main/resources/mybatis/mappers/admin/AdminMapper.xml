@@ -19,6 +19,7 @@
                 AND MEMBER_NAME LIKE '%' || #{memberName} || '%'
             </if>
         </where>
+        ORDER BY MEMBER_STATUS
     </select>
 
     <!-- 회원 상태 수정 -->
@@ -329,4 +330,69 @@
         ORDER BY DS.SIGNUP_DATE
     </select>
 
+    <select id="getDropOutStats" resultType="map">
+        WITH DATE_SERIES (LAST_LOGIN) AS (
+    	SELECT 
+        <choose>
+            <when test="periodUnit == 'year'">
+                TO_CHAR(TO_DATE(#{startDate}, 'YYYY-MM-DD'), 'YYYY') AS LAST_LOGIN
+            </when>
+            <when test="periodUnit == 'month'">
+                TO_CHAR(TO_DATE(#{startDate}, 'YYYY-MM-DD'), 'YYYY-MM') AS LAST_LOGIN
+            </when>
+            <otherwise>
+                TO_CHAR(TO_DATE(#{startDate}, 'YYYY-MM-DD'), 'YYYY-MM-DD') AS LAST_LOGIN
+            </otherwise>
+        </choose>
+	    FROM DUAL
+	    UNION ALL
+	    SELECT
+        <choose>
+            <when test="periodUnit == 'year'">
+                TO_CHAR(TO_DATE(LAST_LOGIN, 'YYYY') + INTERVAL '1' YEAR, 'YYYY')
+            </when>
+            <when test="periodUnit == 'month'">
+                TO_CHAR(TO_DATE(LAST_LOGIN, 'YYYY-MM') + INTERVAL '1' MONTH, 'YYYY-MM')
+            </when>
+            <otherwise>
+                TO_CHAR(TO_DATE(LAST_LOGIN, 'YYYY-MM-DD') + INTERVAL '1' DAY, 'YYYY-MM-DD')
+            </otherwise>
+        </choose>
+	    FROM DATE_SERIES DS
+	    WHERE 
+	        LAST_LOGIN &lt;
+        <choose>
+            <when test="periodUnit == 'year'">
+                TO_CHAR(TO_DATE(#{endDate}, 'YYYY-MM-DD'), 'YYYY')
+            </when>
+            <when test="periodUnit == 'month'">
+                TO_CHAR(TO_DATE(#{endDate}, 'YYYY-MM-DD'), 'YYYY-MM')
+            </when>
+            <otherwise>
+                TO_CHAR(TO_DATE(#{endDate}, 'YYYY-MM-DD'), 'YYYY-MM-DD')
+            </otherwise>
+        </choose>
+		)
+		SELECT 
+		    DS.LAST_LOGIN,
+		    COALESCE(COUNT(M.MEMBER_ID), 0) AS MEMBER_COUNT
+		FROM DATE_SERIES DS
+		LEFT JOIN MEMBER M 
+		    ON TO_CHAR(M.MEMBER_LAST_LOGIN, 
+        <choose>
+            <when test="periodUnit == 'year'">
+                'YYYY'
+            </when>
+            <when test="periodUnit == 'month'">
+                'YYYY-MM'
+            </when>
+            <otherwise>
+                'YYYY-MM-DD'
+            </otherwise>
+        </choose>
+	    ) = DS.LAST_LOGIN
+        AND M.MEMBER_STATUS = 'REMOVED'
+        GROUP BY DS.LAST_LOGIN
+        ORDER BY DS.LAST_LOGIN
+    </select>
 </mapper>

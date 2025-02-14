@@ -320,10 +320,20 @@ public class AdminController {
     public List<Map<String, Object>> getSignUpStats(@RequestParam("startDate") String startDate,
             @RequestParam("endDate") String endDate,
             @RequestParam("periodUnit") String periodUnit) {
-        log.info(startDate + " " + endDate + " " + periodUnit);
 
         List<Map<String, Object>> signUpStats = adminService.getSignUpStats(startDate, endDate, periodUnit);
 
         return signUpStats;
+    }
+
+    @GetMapping("/admin/member-stats/drop-out")
+    @ResponseBody
+    public List<Map<String, Object>> getDropOutStats(@RequestParam("startDate") String startDate,
+            @RequestParam("endDate") String endDate,
+            @RequestParam("periodUnit") String periodUnit) {
+
+        List<Map<String, Object>> dropOutStats = adminService.getDropOutStats(startDate, endDate, periodUnit);
+
+        return dropOutStats;
     }
 }

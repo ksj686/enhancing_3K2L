@@ -180,4 +180,9 @@ public class BasicAdminService implements AdminService {
     public List<Map<String, Object>> getSignUpStats(String startDate, String endDate, String periodUnit) {
         return adminRepository.getSignUpStats(startDate, endDate, periodUnit);
     }
+
+    @Override
+    public List<Map<String, Object>> getDropOutStats(String startDate, String endDate, String periodUnit) {
+        return adminRepository.getDropOutStats(startDate, endDate, periodUnit);
+    }
 }

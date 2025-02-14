@@ -68,4 +68,8 @@ public interface AdminRepository {
 
     List<Map<String, Object>> getSignUpStats(@Param("startDate") String startDate, @Param("endDate") String endDate,
             @Param("periodUnit") String periodUnit);
+
+    List<Map<String, Object>> getDropOutStats(@Param("startDate") String startDate,
+            @Param("endDate") String endDate,
+            @Param("periodUnit") String periodUnit);
 }

@@ -6,7 +6,9 @@ $(document).ready(function() {
 var dataTable;
 
 function initializeDataTable() {
+    let currentOrder = [];
     if (dataTable) {
+        currentOrder = dataTable.order();
         dataTable.destroy();
     }
     dataTable = $('#dataTable').DataTable({
@@ -24,6 +26,7 @@ function initializeDataTable() {
                 "previous": "이전"
             }
         },
+        "order": currentOrder,
         columnDefs: [{
             targets: 'member-status-column',  // member_status 컬럼의 class나 인덱스
             type: 'string',
