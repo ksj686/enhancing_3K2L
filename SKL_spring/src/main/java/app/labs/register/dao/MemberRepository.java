@@ -28,4 +28,6 @@ public interface MemberRepository {
 	void addAttendJoin(String memberId);
 
 	List<Map<String, Object>> checkAttendJoin(String memberId);
+
+	int existsByMemberNickname(String memberNickname);
 }

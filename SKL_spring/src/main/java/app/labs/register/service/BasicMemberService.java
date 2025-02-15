@@ -25,10 +25,10 @@ public class BasicMemberService implements MemberService {
 
 	@Override
 	public void updateMember(Member member) {
-		logger.debug("Updating member: {}", member);
+		log.info("Updating member: {}", member);
 		memberRepository.updateMember(member.getMemberName(), member.getMemberEmail(), member.getMemberPhone(),
 				member.getMemberId());
-		logger.debug("Member updated: {}", member);
+		log.info("Member updated: {}", member);
 	}
 
 	public void insertMember(Member member) {
@@ -70,14 +70,14 @@ public class BasicMemberService implements MemberService {
 	}
 
 	public boolean isUserIdDuplicated(String memberId) {
-		logger.debug("Checking if userId exists: {}", memberId);
+		log.info("Checking if memberId exists: {}", memberId);
 		int exists = memberRepository.existsByUserId(memberId);
 		boolean tf;
 		if (exists > 0)
 			tf = true;
 		else
 			tf = false;
-		logger.debug("UserId exists: {}", exists);
+		log.info("memberId exists: {}", exists);
 		return tf;
 	}
 
@@ -101,5 +101,18 @@ public class BasicMemberService implements MemberService {
 	@Override
 	public List<Map<String, Object>> checkAttendJoin(String memberId) {
 		return memberRepository.checkAttendJoin(memberId);
+	}
+
+	@Override
+	public boolean isMemberNickDuplicated(String memberNickname) {
+		log.info("Checking if memberNickname exists: {}", memberNickname);
+		int exists = memberRepository.existsByMemberNickname(memberNickname);
+		boolean tf;
+		if (exists > 0)
+			tf = true;
+		else
+			tf = false;
+		log.info("memberNickname exists: {}", exists);
+		return tf;
 	}
 }

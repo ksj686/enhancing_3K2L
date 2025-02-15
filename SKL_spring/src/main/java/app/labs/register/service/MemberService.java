@@ -27,4 +27,6 @@ public interface MemberService {
 	void addAttendJoin(String memberId);
 
 	List<Map<String, Object>> checkAttendJoin(String memberId);
+
+	boolean isMemberNickDuplicated(String memberNickname);
 }

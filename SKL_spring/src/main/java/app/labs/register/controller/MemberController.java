@@ -39,6 +39,15 @@ public class MemberController {
         return ResponseEntity.ok(isDuplicated);
     }
 
+    // 닉네임 중복 확인을 위한 API
+    @GetMapping("/members/check-memberNick")
+    public ResponseEntity<Boolean> checkMemberNick(@RequestParam(name = "memberNickname") String memberNickname) {
+        boolean isDuplicated = memberService.isMemberNickDuplicated(memberNickname);
+        logger.debug("memberNickname check for: {}, isDuplicated: {}", memberNickname, isDuplicated);
+
+        return ResponseEntity.ok(isDuplicated);
+    }
+
     // 회원가입 폼을 반환하는 메서드
     // @GetMapping("/register/insertform")
     // public String showInsertForm(Model model) {
@@ -55,17 +64,19 @@ public class MemberController {
     // 회원가입 페이지를 반환하는 메서드
     @GetMapping("/members/insert")
     public String insertMember(Model model) {
-        return "thymeleaf/register/insertform";
+        return "thymeleaf/register/register";
     }
 
     // 회원가입 처리 메서드
     @PostMapping("/members/insert")
     public String insertMember(Member member, RedirectAttributes redirectAttributes) {
         try {
+            // log.info("회원가입 진행중");
             memberService.insertMember(member);
             redirectAttributes.addFlashAttribute("message", "회원가입이 완료 되었습니다!");
             return "redirect:/login";
         } catch (RuntimeException e) {
+            e.printStackTrace();
             redirectAttributes.addFlashAttribute("message", "회원가입에 실패했습니다. 다시 시도해주세요."); // 실패 메시지
             return "redirect:/members/insert";
         }
