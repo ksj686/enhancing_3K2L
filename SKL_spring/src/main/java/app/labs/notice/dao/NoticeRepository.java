@@ -12,5 +12,6 @@ public interface NoticeRepository {
     List<Notice> getNoticeList(String memberId);
     int countNotice(String memberId);
     void sendNotice(int noticeId);
-    void readNotice(int noticeId);
+    void deleteNotice(int noticeId);
+    void readNotice(String memeberId);
 }

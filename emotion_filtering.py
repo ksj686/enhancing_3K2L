@@ -23,10 +23,14 @@ def predict_filter(text):
     prediction = model.predict(padded_text)
     percentage = f"{prediction[0][0] * 100:.2f}"
 
-    # # 예측 결과 출력 (0과 1로 반환되므로 0이 '비속어 없음', 1이 '비속어 있음')
-    # if prediction >= 0.55:
-    #     fileter_result = "비속어 있음"
-    # else:
-    #     fileter_result = "비속어 없음"
+    # 예측 결과 출력 (0과 1로 반환되므로 0이 '비속어 없음', 1이 '비속어 있음')
+    if prediction >= 0.55:
+        fileter_result = "비속어 있음"
+    else:
+        fileter_result = "비속어 없음"
+
+
+    print("filter percentage: ",percentage)
+    print('filter result: ', fileter_result)
 
     return percentage

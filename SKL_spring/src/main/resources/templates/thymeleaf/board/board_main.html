@@ -9,14 +9,14 @@
 	<a href="/login" th:if="${session.memberid == null}">로그인</a>
 	<a href="/members/insert"  th:if="${session.memberid == null}">회원가입</a>
 	<a href="/logout" th:if="${session.memberid != null}">로그아웃</a>
-	<a href="#" th:if="${!hasNotice}">☆</a>
-	<a href="#" th:if="${hasNotice}">★</a>
+<!--	<a href="#" th:if="${!hasNotice}">☆</a>-->
+<!--	<a href="#" th:if="${hasNotice}">★</a>-->
 	<div style="text-align:center;">
 		<h1> Hello board! </h1>
-		<button onclick="location.href='/emo/joy'">   기쁨의 방 </button>
-		<button onclick="location.href='/emo/sad'">   슬픔의 방 </button>
-		<button onclick="location.href='/emo/worry'"> 걱정의 방 </button>
-		<button onclick="location.href='/emo/cheer'"> 응원의 방 </button>
+		<button onclick="location.href='/emotion/joy'">   기쁨의 방 </button>
+		<button onclick="location.href='/emotion/sad'">   슬픔의 방 </button>
+		<button onclick="location.href='/emotion/worry'"> 걱정의 방 </button>
+		<button onclick="location.href='/emotion/cheer'"> 응원의 방 </button>
 	</div>
 </body>
 </html>

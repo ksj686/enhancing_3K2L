@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
 </head>
 <body>
-    <form id="boardForm" th:action="@{/emo/{boardCategory}/new(boardCategory=${boardCategory})}" th:object="${board}"  method="post">
+    <form id="boardForm" th:action="@{/emotion/{boardCategory}/new(boardCategory=${boardCategory})}" th:object="${board}"  method="post">
         <input type="hidden" th:value="${session.memeberid}" />
         <input type="hidden" th:value="${boardCategory}" /> <!-- boardCategory -->
         <input type="hidden" id="content" th:field="*{boardContent}" /> <!-- 에디터 내용이 저장될 숨겨진 필드 -->

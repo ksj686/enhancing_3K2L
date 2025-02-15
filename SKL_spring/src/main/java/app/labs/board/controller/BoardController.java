@@ -1,6 +1,5 @@
 package app.labs.board.controller;
 
-import app.labs.board.event.BoardOffensiveEvent;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -9,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-@RequestMapping("/emo")
+@RequestMapping("/emotion")
 public class BoardController {
 
 	@Autowired
@@ -32,7 +30,7 @@ public class BoardController {
 	EmojiService emojiService;
 
 	@GetMapping(value= {"", "/"})
-	public String boardMainWW() {
+	public String boardMain() {
 		return "thymeleaf/board/board_main";
 	}
 
@@ -81,7 +79,7 @@ public class BoardController {
 			board.setMemberId(memberId);
 			board.setBoardId(boardId);
 			boardService.createBoard(board);
-			return "redirect:/emo/Id/" + boardId;
+			return "redirect:/emotion/Id/" + boardId;
 		} else {
 			return "redirect:/login";
 		}

@@ -10,15 +10,14 @@
 <a href="/members/insert"  th:if="${session.memberid == null}">회원가입</a>
 <a href="/logout" th:if="${session.memberid != null}">로그아웃</a>
 <div style="text-align:center;">
-	<h1> [[${boardCategory}]] board! </h1>
+	<h1> [[${session.memberid}]]님의 읽지 않은[[${unreadCount}]]개의 알람이 있습니다. </h1>
 
-	<ul th:each="board: ${boardList}">
-		<a th:href="@{/emotion/Id/{boardId}(boardId=${board.boardId})}">
-			<span th:text="|제목: ${board.boardTitle}, 작성자: ${board.memberId}, 작성일: ${board.boardDate}|"></span>
+	<ul th:each="notice: ${noticeList}">
+		<a th:href="@{/notice}">
+			<span th:text="|제목: ${notice.noticeType}, ${notice.noticeDate}|"></span>
 		</a>
+		<span><button>삭제하기</button></span>
 	</ul>
-
-	<button th:onclick="|location.href='@{/emotion/{boardCategory}/new(boardCategory=${boardCategory},)}'|"> 글 작성하기 </button>
 </div>
 </body>
 </html>

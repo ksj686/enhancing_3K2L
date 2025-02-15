@@ -34,8 +34,12 @@ public class BasicNoticeService implements NoticeService {
     }
 
     @Override
-    public void readNotice(int noticeId) {
-        noticeRepository.readNotice(noticeId);
+    public void deleteNotice(int noticeId) {
+        noticeRepository.deleteNotice(noticeId);
     }
 
+    @Override
+    public void readNotice(String memeberId) {
+        noticeRepository.readNotice(memeberId);
+    }
 }

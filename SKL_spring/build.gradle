@@ -51,6 +51,9 @@ dependencies {
 
 	//WebClient
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	
+	// Jsoup(HTML형식 제거)
+	implementation 'org.jsoup:jsoup:1.14.3'
 }
 
 eclipse { 
