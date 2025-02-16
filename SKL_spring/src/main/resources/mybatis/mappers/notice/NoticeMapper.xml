@@ -4,9 +4,12 @@
 
     <!-- 알림 조회 -->
     <select id="getNoticeList" parameterType="String" resultType="app.labs.notice.model.Notice">
-        SELECT NOTICE_ID, NOTICE_TYPE, NOTICE_SEND, NOTICE_READ, NOTICE_DATE, BOARD_ID, MEMBER_ID
+        SELECT NOTICE_ID, NOTICE_TYPE, NOTICE_SEND, NOTICE_READ, BOARD_ID, MEMBER_ID,
+               NOTICE_DATE AS NO_DATE,
+               TO_CHAR(TRUNC(SYSDATE) - TRUNC(NOTICE_DATE)) AS NOTICE_DATE
         FROM NOTICE
         WHERE MEMBER_ID = #{memberId}
+        ORDER BY NO_DATE DESC
     </select>
 
     <!-- 읽지 않은 알림 갯수 -->

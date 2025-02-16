@@ -4,19 +4,42 @@
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
 </head>
+<style>
+	a {
+		text-decoration-line: none;
+		color: black;
+	}
+	.deactive, .deactive a {
+		color: gray; !important;
+	}
+</style>
 <body>
 <h5 th:if="${session.memberid != null}">[[${session.memberid}]]님</h5>
 <a href="/login" th:if="${session.memberid == null}">로그인</a>
 <a href="/members/insert"  th:if="${session.memberid == null}">회원가입</a>
 <a href="/logout" th:if="${session.memberid != null}">로그아웃</a>
 <div style="text-align:center;">
-	<h1> [[${session.memberid}]]님의 읽지 않은[[${unreadCount}]]개의 알람이 있습니다. </h1>
-
+	<h1> [[${session.memberid}]]님의 읽지 않은 [[${unreadCount}]]개의 알람이 있습니다. </h1>
+	<hr>
 	<ul th:each="notice: ${noticeList}">
-		<li>
-			<a th:href="@{/notice}">
-				<span th:text="|제목: ${notice.noticeType}, ${notice.noticeDate}|"></span>
+		<li th:switch="${notice.noticeType}" th:class="${notice.noticeRead=='T'?'deactive':'active'}">
+			<a th:case="BOARD_HIDE_REPORT" th:href="@{/emotion/Id/{Id}(Id=${notice.boardId})}">
+				[[${session.memberid}]]님의 글이 신고 누적으로 인해 숨김 처리되었어요.
 			</a>
+			<a th:case="BOARD_HIDE_FILTER" th:href="@{/emotion/Id/{Id}(Id=${notice.boardId})}">
+				[[${session.memberid}]]님의 글이 부적절한 내용으로 인해 숨김 처리되었어요.
+			</a>
+			<a th:case="BOARD_REPORT" th:href="@{/emotion/Id/{Id}(Id=${notice.boardId})}">
+				[[${session.memberid}]]님의 글이 신고되었어요.
+			</a>
+			<a th:case="DIARY_FEED" th:href="@{/diary/{Id}(Id=${notice.boardId})}">
+				[[${session.memberid}]]님의 일기에 메시지가 도착했어요.
+			</a>
+			<span th:switch="${notice.noticeDate}">
+				<span th:case="0">오늘</span>
+				<span th:case="1">어제</span>
+				<span th:case="*">[[${notice.noticeDate}]]일 전</span>
+			</span>
 			<span>
 				<button th:id="'notice-' + ${notice.noticeId}" class="delete-notice" th:data-notice-id="${notice.noticeId}">삭제하기</button>
 			</span>

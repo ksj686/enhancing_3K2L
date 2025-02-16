@@ -78,7 +78,7 @@ public class BoardEventListener {
         } else {
             createNotice(boardId, "BOARD_HIDE_FILTER");
             boardService.offensiveBoard(boardId);
-            log.info("{}번 글의 부적절한 내용으로 인해, 숨김 처리되었습니다.", boardId);
+            log.info("{}번 글의 부적절한 내용으로 인해 숨김 처리되었습니다.", boardId);
         }
     }
 

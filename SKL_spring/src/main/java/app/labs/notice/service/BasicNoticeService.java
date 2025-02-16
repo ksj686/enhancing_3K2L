@@ -2,11 +2,15 @@ package app.labs.notice.service;
 
 import app.labs.notice.dao.NoticeRepository;
 import app.labs.notice.model.Notice;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+@Slf4j
 @Service
 public class BasicNoticeService implements NoticeService {
 
@@ -20,7 +24,15 @@ public class BasicNoticeService implements NoticeService {
 
     @Override
     public List<Notice> getNoticeList(String memberId) {
-        return noticeRepository.getNoticeList(memberId);
+        List<Notice> noticeList = noticeRepository.getNoticeList(memberId);
+
+        // 날짜 변환
+        for (Notice notice : noticeList) {
+            String noticeDate = notice.getNoticeDate(); // 원래 날짜 문자열
+            log.info("날짜: {}", noticeDate);
+        }
+
+        return noticeList;
     }
 
     @Override
