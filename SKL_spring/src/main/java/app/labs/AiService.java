@@ -1,6 +1,7 @@
 package app.labs;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType; // 한글일 경우 꼭 필요함
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -9,6 +10,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class AiService {
@@ -29,6 +33,7 @@ public class AiService {
             // JSON 응답을 처리
             String result = resultMono.block(); // 비동기처리를 동기적으로 블록해서 결과를 반환
             return result; // FastAPI에서 반환한 결과
+
         } catch (WebClientResponseException e) {
             // 오류 처리
             System.err.println("Error occurred: " + e.getStatusCode() + " " + e.getResponseBodyAsString());
@@ -36,24 +41,41 @@ public class AiService {
         }
 	}
 	
-	public String classifyService(String diary) {
+	public Map<String, String> feedbackService(String message) {
 		// 메시지를 전송하기 위한 요청 본문 구성
 		MultiValueMap<String, String> bodyBuilder = new LinkedMultiValueMap<>();
-		bodyBuilder.add("diary", diary); // 메시지 폼 데이터 추가
+		bodyBuilder.add("message", message); // 메시지 폼 데이터 추가
 
         try {
-            Mono<String> resultMono = webClient.post()
-                    .uri("/detect/classify")
+            Mono<Map<String, String>> resultMono = webClient.post()
+                    .uri("/detect/feedback")
                     .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                     .body(BodyInserters.fromFormData(bodyBuilder))
                     .retrieve()
-                    .bodyToMono(String.class);
+                    .bodyToMono(new ParameterizedTypeReference<Map<String, String>>() {}); // 응답을 Map으로 변환
+            
+                    // JSON 응답을 처리
+            Map<String, String> responseBody = resultMono.block(); // 비동기 처리를 동기적으로 블록해서 결과를 반환
+            // String classify = responseBody.get("classify");
+            // String feedback = responseBody.get("feedback");
+            
+            // 결과를 문자열로 반환
+            return responseBody;
 
-            String result = resultMono.block();
-            return result; 
+
         } catch (WebClientResponseException e) {
             System.err.println("Error occurred: " + e.getStatusCode() + " " + e.getResponseBodyAsString());
-            return "Error occurred while processing the request.";
+            // 오류 발생 시, Map 형태로 반환
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Error occurred while processing the request.");
+            errorResponse.put("status", e.getStatusCode().toString());
+            return errorResponse; // Map 형태로 반환
+        } catch (Exception e) {
+            System.err.println("Unexpected error: " + e.getMessage());
+            // 일반적인 예외 처리
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Unexpected error occurred.");
+            return errorResponse; // Map 형태로 반환
         }
 	}
 }

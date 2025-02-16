@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import java.util.Map;
+
 @Slf4j
 @Async
 @Transactional(readOnly = true)
@@ -47,12 +49,16 @@ public class BoardEventListener {
     public void handleBoardCreateEvent(BoardCreateEvent boardCreateEvent) {
         Board board = boardCreateEvent.getBoard();
         String boardContent = board.getBoardContent();
+        String boardTitle = board.getBoardTitle();
         String extractedText = extractTextFromHtml(boardContent); // HTML에서 텍스트 추출
+        String text = boardTitle + extractedText;
 
-        log.info("추출된 텍스트: {}", extractedText); // 추출된 텍스트 출력
+        log.info("추출된 텍스트: {}", text); // 추출된 텍스트 출력
 
-        String filterResult = aiService.filterService(boardContent);
+        String filterResult = aiService.filterService(text);
+        Map<String, String> feedbackResult = aiService.feedbackService(text);
         log.info("필터결과: {}", filterResult);
+        log.info("피드백결과: {}", feedbackResult);
         double filterPercentage;
         try {
             filterPercentage = Double.parseDouble(filterResult);
@@ -62,7 +68,7 @@ public class BoardEventListener {
         }
 
         // 필터링 결과 숨김 처리 이벤트 발생
-        if (filterPercentage > 0.55) {
+        if (filterPercentage > 55) {
             int boardId = board.getBoardId();
             eventPublisher.publishEvent(new BoardOffensiveEvent(boardId, false));
         }
@@ -74,11 +80,11 @@ public class BoardEventListener {
         boolean boardReported = boardOffensiveEvent.isBoardReported();
         if (boardReported) {
             createNotice(boardId, "BOARD_HIDE_REPORT");
-            log.info("{}번 글의 신고 누적으로 인해 숨김 처리되었습니다.", boardId);
+            log.info("{}번 글이 신고 누적으로 인해 숨김 처리되었습니다.", boardId);
         } else {
             createNotice(boardId, "BOARD_HIDE_FILTER");
             boardService.offensiveBoard(boardId);
-            log.info("{}번 글의 부적절한 내용으로 인해 숨김 처리되었습니다.", boardId);
+            log.info("{}번 글이 부적절한 내용으로 인해 숨김 처리되었습니다.", boardId);
         }
     }
 
