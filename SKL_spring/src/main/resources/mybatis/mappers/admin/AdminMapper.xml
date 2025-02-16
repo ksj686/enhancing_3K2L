@@ -395,4 +395,21 @@
         GROUP BY DS.LAST_LOGIN
         ORDER BY DS.LAST_LOGIN
     </select>
+
+    <select id="getVisitorCount" resultType="int">
+        SELECT COUNT(*) FROM MEMBER
+        WHERE TO_CHAR(MEMBER_LAST_LOGIN, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+    </select>
+
+    <select id="getTodayEventsStats" resultType="map">
+        SELECT 
+            E.EVENT_ID,
+            E.EVENT_NAME,
+            COUNT(EJ.EVENT_ID) AS EVENT_COUNT
+        FROM EVENTS E
+        JOIN EVENT_JOIN EJ ON E.EVENT_ID = EJ.EVENT_ID
+        WHERE TO_CHAR(EJ.SUCCESS_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+        GROUP BY E.EVENT_ID, E.EVENT_NAME
+        ORDER BY E.EVENT_ID
+    </select>
 </mapper>

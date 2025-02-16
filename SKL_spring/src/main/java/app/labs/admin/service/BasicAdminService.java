@@ -185,4 +185,14 @@ public class BasicAdminService implements AdminService {
     public List<Map<String, Object>> getDropOutStats(String startDate, String endDate, String periodUnit) {
         return adminRepository.getDropOutStats(startDate, endDate, periodUnit);
     }
+
+    @Override
+    public int getVisitorCount() {
+        return adminRepository.getVisitorCount();
+    }
+
+    @Override
+    public List<Map<String, Object>> getTodayEventsStats() {
+        return adminRepository.getTodayEventsStats();
+    }
 }

@@ -72,4 +72,8 @@ public interface AdminRepository {
     List<Map<String, Object>> getDropOutStats(@Param("startDate") String startDate,
             @Param("endDate") String endDate,
             @Param("periodUnit") String periodUnit);
+
+    int getVisitorCount();
+
+    List<Map<String, Object>> getTodayEventsStats();
 }

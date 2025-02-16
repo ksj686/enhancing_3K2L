@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/thymeleaf/admin/admin_default_layout}">
+
+<th:block layout:fragment="css">
+    <style>
+        .chart-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 20px;
+        }
+        .chart-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #333;
+            text-align: center;
+        }
+        .chart-wrapper {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 20px;
+            height: 400px;  /* 고정 높이 설정 */
+            width: 100%;    /* 너비 100% */
+            display: flex;  /* Flexbox 사용 */
+            justify-content: center;  /* 수평 중앙 정렬 */
+            align-items: center;      /* 수직 중앙 정렬 */
+        }
+        canvas {
+            max-width: 100%;  /* 캔버스 최대 너비 제한 */
+            max-height: 100%; /* 캔버스 최대 높이 제한 */
+        }
+        .chart-section {
+            margin-bottom: 30px;
+        }
+        .section-title {
+            font-size: 1.5rem;
+            margin: 20px 0;
+            color: #2c3e50;
+            text-align: center;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: -20px;
+        }
+        .subtitle {
+            font-size: 14px;
+            color: gray;
+            margin-bottom: -20px;
+        }
+        .count {
+            font-size: 60px;
+            font-weight: bold;
+            margin-bottom: -20px;
+        }
+        .unit {
+            font-size: 18px;
+            color: gray;
+            margin-top: -10px;
+        }
+        .visitor {
+            flex-direction: column;
+        }
+    </style>
+</th:block>
+
+<div layout:fragment="content" id="reportPage">
+    <div class="chart-section">
+        <div class="chart-container">
+            <div class="chart-wrapper visitor">
+                <!-- <canvas id="totalDiaryChart"></canvas> -->
+                <div class="title">현재</div><br>
+                <div class="subtitle">사이트의 활성 사용자 수:</div><br>
+                <div id="visitor-count" class="count"></div><br>
+                <div class="unit">명</div>
+            </div>
+            <div class="chart-wrapper">
+                <canvas id="event-chart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- 당일 감정 통계 -->
+    <div class="chart-section">
+        <!-- <h3 class="section-title">당일 감정 통계</h3> -->
+        <div class="chart-container">
+            <div class="chart-wrapper">
+                <!-- <h3 class="chart-title">오늘의 일기 감정</h3> -->
+                <canvas id="todayDiaryChart"></canvas>
+            </div>
+            <div class="chart-wrapper">
+                <!-- <h3 class="chart-title">오늘의 게시판 감정</h3> -->
+                <canvas id="todayBoardChart"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <a href="" id="downloadPdf">Download Report Page as PDF</a>
+    <br/><br/>
+</div>
+
+<th:block layout:fragment="script">
+    <script type="text/javascript" th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js}"></script>
+    <script type="text/javascript" th:src="@{https://html2canvas.hertzen.com/dist/html2canvas.js}"></script>
+    <script type="text/javascript">
+        // 페이지 로드 시 모든 통계 로드
+        $(document).ready(function() {
+            loadVisitorCount();
+            loadEventChart();
+            loadTodayDiaryStats();
+            loadTodayBoardStats();
+        });
+
+        function loadVisitorCount() {
+            $.get('/admin/visitor-today', function(response) {
+                // response에서 방문자 수를 가져온다고 가정
+                // 예: response가 { count: 277 } 형태일 경우
+                $('#visitor-count').text(response.count);
+            }).fail(function() {
+                console.error('Error fetching visitor count');
+                $('#visitor-count').text('Error'); // 오류 발생 시 텍스트 설정
+            });
+        }
+
+        // Chart.js에 플러그인 등록
+        Chart.register(ChartDataLabels);
+
+        // 차트 객체를 저장할 변수들
+        let todayDiaryChart, todayBoardChart, eventChart;
+
+        // 색상 설정
+        const emotionColors = {
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.6)',
+                'rgba(54, 162, 235, 0.6)',
+                'rgba(255, 206, 86, 0.6)',
+                'rgba(75, 192, 192, 0.6)',
+                'rgba(153, 102, 255, 0.6)'
+            ],
+            borderColor: [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(255, 206, 86)',
+                'rgb(75, 192, 192)',
+                'rgb(153, 102, 255)'
+            ]
+        };
+
+        // 도넛 차트 생성 함수
+        function createDonutChart(ctx, data, title) {
+            // 데이터가 없을 경우 처리
+            if (!data || data.length === 0) {
+                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // 차트 초기화
+                ctx.font = '20px Arial';
+                ctx.fillStyle = '#000'; // 텍스트 색상
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('오늘의 데이터가 없습니다', ctx.canvas.width / 2, ctx.canvas.height / 2); // 중앙에 메시지 표시
+                return; // 함수 종료
+            }
+
+            const total = data.reduce((sum, item) => sum + (item.COUNT_EMOTION || item.COUNT_CATEGORY), 0);
+            
+            return new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: data.map(item => item.DIARY_EMOTION || item.BOARD_CATEGORY),
+                    datasets: [{
+                        data: data.map(item => item.COUNT_EMOTION || item.COUNT_CATEGORY),
+                        backgroundColor: emotionColors.backgroundColor.map(color => color.replace('0.6', '0.9')),  // 더 어두운 배경색
+                        borderColor: emotionColors.borderColor,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    aspectRatio: 1.5,
+                    plugins: {
+                        datalabels: {
+                            formatter: (value) => {
+                                const percentage = ((value / total) * 100).toFixed(1);
+                                return `${percentage}%`;
+                            },
+                            color: '#fff',  // 글씨색만 흰색으로
+                            font: {
+                                weight: 'bold',
+                                size: 12
+                            }
+                        },
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: title,
+                            font: {
+                                size: 18,
+                                weight: 'bold'
+                            },
+                            padding: {
+                                top: 10,
+                                bottom: 20
+                            }
+                        }
+                    },
+                    cutout: '60%'
+                }
+            });
+        }
+
+        // 데이터 로드 함수들
+        function loadTodayDiaryStats() {
+            $.get('/admin/emotion-stats/diary/today', function(response) {
+                const ctx = document.getElementById('todayDiaryChart').getContext('2d');
+                if (todayDiaryChart) todayDiaryChart.destroy();
+                todayDiaryChart = createDonutChart(ctx, response, '오늘의 일기 감정 분포');
+            });
+        }
+
+        function loadTodayBoardStats() {
+            $.get('/admin/emotion-stats/board/today', function(response) {
+                const ctx = document.getElementById('todayBoardChart').getContext('2d');
+                if (todayBoardChart) todayBoardChart.destroy();
+                todayBoardChart = createDonutChart(ctx, response, '오늘의 게시판 감정 분포');
+            });
+        }
+
+        function loadEventChart() {
+            $.get('/admin/today-events-stats', function(response) {
+                const ctx = document.getElementById('event-chart').getContext('2d');
+                if (eventChart) eventChart.destroy();
+
+                // const dummyResponse = {
+                //     labels: ['이벤트 1', '이벤트 2', '이벤트 3', '이벤트 4'],
+                //     data: [10, 25, 15, 30] // 각 이벤트에 대한 참여도 수치
+                // };
+
+                eventChart = createHorizontalBarChart(ctx, response, '오늘의 이벤트 참여도');
+            });
+        }
+
+        function createHorizontalBarChart(ctx, data, title) {
+            return new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: data.map(item => item.EVENT_NAME),
+                    datasets: [{
+                        label: '참여인원',
+                        data: data.map(item => item.EVENT_COUNT),
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        borderColor: 'rgb(75, 192, 192)',
+                        borderWidth: 1
+                    }]  
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    aspectRatio: 1.5
+                }
+            });
+        }
+
+
+        $('#downloadPdf').click(function(event) {
+            event.preventDefault();
+            
+            // jsPDF 가져오기
+            const { jsPDF } = window.jspdf; 
+            const doc = new jsPDF();
+
+            // #reportPage 요소를 캡처
+            const reportPage = document.getElementById('reportPage');
+            html2canvas(reportPage).then(function(canvas) {
+                // 캔버스에서 이미지 데이터 가져오기
+                const imgData = canvas.toDataURL('image/png');
+
+                // PDF에 이미지 추가
+                doc.addImage(imgData, 'PNG', 10, 10, 190, 0); // (이미지, 형식, x좌표, y좌표, 너비, 높이)
+
+                // PDF 저장
+                doc.save('report.pdf');
+            }).catch(function(error) {
+                console.error('Error capturing the report page:', error);
+            });
+            /*
+            var reportPageHeight = $('#reportPage').innerHeight();
+            var reportPageWidth = $('#reportPage').innerWidth();
+            
+            // create a new canvas object that we will populate with all other canvas objects
+            var pdfCanvas = $('<canvas />').attr({
+                id: "canvaspdf",
+                width: reportPageWidth,
+                height: reportPageHeight
+            });
+            
+            // keep track canvas position
+            var pdfctx = $(pdfCanvas)[0].getContext('2d');
+            var pdfctxX = 0;
+            var pdfctxY = 0;
+            var buffer = 100;
+
+            var visitor = document.querySelector('.visitor');
+            html2canvas(visitor).then(function(visitorCanvas) {
+                var visitorImg = visitorCanvas.toDataURL('image/png');
+                var visitorWidth = visitorCanvas.width;
+                var visitorHeight = visitorCanvas.height;
+
+                pdfctx.drawImage(visitorImg, pdfctxX, pdfctxY, visitorWidth, visitorHeight);
+                pdfctxX += visitorWidth + buffer;
+            });
+
+            // for each chart.js chart
+            $("canvas").each(function(index) {
+                // get the chart height/width
+                var canvasHeight = $(this).innerHeight();
+                var canvasWidth = $(this).innerWidth();
+                
+                // draw the chart into the new canvas
+                pdfctx.drawImage($(this)[0], pdfctxX, pdfctxY, canvasWidth, canvasHeight);
+                pdfctxX += canvasWidth + buffer;
+                
+                // our report page is in a grid pattern so replicate that in the new canvas
+                if ((index+1) % 2 === 1) {
+                    pdfctxX = 0;
+                    pdfctxY += canvasHeight + buffer;
+                }
+            });
+            
+            // create new pdf and add our new canvas as an image
+            var pdf = new jsPDF('l', 'pt', [reportPageWidth, reportPageHeight]);
+            pdf.addImage($(pdfCanvas)[0], 'PNG', 0, 0);
+            
+            // download the pdf
+            pdf.save('filename.pdf');
+            */
+        });
+    </script>
+</th:block>
+</html>
