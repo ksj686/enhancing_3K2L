@@ -53,7 +53,13 @@ public class BoardEventListener {
 
         String filterResult = aiService.filterService(boardContent);
         log.info("필터결과: {}", filterResult);
-        double filterPercentage = Double.parseDouble(filterResult);
+        double filterPercentage;
+        try {
+            filterPercentage = Double.parseDouble(filterResult);
+        } catch (NumberFormatException e) {
+            log.error("필터링 결과를 숫자로 변환하는 데 실패했습니다: {}", filterResult);
+            return; // 예외 발생 시 메서드 종료
+        }
 
         // 필터링 결과 숨김 처리 이벤트 발생
         if (filterPercentage > 0.55) {

@@ -64,25 +64,29 @@ public class BoardController {
 	}
 
 	@GetMapping("/{boardCategory}/new")
-	public String createBoard(Model model, @PathVariable("boardCategory") String boardCategory) {
-		model.addAttribute("board", new Board());
-		model.addAttribute("boardCategory", boardCategory);
-		return "thymeleaf/board/board_new";
+	public String createBoard(Model model,
+							  @PathVariable("boardCategory") String boardCategory,
+							  HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		String memberId = (String)session.getAttribute("memberid");
+		if (memberId != null) {
+			model.addAttribute("board", new Board());
+			model.addAttribute("boardCategory", boardCategory);
+			return "thymeleaf/board/board_new";
+		} else {
+			return "redirect:/login";
+		}
 	}
 
 	@PostMapping("/{boardCategory}/new")
 	public String createBoard(Board board, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		String memberId = (String)session.getAttribute("memberid");
-		if (memberId != null) {
-			int boardId = boardService.createBoardId();
-			board.setMemberId(memberId);
-			board.setBoardId(boardId);
-			boardService.createBoard(board);
-			return "redirect:/emotion/Id/" + boardId;
-		} else {
-			return "redirect:/login";
-		}
+		int boardId = boardService.createBoardId();
+		board.setMemberId(memberId);
+		board.setBoardId(boardId);
+		boardService.createBoard(board);
+		return "redirect:/emotion/Id/" + boardId;
 	}
 
 	@PutMapping("/report")

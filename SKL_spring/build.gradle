@@ -54,6 +54,9 @@ dependencies {
 	
 	// Jsoup(HTML형식 제거)
 	implementation 'org.jsoup:jsoup:1.14.3'
+
+	// FastAPI 자동 실행
+	//implementation 'jakarta.annotation:jakarta.annotation-api:2.1.1'
 }
 
 eclipse { 

@@ -13,11 +13,45 @@
 	<h1> [[${session.memberid}]]님의 읽지 않은[[${unreadCount}]]개의 알람이 있습니다. </h1>
 
 	<ul th:each="notice: ${noticeList}">
-		<a th:href="@{/notice}">
-			<span th:text="|제목: ${notice.noticeType}, ${notice.noticeDate}|"></span>
-		</a>
-		<span><button>삭제하기</button></span>
+		<li>
+			<a th:href="@{/notice}">
+				<span th:text="|제목: ${notice.noticeType}, ${notice.noticeDate}|"></span>
+			</a>
+			<span>
+				<button th:id="'notice-' + ${notice.noticeId}" class="delete-notice" th:data-notice-id="${notice.noticeId}">삭제하기</button>
+			</span>
+		</li>
 	</ul>
 </div>
+	<script>
+		// 삭제 버튼 클릭 이벤트 핸들러
+		document.addEventListener('DOMContentLoaded', function() {
+			const deleteButtons = document.querySelectorAll('.delete-notice');
+
+			deleteButtons.forEach(button => {
+				button.addEventListener('click', function() {
+					const noticeId = this.dataset.noticeId; // data-notice-id에서 ID 가져오기
+
+					if (confirm('정말로 이 알림을 삭제하시겠습니까?')) {
+						fetch(`/notice/delete/${noticeId}`, {
+							method: 'DELETE'
+						})
+						.then(response => {
+							if (response.ok) {
+								// 삭제 성공 시, 해당 알림 행을 제거
+								this.closest('li').remove(); // li 요소를 제거하여 삭제
+							} else {
+								alert('알림 삭제에 실패했습니다.');
+							}
+						})
+						.catch(error => {
+							console.error('삭제 중 오류 발생:', error);
+							alert('알림 삭제 중 오류가 발생했습니다.');
+						});
+					}
+				});
+			});
+		});
+	</script>
 </body>
 </html>

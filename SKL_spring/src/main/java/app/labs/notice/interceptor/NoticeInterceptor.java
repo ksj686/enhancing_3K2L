@@ -26,12 +26,15 @@ public class NoticeInterceptor implements HandlerInterceptor {
        
        log.info("modelAndView: {}, memberId: {}", modelAndView, memberId); // 상태 로그 추가
 
-       if (modelAndView != null && !isRedirectView(modelAndView) && memberId != null) {
-           int count = noticeRepository.countNotice(memberId);
-           log.info("알림 수: {}", count);
-           modelAndView.addObject("hasNotice", count > 0);
-       } else {
-            log.info("알림없음");
+       if (modelAndView != null && !isRedirectView(modelAndView)) {
+           if (memberId != null) {
+               int count = noticeRepository.countNotice(memberId);
+               log.info("알림 수: {}", count);
+               modelAndView.addObject("hasNotice", count > 0);
+           } else {
+               log.info("알림 없음");
+               modelAndView.addObject("hasNotice", false);
+           }
        }
 
 //       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Insert title here</title>
+    <title>감정행성 글 작성</title>
     <style>
         * {
             text-align: center;
@@ -18,8 +18,7 @@
 </head>
 <body>
     <form id="boardForm" th:action="@{/emotion/{boardCategory}/new(boardCategory=${boardCategory})}" th:object="${board}"  method="post">
-        <input type="hidden" th:value="${session.memeberid}" />
-        <input type="hidden" th:value="${boardCategory}" /> <!-- boardCategory -->
+        <input type="hidden" th:value="${boardCategory}" />
         <input type="hidden" id="content" th:field="*{boardContent}" /> <!-- 에디터 내용이 저장될 숨겨진 필드 -->
 
         <input type="text" th:field="*{boardTitle}" required />

@@ -9,6 +9,6 @@ public class BoardCreateEvent {
     private final Board board;
     
     public BoardCreateEvent(Board board) {
-        this.board = board; // Offensive 사유: (true)신고 / (false)필터링
+        this.board = board;
     }
 }
