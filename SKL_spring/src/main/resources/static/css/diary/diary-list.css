@@ -1,75 +1,65 @@
 @charset "UTF-8";
-@charset "UTF-8";
 
-/* ✅ 전체 배경 색상 */
-body {
-    background-color: #AEE2FF;
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-}
+body {	
+			background-color: #AEE2FF;
+            font-family: Arial, sans-serif;
+            background: url('https://via.placeholder.com/1920x1080.png?text=Background') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+        }
 
-/* ✅ 컨테이너 스타일 */
-.container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    height: 100vh;
-    padding: 20px;
-}
+        #calendar-container {
+            width: 60%;
+            margin: 50px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
 
-/* ✅ 캘린더 컨테이너 */
-.calendar-wrapper {
-    width: 40%;
-    background: rgba(255, 255, 255, 0.5);
-    padding: 20px;
-    border-radius: 20px;
-    backdrop-filter: blur(10px);
-}
+        .fc-toolbar-title {
+            font-size: 24px;
+        }
 
-/* ✅ 년/월 선택 스타일 */
-.calendar-header {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 15px;
-}
+        :root {
+            --fc-today-bg-color: white; /* 오늘 날짜의 배경을 흰색으로 설정 */
+        }
 
-.calendar-header select {
-    padding: 8px;
-    font-size: 16px;
-    margin: 0 5px;
-    border-radius: 5px;
-    border: none;
-    background: white;
-    cursor: pointer;
-}
+        .fc-daygrid-day-frame {
+            display: flex;
+            justify-content: center; /* 가로 중앙 정렬 */
+            align-items: center; /* 세로 중앙 정렬 */
+            height: 100%; /* 셀 전체 높이에 맞춤 */
+        }
 
-/* ✅ 노트 스타일 일기 보기 */
-.diary-view {
-    width: 45%;
-    background: white;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    min-height: 400px;
-    text-align: left;
-}
+        .fc-daygrid-day-number {
+            display: flex;
+            justify-content: center; /* 숫자를 가로로 중앙 정렬 */
+            align-items: center; /* 숫자를 세로로 중앙 정렬 */
+            width: 40px; /* 원의 크기 */
+            height: 40px; /* 원의 크기 */
+            border: 2px solid rgba(0, 0, 0, 0.2); /* 테두리 추가 */
+            border-radius: 50%; /* 원형으로 만듦 */
+            font-size: 16px;
+            font-weight: bold;
+        }
 
-.diary-title {
-    font-size: 24px;
-    font-weight: bold;
-    border-bottom: 2px solid #ccc;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-}
+        .fc-day-today .fc-daygrid-day-number {
+            background-color: white !important; /* 흰색 배경 */
+            color: red !important; /* 텍스트 색상은 빨간색 */
+            border: 2px solid red; /* 빨간 테두리 */
+        }
 
-.diary-content {
-    font-size: 18px;
-    line-height: 1.5;
-}
+        #controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-.diary-date {
-    font-size: 14px;
-    color: gray;
-    margin-top: 20px;
-}
+        #year-select,
+        #month-select {
+            font-size: 16px;
+            padding: 5px;
+            margin-right: 10px;
+        }
+

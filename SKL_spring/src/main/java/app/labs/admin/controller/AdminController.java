@@ -2,6 +2,7 @@ package app.labs.admin.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Collections;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class AdminController {
     // 관리자 메인 페이지
     @GetMapping("/admin")
     public String adminPage() {
-        return "thymeleaf/admin/emotion-stats";
+        return "thymeleaf/admin/admin_home";
     }
 
     // 관리자 로그인
@@ -52,7 +53,7 @@ public class AdminController {
             if (admin.get("ADMIN_PWD").equals(pwd)) {
                 session.setMaxInactiveInterval(600); // 10분
                 session.setAttribute("adminId", id);
-                return "redirect:/admin/emotion-stats";
+                return "redirect:/admin";
             } else {
                 session.invalidate();
                 redirectAttrs.addFlashAttribute("message", "아이디 또는 패스워드가 잘못되었습니다.");
@@ -320,10 +321,33 @@ public class AdminController {
     public List<Map<String, Object>> getSignUpStats(@RequestParam("startDate") String startDate,
             @RequestParam("endDate") String endDate,
             @RequestParam("periodUnit") String periodUnit) {
-        log.info(startDate + " " + endDate + " " + periodUnit);
 
         List<Map<String, Object>> signUpStats = adminService.getSignUpStats(startDate, endDate, periodUnit);
 
         return signUpStats;
+    }
+
+    @GetMapping("/admin/member-stats/drop-out")
+    @ResponseBody
+    public List<Map<String, Object>> getDropOutStats(@RequestParam("startDate") String startDate,
+            @RequestParam("endDate") String endDate,
+            @RequestParam("periodUnit") String periodUnit) {
+
+        List<Map<String, Object>> dropOutStats = adminService.getDropOutStats(startDate, endDate, periodUnit);
+
+        return dropOutStats;
+    }
+
+    @GetMapping("/admin/visitor-today")
+    @ResponseBody
+    public Map<String, Integer> getVisitorCount() {
+        int count = adminService.getVisitorCount();
+        return Collections.singletonMap("count", count);
+    }
+
+    @GetMapping("/admin/today-events-stats")
+    @ResponseBody
+    public List<Map<String, Object>> getTodayEventsStats() {
+        return adminService.getTodayEventsStats();
     }
 }

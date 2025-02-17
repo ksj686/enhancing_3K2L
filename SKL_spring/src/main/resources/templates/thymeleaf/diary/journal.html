@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journiverse_home</title>
+    <link rel="stylesheet" href="journal.css">
+</head>
+<body>
+<!-- [헤더] 헤더 영역 -->
+<header>
+    <nav>
+        <div class="logo">
+            <img src="/img/logo.png" alt="Journivers" />
+        </div>
+        <div class="menu">
+            <a href="/home.html">홈</a>
+            <a href="/journal.html">일기행성</a>
+            <a href="/emotion.html">공감행성</a>
+            <a href="/healing.html">힐링행성</a>
+        </div>
+        <div class="account">
+            <a href="/register.html">회원가입</a>
+            <button onclick="location.href='login.html'" class="login-btn">로그인</button>
+        </div>
+    </nav>
+</header>
+
+<div class="main-content">
+        <!-- 왼쪽: 다이어리 텍스트 -->
+        <section class="home-section">
+            <div class="diary-text">
+                <img src="/img/diary-text.png" alt="I decide my own feelings. Today, it's going to be happiness" />
+            </div>
+            <div class="btn-container">
+                <button class="write-btn" onclick="location.href='journal_write.html'">Write Journal</button>
+                <button class="read-btn" onclick="location.href='journal_read.html'">Read Journal</button>
+            </div>
+        </section>
+
+        <!-- 오른쪽: 달력 -->
+        <section class="calendar-section">
+        <div class="calendar-container">
+            <div class="calendar-header">
+                <select id="year">
+                    <option>2025년</option>
+                    <option>2024년</option>
+                    <option>2023년</option>
+                </select>
+                <select id="month">
+                    <option>January</option>
+                    <option>February</option>
+                    <option>March</option>
+                    <option>April</option>
+                    <option>May</option>
+                    <option>June</option>
+                    <option>July</option>
+                    <option>August</option>
+                    <option>September</option>
+                    <option>October</option>
+                    <option>November</option>
+                    <option>December</option>
+                </select>
+            </div>
+
+            <table class="calendar">
+                <thead>
+                    <tr>
+                        <th>Sun</th>
+                        <th>Mon</th>
+                        <th>Tue</th>
+                        <th>Wed</th>
+                        <th>Thu</th>
+                        <th>Fri</th>
+                        <th>Sat</th>
+                    </tr>
+                </thead>
+                <tbody id="calendar-body">
+                    <!-- 날짜가 JavaScript에서 동적으로 생성됨 -->
+                </tbody>
+            </table>
+        </div>  
+    </section>
+</div>
+
+<!-- [푸터] 푸영역 -->
+<footer class="footer">
+    <img src="/img/SKL logo.png" alt="SamKimLee2 Logo" class="footer-logo">
+    <div class="footer-text">
+        <h3>SamKimLee2 Company</h3>
+        <p>78, Gosanja-ro 32-gil, Dongdaemun-gu, <u>Seoul</u>, Republic of Korea</p>
+        <p>Samkimlee2@saesac.com</p>
+</footer>   
+
+</footer>   
+</body>

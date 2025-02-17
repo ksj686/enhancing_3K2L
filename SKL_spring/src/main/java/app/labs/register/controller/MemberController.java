@@ -1,5 +1,8 @@
 package app.labs.register.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +19,15 @@ import app.labs.register.model.Member;
 import app.labs.register.service.BasicMemberService;
 import app.labs.register.service.MemberService;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 public class MemberController {
 
     @Autowired
     private MemberService memberService;
-    
+
     private static final Logger logger = LoggerFactory.getLogger(BasicMemberService.class);
 
     // 아이디 중복 확인을 위한 API
@@ -34,14 +39,23 @@ public class MemberController {
         return ResponseEntity.ok(isDuplicated);
     }
 
+    // 닉네임 중복 확인을 위한 API
+    @GetMapping("/members/check-memberNick")
+    public ResponseEntity<Boolean> checkMemberNick(@RequestParam(name = "memberNickname") String memberNickname) {
+        boolean isDuplicated = memberService.isMemberNickDuplicated(memberNickname);
+        logger.debug("memberNickname check for: {}, isDuplicated: {}", memberNickname, isDuplicated);
+
+        return ResponseEntity.ok(isDuplicated);
+    }
+
     // 회원가입 폼을 반환하는 메서드
-//    @GetMapping("/register/insertform")
-//    public String showInsertForm(Model model) {
-//        return "thymeleaf/register/insertform";
-//    }
-    
+    // @GetMapping("/register/insertform")
+    // public String showInsertForm(Model model) {
+    // return "thymeleaf/register/insertform";
+    // }
+
     // 기본 메서드들: 서버의 시간을 반환하는 홈 페이지
-    @GetMapping(value = {"/members", "/members/"})
+    @GetMapping(value = { "/members", "/members/" })
     public String home(Model model) {
         model.addAttribute("serverTime", "서버시간");
         return "thymeleaf/register/home";
@@ -50,17 +64,19 @@ public class MemberController {
     // 회원가입 페이지를 반환하는 메서드
     @GetMapping("/members/insert")
     public String insertMember(Model model) {
-        return "thymeleaf/register/insertform";
+        return "thymeleaf/register/register";
     }
 
     // 회원가입 처리 메서드
     @PostMapping("/members/insert")
     public String insertMember(Member member, RedirectAttributes redirectAttributes) {
         try {
+            // log.info("회원가입 진행중");
             memberService.insertMember(member);
             redirectAttributes.addFlashAttribute("message", "회원가입이 완료 되었습니다!");
             return "redirect:/login";
         } catch (RuntimeException e) {
+            e.printStackTrace();
             redirectAttributes.addFlashAttribute("message", "회원가입에 실패했습니다. 다시 시도해주세요."); // 실패 메시지
             return "redirect:/members/insert";
         }
@@ -84,7 +100,8 @@ public class MemberController {
 
     // 회원 정보 수정 처리 메서드
     @PostMapping("/members/edit")
-    public String updateProfile(@ModelAttribute Member member, HttpSession session, RedirectAttributes redirectAttributes) {
+    public String updateProfile(@ModelAttribute Member member, HttpSession session,
+            RedirectAttributes redirectAttributes) {
         String memberId = (String) session.getAttribute("memberid");
         logger.debug("POST /members/edit - Session memberId: {}", memberId);
         logger.debug("Updating member: {}", member);
@@ -106,13 +123,27 @@ public class MemberController {
 
     // 로그인 처리 메서드
     @PostMapping("/login")
-    public String loginMember(@RequestParam("memberId") String memberId, @RequestParam("memberPwd") String memberPwd, HttpSession session, RedirectAttributes redirectAttrs) {
+    public String loginMember(@RequestParam("memberId") String memberId, @RequestParam("memberPwd") String memberPwd,
+            HttpSession session, RedirectAttributes redirectAttrs) {
         Member member = memberService.findByUserId(memberId);
         if (member != null) {
             if (member.getMemberPwd().equals(memberPwd)) {
-                session.setMaxInactiveInterval(600); // 10분
-                session.setAttribute("memberid", memberId);
-                return "redirect:/";
+                if (member.getMemberStatus().equals("ACTIVE")) {
+                    memberService.updateLastLogin(memberId);
+                    List<Map<String, Object>> checkAttendJoin = memberService.checkAttendJoin(memberId);
+                    // log.info("size: " + checkAttendJoin.size());
+                    // log.info(checkAttendJoin.toString());
+                    if (!(checkAttendJoin.size() > 0)) {
+                        memberService.addAttendJoin(memberId);
+                    }
+                    session.setMaxInactiveInterval(600); // 10분
+                    session.setAttribute("memberid", memberId);
+                    return "redirect:/";
+                } else {
+                    session.invalidate();
+                    redirectAttrs.addFlashAttribute("message", "현재 사용할 수 없는 계정입니다.");
+                    return "redirect:/login";
+                }
             } else {
                 System.out.println("비밀번호가 일치하지 않습니다.");
                 session.invalidate();

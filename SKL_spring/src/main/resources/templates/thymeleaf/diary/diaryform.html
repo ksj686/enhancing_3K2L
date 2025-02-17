@@ -6,15 +6,7 @@
 	<!-- TUI 에디터 CSS CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.min.css"/>
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
-	<style>
-        * {
-            text-align: center;
-        }
-        #editor {
-            width: 50%;
-            margin: 0 auto;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/diary/diaryform.css">
 
     <title>JOURNIVERSE | DIARY FORM</title>
 </head>
@@ -34,19 +26,19 @@
                 
                 <div class="form-title">
                     <!-- 제목 입력 -->
-                    <label for="title">제목 작성</label>
+                    <label for="title">제목</label>
                     <input type="text" th:field="*{diaryTitle}" placeholder="제목을 입력하세요." required>
                 </div>
 				
 				<!-- 날짜 입력 -->
 				<div class="form-date">
-    				<label for="diaryDate">날짜 선택</label>
+    				<label for="diaryDate">날짜</label>
     				<input type="date" th:field="*{diaryDate}" required>
                 </div>
 				
 				<!-- 첨부 파일 -->
 				<div class="file-upload">
-					<label for="file">파일 첨부</label>
+					<!-- <label for="file">파일 선택</label> -->
 					<div class="file-input-wrapper">
 						<input type="text" id="fileName" placeholder="파일을 선택해주세요." readonly>
 						<label for="file" class="file-button">파일 선택</label>
@@ -59,8 +51,10 @@
         		<div id="editor" th:data-content="${diary.diaryContent}"></div> <!-- 에디터 영역 -->
 
                 <!-- 작성 완료 버튼 -->
-                <button class="submit-btn" type="submit" th:text="${update != null ? '수정' : '저장'}"></button>
-                <button class="cancel-btn" type="button" onclick="resetForm()">취소</button>
+                <div class="button-group">
+                	<button class="submit-btn" type="submit" th:text="${update != null ? '수정' : '저장'}"></button>
+                	<button class="cancel-btn" type="button" onclick="resetForm()">취소</button>
+            	</div>
             </form>
         </div>
     </div>

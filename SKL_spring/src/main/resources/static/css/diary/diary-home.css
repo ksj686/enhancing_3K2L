@@ -4,41 +4,107 @@
 body {
     background-color: #AEE2FF;
     font-family: 'Arial', sans-serif;
-    color: white;
+    color: #222;
     margin: 0;
     padding: 0;
 }
 
-/* ✅ 컨테이너 스타일 (좌-우 배치) */
-.container {
+/* 1. 헤더 */
+header {
+    background: transparent;
+    position: static;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 0;
+    z-index: 100;  /* 항상 헤더레이어가 최상위 */
+}
+nav {
+    width: 95%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 100vh;
-    padding: 50px;
+    }
+.logo img {
+    height: 33px;
+    }
+.menu {
+    display: flex;
+    align-items: center;
+    gap: 90px;
+    }
+.menu a:hover, .account a:hover {
+    font-weight: bold;
+    transition: all 0.3s ease;
+    }
+.account {
+    display: flex;
+    align-items: center;
+    gap: 20px;       
+}
+.menu, .account {
+    text-decoration: none;
+    font-size: 20px;
+    padding: 5px 15px;
+    background: transparent;
+    cursor: pointer;
+}
+.login-btn {
+    font-size: 18px;
+    background-color: #ffffff;
+    font-weight: bold !important;
+    color: black;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 15px;
+    cursor: pointer;
 }
 
-/* ✅ 메인 컨텐츠 (왼쪽 영역) */
-.main-content {
+/* ✅ 전체 컨테이너 */
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ✅ 컨텐츠 정렬 */
+.content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    max-width: 1200px;
+    padding-top: 50px;
+}
+
+/* ✅ 텍스트 섹션 (왼쪽) */
+.text-section {
     width: 50%;
     text-align: left;
 }
 
 h1 {
-    font-size: 36px;
+    font-size: 32px;
     font-weight: bold;
-    margin-bottom: 20px;
     color: #222222;
 }
 
 .highlight {
-    color: #FFFFF0;
+    color: orange;
 }
 
-.quote {
-    font-size: 18px;
+.italic {
     font-style: italic;
+}
+
+.subtitle {
+    font-size: 18px;
     color: #222222;
+    margin-bottom: 20px;
 }
 
 /* ✅ 버튼 디자인 */
@@ -72,33 +138,73 @@ h1 {
 
 /* ✅ 캘린더를 오른쪽에 배치 */
 .calendar-wrapper {
-    width: 40%;
-    background: rgba(255, 255, 255, 0.5); /* 반투명 */
+    width: 50%;
+    background: rgba(255, 255, 255, 0.5);
     padding: 20px;
-    border-radius: 20px; /* 둥근 모서리 */
+    border-radius: 20px;
     backdrop-filter: blur(10px);
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
 }
 
-/* ✅ 캘린더 크기 조정 */
+/* ✅ FullCalendar 스타일 */
+#calendar-container {
+    width: 100%;
+    padding: 20px;
+}
+
 #calendar {
     width: 100%;
-    height: 600px;
+    height: 500px;
 }
 
 /* ✅ 년/월 선택 박스 스타일 */
-.calendar-header {
+#controls {
     display: flex;
     justify-content: center;
+    gap: 10px;
     margin-bottom: 15px;
 }
 
-.calendar-header select {
+#controls select {
     padding: 8px;
     font-size: 16px;
-    margin: 0 5px;
     border-radius: 5px;
     border: none;
     background: white;
     cursor: pointer;
+}
+/* 4. 푸터 스타일 */
+.footer {
+    background: rgba(255, 255, 255); /* 반투명한 흰색 배경 */
+    padding: 20px;
+    text-align: left; /* 왼쪽 정렬 */
+    display: flex;
+    justify-content: flex-start;
+}
+/* 컨텐츠 영역 정렬 */
+.footer-content {
+ 	display: flex;
+    align-items: center;
+    gap: 15px; /* 로고와 텍스트 간격 */
+}
+/* 로고 스타일 */
+.footer-logo {
+    margin-top: 10px;
+    margin-left: 30px;
+    margin-right: 20px;
+    width: 40px; /* 로고 크기 조정 */
+    height: 40px;
+    border-radius: 50%; /* 로고를 원형으로 */
+}
+/* 텍스트 스타일 */
+.footer-text h3 {
+   	margin: 0;
+   	font-size: 18px;
+    font-weight: bold;
+}
+.footer-text p {
+    margin: 3px 0;
+    font-size: 14px;
+    color: black;
 }

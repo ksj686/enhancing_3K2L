@@ -60,4 +60,10 @@ public interface AdminService {
     List<Map<String, Object>> getTotalEventStats();
 
     List<Map<String, Object>> getSignUpStats(String startDate, String endDate, String periodUnit);
+
+    List<Map<String, Object>> getDropOutStats(String startDate, String endDate, String periodUnit);
+
+    int getVisitorCount();
+
+    List<Map<String, Object>> getTodayEventsStats();
 }

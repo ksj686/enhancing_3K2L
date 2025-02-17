@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+
+	<!-- [헤더] 헤더 영역 -->
+	<header th:fragment="header">
+		<nav>
+			<div class="logo">
+				<img src="/img/logo.png" alt="Journivers" />
+			</div>
+			<div class="menu">
+				<a href="/home">홈</a>
+				<a href="/journal.html">일기행성</a>
+				<a href="/emotion.html">공감행성</a>
+				<a href="/healing.html">힐링행성</a>
+			</div>
+			<div class="account">
+				<a href="/members/insert">회원가입</a>
+				<button onclick="location.href='/login'" class="login-btn">로그인</button>
+			</div>
+		</nav>
+	</header>
+    
+    <span th:fragment="pre-content">
+	    <!-- 별과 별똥별 -->
+		<div class="comet1"></div>
+		<div class="comet2"></div>
+
+		<div class="stars-container">
+			<div class="star"></div>
+			<div class="star"></div>
+			<div class="star"></div>
+			<div class="star"></div>
+			<div class="star"></div>
+			<div class="star"></div>
+			<div class="star"></div>
+		</div>
+    </span>
+
+	 <!-- [푸터] 푸터영역-->
+	<footer class="footer" th:fragment="footer">
+		<img src="/img/SKL logo.png" alt="SamKimLee2 Logo" class="footer-logo">
+		<div class="footer-text">
+			<h3>SamKimLee2 Company</h3>
+			<p>78, Gosanja-ro 32-gil, Dongdaemun-gu, <u>Seoul</u>, Republic of Korea</p>
+			<p>Samkimlee2@saesac.com</p>
+	</footer> 
+</html>

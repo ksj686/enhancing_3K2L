@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+<style>
+	a {
+		text-decoration-line: none;
+		color: black;
+	}
+	.deactive, .deactive a {
+		color: gray; !important;
+	}
+</style>
+<body>
+<h5 th:if="${session.memberid != null}">[[${session.memberid}]]님</h5>
+<a href="/login" th:if="${session.memberid == null}">로그인</a>
+<a href="/members/insert"  th:if="${session.memberid == null}">회원가입</a>
+<a href="/logout" th:if="${session.memberid != null}">로그아웃</a>
+<div style="text-align:center;">
+	<h1> [[${session.memberid}]]님의 읽지 않은 [[${unreadCount}]]개의 알람이 있습니다. </h1>
+	<hr>
+	<ul th:each="notice: ${noticeList}">
+		<li th:switch="${notice.noticeType}" th:class="${notice.noticeRead=='T'?'deactive':'active'}">
+			<a th:case="BOARD_HIDE_REPORT" th:href="@{/emotion/Id/{Id}(Id=${notice.boardId})}">
+				[[${session.memberid}]]님의 글이 신고 누적으로 인해 숨김 처리되었어요.
+			</a>
+			<a th:case="BOARD_HIDE_FILTER" th:href="@{/emotion/Id/{Id}(Id=${notice.boardId})}">
+				[[${session.memberid}]]님의 글이 부적절한 내용으로 인해 숨김 처리되었어요.
+			</a>
+			<a th:case="BOARD_REPORT" th:href="@{/emotion/Id/{Id}(Id=${notice.boardId})}">
+				[[${session.memberid}]]님의 글이 신고되었어요.
+			</a>
+			<a th:case="DIARY_FEED" th:href="@{/diary/{Id}(Id=${notice.boardId})}">
+				[[${session.memberid}]]님의 일기에 메시지가 도착했어요.
+			</a>
+			<span th:switch="${notice.noticeDate}">
+				<span th:case="0">오늘</span>
+				<span th:case="1">어제</span>
+				<span th:case="*">[[${notice.noticeDate}]]일 전</span>
+			</span>
+			<span>
+				<button th:id="'notice-' + ${notice.noticeId}" class="delete-notice" th:data-notice-id="${notice.noticeId}">삭제하기</button>
+			</span>
+		</li>
+	</ul>
+</div>
+	<script>
+		// 삭제 버튼 클릭 이벤트 핸들러
+		document.addEventListener('DOMContentLoaded', function() {
+			const deleteButtons = document.querySelectorAll('.delete-notice');
+
+			deleteButtons.forEach(button => {
+				button.addEventListener('click', function() {
+					const noticeId = this.dataset.noticeId; // data-notice-id에서 ID 가져오기
+
+					if (confirm('정말로 이 알림을 삭제하시겠습니까?')) {
+						fetch(`/notice/delete/${noticeId}`, {
+							method: 'DELETE'
+						})
+						.then(response => {
+							if (response.ok) {
+								// 삭제 성공 시, 해당 알림 행을 제거
+								this.closest('li').remove(); // li 요소를 제거하여 삭제
+							} else {
+								alert('알림 삭제에 실패했습니다.');
+							}
+						})
+						.catch(error => {
+							console.error('삭제 중 오류 발생:', error);
+							alert('알림 삭제 중 오류가 발생했습니다.');
+						});
+					}
+				});
+			});
+		});
+	</script>
+</body>
+</html>

@@ -2,6 +2,7 @@ package app.labs.board.service;
 
 import java.util.List;
 
+import app.labs.board.event.BoardCreateEvent;
 import app.labs.board.event.BoardOffensiveEvent;
 import app.labs.board.event.BoardReportedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import app.labs.board.dao.BoardRepository;
 import app.labs.board.model.Board;
+
 
 @Service
 public class BasicBoardService implements BoardService {
@@ -37,6 +39,7 @@ public class BasicBoardService implements BoardService {
 
 	@Override
 	public void createBoard(Board board) {
+		eventPublisher.publishEvent(new BoardCreateEvent(board));
 		boardRepository.createBoard(board);
 	}
 
@@ -53,7 +56,7 @@ public class BasicBoardService implements BoardService {
         }
 	}
 
-	// 누적 신고수 조회회
+	// 누적 신고수 조회
 	@Override
 	public int getBoardReport(int boardId) {
 		return boardRepository.getBoardReport(boardId); 

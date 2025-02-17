@@ -1,0 +1,192 @@
+body {
+    margin: 0;
+    display: flex;
+    font-family: Arial, sans-serif;
+    flex-direction: column;       
+    background-image: url('/img/register_sky.png');
+    background-size: cover;       
+    background-position: center; 
+    background-repeat: no-repeat; 
+    min-height: 100vh;                 
+    width: 100%;
+}
+
+/* 메인 콘텐츠 적용 */
+.main-content {
+    flex: 1;  
+    display: flex;
+    justify-content: center; /* 수평 중앙 정렬 */
+    align-items: center;     /* 수직 중앙 정렬 */
+    position: relative;      /* 자식 요소의 절대 위치 기준 */
+    flex-direction: column;  /* 콘텐츠를 세로로 배치 */
+}
+
+/* 1. 헤더 */
+header {
+    background: transparent;
+    position: static;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 0;
+    z-index: 100;  /* 항상 헤더레이어가 최상위 */
+}
+    nav {
+        width: 95%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .logo img {
+        height: 33px;
+    }
+    .menu {
+        display: flex;
+        align-items: center;
+        gap: 90px;
+    }
+    .menu a:hover, .account a:hover {
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+    .account {
+        display: flex;
+        align-items: center;
+        gap: 20px;       
+    }
+    .menu, .account {
+        text-decoration: none;
+        font-size: 20px;
+        padding: 5px 15px;
+        background: transparent;
+        cursor: pointer;
+    }
+    .login-btn {
+        font-size: 18px;
+        background-color: #ffffff;
+        font-weight: bold !important;
+        color: black;
+        border: none;
+        border-radius: 20px;
+        padding: 5px 15px;
+        cursor: pointer;
+    }
+    /* 하이퍼링크 클릭 시 색상 유지 */
+    .menu a:link, .menu a:visited, .menu a:active, .account a:link, .account a:active, .account a:visited{
+        color: black;
+        text-decoration: none;
+    }
+    .login-btn:hover {
+        background-color: #F5DF2C;
+        color: #F85A7B;
+        transition: background-color 0.3s ease;
+    }
+
+
+/* 회원가입 정보 입력 */
+.register-wrapper {
+    max-width: 8;
+    padding: 40px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;     /* 요소를 수직으로 배치 */
+    align-items: center;        /* 내용도 중앙 정렬 */
+}
+.register-background {
+    max-width: 900px;
+    height: auto;
+    position: absolute; 
+    z-index: -1;  
+    top: 50%;                 
+    left: 50%;                
+    transform: translate(-50%, -50%);
+}
+.signup-container {
+    background: rgba(255, 255, 255, 0.85);
+    padding: 30px 40px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    text-align: center;
+}
+
+/* 제목 */
+.signup-container h2 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* 입력 필드 */
+input[type="text"], input[type="email"], input[type="password"], input[type="date"], select {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+/* 버튼 스타일 */
+.signup-btn, .check-btn {
+    background-color: #F85A7B;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.signup-btn:hover, .check-btn:hover {
+    background-color: #F5DF2C;
+    color: #F85A7B;
+}
+
+/* 에러 메시지 */
+.error-message {
+    color: red;
+    font-size: 12px;
+    visibility: hidden; /* 초기에는 숨김 */
+}
+
+/* 입력 그룹 (중복 확인 버튼) */
+.input-group {
+    display: flex;
+    gap: 10px;
+}
+
+/* 로그인 링크 */
+.login-link {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.login-link a {
+    color: #6C63FF;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+/* 4. [푸터] 푸터 영역 */
+.footer {
+    background-color: #000;         
+    color: #fff;                    
+    height:80px;                
+    display: flex;
+    justify-content: center;        
+    align-items: center;            
+    position: relative;            
+    bottom: 0;
+    left: 0;
+    width: 100%;     
+    margin-top: auto;             
+}

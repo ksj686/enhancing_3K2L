@@ -127,7 +127,14 @@
             $('#startDateS, #startDateD').val(formatDate(lastMonth));
 
             loadSignUpStats();
-            loadDropOutStats(selectedEventId);
+            loadDropOutStats();
+
+            $('#updateChartS').click(function() {
+                loadSignUpStats();
+            });
+            $('#updateChartD').click(function() {
+                loadDropOutStats();
+            });
         });
 
         // 차트 객체를 저장할 변수들
@@ -152,21 +159,20 @@
             });
         }
 
-        function loadDropOutStats(eventId) {
+        function loadDropOutStats() {
             const startDate = $('#startDateD').val();
             const endDate = $('#endDateD').val();
             const periodUnit = $('#periodUnitD').val();
 
-            $.get('/admin/event-stats/past', {
-                eventId: eventId,
+            $.get('/admin/member-stats/drop-out', {
                 startDate: startDate,
                 endDate: endDate,
                 periodUnit: periodUnit
             }, function(response) {
                 // 데이터 형식 변환
                 const chartData = {
-                    labels: response.map(item => item.SUCCESS_DATE),
-                    values: response.map(item => item.EVENT_COUNT)
+                    labels: response.map(item => item.LAST_LOGIN),
+                    values: response.map(item => item.MEMBER_COUNT)
                 };
                 updateDropOutChart(chartData);
             });
