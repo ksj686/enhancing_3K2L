@@ -1,146 +1,41 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	<!-- layout:decorate="~{/thymeleaf/mybatis/default_layout}" -->
+
 <head>
-    <meta charset="UTF-8">
-    <title>JOURNIVERSE | DIARY LIST</title>
-    
-    <!-- ✅ TUI Calendar CSS -->
-    <link rel="stylesheet" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.min.css">
-
-    <!-- ✅ 필수 JS 라이브러리 -->
-    <script src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.min.js"></script>
-    <script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.min.js"></script>
-
-    <link rel="stylesheet" href="/css/diary/diary-list.css">
+	<meta charset="UTF-8">
+	<title>JOURNIVERSE | DIARY LIST</title>
 </head>
 
-<body>    
-    <div class="container">
-        <!-- 📌 캘린더 컨테이너 -->
-        <div class="calendar-wrapper">
-            <div class="calendar-header">
-                <select id="monthSelect"></select>
-                <select id="yearSelect"></select>
-            </div>
-            <div id="calendar"></div>
-        </div>
+<body>		
+	<div class="content-wrapper">
 
-        <!-- 📌 노트 스타일의 일기 보기 영역 -->
-        <div class="diary-view">
-            <h2 class="diary-title">일기를 선택하세요</h2>
-            <p class="diary-content">선택한 일기의 내용이 여기에 표시됩니다.</p>
-            <p class="diary-date"></p>
-        </div>
-    </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            console.log("DOMContentLoaded 실행됨");
-
-            if (typeof tui.Calendar === 'undefined') {
-                console.error("🚨 TUI Calendar 라이브러리가 로드되지 않음!");
-                return;
-            }
-
-            // ✅ 년도와 월 선택을 위한 select 박스 설정
-            const yearSelect = document.getElementById("yearSelect");
-            const monthSelect = document.getElementById("monthSelect");
-
-            let currentYear = new Date().getFullYear();
-            let currentMonth = new Date().getMonth() + 1;
-
-            for (let y = 2020; y <= 2030; y++) {
-                let option = document.createElement("option");
-                option.value = y;
-                option.textContent = y + " 년";
-                if (y === currentYear) option.selected = true;
-                yearSelect.appendChild(option);
-            }
-
-            for (let m = 1; m <= 12; m++) {
-                let option = document.createElement("option");
-                option.value = m;
-                option.textContent = m + " 월";
-                if (m === currentMonth) option.selected = true;
-                monthSelect.appendChild(option);
-            }
-
-            var cal = new tui.Calendar("#calendar", {
-                defaultView: "month",
-                useCreationPopup: false,
-                useDetailPopup: false,
-            });
-
-            // 📌 년도/월 선택 시 달력 업데이트
-            function setMonthYear() {
-                let selectedYear = yearSelect.value;
-                let selectedMonth = monthSelect.value;
-                cal.setDate(new Date(selectedYear, selectedMonth - 1, 1));
-                loadDiaryData(selectedYear, selectedMonth);
-            }
-
-            yearSelect.addEventListener("change", setMonthYear);
-            monthSelect.addEventListener("change", setMonthYear);
-
-            // 📌 서버에서 가져온 데이터 기반으로 일기 표시
-            function loadDiaryData(year, month) {
-                fetch(`/diary/list?year=${year}&month=${month}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        cal.clear(); // 기존 일정 초기화
-
-                        data.forEach(diary => {
-                            cal.createSchedules([
-                                {
-                                    id: diary.diaryId,
-                                    calendarId: "1",
-                                    title: diary.diaryTitle,
-                                    category: "allday",
-                                    start: diary.diaryDate,
-                                    color: "#ffffff",
-                                    bgColor: getEmotionColor(diary.diaryEmotion),
-                                    borderColor: getEmotionColor(diary.diaryEmotion),
-                                }
-                            ]);
-                        });
-                    })
-                    .catch(error => console.error("일기 데이터 불러오기 실패:", error));
-            }
-
-            // 📌 diaryEmotion 값에 따라 색상 설정
-            function getEmotionColor(emotion) {
-                const colorMap = {
-                    "기쁨": "#FFD700",
-                    "슬픔": "#4682B4",
-                    "분노": "#FF6347",
-                    "당황": "#8A2BE2",
-                    "불안": "#20B2AA",
-                    "중립": "#A9A9A9"
-                };
-                return colorMap[emotion] || "#D3D3D3"; // 기본 색상: 회색
-            }
-
-            // 📌 일기 클릭 시, 오른쪽 영역에 내용 표시
-            cal.on("clickSchedule", function(event) {
-    			let clickedDate = event.schedule.start.toISOString().split("T")[0]; // 📌 "YYYY-MM-DD" 형식으로 변환
-
-    			console.log("📅 클릭한 날짜:", clickedDate);
-
-    			fetch(`/diary/${clickedDate}`)
-        			.then(response => response.json())
-        			.then(data => {
-            			document.querySelector(".diary-title").innerText = data.diaryTitle;
-            			document.querySelector(".diary-content").innerText = data.diaryContent || "내용 없음";
-            			document.querySelector(".diary-date").innerText = `DATE: ${data.diaryDate}`;
-        			})
-        			.catch(error => console.error("일기 데이터를 불러오지 못함:", error));
-			});
-
-
-            // ✅ 초기 데이터 로드
-            loadDiaryData(currentYear, currentMonth);
-            cal.render();
-        });
-    </script>
+	
+		<div class="diary-container">
+			<h2>일기 목록</h2>
+			
+			<div class="btn-box">
+				<button onclick="location.href='/diary/insert'" class="diary-btn write scale">일기쓰기</button>
+			</div>
+			
+			<!-- 검색 -->
+			<div class="search-box">
+				<input class="search-txt" type="text" name="searchKeyword" placeholder="search">
+				<button class="search-btn" type="submit">🔍</button>
+					<!-- <img src="" /> 검색버튼에 이미지 사용시 사용-->	
+			</div>
+			
+			<div class="diary-list-container">
+				<div class="diary-item" th:each="diary:${diaryList}">
+					<a th:href="@{/diary/{id}(id=${diary.diaryId})}" class="diary-link">
+						<span class="diary-title" th:utext="${diary.diaryTitle}"></span>
+						<span class="diary-date" th:utext="${diary.diaryDate}"></span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
+
 </html>

@@ -35,6 +35,18 @@ public class BasicDiaryService implements DiaryService {
 	}
 
 	@Override
+	public List<Diary> getDiaryListByDate(String memberId, String diaryDate){
+		return diaryRepository.getDiaryListByDate(memberId, diaryDate);
+	}
+	
+	// 📌 특정 연도/월의 일기 목록 조회
+    @Override
+    public List<Diary> getDiariesByMonth(String memberId, int year, int month) {
+        String yearMonth = String.format("%04d-%02d", year, month); // YYYY-MM 포맷
+        return diaryRepository.getDiaryListByMonth(memberId, yearMonth);
+    }
+	
+	@Override
 	public int createDiaryId() {
 		return diaryRepository.createDiaryId();
 	}
@@ -60,10 +72,5 @@ public class BasicDiaryService implements DiaryService {
 		return diaryRepository.deleteDiary(diaryId);
 	}
 	
-	@Override
-	public List<Diary> getDiaryListByMonth(String memberId, int year, int month) {
-	    return diaryRepository.getDiaryListByMonth(memberId, year, month);
-	}
-
 	
 }
