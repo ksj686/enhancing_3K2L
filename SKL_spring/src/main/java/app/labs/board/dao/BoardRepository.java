@@ -10,6 +10,7 @@ import app.labs.board.model.Board;
 @Mapper
 public interface BoardRepository {
 	List<Board> getBoardList(@Param("boardCategory") String boardCategory);
+	int getBoardCount();
 	Board getBoardInfo(int boardId);
 	int createBoardId();
 	void createBoard(Board board);

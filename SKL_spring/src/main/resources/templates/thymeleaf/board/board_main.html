@@ -1,24 +1,35 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-	<meta charset="UTF-8">
-	<title>감정행성</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{/thymeleaf/default_layout}">
+
+<th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/css/board/board.css}" />
+</th:block>
 <body>
-	<h5 th:if="${session.memberid != null}">[[${session.memberid}]]님</h5>
-	<a href="/login" th:if="${session.memberid == null}">로그인</a>
-	<a href="/members/insert"  th:if="${session.memberid == null}">회원가입</a>
-	<a href="/logout" th:if="${session.memberid != null}">로그아웃</a>
-	<th:block th:if="${session.memberid != null}">
-		<a href="/notice" th:if="${!hasNotice}">☆</a>
-		<a href="/notice" th:if="${hasNotice}">★</a>
-	</th:block>
-	<div style="text-align:center;">
-		<h1> Hello board! </h1>
-		<button onclick="location.href='/emotion/joy'">   기쁨의 방 </button>
-		<button onclick="location.href='/emotion/sad'">   슬픔의 방 </button>
-		<button onclick="location.href='/emotion/worry'"> 걱정의 방 </button>
-		<button onclick="location.href='/emotion/cheer'"> 응원의 방 </button>
+	<div class="main-content" layout:fragment="content">
+		<!-- [상단] 홈 텍스트, CAT -->
+		<section class="home-section">
+			<div class="home-text">
+				<img src="../../img/board/empathy-text.png" alt="Somewher, Someone Feels just like you" />
+			</div>
+			<div class="cta-box-container">
+				<button onclick="location.href='/emotion/joy'" class="start-btn">Let's Share Empathy</button>
+				<!-- "Today's New Post" 박스 -->
+				<div class="new-post-box">
+					<h2>Today's new posts</h2>
+					<div id="post-count">[[ ${boardCount} ]]</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- 공감행성 -->
+		<section class="planet-section">
+			<img src="../../img/board/home-worry.png" alt="Worry" class="worry" onclick="location.href='/emotion/worry'">
+			<img src="../../img/board/home-joy.png" alt="Joy" class="joy" onclick="location.href='/emotion/joy'">
+			<img src="../../img/board/home-sad.png" alt="Sad" class="sad" onclick="location.href='/emotion/sad'">
+			<img src="../../img/board/home-cheer.png" alt="Cheer" class="cheer" onclick="location.href='/emotion/cheer'">
+		</section>
 	</div>
 </body>
 </html>

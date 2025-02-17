@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration; // Configuration �
 import org.springframework.web.reactive.function.client.ExchangeStrategies; // ExchangeStrategies를 위한 임포트
 import org.springframework.web.reactive.function.client.WebClient; // WebClient를 위한 임포트
 
-@Configuration // 이 클래스가 Spring의 설정 클W래스임을 나타냄
+@Configuration // 이 클래스가 Spring의 설정 클래스임을 나타냄
 public class WebClientConfig {
 
     @Bean // 이 메서드가 Spring의 Bean으로 등록됨을 나타냄
