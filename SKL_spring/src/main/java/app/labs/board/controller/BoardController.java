@@ -30,7 +30,9 @@ public class BoardController {
 	EmojiService emojiService;
 
 	@GetMapping(value= {"", "/"})
-	public String boardMain() {
+	public String boardMain(Model model) {
+		int boardCount = boardService.getBoardCount();
+		model.addAttribute("boardCount", boardCount);
 		return "thymeleaf/board/board_main";
 	}
 

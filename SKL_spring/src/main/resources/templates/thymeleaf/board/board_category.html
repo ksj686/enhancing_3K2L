@@ -1,10 +1,68 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-	<meta charset="UTF-8">
-	<title>감정행성 | [[${boardCategory}]]</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{/thymeleaf/default_layout}">
+
+<th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/css/board/{emo}.css(emo=${boardCategory})}" />
+	<link rel="stylesheet" th:href="@{/css/board/{emo}.css(emo=${boardCategory})}" />
+</th:block>
 <body>
+	<div class="cheer-theme" layout:fragment="content">
+		<section class="post-wrapper">
+			<div class="post-container">
+				<div class="post-card">
+					<h3 id="author">닉네임</h3>
+					<p id="date">2025-02-10, 17:00</p>
+					<p id="content">다른 유저의 게시글1</p>
+					<button class="more-button">more</button>
+				</div>
+				<div class="post-card">
+					<h3 id="author">닉네임</h3>
+					<p id="date">2025-02-10, 17:00</p>
+					<p id="content">다른 유저의 게시글2 <br>
+						반가워요 <br>
+						신나요 <br>
+						즐겁게 <br>
+						행복하게 <br>
+						즐겁자! <br>
+						반가워요 <br>
+						신나요 <br>
+						즐겁게 <br>
+						행복하게 <br>
+						즐겁자! <br>
+					</p>
+					<button class="more-button">more</button>
+				</div>
+				<!-- 나의 카드 -->
+				<div class="my-post-card">
+					<h3 id="author">닉네임</h3>
+					<p id="date">2025-02-10, 17:00</p>
+					<p id="content">다른 유저의 게시글3</p>
+					<button class="my-more-button">more</button>
+				</div>
+				<div class="post-card">
+					<h3 id="author">닉네임</h3>
+					<p id="date">2025-02-10, 17:00</p>
+					<p id="content">다른 유저의 게시글3</p>
+					<button class="more-button">more</button>
+				</div>
+				<div class="post-card">
+					<h3 id="author">닉네임</h3>
+					<p id="date">2025-02-10, 17:00</p>
+					<p id="content">다른 유저의 게시글4</p>
+					<button class="more-button">more</button>
+				</div>
+			</div>
+		</section>
+		<!-- 글쓰기 버튼 -->
+		<div class="write-section">
+			<button class="write-button" th:onclick="|location.href='@{/emotion/{boardCategory}/new(boardCategory=${boardCategory},)}'|">
+				Share your Emotion
+			</button>
+		</div>
+	</div>
+
 <h5 th:if="${session.memberid != null}">[[${session.memberid}]]님</h5>
 <a href="/login" th:if="${session.memberid == null}">로그인</a>
 <a href="/members/insert"  th:if="${session.memberid == null}">회원가입</a>

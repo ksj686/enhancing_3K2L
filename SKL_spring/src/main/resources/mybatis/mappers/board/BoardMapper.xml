@@ -13,6 +13,13 @@
           <!-- AND BOARD_DATE >= SYSDATE - 1 -->
     </select>
 
+    <!-- 글 개수 조회 -->
+    <select id="getBoardCount" resultType="int">
+        SELECT COUNT(1)
+        FROM BOARD
+        WHERE BOARD_DATE >= SYSDATE - 7
+    </select>
+
     <!-- 글 조회 -->
     <select id="getBoardInfo" parameterType="int" resultType="app.labs.board.model.Board">
         SELECT BOARD_ID, BOARD_TITLE, BOARD_CATEGORY, 

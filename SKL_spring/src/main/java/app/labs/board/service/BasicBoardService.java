@@ -26,6 +26,11 @@ public class BasicBoardService implements BoardService {
 	public List<Board> getBoardList(String boardCategory) {
 		return boardRepository.getBoardList(boardCategory);
 	}
+
+	@Override
+	public int getBoardCount() {
+		return boardRepository.getBoardCount();
+	}
 	
 	@Override
 	public Board getBoardInfo(int boardId) {
