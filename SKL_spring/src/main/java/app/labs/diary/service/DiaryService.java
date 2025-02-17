@@ -10,13 +10,17 @@ public interface DiaryService {
 	int getDiaryCount();
 	int getDiaryCount(String memberId);
 	List <Diary> getDiaryList(String memberId);
+	
+	List <Diary> getDiaryListByDate(@Param("memberId") String memberId, @Param("diaryDate") String diaryDate);
+	List<Diary> getDiariesByMonth(String memberId, int year, int month);
+	
 	int createDiaryId();
 	Diary getDiaryInfo(int diaryId);
 	void insertDiary(Diary diary);
 	void updateDiary(Diary diary);
 	int deleteDiary(int diaryId);
 	
-	List<Diary> getDiaryListByMonth(String memberId, int year, int month);
+	
 	
 
 }

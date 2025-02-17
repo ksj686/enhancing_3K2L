@@ -1,0 +1,134 @@
+@charset "UTF-8";
+/* 🌿 전체 페이지 스타일 */
+body {
+    font-family: 'Arial', sans-serif;
+    background: url('/images/background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* 🌟 메인 컨테이너 */
+.content-wrapper {
+    width: 70%;
+    max-width: 800px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* 📝 제목 입력 스타일 */
+.form-title {
+	font-size:20px;
+	font-weight: bold;
+    width: 100%;
+    padding: 20px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.form-title input {
+    width: 80%;
+    padding: 15px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    text-align: center;
+    background: #f0f0f0;
+}
+
+/* 📅 날짜 입력 스타일 */
+.form-date {
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+.form-date input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+/* ✍️ 에디터 영역 */
+#editor {
+    width: 100%;
+    height: 300px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background: #f8f8f8;
+}
+
+/* 📂 파일 업로드 스타일 */
+.file-upload {
+    margin-top: 15px;
+    text-align: left;
+}
+
+.file-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#fileName {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #f0f0f0;
+}
+
+/* 파일 선택 버튼 숨기기 */
+input[type="file"] {
+    display: none;
+}
+
+/* 커스텀 파일 버튼 */
+.file-button {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #166AA2;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* ✅ 버튼 스타일 */
+/* 버튼을 가로로 정렬하는 컨테이너 */
+.button-group {
+    display: flex;
+    justify-content: space-between; /* 좌우 끝에 배치 */
+    margin-top: 20px;
+    gap: 10px;
+}
+
+/* 버튼 기본 스타일 */
+.submit-btn, .cancel-btn {
+    width: 50%; /* 버튼 크기를 동일하게 조정 */
+    height: 35px;
+}
+
+
+.submit-btn {
+    background: #3AA0E4;
+    color: white;
+}
+
+.cancel-btn {
+    background: #ddd;
+    color: black;
+}
+
+.submit-btn:hover {
+    background: #166AA2;
+}
+
+.cancel-btn:hover {
+    background: #bbb;
+}
