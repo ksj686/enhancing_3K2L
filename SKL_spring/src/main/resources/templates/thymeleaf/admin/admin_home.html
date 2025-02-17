@@ -73,7 +73,7 @@
                 <!-- <canvas id="totalDiaryChart"></canvas> -->
                 <div class="title">현재</div><br>
                 <div class="subtitle">사이트의 활성 사용자 수:</div><br>
-                <div id="visitor-count" class="count"></div><br>
+                <div id="visitor-count" class="count">0</div><br>
                 <div class="unit">명</div>
             </div>
             <div class="chart-wrapper">
@@ -104,6 +104,7 @@
 <th:block layout:fragment="script">
     <script type="text/javascript" th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js}"></script>
     <script type="text/javascript" th:src="@{https://html2canvas.hertzen.com/dist/html2canvas.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.0.8/countUp.umd.min.js"></script>
     <script type="text/javascript">
         // 페이지 로드 시 모든 통계 로드
         $(document).ready(function() {
@@ -117,7 +118,17 @@
             $.get('/admin/visitor-today', function(response) {
                 // response에서 방문자 수를 가져온다고 가정
                 // 예: response가 { count: 277 } 형태일 경우
-                $('#visitor-count').text(response.count);
+                // $('#visitor-count').text(response.count);
+                const options = {
+                    startVal: 0,        // 시작 값
+                    endVal: response.count,       // 끝 값
+                    duration: 2,        // 애니메이션 지속 시간 (초)
+                    separator: ',',     // 숫자 구분 기호 (옵션)
+                    decimal: '.'        // 소수점 기호 (옵션)
+                };
+
+                const counter = new countUp.CountUp('visitor-count', options.endVal, options);
+                counter.start();
             }).fail(function() {
                 console.error('Error fetching visitor count');
                 $('#visitor-count').text('Error'); // 오류 발생 시 텍스트 설정
