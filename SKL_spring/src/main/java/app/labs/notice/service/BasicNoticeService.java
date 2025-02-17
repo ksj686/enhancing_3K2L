@@ -2,11 +2,12 @@ package app.labs.notice.service;
 
 import app.labs.notice.dao.NoticeRepository;
 import app.labs.notice.model.Notice;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
+@Slf4j
 @Service
 public class BasicNoticeService implements NoticeService {
 
@@ -20,7 +21,9 @@ public class BasicNoticeService implements NoticeService {
 
     @Override
     public List<Notice> getNoticeList(String memberId) {
-        return noticeRepository.getNoticeList(memberId);
+        List<Notice> noticeList = noticeRepository.getNoticeList(memberId);
+
+        return noticeList;
     }
 
     @Override
@@ -34,8 +37,12 @@ public class BasicNoticeService implements NoticeService {
     }
 
     @Override
-    public void readNotice(int noticeId) {
-        noticeRepository.readNotice(noticeId);
+    public void deleteNotice(int noticeId) {
+        noticeRepository.deleteNotice(noticeId);
     }
 
+    @Override
+    public void readNotice(String memeberId) {
+        noticeRepository.readNotice(memeberId);
+    }
 }

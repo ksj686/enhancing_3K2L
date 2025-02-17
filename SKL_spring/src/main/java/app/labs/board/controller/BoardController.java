@@ -1,6 +1,5 @@
 package app.labs.board.controller;
 
-import app.labs.board.event.BoardOffensiveEvent;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -9,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-@RequestMapping("/emo")
+@RequestMapping("/emotion")
 public class BoardController {
 
 	@Autowired
@@ -32,7 +30,7 @@ public class BoardController {
 	EmojiService emojiService;
 
 	@GetMapping(value= {"", "/"})
-	public String boardMainWW() {
+	public String boardMain() {
 		return "thymeleaf/board/board_main";
 	}
 
@@ -66,25 +64,29 @@ public class BoardController {
 	}
 
 	@GetMapping("/{boardCategory}/new")
-	public String createBoard(Model model, @PathVariable("boardCategory") String boardCategory) {
-		model.addAttribute("board", new Board());
-		model.addAttribute("boardCategory", boardCategory);
-		return "thymeleaf/board/board_new";
+	public String createBoard(Model model,
+							  @PathVariable("boardCategory") String boardCategory,
+							  HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		String memberId = (String)session.getAttribute("memberid");
+		if (memberId != null) {
+			model.addAttribute("board", new Board());
+			model.addAttribute("boardCategory", boardCategory);
+			return "thymeleaf/board/board_new";
+		} else {
+			return "redirect:/login";
+		}
 	}
 
 	@PostMapping("/{boardCategory}/new")
 	public String createBoard(Board board, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		String memberId = (String)session.getAttribute("memberid");
-		if (memberId != null) {
-			int boardId = boardService.createBoardId();
-			board.setMemberId(memberId);
-			board.setBoardId(boardId);
-			boardService.createBoard(board);
-			return "redirect:/emo/Id/" + boardId;
-		} else {
-			return "redirect:/login";
-		}
+		int boardId = boardService.createBoardId();
+		board.setMemberId(memberId);
+		board.setBoardId(boardId);
+		boardService.createBoard(board);
+		return "redirect:/emotion/Id/" + boardId;
 	}
 
 	@PutMapping("/report")

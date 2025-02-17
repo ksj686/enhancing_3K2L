@@ -4,10 +4,12 @@
 
     <!-- 알림 조회 -->
     <select id="getNoticeList" parameterType="String" resultType="app.labs.notice.model.Notice">
-        SELECT NOTICE_ID, NOTICE_TYPE, NOTICE_SEND, NOTICE_READ, NOTICE_DATE, BOARD_ID, MEMBER_ID
+        SELECT NOTICE_ID, NOTICE_TYPE, NOTICE_SEND, NOTICE_READ, BOARD_ID, MEMBER_ID,
+               NOTICE_DATE AS NO_DATE,
+               TO_CHAR(TRUNC(SYSDATE) - TRUNC(NOTICE_DATE)) AS NOTICE_DATE
         FROM NOTICE
         WHERE MEMBER_ID = #{memberId}
-          AND NOTICE_SEND = 'T'
+        ORDER BY NO_DATE DESC
     </select>
 
     <!-- 읽지 않은 알림 갯수 -->
@@ -15,14 +17,13 @@
         SELECT COUNT(1)
         FROM NOTICE
         WHERE MEMBER_ID = #{memberId}
-          AND NOTICE_SEND = 'T'
           AND NOTICE_READ = 'F'
     </select>
 
     <!-- 알림 저장 -->
     <insert id="saveNotice" parameterType="hashmap">
-        INSERT INTO NOTICE (NOTICE_TYPE, BOARD_ID, MEMBER_ID)
-        VALUES (#{noticeType}, #{boardId}, #{memberId})
+        INSERT INTO NOTICE (NOTICE_ID, NOTICE_TYPE, BOARD_ID, MEMBER_ID)
+        VALUES (NOTICE_SEQ.nextval, #{noticeType}, #{boardId}, #{memberId})
     </insert>
 
     <!-- 알림 보냄 체크 -->
@@ -33,9 +34,14 @@
     </update>
 
     <!-- 알림 읽음 체크 -->
-    <update id="readNotice" parameterType="int">
+    <update id="readNotice" parameterType="String">
         UPDATE NOTICE
         SET NOTICE_READ = 'T'
-        WHERE NOTICE_ID = #{noticeId}
+        WHERE MEMBER_ID = #{memeberId}
     </update>
+
+    <delete id="deleteNotice" parameterType="int">
+        DELETE NOTICE
+        WHERE NOTICE_ID = #{noticeId}
+    </delete>
 </mapper>

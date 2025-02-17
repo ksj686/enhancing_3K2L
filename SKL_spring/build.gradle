@@ -48,6 +48,15 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	//WebClient
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	
+	// Jsoup(HTML형식 제거)
+	implementation 'org.jsoup:jsoup:1.14.3'
+
+	// FastAPI 자동 실행
+	//implementation 'jakarta.annotation:jakarta.annotation-api:2.1.1'
 }
 
 eclipse { 

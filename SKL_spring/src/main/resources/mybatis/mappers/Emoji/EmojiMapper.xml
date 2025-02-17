@@ -19,8 +19,9 @@
     <!-- 공감수 추가 -->
     <insert id="insertEmoji" parameterType="hashmap">
         INSERT INTO EMOJI (
-            EMOJI_CATEGORY, MEMBER_ID, BOARD_ID)
+            EMOJI_ID, EMOJI_CATEGORY, MEMBER_ID, BOARD_ID)
         VALUES (
+            EMOJI_SEQ.nextval,
             #{emojiCategory,jdbcType=VARCHAR},
             #{memberId,jdbcType=VARCHAR},
             #{boardId,jdbcType=INTEGER}
