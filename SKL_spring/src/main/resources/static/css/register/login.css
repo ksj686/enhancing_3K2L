@@ -1,87 +1,6 @@
-body {
-    margin: 0;
-    display: flex;
-    font-family: Arial, sans-serif;
-    flex-direction: column;       
+body {     
     background-image: url('/img/login_sky.png');
-    background-size: cover;       
-    background-position: center; 
-    background-repeat: no-repeat; 
-    min-height: 100vh;                 
-    width: 100%;
 }
-/* 메인 콘텐츠 적용 */
-.main-content {
-    flex: 1;  
-    display: flex;
-    justify-content: center; /* 수평 중앙 정렬 */
-    align-items: center;     /* 수직 중앙 정렬 */
-    position: relative;      /* 자식 요소의 절대 위치 기준 */
-    flex-direction: column;  /* 콘텐츠를 세로로 배치 */
-}
-
-/* 1. 헤더 */
-header {
-    background: transparent;
-    position: static;
-    top: 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 50px 0;
-    z-index: 100;  /* 항상 헤더레이어가 최상위 */
-}
-    nav {
-        width: 95%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .logo img {
-        height: 33px;
-    }
-    .menu {
-        display: flex;
-        align-items: center;
-        gap: 90px;
-    }
-    .menu a:hover, .account a:hover {
-        font-weight: bold;
-        transition: all 0.3s ease;
-    }
-    .account {
-        display: flex;
-        align-items: center;
-        gap: 20px;       
-    }
-    .menu, .account {
-        text-decoration: none;
-        font-size: 20px;
-        padding: 5px 15px;
-        background: transparent;
-        cursor: pointer;
-    }
-    .login-btn {
-        font-size: 18px;
-        background-color: #ffffff;
-        font-weight: bold !important;
-        color: black;
-        border: none;
-        border-radius: 20px;
-        padding: 5px 15px;
-        cursor: pointer;
-    }
-    /* 하이퍼링크 클릭 시 색상 유지 */
-    .menu a:link, .menu a:visited, .menu a:active, .account a:link, .account a:active, .account a:visited{
-        color: black;
-        text-decoration: none;
-    }
-    .login-btn:hover {
-        background-color: #F5DF2C;
-        color: #F85A7B;
-        transition: background-color 0.3s ease;
-    }
 
 /* 2. 별똥별 */
     .comet1 {
@@ -239,14 +158,7 @@ header {
         border-color: #F85A7B;
         outline: none;
     }
-    .account {
-        width: 500px;              
-        display: flex;             
-        justify-content: flex-end; 
-        align-items: center;        
-        padding: 5px 0;            
-        box-sizing: border-box;    
-    }
+    
     .account-login-btn {
         width: 200px;
         background-color: #F85A7B;
@@ -273,38 +185,3 @@ header {
         color: white;
     }
 
-
-/* 4. 푸터 스타일 */
-.footer {
-    background: rgba(255, 255, 255, 0.2); /* 반투명한 흰색 배경 */
-    padding: 20px;
-    text-align: left; /* 왼쪽 정렬 */
-    display: flex;
-    justify-content: flex-start;
-}
-    /* 컨텐츠 영역 정렬 */
-    .footer-content {
-        display: flex;
-        align-items: center;
-        gap: 15px; /* 로고와 텍스트 간격 */
-    }
-    /* 로고 스타일 */
-    .footer-logo {
-        margin-top: 10px;
-        margin-left: 30px;
-        margin-right: 20px;
-        width: 40px; /* 로고 크기 조정 */
-        height: 40px;
-        border-radius: 50%; /* 로고를 원형으로 */
-    }
-    /* 텍스트 스타일 */
-    .footer-text h3 {
-        margin: 0;
-        font-size: 18px;
-        font-weight: bold;
-    }
-    .footer-text p {
-        margin: 3px 0;
-        font-size: 14px;
-        color: black;
-    }
