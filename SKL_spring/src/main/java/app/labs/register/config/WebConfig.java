@@ -24,7 +24,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginCheckInterceptor())
                 .addPathPatterns("/members/**")
-                .excludePathPatterns("/login", "/logout", "/members/insert", "/members/check-memberid", "/members/find-username", "/members/find-password"); // 인증 예외 경로 추가
+                .excludePathPatterns("/login", "/logout", "/members/insert", "/members/check-memberid", "/members/find-username", "/members/find-password", "/members/check-memberNick"); // 인증 예외 경로 추가
 
         List<String> staticResourcesPath = Arrays.stream(StaticResourceLocation.values())
                 .flatMap(StaticResourceLocation::getPatterns)
