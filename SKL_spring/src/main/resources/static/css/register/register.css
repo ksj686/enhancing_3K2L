@@ -1,98 +1,33 @@
-body {
-    margin: 0;
-    display: flex;
-    font-family: Arial, sans-serif;
-    flex-direction: column;       
+body {       
     background-image: url('/img/register_sky.png');
-    background-size: cover;       
-    background-position: center; 
-    background-repeat: no-repeat; 
-    min-height: 100vh;                 
-    width: 100%;
 }
 
-/* 메인 콘텐츠 적용 */
-.main-content {
-    flex: 1;  
-    display: flex;
-    justify-content: center; /* 수평 중앙 정렬 */
-    align-items: center;     /* 수직 중앙 정렬 */
-    position: relative;      /* 자식 요소의 절대 위치 기준 */
-    flex-direction: column;  /* 콘텐츠를 세로로 배치 */
-}
+/* .comet {
+    position: absolute;
+    width: 507px;
+    height: 285px;
+    left: 1862.21px;
+    top: 479px;
+    
+    background: url('/img/comet.png') no-repeat center / contain;
+    
+    transform: matrix(-0.81, 0.59, 0.59, 0.81, 0, 0);
+} */
 
-/* 1. 헤더 */
-header {
-    background: transparent;
-    position: static;
-    top: 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 50px 0;
-    z-index: 100;  /* 항상 헤더레이어가 최상위 */
+.register-container {
+    justify-content: space-evenly;
 }
-    nav {
-        width: 95%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .logo img {
-        height: 33px;
-    }
-    .menu {
-        display: flex;
-        align-items: center;
-        gap: 90px;
-    }
-    .menu a:hover, .account a:hover {
-        font-weight: bold;
-        transition: all 0.3s ease;
-    }
-    .account {
-        display: flex;
-        align-items: center;
-        gap: 20px;       
-    }
-    .menu, .account {
-        text-decoration: none;
-        font-size: 20px;
-        padding: 5px 15px;
-        background: transparent;
-        cursor: pointer;
-    }
-    .login-btn {
-        font-size: 18px;
-        background-color: #ffffff;
-        font-weight: bold !important;
-        color: black;
-        border: none;
-        border-radius: 20px;
-        padding: 5px 15px;
-        cursor: pointer;
-    }
-    /* 하이퍼링크 클릭 시 색상 유지 */
-    .menu a:link, .menu a:visited, .menu a:active, .account a:link, .account a:active, .account a:visited{
-        color: black;
-        text-decoration: none;
-    }
-    .login-btn:hover {
-        background-color: #F5DF2C;
-        color: #F85A7B;
-        transition: background-color 0.3s ease;
-    }
-
 
 /* 회원가입 정보 입력 */
 .register-wrapper {
-    max-width: 8;
+    /* max-width: 8; */
     padding: 40px;
     border-radius: 20px;
     display: flex;
-    flex-direction: column;     /* 요소를 수직으로 배치 */
+    /* flex-direction: column; */
     align-items: center;        /* 내용도 중앙 정렬 */
+    justify-content: space-evenly;
+    margin-top: 50px;
 }
 .register-background {
     max-width: 900px;
@@ -104,7 +39,7 @@ header {
     transform: translate(-50%, -50%);
 }
 .signup-container {
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.9);
     padding: 30px 40px;
     border-radius: 15px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -117,6 +52,47 @@ header {
     font-size: 28px;
     color: #333;
     margin-bottom: 20px;
+}
+
+
+
+.signup-box {
+    color: white;
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 15px;
+    width: 30%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.signup-box h1 {
+    color: white;
+    text-align: center;
+}
+
+.left-section, .nickname {
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.nickname {
+    display: inline-block;
+    max-width: 200px; /* 원하는 너비 설정 */
+    word-wrap: break-word; /* 긴 단어가 줄바꿈되도록 설정 */
+    overflow-wrap: break-word; /* 긴 단어가 줄바꿈되도록 설정 (브라우저 호환성) */
+    white-space: normal;
+    color: rgb(107, 189, 227);
+}
+
+.left-section {
+    color: white;
+}
+
+#signupForm {
+    position: relative;
 }
 
 /* 입력 필드 */
@@ -132,19 +108,38 @@ input[type="text"], input[type="email"], input[type="password"], input[type="dat
 
 /* 버튼 스타일 */
 .signup-btn, .check-btn {
-    background-color: #F85A7B;
     color: white;
     padding: 12px;
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    font-weight: bold;
+    
     transition: background-color 0.3s ease;
 }
 
-.signup-btn:hover, .check-btn:hover {
+.signup-btn {
+    margin-top: 10px;
+    background-color: #F85A7B;
+    width: 50%;
+    position: relative;
+    transform: translate(50%, 0%);
+}
+
+.check-btn {
+    width: 100px;
+    background-color: #aeaeae;
+}
+
+.signup-btn:hover {
     background-color: #F5DF2C;
     color: #F85A7B;
+    font-weight: bold;
+}
+
+.check-btn:hover {
+    background-color: #5c5b59;
+    color: #ffffff;
+    font-weight: bold;
 }
 
 /* 에러 메시지 */
@@ -152,11 +147,14 @@ input[type="text"], input[type="email"], input[type="password"], input[type="dat
     color: red;
     font-size: 12px;
     visibility: hidden; /* 초기에는 숨김 */
+    margin: 0;
 }
 
 /* 입력 그룹 (중복 확인 버튼) */
 .input-group {
+    align-items: center;
     display: flex;
+    justify-content: space-between;
     gap: 10px;
 }
 
@@ -164,6 +162,7 @@ input[type="text"], input[type="email"], input[type="password"], input[type="dat
 .login-link {
     margin-top: 15px;
     font-size: 14px;
+    transform: translate(31%, 0%);
 }
 
 .login-link a {
@@ -174,19 +173,4 @@ input[type="text"], input[type="email"], input[type="password"], input[type="dat
 
 .login-link a:hover {
     text-decoration: underline;
-}
-
-/* 4. [푸터] 푸터 영역 */
-.footer {
-    background-color: #000;         
-    color: #fff;                    
-    height:80px;                
-    display: flex;
-    justify-content: center;        
-    align-items: center;            
-    position: relative;            
-    bottom: 0;
-    left: 0;
-    width: 100%;     
-    margin-top: auto;             
 }

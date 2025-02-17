@@ -6,92 +6,94 @@
     <th:block layout:fragment="css">
         <link rel="stylesheet" th:href="@{/css/register/register.css}" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.15.10/dist/sweetalert2.min.css">
-        <style>
-            .at {
-                padding-top: 12px;
-                margin-top: 8px;
-            }
-        </style>
     </th:block>
 
-    <div class="main-container" layout:fragment="content">
+    <div class="register-container" layout:fragment="content">
+        <!-- <div class="comet"></div> -->
         <div class="register-wrapper">
             <!-- <img src="/img/register_back.png" class="register-background" />
             <img src="/img/register_profile.png" class="profile-image"> -->
+            <div class="left-section">
+                <p>안녕하세요, <br><span  id="nicknameDisplay" class="nickname"></span> 님!</p>
+                <p><strong>Journiverse</strong>에서<br>감정의 여정을
+                    <br>떠나보세요.</p>
+            </div>
+            <div class="signup-box">
+                <h1>Create Account</h1>
+                <form action="/members/insert" method="post" id="signupForm">
+                    <label for="name">이름</label>
+                    <input type="text" id="memberName" name="memberName" placeholder="이름을 입력하세요" required>
             
-            <form action="/members/insert" method="post" id="signupForm">
-                <label for="name">이름</label>
-                <input type="text" id="memberName" name="memberName" placeholder="이름을 입력하세요" required>
-        
-                <label for="dob">생년월일</label>
-                <input type="date" id="memberBirthdate" name="memberBirthdate" required>
-        
-                <label for="nickname">닉네임</label>
-                <div class="input-group">
-                    <input type="text" id="memberNickname" name="memberNickname" placeholder="닉네임을 입력하세요" required>
-                    <button type="button" class="check-btn" id="nickCheck">중복 확인</button>
-                </div>
-        
-                <label for="email">이메일</label>
-                <div class="input-group">
-                    <input type="text" id="memberEmail" name="memberEmail" placeholder="이메일을 입력하세요" required>
-                    <span class="at">@</span>
-                    <input type="text" id="emailDomainInput" disabled>
-                    <select id="emailDomainSelect" onchange="updateDomainInput()">
-                        <option value="" selected></option> <!-- 기본 선택되지 않은 옵션 -->
-                        
-                        <option value="gmail.com">gmail.com</option>
-                        <option value="naver.com">naver.com</option>
-                        <option value="daum.net">daum.net</option>
-                        <option value="custom">직접입력</option>
-                    </select>
-                    <!-- <input type="text" id="custom-domain" placeholder="직접 입력" style="display:none;"> -->
-                </div>
-        
-                <label for="userid">ID</label>
-                <div class="input-group">
-                    <input type="text" id="memberId" name="memberId" placeholder="ID를 입력하세요" required>
-                    <button type="button" class="check-btn" id="idCheck">중복 확인</button>
-                </div>
-        
-                <label for="password">Password</label>
-                <input type="password" id="memberPwd" name="memberPwd" placeholder="비밀번호를 입력하세요" required>
-        
-                <label for="password-check">Password Check</label>
-                <input type="password" id="password-check" name="password-check" placeholder="비밀번호를 다시 입력하세요" required>
-                <p class="error-message" id="passwordMessage">*일치하지 않습니다.</p>
-        
-                <!-- <label for="phone">[선택] 전화번호</label>
-                <input type="text" id="phone" name="phone" placeholder="전화번호를 입력하세요">
-        
-                <label for="address">[선택] 주소</label>
-                <div class="input-group">
-                    <select>
-                        <option>시/도 선택</option>
-                        <option>서울</option>
-                        <option>부산</option>
-                        <option>인천</option>
-                        <option>대구</option>
-                        <option>대전</option>
-                        <option>광주</option>
-                        <option>울산</option>
-                        <option>세종</option>
-                        <option>경기</option>
-                        <option>강원</option>
-                        <option>충청북도</option>
-                        <option>충청남도</option>
-                        <option>전라남도</option>
-                        <option>경상북도</option>
-                        <option>경상남도</option>
-                        <option>제주</option>
-                    </select>
-                    <input type="text" id="address" name="address" placeholder="나머지 주소를 입력하세요">
-                </div> -->
-        
-                <button type="submit" class="signup-btn">Sign Up</button>
-            </form>
-        
-            <p class="login-link">이미 계정이 있으신가요? <a href="#">로그인</a></p>
+                    <label for="dob">생년월일</label>
+                    <input type="date" id="memberBirthdate" name="memberBirthdate" required>
+            
+                    <label for="nickname">닉네임</label>
+                    <div class="input-group">
+                        <input type="text" id="memberNickname" name="memberNickname" placeholder="닉네임을 입력하세요" required>
+                        <button type="button" class="check-btn" id="nickCheck">중복 확인</button>
+                    </div>
+            
+                    <label for="email">이메일</label>
+                    <div class="input-group">
+                        <input type="text" id="memberEmail" name="memberEmail" placeholder="이메일을 입력하세요" required>
+                        <span class="at">@</span>
+                        <input type="text" id="emailDomainInput" disabled>
+                        <select id="emailDomainSelect" onchange="updateDomainInput()">
+                            <option value="" selected></option> <!-- 기본 선택되지 않은 옵션 -->
+                            
+                            <option value="gmail.com">gmail.com</option>
+                            <option value="naver.com">naver.com</option>
+                            <option value="daum.net">daum.net</option>
+                            <option value="custom">직접입력</option>
+                        </select>
+                        <!-- <input type="text" id="custom-domain" placeholder="직접 입력" style="display:none;"> -->
+                    </div>
+            
+                    <label for="userid">ID</label>
+                    <div class="input-group">
+                        <input type="text" id="memberId" name="memberId" placeholder="ID를 입력하세요" required>
+                        <button type="button" class="check-btn" id="idCheck">중복 확인</button>
+                    </div>
+            
+                    <label for="password">Password</label>
+                    <input type="password" id="memberPwd" name="memberPwd" placeholder="비밀번호를 입력하세요" required>
+            
+                    <label for="password-check">Password Check</label>
+                    <input type="password" id="password-check" name="password-check" placeholder="비밀번호를 다시 입력하세요" required>
+                    <p class="error-message" id="passwordMessage">*일치하지 않습니다.</p>
+            
+                    <!-- <label for="phone">[선택] 전화번호</label>
+                    <input type="text" id="phone" name="phone" placeholder="전화번호를 입력하세요">
+            
+                    <label for="address">[선택] 주소</label>
+                    <div class="input-group">
+                        <select>
+                            <option>시/도 선택</option>
+                            <option>서울</option>
+                            <option>부산</option>
+                            <option>인천</option>
+                            <option>대구</option>
+                            <option>대전</option>
+                            <option>광주</option>
+                            <option>울산</option>
+                            <option>세종</option>
+                            <option>경기</option>
+                            <option>강원</option>
+                            <option>충청북도</option>
+                            <option>충청남도</option>
+                            <option>전라남도</option>
+                            <option>경상북도</option>
+                            <option>경상남도</option>
+                            <option>제주</option>
+                        </select>
+                        <input type="text" id="address" name="address" placeholder="나머지 주소를 입력하세요">
+                    </div> -->
+            
+                    <button type="submit" class="signup-btn">Sign Up</button>
+                </form>
+                <p class="login-link">이미 계정이 있으신가요? <a href="#">로그인</a></p>
+            </div>
+            
         </div>
     </div>
     <!-- <script th:src="@{/js/register.js}"></script> -->
@@ -99,6 +101,15 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.15.10/dist/sweetalert2.all.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+            const memberNicknameInput = document.getElementById('memberNickname');
+            const nicknameDisplay = document.getElementById('nicknameDisplay');
+
+            // input 이벤트 리스너 추가
+            memberNicknameInput.addEventListener('input', function() {
+                // 입력된 값을 .nickname에 업데이트
+                nicknameDisplay.textContent = memberNicknameInput.value;
+            });
+
             const passwordInput = document.getElementById('memberPwd');
             const passwordCheckInput = document.getElementById('password-check');
             const passwordMessage = document.getElementById('passwordMessage');

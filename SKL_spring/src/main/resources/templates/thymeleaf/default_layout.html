@@ -4,7 +4,8 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Journiverse_home</title>
+    <title>Journiverse</title>
+    <link rel="stylesheet" href="/css/default_layout.css">
     <th:block layout:fragment="css">
     </th:block>
 </head>
@@ -13,7 +14,7 @@
 	
 	<span th:replace="~{/thymeleaf/include::pre-content}"></span>
 
-	<div layout:fragment="content"></div>
+	<div class="main-content" layout:fragment="content"></div>
 
 	<footer th:replace="~{/thymeleaf/include::footer}"></footer>
     <!-- <script type="text/javascript" th:src="@{/js/include.js}"></script> -->
