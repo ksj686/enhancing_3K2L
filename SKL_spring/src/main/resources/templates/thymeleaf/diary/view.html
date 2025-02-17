@@ -16,7 +16,7 @@
 		
 		<!-- 일기 내용 -->
 		<div class="diary-content">
-			<p th:text="${diary.diaryContent}"></p>
+			<p th:utext="${diary.diaryContent}"></p>
 			<!-- 첨부파일이 존재할 경우 -->
 			<div class="attach-file" th:if="${attach != null}">
     			<!-- 파일 확장자 확인 -->

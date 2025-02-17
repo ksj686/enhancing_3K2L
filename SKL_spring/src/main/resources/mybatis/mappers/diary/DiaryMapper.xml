@@ -22,7 +22,6 @@
     FROM DIARY 
     WHERE DIARY_DATE = #{diaryDate}
     ORDER BY DIARY_ID ASC
-    FETCH FIRST 1 ROW ONLY
 	</select>
 
 	
@@ -37,7 +36,6 @@
 		SELECT *
     	FROM DIARY
    		WHERE DIARY_ID = #{diaryId}
-   		GROUP BY DIARY_DATE
 	</select>
 
 	<update id="updateDiary" parameterType="app.labs.diary.model.Diary">
