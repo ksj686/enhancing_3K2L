@@ -11,8 +11,8 @@ public class HomeController {
 	public String jsphome(Model model) {
 		return "home";
 	}
-	
-	@GetMapping("/")
+
+	@GetMapping(value = { "/", "/home" })
 	public String home() {
 		return "thymeleaf/home";
 	}
