@@ -1,59 +1,78 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/thymeleaf/default_layout}">
 <head>
+	<link rel="stylesheet" href="/css/diary/diary-view.css">
 	<title>JOURNIVERSE | DIARY</title>
 </head>
 
-<th:block>
+<body>
+<div class="main-content" layout:fragment="content">
+
 	<div class="content-wrapper">
-		<!-- 제목 & 날짜 -->
-		<div class="diary-header">
-			<h3 th:text="${diary.diaryTitle}"></h3>
-			<span class="diary-date" th:text="${diary.diaryDate != null ? diary.diaryDate.substring(0,10) : '날짜 없음'}"></span>
+		<!-- title -->
+		<div class="title-section">
+			<span class="memberid" th:text="${diary.memberId}">아이디</span>
+			<span class="text">의</span>
+			<select class="year-selector">
+				<option>2025년</option>
+			</select>
+			<span class="journal-text">Journal</span>
 		</div>
 		
-		<!-- 일기 내용 -->
-		<div class="diary-content">
-			<p th:utext="${diary.diaryContent}"></p>
-			<!-- 첨부파일이 존재할 경우 -->
-			<div class="attach-file" th:if="${attach != null}">
-    			<!-- 파일 확장자 확인 -->
-    			<div th:with="extension=${attach.getFileExtension()}">
+		<div class="diary-section">
+			<!-- <img src="/img/journal/diary_read.png" class="diary_book" /> -->
+			<!-- 일기 제목 & 날짜 -->
+			<div class="diary-container">
+				<div class="diary-header" id="diary-header">
+					<h3 th:text="${diary.diaryTitle}"></h3>
+					<span class="diary-date" th:text="${diary.diaryDate != null ? diary.diaryDate.substring(0,10) : '날짜 없음'}"></span>
+				</div>
+			
+				<!-- 일기 내용 -->
+				<div class="diary-content">
+					<p th:utext="${diary.diaryContent}"></p>
+					<!-- 첨부파일이 존재할 경우 -->
+					<div class="attach-file" th:if="${attach != null}">
+    					<!-- 파일 확장자 확인 -->
+    					<div th:with="extension=${attach.getFileExtension()}">
         
-        			<!-- 이미지 파일인 경우 -->
-        			<div th:if="${extension == 'jpg' or extension == 'jpeg' or extension == 'png' or extension == 'gif'}">
-            			<img th:src="@{/attach/{fileName}(fileName=${attach.attachName})}" alt="첨부 이미지" />
-        			</div>
+        					<!-- 이미지 파일인 경우 -->
+        					<div th:if="${extension == 'jpg' or extension == 'jpeg' or extension == 'png' or extension == 'gif'}">
+            					<img th:src="@{/attach/{fileName}(fileName=${attach.attachName})}" alt="첨부 이미지" />
+        					</div>
 
-        			<!-- 기타 파일인 경우 -->
-        			<div th:unless="${extension == 'jpg' or extension == 'jpeg' or extension == 'png' or extension == 'gif'}">
-            			<a th:href="@{/attach/{fileName}(fileName=${attach.attachName})}" 
-               				th:text="${attach.attachName}" download>
-                		<button>📥 파일 다운로드</button>
-            			</a>
-        			</div>
-    			</div>
+        					<!-- 기타 파일인 경우 -->
+        					<div th:unless="${extension == 'jpg' or extension == 'jpeg' or extension == 'png' or extension == 'gif'}">
+            					<a th:href="@{/attach/{fileName}(fileName=${attach.attachName})}" 
+               						th:text="${attach.attachName}" download>
+                				<button>📥 파일 다운로드</button>
+            					</a>
+        					</div>
+    					</div>
+					</div>
+				</div>			
 			</div>
-		</div>
 		
-		<!-- 피드백 -->
-		<div class="diary-feed" id="diaryFeedback">
-			<h3 th:text="${diary.diaryEmotion != null ? diary.diaryEmotion : '⏳ 피드백을 생성 중입니다...'}"></h3>
-    		<p th:text="${diary.diaryFeed != null ? diary.diaryFeed : '잠시만 기다려 주세요...'}"></p>
-		</div>
+					
+			<!-- 피드백 -->
+			<div class="feed-container" id="diaryFeedback">
+				<h3 th:text="${diary.diaryEmotion != null ? diary.diaryEmotion : '⏳ 피드백을 생성 중입니다...'}"></h3>
+    			<p th:text="${diary.diaryFeed != null ? diary.diaryFeed : '잠시만 기다려 주세요...'}"></p>
+			</div>
 		
-		<script>
-    		document.addEventListener("DOMContentLoaded", function() {
-        		const diaryFeedback = document.getElementById("diaryFeedback");
+			<script>
+    			document.addEventListener("DOMContentLoaded", function() {
+        			const diaryFeedback = document.getElementById("diaryFeedback");
 
-        		// 만약 백엔드에서 데이터를 아직 제공하지 않았다면, 로딩 알럿 표시
-        		if (diaryFeedback.textContent.includes("피드백을 생성 중입니다")) {
-            		alert("피드백을 생성하고 있습니다. 잠시만 기다려 주세요...");
-        		}
-    		});
-		</script>
+        			// 만약 백엔드에서 데이터를 아직 제공하지 않았다면, 로딩 알럿 표시
+        			if (diaryFeedback.textContent.includes("피드백을 생성 중입니다")) {
+            			alert("피드백을 생성하고 있습니다. 잠시만 기다려 주세요...");
+        			}
+    			});
+			</script>
+		</div>
 		
 		<!-- 버튼 -->
 		<div class="update-delete-container">
@@ -61,7 +80,8 @@
 			<button class="delete-btn" th:onclick="|if(confirm('정말로 삭제하시겠습니까?')) { location.href='@{/diary/delete(diaryId=${diary.diaryId})}'; }|">삭제</button>
 		</div>
 	</div>
-</th:block>
+</div>
+</body>
 
 
 </html>

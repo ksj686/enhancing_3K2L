@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/thymeleaf/default_layout}">
 <head>
     <meta charset="UTF-8">
     <title>JOURNIVERSE | DIARY</title>
@@ -10,135 +12,48 @@
 
     <!-- ✅ FullCalendar JS -->
     <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.8/index.global.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.8/index.global.min.js"></script>
-	
-	<!-- Custom CSS -->
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: url('https://via.placeholder.com/1920x1080.png?text=Background') no-repeat center center fixed;
-            background-size: cover;
-            margin: 0;
-            padding: 0;
-        }
-
-        #calendar-container {
-            width: 60%;
-            margin: 50px auto;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .fc-toolbar-title {
-            font-size: 24px;
-        }
-
-        :root {
-            --fc-today-bg-color: white; /* 오늘 날짜의 배경을 흰색으로 설정 */
-        }
-
-        .fc-daygrid-day-frame {
-            display: flex;
-            justify-content: center; /* 가로 중앙 정렬 */
-            align-items: center; /* 세로 중앙 정렬 */
-            height: 100%; /* 셀 전체 높이에 맞춤 */
-        }
-
-        .fc-daygrid-day-number {
-            display: flex;
-            justify-content: center; /* 숫자를 가로로 중앙 정렬 */
-            align-items: center; /* 숫자를 세로로 중앙 정렬 */
-            width: 40px; /* 원의 크기 */
-            height: 40px; /* 원의 크기 */
-            border: 2px solid rgba(0, 0, 0, 0.2); /* 테두리 추가 */
-            border-radius: 50%; /* 원형으로 만듦 */
-            font-size: 16px;
-            font-weight: bold;
-        }
-
-        .fc-day-today .fc-daygrid-day-number {
-            background-color: white !important; /* 흰색 배경 */
-            color: red !important; /* 텍스트 색상은 빨간색 */
-            border: 2px solid red; /* 빨간 테두리 */
-        }
-
-        #controls {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        #year-select,
-        #month-select {
-            font-size: 16px;
-            padding: 5px;
-            margin-right: 10px;
-        }
-    </style>
-
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.8/index.global.min.js"></script>	
 </head>
 <body>
-<!-- [헤더] 헤더 영역 -->
-<header>
-    <nav>
-        <div class="logo">
-            <img src="/img/logo.png" alt="Journivers" />
-        </div>
-        <div class="menu">
-            <a href="/home.html">홈</a>
-            <a href="/journal.html">일기행성</a>
-            <a href="/emotion.html">공감행성</a>
-            <a href="/healing.html">힐링행성</a>
-        </div>
-        <div class="account">
-            <a href="/register.html">회원가입</a>
-            <button onclick="location.href='login.html'" class="login-btn">로그인</button>
-        </div>
-    </nav>
-</header>
+<div class="main-content" layout:fragment="content">
     <div class="container">
 
         <div class="content">
-            <div class="text-section">
-                <h1>What <span class="highlight">Color</span> was your <span class="italic">Emotion</span> today?</h1>
-                <p class="subtitle">
-                    오늘, 당신의 마음은 어떤 색깔이었나요?<br>
-                    하루를 기록하고 감정을 마주하며,<br>
-                    AI가 전하는 따듯한 피드백을 받아보세요.
-                </p>
-
-                <div class="button-group">
-                    <a th:href="@{/diary/insert}" class="btn write-journal">Write Journal</a>
-                    <a th:href="@{/diary/list}" id="readJournalBtn" class="btn read-journal">Read Journal</a>
-                </div>
-            </div>
-
-            <!-- 📌 캘린더 컨테이너 -->
-            <div id="calendar-container">
-        		<!-- 드롭다운 컨트롤 -->
-        		<div id="controls">
-            		<select id="year-select"></select>
-            		<select id="month-select">
-                		<option value="0">January</option>
-                		<option value="1">February</option>
-                		<option value="2">March</option>
-                		<option value="3">April</option>
-                		<option value="4">May</option>
-                		<option value="5">June</option>
-                		<option value="6">July</option>
-                		<option value="7">August</option>
-                		<option value="8">September</option>
-                		<option value="9">October</option>
-                		<option value="10">November</option>
-                		<option value="11">December</option>
-            		</select>
-        		</div>
+            <!-- 왼쪽: 다이어리 텍스트 -->
+        	<div class="text-section">
+            	<div class="diary-text">
+            		<img src="/img/journal/diary-text.png" alt="I decide my own feelings. Today, it's going to be happiness." />
+            	</div>
+            	<div class="btn-container">
+                	<a th:href="@{/diary/insert}" class="btn write-btn">Write Journal</a>
+                    <a th:href="@{/diary/list}" id="readJournalBtn" class="btn read-btn">Read Journal</a>
+            	</div>
+        	</div>
 			
-				<!-- 캘린더 -->
-        		<div id="calendar"></div>
-    		</div>
-
+            	<!-- 📌 캘린더 컨테이너 -->
+            	<div id="calendar-container">
+        			<!-- 드롭다운 컨트롤 -->
+        			<div id="controls">
+            			<select id="year-select"></select>
+            			<select id="month-select">
+                			<option value="0">January</option>
+                			<option value="1">February</option>
+                			<option value="2">March</option>
+                			<option value="3">April</option>
+                			<option value="4">May</option>
+                			<option value="5">June</option>
+                			<option value="6">July</option>
+                			<option value="7">August</option>
+                			<option value="8">September</option>
+                			<option value="9">October</option>
+                			<option value="10">November</option>
+                			<option value="11">December</option>
+            			</select>
+        			</div>
+			
+					<!-- 캘린더 -->
+        			<div id="calendar"></div>
+    			</div>
     		<!-- FullCalendar JS -->
     		<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.8/index.global.min.js"></script>
     		<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.8/index.global.min.js"></script>
@@ -154,7 +69,9 @@
                 	locale: 'en', // 영어 설정
                 	headerToolbar: false, // 기본 헤더 툴바 제거
                 	dayHeaderContent: (args) => args.text.substr(0, 3), // 요일 이름을 앞 세 글자로 표시
-                	events: [] // 이벤트 없음
+                	events: [], // 이벤트 없음
+                	aspectRatio: 1.35, // 기존보다 넓어지게 조정
+                    contentHeight: 'auto' // 자동 높이 조정
             		});
 
             	calendar.render();
@@ -192,15 +109,6 @@
     </script>
     </div>
     </div>
-    
-<!-- [푸터] 푸영역 -->
-<footer class="footer">
-    <img src="/img/SKL logo.png" alt="SamKimLee2 Logo" class="footer-logo">
-    <div class="footer-text">
-        <h3>SamKimLee2 Company</h3>
-        <p>78, Gosanja-ro 32-gil, Dongdaemun-gu, <u>Seoul</u>, Republic of Korea</p>
-        <p>Samkimlee2@sesac.com</p>
-	</div>
-</footer>
+</div>
 </body>
 </html>

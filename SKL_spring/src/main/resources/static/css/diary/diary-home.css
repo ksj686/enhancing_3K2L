@@ -1,210 +1,156 @@
 @charset "UTF-8";
 
-/* ✅ 배경색을 옅은 하늘색으로 변경 */
-body {
-    background-color: #AEE2FF;
-    font-family: 'Arial', sans-serif;
-    color: #222;
-    margin: 0;
-    padding: 0;
+/* ✅ 배경 */
+body {     
+    background-image: url('/img/journal/diary-sky.png');
+
 }
 
-/* 1. 헤더 */
-header {
-    background: transparent;
-    position: static;
-    top: 0;
-    width: 100%;
+/* 🌟 메인 컨텐츠 */
+.main-content {
     display: flex;
+    align-items: center;
     justify-content: center;
-    align-items: center;
-    padding: 50px 0;
-    z-index: 100;  /* 항상 헤더레이어가 최상위 */
-}
-nav {
-    width: 95%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    }
-.logo img {
-    height: 33px;
-    }
-.menu {
-    display: flex;
-    align-items: center;
-    gap: 90px;
-    }
-.menu a:hover, .account a:hover {
-    font-weight: bold;
-    transition: all 0.3s ease;
-    }
-.account {
-    display: flex;
-    align-items: center;
-    gap: 20px;       
-}
-.menu, .account {
-    text-decoration: none;
-    font-size: 20px;
-    padding: 5px 15px;
-    background: transparent;
-    cursor: pointer;
-}
-.login-btn {
-    font-size: 18px;
-    background-color: #ffffff;
-    font-weight: bold !important;
-    color: black;
-    border: none;
-    border-radius: 20px;
-    padding: 5px 15px;
-    cursor: pointer;
-}
-
-/* ✅ 전체 컨테이너 */
-.container {
-    width: 100%;
-    height: 100vh;
-    display: flex;
     flex-direction: column;
-    align-items: center;
+    width: 100%;
+    padding: 52px 0;
 }
 
-/* ✅ 컨텐츠 정렬 */
-.content {
+/* 🔹 컨테이너 정렬 */
+.container { 
+    width: 90%;
+}
+
+.content {   
     display: flex;
     justify-content: space-between;
+    /* align-items: flex-start;
+    max-width: 1200px; */
     align-items: center;
-    width: 80%;
-    max-width: 1200px;
-    padding-top: 50px;
+    padding: 25px 32px;
 }
 
-/* ✅ 텍스트 섹션 (왼쪽) */
+/* 🔹 [왼쪽] 다이어리 설명 */
 .text-section {
-    width: 50%;
+    flex: 1;
+   /*  max-width: 600px; */
     text-align: left;
 }
 
-h1 {
-    font-size: 32px;
-    font-weight: bold;
-    color: #222222;
-}
-
-.highlight {
-    color: orange;
-}
-
-.italic {
-    font-style: italic;
-}
-
-.subtitle {
-    font-size: 18px;
-    color: #222222;
-    margin-bottom: 20px;
-}
-
-/* ✅ 버튼 디자인 */
-.button-group {
+/* 버튼 컨테이너 */
+.btn-container {
+    display: flex;
+    gap: 15px;
     margin-top: 20px;
 }
 
+/* 버튼 기본 스타일 */
 .btn {
     display: inline-block;
-    padding: 10px 20px;
+    padding: 12px 25px;
     font-size: 16px;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background 0.3s ease-in-out;
-}
-
-.write-journal {
-    background-color: #FF5A5A;
-    color: white;
-    margin-right: 10px;
-}
-
-.read-journal {
-    background-color: gray;
-    color: white;
-}
-
-.btn:hover {
-    opacity: 0.8;
-}
-
-/* ✅ 캘린더를 오른쪽에 배치 */
-.calendar-wrapper {
-    width: 50%;
-    background: rgba(255, 255, 255, 0.5);
-    padding: 20px;
+    font-weight: bold;
     border-radius: 20px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    text-align: center;
+    text-decoration: none;
+    transition: 0.3s ease;
 }
 
+/* ✅ Write Journal 버튼 */
+.write-btn {
+    background-color: #F85A7B;
+    color: white;
+}
+
+.write-btn:hover {
+    background-color: #D9364D;
+}
+
+/* ✅ Read Journal 버튼 */
+.read-btn {
+    background-color: #666;
+    color: white;
+}
+
+.read-btn:hover {
+    background-color: #444;
+}
+/* 3. [오른쪽] 달력 */
 /* ✅ FullCalendar 스타일 */
 #calendar-container {
-    width: 100%;
-    padding: 20px;
-}
+            width: 70%;
+            max-width: 560px; /* 최대 크기 설정 */
+            height: auto; /* 내용에 맞게 자동 조정 */
+            margin: 50px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
 
-#calendar {
-    width: 100%;
-    height: 500px;
-}
+        .fc-toolbar-title {
+            font-size: 24px;
+        }
 
-/* ✅ 년/월 선택 박스 스타일 */
-#controls {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 15px;
-}
+         :root {
+            --fc-today-bg-color: rgba(255, 255, 255, 0);
+        }
 
-#controls select {
-    padding: 8px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: none;
-    background: white;
-    cursor: pointer;
-}
-/* 4. 푸터 스타일 */
-.footer {
-    background: rgba(255, 255, 255); /* 반투명한 흰색 배경 */
-    padding: 20px;
-    text-align: left; /* 왼쪽 정렬 */
-    display: flex;
-    justify-content: flex-start;
-}
-/* 컨텐츠 영역 정렬 */
-.footer-content {
- 	display: flex;
-    align-items: center;
-    gap: 15px; /* 로고와 텍스트 간격 */
-}
-/* 로고 스타일 */
-.footer-logo {
-    margin-top: 10px;
-    margin-left: 30px;
-    margin-right: 20px;
-    width: 40px; /* 로고 크기 조정 */
-    height: 40px;
-    border-radius: 50%; /* 로고를 원형으로 */
-}
-/* 텍스트 스타일 */
-.footer-text h3 {
-   	margin: 0;
-   	font-size: 18px;
-    font-weight: bold;
-}
-.footer-text p {
-    margin: 3px 0;
-    font-size: 14px;
-    color: black;
-}
+        .fc-daygrid-day-frame {
+            display: flex;
+            justify-content: center; /* 가로 중앙 정렬 */
+            align-items: center; /* 세로 중앙 정렬 */
+            height: 100%; /* 셀 전체 높이에 맞춤 */
+        }
+
+        .fc-daygrid-day-number {
+            display: flex;
+            justify-content: center; /* 숫자를 가로로 중앙 정렬 */
+            align-items: center; /* 숫자를 세로로 중앙 정렬 */
+            width: 40px; /* 원의 크기 */
+            height: 40px; /* 원의 크기 */
+            border: 2px solid rgba(0, 0, 0, 0.4); /* 테두리 추가 */
+            border-radius: 50%; /* 원형으로 만듦 */
+            font-size: 16px;
+            font-weight: bold;
+        }
+       
+
+        .fc-day-today .fc-daygrid-day-number {
+            background-color: rgba(255, 0, 0, 0.4) !important; /* 흰색 배경 */
+            color: white !important; /* 텍스트 색상은 빨간색 */
+            border: 2px solid red; /* 빨간 테두리 */
+        }
+
+        #controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #year-select,
+        #month-select {
+            font-size: 16px;
+            padding: 5px;
+            margin-right: 10px;
+            border: 2px solid white;
+            border-radius: 10px;
+        }
+        /* ✅ 캘린더 테이블의 모든 테두리 제거 */
+		.fc-theme-standard td, .fc-theme-standard th {
+    		border: none !important;
+		}
+
+		/* ✅ 날짜 칸 테두리 제거 */
+		.fc-daygrid-day {
+    		border: none !important;
+		}
+
+		/* ✅ 요일 헤더(일~토) 아래 선 제거 */
+		.fc-scrollgrid-section-header td {
+    		border-bottom: none !important;
+		}
+
+		/* ✅ 캘린더 전체 테두리 제거 */
+		.fc-scrollgrid {
+    		border: none !important;
+		}
+
