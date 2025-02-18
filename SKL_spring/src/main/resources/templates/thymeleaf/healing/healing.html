@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/thymeleaf/default_layout}">
+    
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/healing/healing.css}" />
+        
+    </th:block>
+
+<div class="main-content" layout:fragment="content">
+
+    <!-- 왼쪽: 힐링 텍스트 -->
+    <section class="home-section">
+        <div class="healing">
+            <img src="/img/healing/healing-text.png" alt="Breathe in peace, Exhale stress" />
+        </div>
+        <div class="btn-container">
+            <button class="healing-btn" onclick="location.href='healing-contents'">Find your peace</button>
+        </div>
+    
+    </section>
+
+    <!-- 오른쪽: 힐링콘텐츠 -->
+    <section class="healingcontents-section">
+        <div class="healing-card">
+            <h2>Healing Playlist</h2>
+            <!-- 1x2 플레이리스트 그리드 -->
+            <div class="playlist-list">
+                <div class="playlist-item" th:each="playlist : ${playlists}">
+                    <!-- 유튜브 영상 (iframe) -->
+                    <iframe width="350" height="196" th:src="@{${playlist.playlistUrl}}" frameborder="0" allowfullscreen></iframe>
+                    <!-- 태그 표시 -->
+                    <p>
+                        <span th:each="tag : ${#strings.arraySplit(playlist.playlistTag, ',')}">
+                            <span th:text="'#' + ${#strings.trim(tag)}"></span>
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <!-- 
+            <button class="more-button" onclick="location.href='healing-app.html'">more</button>
+            -->
+        </div>
+                <div class="healing-card">
+            <h2>Healing App</h2>
+            <a href="https://play.google.com/store/apps/details?id=com.buffstudio.myoasis&hl=ko" target="_blank">
+    			<img src="../../img/healing/app1.png" alt="MYOASIS">
+			</a>
+            <p>#MY OASIS #감성힐링게임 #스트레스해소</p>
+            <a href="https://play.google.com/store/apps/details?id=com.mindclass.android&hl=ko" target="_blank">
+    			<img src="../../img/healing/app2.png" alt="KOKKILI">
+			</a>
+            <p>#코끼리 #힐링어플 #명상 #수면</p>
+            <!-- 
+            <button class="more-button" onclick="location.href='healing-app.html'">more</button>
+            -->
+        </div>
+        
+    </section>
+</div>
+</body>
+</html>
