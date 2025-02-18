@@ -10,16 +10,6 @@ body {
     width: 100%;
 }
 
-/* 메인 콘텐츠 적용 */
-.main-content {
-    flex: 1;  
-    display: flex;
-    justify-content: center; /* 수평 중앙 정렬 */
-    align-items: center;     /* 수직 중앙 정렬 */
-    position: relative;      /* 자식 요소의 절대 위치 기준 */
-    flex-direction: column;  /* 콘텐츠를 세로로 배치 */
-}
-
 /* 1. 헤더 */
 header {
     background: transparent;

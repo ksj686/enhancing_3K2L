@@ -12,7 +12,9 @@
 <body>
 	<header th:replace="~{/thymeleaf/include::header}"></header>
 	
-	<span th:replace="~{/thymeleaf/include::pre-content}"></span>
+	<!-- <span th:replace="~{/thymeleaf/include::pre-content}"></span> -->
+
+    <span layout:fragment="pre-content"></span>
 
 	<div class="main-content" layout:fragment="content"></div>
 
