@@ -1,0 +1,120 @@
+/* 전체 적용 */
+body {   
+    max-width: 1920px;
+    max-height: 1080px;
+    height: auto;
+    background-image: url('/img/healing/healing_sky.png');
+}
+
+/* 메인 콘텐츠 적용 */
+.main-content {
+    flex: 1;
+    display: flex;
+    width: 95%;
+}
+
+/* 2.[왼쪽] 홈섹션, CTA */
+.home-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 200px;
+    text-align: center;
+    margin-top: 80px;
+    padding-left: 50px;
+}
+    .diary-text {
+        max-width: 100%;
+        height: auto;
+    }
+    .healing-btn {
+        margin-top: 20px;
+        background-color: #F85A7B;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        padding: 10px 30px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .healing-btn:hover {
+        background-color: #F5DF2C;
+        color: #F85A7B;
+        }
+
+
+/* 3. [오른쪽] 힐링콘텐츠 */
+.healingcontents-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    padding: 40px;
+}
+    .healing-card {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 15px;
+        padding: 20px;
+        width: 350px;
+        height: 600px;
+        text-align: center;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    .healing-card h2 {
+        color: #222;
+        font-size: 1.5rem;
+        margin-bottom: 30px;
+        position: relative; /* 밑줄 위치 조정을 위해 추가 */
+        padding-bottom: 8px; /* 밑줄과 텍스트 간격 조절 */
+        border-bottom: 2px solid rgba(34, 34, 34, 0.2); /* 진한 회색 밑줄 */
+    }
+    .healing-card img {
+        width: 100%;
+        border-radius: 10px;
+    }
+    .healing-card p {
+        text-align: left;
+        color: #444;
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+    }
+    .more-button {
+        width: 30%;
+        background: #ffffff;
+        color: #F85A7B;
+        font-weight: bold;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 20px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: 0.3s;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .more-button:hover {
+        background: #F5DF2C;
+    }
+
+/* 추가 */
+/* 1x2 플레이리스트 (세로 정렬) */
+.playlist-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 중앙 정렬 */
+    gap: 10px; /* 간격 */
+}
+
+.playlist-item {
+    text-align: center;
+    width: 100%;
+}
+
+/* 유튜브 영상과 태그 사이의 간격 조정 */
+.playlist-item iframe {
+    display: block;
+    margin-bottom: 5px; /* 영상 아래쪽 여백 추가 */
+}

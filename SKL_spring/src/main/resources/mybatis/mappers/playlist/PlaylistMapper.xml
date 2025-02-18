@@ -1,0 +1,19 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="app.labs.healing.dao.PlaylistRepository">
+
+    <!-- 특정 키워드를 포함하는 랜덤한 2개의 플레이리스트 조회 -->
+    <select id="getRandomPlaylists" parameterType="string" resultType="app.labs.healing.model.Playlist">
+        SELECT * FROM PLAYLIST 
+        WHERE playlist_tag LIKE '%' || #{keyword} || '%'
+        ORDER BY DBMS_RANDOM.VALUE
+        FETCH FIRST 2 ROWS ONLY
+    </select>
+    
+       <select id="getRandomPlaylistsFour" parameterType="string" resultType="app.labs.healing.model.Playlist">
+       SELECT * FROM PLAYLIST 
+       WHERE playlist_tag LIKE '%' || #{keyword} || '%'
+       ORDER BY DBMS_RANDOM.VALUE
+       FETCH FIRST 4 ROWS ONLY
+    </select>
+</mapper>
