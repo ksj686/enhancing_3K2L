@@ -1,17 +1,112 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta charset="UTF-8">
-		<title>Insert title here</title>
-	</head>
-	<body>
-		<h5 th:if="${session.memberid != null}">[[${session.memberid}]]님</h5>
-		<a href="/login" th:if="${session.memberid == null}">로그인</a>
-		<a href="/members/insert"  th:if="${session.memberid == null}">회원가입</a>
-		<a href="/logout" th:if="${session.memberid != null}">로그아웃</a>
-		<div style="text-align:center;">
-			<h1> Hello Thymeleaf! </h1>
-			<P>  The time on the server is [[ ${serverTime} ]]. </P>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{/thymeleaf/default_layout}">
+
+<th:block layout:fragment="css">
+	<link rel="stylesheet" th:href="@{/css/home.css}" />
+</th:block>
+<body>
+<div class="main-content" layout:fragment="content">
+	<section class="home-section">
+		<div class="home-text">
+			<img src="/img/home/home-text.png" alt="Explore Emotion Journal Universe" />
 		</div>
-	</body>
+		<button onclick="location.href='journal.html'" class="start-btn">Let's Start</button>
+	</section>
+
+	<!-- [하단] OUR Service-->
+	<section class="ourservice-section">
+		<div class="ourservice">
+			<img src="/img/home/ourservice.png" alt="Our Service"/>
+		</div>
+		<div class="arrow-container">
+			<img src="/img/home/left-arrow.png" alt="⬅️" class="arrow left-arrow">
+			<img src="/img/home/right-arrow.png" alt="➡️" class="arrow right-arrow">
+		</div>
+		<div class="menu-btn">
+			<button class="selected">Journal Planet</button>
+			<button>Empathy Planet</button>
+			<button>Healing Planet</button>
+		</div>
+		<div class="ourservice-img">
+			<img src="/img/home/ourservice-diary.png" alt="Our Service">
+		</div>
+	</section>
+</div>
+<th:block layout:fragment="script">
+	<script>
+		let isScrolling = false;
+		const scrollThreshold = 100; // 스크롤 임계값 (픽셀)
+
+		document.addEventListener("DOMContentLoaded", function () {
+			const serviceContainer = document.querySelector(".ourservice-img img");
+			const leftArrow = document.querySelector(".left-arrow");
+			const rightArrow = document.querySelector(".right-arrow");
+			const menuBtns = document.querySelectorAll(".menu-btn button");
+
+			// 이미지 목록 (추가 가능)
+			const images = [
+			"/img/home/ourservice-diary.png",
+			"/img/home/ourservice-share.png",
+			"/img/home/ourservice-healing.png"
+			];
+
+			let currentIndex = 0;
+
+			function updateServiceImage() {
+				serviceContainer.style.opacity = 0;
+				setTimeout(() => {
+				serviceContainer.src = images[currentIndex];
+				serviceContainer.style.opacity = 1;
+				}, 300);
+			}
+
+			leftArrow.addEventListener("click", function () {
+				currentIndex = (currentIndex - 1 + images.length) % images.length;
+				updateServiceImage();
+				menuBtns.forEach(btn => btn.classList.remove("selected"));
+				menuBtns[currentIndex].classList.add("selected");
+			});
+
+			rightArrow.addEventListener("click", function () {
+				currentIndex = (currentIndex + 1) % images.length;
+				updateServiceImage();
+				menuBtns.forEach(btn => btn.classList.remove("selected"));
+				menuBtns[currentIndex].classList.add("selected");
+			});
+
+			
+            // 스크롤 이벤트 리스너 추가
+			window.addEventListener('scroll', function () {
+				// if (isScrolling) return; // 이미 스크롤 중이면 함수 실행 중지
+
+				const scrollPosition = window.scrollY;
+				const windowHeight = window.innerHeight;
+				const documentHeight = document.body.scrollHeight;
+				console.log("Scroll Position: ", scrollPosition);
+
+				// 페이지의 최하단 근처로 스크롤
+				if (scrollPosition + windowHeight >= documentHeight - scrollThreshold) {
+					isScrolling = true;
+					window.scrollTo({
+						top: documentHeight,
+						behavior: 'auto' // 즉시 스크롤
+					});
+				}
+
+				// 페이지의 최상단 근처로 스크롤
+				if (scrollPosition <= scrollThreshold) {
+					isScrolling = true;
+					window.scrollTo({
+						top: 0,
+						behavior: 'auto' // 즉시 스크롤
+					});
+				}
+			});
+
+		});
+	</script>
+</th:block>
+</body>
 </html>

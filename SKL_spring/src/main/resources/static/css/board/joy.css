@@ -1,0 +1,27 @@
+/* joy */
+body {
+    background-image: url('/img/board/joy-sky.png');
+}
+
+/* 내가 쓴 게시글 */
+.my-post-card {
+    background: #F5C62C;
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.6);
+}
+
+/* More 버튼 스타일 */
+.more-button, .my-more-button {
+    background-color: #F5C62C;
+}
+.more-button:hover {
+    background-color: #F85A7B;
+    color: white;
+}
+.my-more-button {
+    background-color: white;
+    color: #F5C62C;
+}
+.my-more-button:hover {
+    background-color: #F85A7B;
+    color: white;
+}

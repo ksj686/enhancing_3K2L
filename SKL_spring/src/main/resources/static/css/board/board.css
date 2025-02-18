@@ -1,82 +1,7 @@
 /* 전체 적용 */
 body {
-    margin: 0;
-    display: flex;
-    font-family: Arial, sans-serif;
-    flex-direction: column;         
-    max-width: 1920px;
-    max-height: 1080px;
-    min-height: 100vh;                  
-    width: 100%;
-    height: auto;
-    background-image: url('../../img/board/empathy-sky.png');
-    background-size: cover;      
-    background-position: center;  
-    background-repeat: no-repeat; 
+    background-image: url('/img/board/empathy-sky.png');
 }
-
-/* 1. 헤더 */
-header {
-    background: transparent;
-    position: static;
-    top: 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 50px 0;
-    z-index: 100;  /* 항상 헤더레이어가 최상위 */
-}
-    nav {
-        width: 95%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .logo img {
-        height: 33px;
-    }
-    .menu {
-        display: flex;
-        align-items: center;
-        gap: 90px;
-    }
-    .menu a:hover, .account a:hover {
-        font-weight: bold;
-        transition: all 0.3s ease;
-    }
-    .account {
-        display: flex;
-        align-items: center;
-        gap: 20px;       
-    }
-    .menu, .account {
-        text-decoration: none;
-        font-size: 20px;
-        padding: 5px 15px;
-        background: transparent;
-        cursor: pointer;
-    }
-    .login-btn {
-        font-size: 18px;
-        background-color: #ffffff;
-        font-weight: bold !important;
-        color: black;
-        border: none;
-        border-radius: 20px;
-        padding: 5px 15px;
-        cursor: pointer;
-    }
-    /* 하이퍼링크 클릭 시 색상 유지 */
-    .menu a:link, .menu a:visited, .menu a:active, .account a:link, .account a:active, .account a:visited{
-        color: black;
-        text-decoration: none;
-    }
-    .login-btn:hover {
-        background-color: #F5DF2C;
-        color: #F85A7B;
-        transition: background-color 0.3s ease;
-    }
 
 /* 메인 콘텐츠 적용 */
 .main-content {
@@ -84,8 +9,13 @@ header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;                       
-    width: 95%;
+    width: 100%;
     margin-top: 25px;
+}
+
+.board-comment {
+    display: flex;
+    align-items: center;
 }
 
 /* 2. [왼쪽] 홈텍스트, CTA, box */
@@ -97,90 +27,90 @@ header {
     padding: 50px;
     gap: 20px;
 }
-    .home-text {
-        max-width: 40%;
-    }
+.home-text {
+    max-width: 40%;
+}
 
-    .cta-box-container {
-        display: flex;
-        align-items: flex-start; /* 버튼과 박스 높이 정렬 */
-        gap: 100px; /* 버튼과 박스 사이 간격 */
-    }
-    .start-btn {
-        background-color: #F85A7B;
-        color: white;
-        border: none;
-        border-radius: 20px;
-        padding: 10px 30px;
-        font-size: 18px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-        .start-btn:hover {
-            background-color: #F5DF2C;
-            color: #F85A7B;
-        }
-    .new-post-box {
-        align-self: flex-start; /* 왼쪽 정렬 유지 */
-        width: 300px;
-        padding: 20px;
-        background: rgba(255, 255, 255, 0.5);
-        border-radius: 12px;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-        font-weight: bold;
-        text-align: center;
-        backdrop-filter: blur(5px);
-    }
-    .new-post-box h2 {
-        font-size: 23px;
-        color: #333;
-        margin-bottom: 10px;
-    }
-    #post-count {
-        font-size: 40px;  /* 숫자를 크게 표시 */
-        font-weight: bold;
-        color: #F85A7B;  /* 강조 색상 */
-        padding: 10px 20px;
-        border-radius: 10px;
-        display: inline-block;
-    }
+.cta-box-container {
+    display: flex;
+    align-items: flex-start; /* 버튼과 박스 높이 정렬 */
+    gap: 100px; /* 버튼과 박스 사이 간격 */
+}
+.start-btn {
+    background-color: #F85A7B;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.start-btn:hover {
+    background-color: #F5DF2C;
+    color: #F85A7B;
+}
+.new-post-box {
+    align-self: flex-start; /* 왼쪽 정렬 유지 */
+    width: 300px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+    text-align: center;
+    backdrop-filter: blur(5px);
+}
+.new-post-box h2 {
+    font-size: 23px;
+    color: #333;
+    margin-bottom: 10px;
+}
+#post-count {
+    font-size: 40px;  /* 숫자를 크게 표시 */
+    font-weight: bold;
+    color: #F85A7B;  /* 강조 색상 */
+    padding: 10px 20px;
+    border-radius: 10px;
+    display: inline-block;
+}
 
 /* 3. [오른쪽] 감정행성 */
-    .planet-section {
-        position: absolute; /* 푸터의 영향을 받지 않도록 절대 위치로 설정 */
-        top: 0;  /* 페이지 상단에서 배치 시작 */
-        right: 0;
-        width: 50%;
-        height: 100vh; /* 화면 전체 높이를 차지하도록 설정 */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .planet-section img {
-        position: absolute;
-        width: 400px; 
-        height: auto;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        cursor: pointer;
-    }    
-    .worry {
-        top: 20%;
-        right: 50%;
-    }
-    .joy {
-        top: 55%;
-        right: 55%;
-    }
-    .cheer {
-        top: 30%;
-        right: 5%;
-    }
-    .sad {
-        top: 60%;
-        right: 10%;
-    }
-    .worry:hover, .joy:hover, .sad:hover, .cheer:hover {
-        transform: scale(1.2); 
-        transition: transform 0.3s ease
-    }
+.planet-section {
+    position: absolute; /* 푸터의 영향을 받지 않도록 절대 위치로 설정 */
+    top: 0;  /* 페이지 상단에서 배치 시작 */
+    right: 0;
+    width: 50%;
+    height: 100vh; /* 화면 전체 높이를 차지하도록 설정 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.planet-section img {
+    position: absolute;
+    width: 400px;
+    height: auto;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+.worry {
+    top: 15%;
+    right: 50%;
+}
+.joy {
+    top: 50%;
+    right: 55%;
+}
+.cheer {
+    top: 25%;
+    right: 5%;
+}
+.sad {
+    top: 55%;
+    right: 10%;
+}
+.worry:hover, .joy:hover, .sad:hover, .cheer:hover {
+    transform: scale(1.2);
+    transition: transform 0.3s ease
+}
