@@ -2,19 +2,17 @@ body {
     margin: 0;
     display: flex;
     font-family: Arial, sans-serif;
-    flex-direction: column;       
-    background-image: url('/img/diary-sky.png');
+    flex-direction: column;
+    max-width: 1920px;
+    max-height: 1080px;
+    min-height: 100vh;                 
+    width: 100%;
+    height: auto;      
+    background-image: url('/img/journal/diary-sky.png');
     background-size: cover;       
     background-position: center; 
     background-repeat: no-repeat; 
-    min-height: 100vh;                 
-    width: 100%;
-}
 
-/* 메인 콘텐츠 적용 */
-.main-content {
-    flex: 1;
-    display: flex;
 }
 
 /* 1. 헤더 */
@@ -80,7 +78,14 @@ header {
         transition: background-color 0.3s ease;
     }
 
-/* 2.[왼쪽] 홈섹션, CAT */
+/* 메인 콘텐츠 적용 */
+.main-content {
+    flex: 1;
+    display: flex;
+    width: 95%;
+}
+
+/* 2.[왼쪽] 홈섹션, CTA */
 .home-section {
     display: flex;
     flex-direction: column;
@@ -90,11 +95,10 @@ header {
     margin-top: 80px;
     padding-left: 50px;
 }
-    .diary-text img {
+    .diary-text {
         max-width: 100%;
         height: auto;
     }
-
     .write-btn {
         background-color: #F85A7B;
         color: white;
@@ -108,7 +112,7 @@ header {
     }
     .read-btn {
         background-color: #f5f5f5;      
-        color: #0c96ff;
+        color: #0c96ff89;
         border: none;
         border-radius: 20px;
         padding: 10px 30px;
@@ -135,11 +139,11 @@ header {
     align-items: center;
     margin-top: 50px;
     margin-left: 100px;
-    margin-right: auto;
+    margin-right: 50px;
     margin-bottom: 100px;
 }
 .calendar-container {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.6);
     padding: 20px;
     border-radius: 15px;
     width: 700px;
@@ -150,7 +154,7 @@ header {
     .calendar-header {
         display: flex;
         justify-content: center;
-        gap: 10px;
+        gap: 30px;
         margin-bottom: 20px;
     }
         .calendar-header select {
@@ -193,40 +197,4 @@ header {
     .calendar tbody td.today {
         background-color: #F85A7B;
         color: white;
-    }
-
-
-/* 4. 푸터 스타일 */
-.footer {
-    background: rgba(255, 255, 255); /* 반투명한 흰색 배경 */
-    padding: 20px;
-    text-align: left; /* 왼쪽 정렬 */
-    display: flex;
-    justify-content: flex-start;
-}
-    /* 컨텐츠 영역 정렬 */
-    .footer-content {
-        display: flex;
-        align-items: center;
-        gap: 15px; /* 로고와 텍스트 간격 */
-    }
-    /* 로고 스타일 */
-    .footer-logo {
-        margin-top: 10px;
-        margin-left: 30px;
-        margin-right: 20px;
-        width: 40px; /* 로고 크기 조정 */
-        height: 40px;
-        border-radius: 50%; /* 로고를 원형으로 */
-    }
-    /* 텍스트 스타일 */
-    .footer-text h3 {
-        margin: 0;
-        font-size: 18px;
-        font-weight: bold;
-    }
-    .footer-text p {
-        margin: 3px 0;
-        font-size: 14px;
-        color: black;
     }

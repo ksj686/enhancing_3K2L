@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/thymeleaf/default_layout}">
 <head>
 	<!-- TUI 에디터 CSS CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.min.css"/>
@@ -12,11 +12,13 @@
 </head>
 
 <body>
+<div class="main-content" layout:fragment="content">
+
     <div class="content-wrapper">
         <div class="main-content-wrapper">
         	<!-- 일기 리스트 링크 -->
-        	<div class="top-navigation">
-        		<a th:href="@{/diary/list}" class="back-to-list">← 리스트로 돌아가기</a>
+        	<div class="list-btn-container">
+        		<a th:href="@{/diary/list}" class="list-btn">← 리스트로 돌아가기</a>
         	</div>
         	
             <form id="diaryform" th:action="${update != null ? '/diary/update' : '/diary/insert'}" 
@@ -24,38 +26,38 @@
                 
                 <input type="hidden" th:field="*{diaryId}">
                 
-                <div class="form-title">
+                <div class="diary-title">
                     <!-- 제목 입력 -->
-                    <label for="title">제목</label>
                     <input type="text" th:field="*{diaryTitle}" placeholder="제목을 입력하세요." required>
                 </div>
 				
 				<!-- 날짜 입력 -->
-				<div class="form-date">
-    				<label for="diaryDate">날짜</label>
+				<div class="diary-date">
+					<label>DATE</label>
     				<input type="date" th:field="*{diaryDate}" required>
                 </div>
 				
-				<!-- 첨부 파일 -->
-				<div class="file-upload">
-					<!-- <label for="file">파일 선택</label> -->
-					<div class="file-input-wrapper">
-						<input type="text" id="fileName" placeholder="파일을 선택해주세요." readonly>
-						<label for="file" class="file-button">파일 선택</label>
-						<input type="file" th:object="${attach}" id="file" name="file" onchange="updateFileName()">		
-					</div>
-				</div>
-				
 				<!-- 내용 입력 -->
              	<input type="hidden" id="content" th:field="*{diaryContent}" /> <!-- 에디터 내용이 저장될 숨겨진 필드 -->
-        		<div id="editor" th:data-content="${diary.diaryContent}"></div> <!-- 에디터 영역 -->
+        		<div id="editor" class="diary-text" th:data-content="${diary.diaryContent}"></div> <!-- 에디터 영역 -->
 
-                <!-- 작성 완료 버튼 -->
-                <div class="button-group">
-                	<button class="submit-btn" type="submit" th:text="${update != null ? '수정' : '저장'}"></button>
-                	<button class="cancel-btn" type="button" onclick="resetForm()">취소</button>
-            	</div>
+				
             </form>
+        </div>
+        <!-- 첨부 파일 -->
+		<div class="file-upload">
+			<!-- <label for="file">파일 선택</label> -->
+			<div class="file-input-wrapper">
+				<input type="text" id="fileName" placeholder="파일을 선택해주세요." readonly>
+				<label for="file" class="file-button">파일 선택</label>
+				<input type="file" th:object="${attach}" id="file" name="file" onchange="updateFileName()">		
+			</div>
+		</div>
+				
+        <!-- 작성 완료 버튼 -->
+        <div class="button-group">
+            <button class="submit-btn" type="submit" th:text="${update != null ? '수정' : '저장'}"></button>
+            <button class="cancel-btn" type="button" onclick="resetForm()">취소</button>
         </div>
     </div>
 
@@ -102,5 +104,6 @@
      	
 
     </script>
+</div>
 </body>
 </html>
