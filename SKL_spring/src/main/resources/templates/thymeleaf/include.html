@@ -7,17 +7,22 @@
 	<header th:fragment="header">
 		<nav>
 			<div class="logo">
-				<img src="/img/logo.png" alt="Journivers" />
+				<a href="/home">
+					<img src="/img/logo.png" alt="Journivers" />
+				</a>
 			</div>
 			<div class="menu">
-				<a href="/home">홈</a>
-				<a href="/journal.html">일기행성</a>
-				<a href="/emotion.html">공감행성</a>
-				<a href="/healing.html">힐링행성</a>
+				<a href="/home">Home</a>
+				<a href="/diary">Journal Planet</a>
+				<a href="/emotion">Empathy Planet</a>
+				<a href="/healing">Healing Planet</a>
 			</div>
 			<div class="account">
-				<a href="/members/insert">회원가입</a>
-				<button onclick="location.href='/login'" class="login-btn">로그인</button>
+				<img src="/img/notification.svg"/>
+				<a href="/members/insert" th:if="${session.memberid == null}">회원가입</a>
+				<a href="/mypage" th:if="${session.memberid != null}">마이페이지</a>
+				<button onclick="location.href='/login'" class="login-btn" th:if="${session.memberid == null}">로그인</button>
+				<button onclick="location.href='/logout'" class="login-btn" th:if="${session.memberid != null}">로그아웃</button>
 			</div>
 		</nav>
 	</header>
@@ -30,6 +35,6 @@
 		<div class="footer-text">
 			<h3>SamKimLee2 Company</h3>
 			<p>78, Gosanja-ro 32-gil, Dongdaemun-gu, <u>Seoul</u>, Republic of Korea</p>
-			<p>Samkimlee2@saesac.com</p>
+			<!-- <p>Samkimlee2@saesac.com</p> -->
 	</footer> 
 </html>

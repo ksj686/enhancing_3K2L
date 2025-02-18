@@ -12,15 +12,18 @@ body {
 
 /* 1. 헤더 */
 header {
-    background: transparent;
+    background: rgba(255, 255, 255, 0.6);
+    /* background: transparent; */
     position: static;
     top: 0;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 50px 0;
+    padding: 1px 0;
     z-index: 100;  /* 항상 헤더레이어가 최상위 */
+    color: #454343;
+    font-weight: bold;
 }
     nav {
         width: 95%;
@@ -28,15 +31,20 @@ header {
         justify-content: space-between;
         align-items: center;
     }
-    .logo img {
+    /* .logo img {
         height: 33px;
-    }
+    } */
     .menu {
         padding: 5px 15px;
         gap: 90px;
     }
+    .menu a, .account a {
+        text-decoration: none;
+    }
     .menu a:hover, .account a:hover {
-        font-weight: bold;
+        text-decoration: underline;
+        text-decoration-color: rgb(8, 8, 8);
+        /* text-decoration-style: solid; */
         transition: all 0.3s ease;
     }
     .account {
@@ -59,7 +67,7 @@ header {
         font-size: 18px;
         background-color: #ffffff;
         font-weight: bold !important;
-        color: black;
+        color: #454343;
         border: none;
         border-radius: 20px;
         padding: 5px 15px;
@@ -67,8 +75,8 @@ header {
     }
     /* 하이퍼링크 클릭 시 색상 유지 */
     .menu a:link, .menu a:visited, .menu a:active, .account a:link, .account a:active, .account a:visited{
-        color: black;
-        text-decoration: none;
+        color: #454343;
+        /* text-decoration: none; */
     }
     .login-btn:hover {
         background-color: #F5DF2C;
@@ -78,11 +86,12 @@ header {
 
 /* 4. 푸터 스타일 */
 .footer {
-    background: rgba(255, 255, 255, 0.2); /* 반투명한 흰색 배경 */
-    padding: 20px;
+    background: rgba(6, 6, 6, 1); /* 반투명한 흰색 배경 */
+    padding: 10px;
     text-align: left; /* 왼쪽 정렬 */
     display: flex;
     justify-content: flex-start;
+    color: white;
 }
 /* 컨텐츠 영역 정렬 */
 .footer-content {
@@ -92,12 +101,10 @@ header {
 }
 /* 로고 스타일 */
 .footer-logo {
-    margin-top: 10px;
     margin-left: 30px;
     margin-right: 20px;
-    width: 40px; /* 로고 크기 조정 */
-    height: 40px;
-    border-radius: 50%; /* 로고를 원형으로 */
+    width: 60px; /* 로고 크기 조정 */
+    height: 50px;
 }
 /* 텍스트 스타일 */
 .footer-text h3 {
@@ -108,5 +115,11 @@ header {
 .footer-text p {
     margin: 3px 0;
     font-size: 14px;
-    color: black;
+}
+
+.account img {
+    width: 50px;
+    height: 50px;
+    /* margin-top: 13px; */
+    padding-top: 14px;
 }
