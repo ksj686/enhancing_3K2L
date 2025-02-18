@@ -25,7 +25,7 @@
 
     <div layout:fragment="content">
         <div class="login-wrapper">
-            <img src="/img/login_back.png" class="login-background" />
+            <img src="/img/register/login_back.png" class="login-background" />
             <div class="login-container">
                 <form action="/login" method="post" enctype="multipart/form-data">
                     <div class="id">
@@ -50,6 +50,7 @@
         </div>
     </div>
     <!-- <script th:src="@{/js/login.js}"></script> -->
+    <th:block layout:fragment="script">
     <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", function() {
             var errorMessage = document.getElementById("errorMessage");
@@ -60,4 +61,5 @@
             }
         });
     </script>
+    </th:block>
 </html>

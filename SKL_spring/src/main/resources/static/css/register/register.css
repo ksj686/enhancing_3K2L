@@ -1,5 +1,5 @@
 body {       
-    background-image: url('/img/register_sky.png');
+    background-image: url('/img/register/register_sky.png');
 }
 
 /* 메인 콘텐츠 적용 */
@@ -180,10 +180,10 @@ body {
 }
 
 .nickname {
-    display: inline-block;
-    max-width: 200px; /* 원하는 너비 설정 */
-    word-wrap: break-word; /* 긴 단어가 줄바꿈되도록 설정 */
-    overflow-wrap: break-word; /* 긴 단어가 줄바꿈되도록 설정 (브라우저 호환성) */
+    /* display: inline-block;
+    max-width: 200px;
+    word-wrap: break-word;
+    overflow-wrap: break-word; */
     white-space: normal;
     color: rgb(107, 189, 227);
 }
