@@ -1,6 +1,5 @@
 package app.labs.register.model;
 
-
 //import java.sql.Date;
 //import java.sql.Timestamp;
 
@@ -8,7 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter @Setter
+@Getter
+@Setter
 @ToString
 public class Member {
 	private String memberId;
@@ -18,10 +18,9 @@ public class Member {
 	private String memberEmail;
 	private String memberStatus;
 	private String memberClass;
-//	private byte[] memberProfile;
+	// private byte[] memberProfile;
 	private String memberPhone;
 	private String memberBirthdate;
 	private String memberSignupDate;
-	private String lastLogin;
+	private String memberLastLogin;
 }
-

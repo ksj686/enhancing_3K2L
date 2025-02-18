@@ -10,7 +10,10 @@
 
     <!-- 특정 회원 ID로 회원 정보 조회 쿼리 -->
     <select id="getMemberList" parameterType="java.util.Map" resultType="app.labs.register.model.Member">
-        SELECT * FROM MEMBER
+        SELECT MEMBER_ID, MEMBER_NAME, MEMBER_NICKNAME, MEMBER_EMAIL, MEMBER_STATUS, MEMBER_CLASS, MEMBER_PHONE, MEMBER_BIRTHDATE, 
+        TO_CHAR(MEMBER_SIGNUP_DATE, 'YYYY-MM-DD HH24:MI:SS') AS MEMBER_SIGNUP_DATE, 
+        TO_CHAR(MEMBER_LAST_LOGIN, 'YYYY-MM-DD HH24:MI:SS') AS MEMBER_LAST_LOGIN 
+        FROM MEMBER
         <where>
             <if test="memberId != null and memberId != ''">
                 MEMBER_ID LIKE '%' || #{memberId} || '%'
@@ -140,8 +143,8 @@
     </select>
 
     <insert id="insertEvent" parameterType="app.labs.admin.model.Events">
-        INSERT INTO EVENTS (EVENT_NAME, EVENT_DESCRIPTION)
-        VALUES (#{eventName}, #{eventDescription})
+        INSERT INTO EVENTS (EVENT_ID, EVENT_NAME, EVENT_DESCRIPTION)
+        VALUES (EVENT_SEQ.NEXTVAL, #{eventName}, #{eventDescription})
     </insert>
 
     <update id="updateEvent" parameterType="app.labs.admin.model.Events">
