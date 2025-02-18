@@ -4,54 +4,24 @@
 	  layout:decorate="~{/thymeleaf/default_layout}">
 
 <th:block layout:fragment="css">
-	<link rel="stylesheet" th:href="@{/css/board/{emo}.css(emo=${boardCategory})}" />
+	<link rel="stylesheet" th:href="@{/css/board/board_category.css}" />
 	<link rel="stylesheet" th:href="@{/css/board/{emo}.css(emo=${boardCategory})}" />
 </th:block>
 <body>
-	<div class="cheer-theme" layout:fragment="content">
+	<div class="main-content" layout:fragment="content">
+		<div class="board-comment">
+			<img src="/img/board/empathy-comment.png"/>
+		</div>
 		<section class="post-wrapper">
 			<div class="post-container">
-				<div class="post-card">
-					<h3 id="author">닉네임</h3>
-					<p id="date">2025-02-10, 17:00</p>
-					<p id="content">다른 유저의 게시글1</p>
-					<button class="more-button">more</button>
-				</div>
-				<div class="post-card">
-					<h3 id="author">닉네임</h3>
-					<p id="date">2025-02-10, 17:00</p>
-					<p id="content">다른 유저의 게시글2 <br>
-						반가워요 <br>
-						신나요 <br>
-						즐겁게 <br>
-						행복하게 <br>
-						즐겁자! <br>
-						반가워요 <br>
-						신나요 <br>
-						즐겁게 <br>
-						행복하게 <br>
-						즐겁자! <br>
-					</p>
-					<button class="more-button">more</button>
-				</div>
-				<!-- 나의 카드 -->
-				<div class="my-post-card">
-					<h3 id="author">닉네임</h3>
-					<p id="date">2025-02-10, 17:00</p>
-					<p id="content">다른 유저의 게시글3</p>
-					<button class="my-more-button">more</button>
-				</div>
-				<div class="post-card">
-					<h3 id="author">닉네임</h3>
-					<p id="date">2025-02-10, 17:00</p>
-					<p id="content">다른 유저의 게시글3</p>
-					<button class="more-button">more</button>
-				</div>
-				<div class="post-card">
-					<h3 id="author">닉네임</h3>
-					<p id="date">2025-02-10, 17:00</p>
-					<p id="content">다른 유저의 게시글4</p>
-					<button class="more-button">more</button>
+				<div th:each="board: ${boardList}"
+				     th:class="${board.memberId != session.memberid?'my-post-card':'post-card'}">
+					<h3 id="author">[[ ${board.memberId} ]]</h3>
+					<p id="date">[[ ${board.boardDate} ]]</p>
+					<p id="content">[[ ${board.boardTitle} ]]</p>
+<!--					<p id="content" th:utext="${board.boardContent}"></p>-->
+					<button th:class="${board.memberId != session.memberid?'my-more-button':'more-button'}"
+							th:onclick="|location.href='@{/emotion/Id/{boardId}(boardId=${board.boardId})}'|">more</button>
 				</div>
 			</div>
 		</section>
@@ -63,20 +33,38 @@
 		</div>
 	</div>
 
-<h5 th:if="${session.memberid != null}">[[${session.memberid}]]님</h5>
-<a href="/login" th:if="${session.memberid == null}">로그인</a>
-<a href="/members/insert"  th:if="${session.memberid == null}">회원가입</a>
-<a href="/logout" th:if="${session.memberid != null}">로그아웃</a>
-<div style="text-align:center;">
-	<h1> [[${boardCategory}]] board! </h1>
+	<!-- 모달 창(게시글 상세보기) -->
+    <div id="post-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3 id="modal-author">닉네임</h3>
+            <p id="modal-date">2025-02-10, 17:00</p>
+            <p id="modal-content">여기에 게시글 내용이 들어갑니다.</p>
+            <img id="modal-image" src="" alt="게시글 이미지">
+            <div class="reaction-buttons">
+                <button>smile</button>
+                <button>cheer up</button>
+                <button>sad</button>
+                <button>surprise</button>
+            </div>
+            <button class="report-btn">신고</button>
+        </div>
+    </div>
 
-	<ul th:each="board: ${boardList}">
-		<a th:href="@{/emotion/Id/{boardId}(boardId=${board.boardId})}">
-			<span th:text="|제목: ${board.boardTitle}, 작성자: ${board.memberId}, 작성일: ${board.boardDate}|"></span>
-		</a>
-	</ul>
+	<span layout:fragment="pre-content">
+	    <!-- 별과 별똥별 -->
+		<div class="comet1"></div>
+		<div class="comet2"></div>
 
-	<button th:onclick="|location.href='@{/emotion/{boardCategory}/new(boardCategory=${boardCategory},)}'|"> 글 작성하기 </button>
-</div>
+		<div class="stars-container">
+			<div class="star"></div>
+			<div class="star"></div>
+			<div class="star"></div>
+			<div class="star"></div>
+			<div class="star"></div>
+			<div class="star"></div>
+			<div class="star"></div>
+		</div>
+    </span>
 </body>
 </html>

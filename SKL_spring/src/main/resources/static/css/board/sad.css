@@ -1,0 +1,27 @@
+/* 전체 적용 */
+body {
+    background-image: url('/img/board/sad-sky.png');
+}
+
+/* 내가 쓴 게시글 */
+.my-post-card {
+    background: #6691FD;
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.6);
+}
+
+/* More 버튼 스타일 */
+.more-button, .my-more-button {
+    background-color: #6691FD;
+}
+.more-button:hover {
+    background-color: #F5DF2C;
+    color: #F85A7B;
+}
+.my-more-button {
+        background-color: white;
+        color: #6691FD;
+}
+.my-more-button:hover {
+    background-color: #F5DF2C;
+    color: #F85A7B;
+}

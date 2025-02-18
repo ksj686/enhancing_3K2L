@@ -1,0 +1,119 @@
+html {
+    scroll-behavior: auto; /* 부드러운 스크롤 효과 */
+}
+
+/* 전체 적용 */
+body {
+    background-image: url('/img/home/home-sky.png');
+}
+/* 메인 콘텐츠 적용 */
+.main-content {
+    flex: 1;                        /* 콘텐츠가 남은 공간 채우기 */
+}
+
+/* 2. [상단] 홈텍스트, CTA */
+.home-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 200px;
+    text-align: center;
+    margin-top: 80px;
+    padding-left: 50px;
+}
+    .home-text img {
+        max-width: 200%;
+        height: auto;
+    }
+    .start-btn {
+        background-color: #F85A7B;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        padding: 10px 30px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: background-color 0.3s ease;
+        z-index: 10;
+    }
+    .start-btn:hover {
+        background-color: #F5DF2C;
+        color: #F85A7B;
+    }
+
+/* 3. [하단] Our Service */
+.ourservice-section {
+    padding-top: 800px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;       
+    align-items: center;
+    min-height: 300px;              
+    position: relative;            
+}
+    .ourservice img{
+        width: 400px;
+        margin-bottom: 70px;
+    }
+
+    /* 화살표 컨테이너 (중앙 정렬) */
+    .arrow-container {
+        margin-top: 500px;
+        position: absolute;
+        width: 80%;
+        top: 50%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 50px;
+        transform: translateY(-50%);
+    }
+    .arrow {
+        width: 50px;
+        height: 50px;
+        cursor: pointer;
+    }
+    .arrow:hover {
+        transform: scale(1.2);
+        transition: transform 0.3s ease, opacity 0.3s ease; 
+        transition: background-color 0.3s ease;
+    }
+    /* 메뉴 버튼 */
+    .menu-btn {
+        display: flex;
+        gap: 200px;                    
+    }
+    .menu-btn button {
+        padding: 15px 30px;
+        font-size: 20px;
+        font-weight: bold;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background-color: #f5f5f5;      
+        color: #0c96ff89;
+    }
+    .menu-btn button:hover,
+    .menu-btn button.selected {
+        background-color: #F85A7B;     
+        color: white;
+        transform: translateY(-5px);    
+    }
+    /* 메뉴 이미지 스타일 */
+    .ourservice-img img {
+        width: 650px;
+        height: 470px;
+        margin-top: 130px;
+        max-width: 650px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer; /* 클릭 가능한 상태로 변경 */
+    }
+    .ourservice-img img:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s ease, opacity 0.3s ease; 
+    }
