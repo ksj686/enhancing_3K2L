@@ -12,7 +12,7 @@ body {
 
 /* 1. 헤더 */
 header {
-    background: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.2);
     /* background: transparent; */
     position: static;
     top: 0;

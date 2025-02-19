@@ -130,7 +130,7 @@ body {
     justify-content: space-evenly;
     margin-top: 50px;
 }
-.register-background {
+/* .register-background {
     max-width: 900px;
     height: auto;
     position: absolute; 
@@ -138,7 +138,7 @@ body {
     top: 50%;                 
     left: 50%;                
     transform: translate(-50%, -50%);
-}
+} */
 .signup-container {
     background: rgba(255, 255, 255, 0.9);
     padding: 30px 40px;
