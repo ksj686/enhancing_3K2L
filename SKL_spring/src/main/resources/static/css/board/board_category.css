@@ -1,9 +1,27 @@
+body {
+    background-position: bottom 50px right;
+    height: 100vh !important;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+}
+
 /* 메인 콘텐츠 적용 */
 .main-content {
     display: flex;
     flex-direction: column;
     align-items: center;
     overflow-x: hidden;
+    height: 100%;
+}
+
+.board-comment {
+    margin-top: 50px;
 }
 
 /* 2. 게시글 영역 */
@@ -130,8 +148,8 @@
     padding: 10px 20px;
     border: none;
     border-radius: 20px;
-    position: absolute;
-    bottom: 20px;
+    position: relative;
+    bottom: -180px;
     left: 50%;
     transform: translateX(-50%);
     cursor: pointer;
@@ -256,3 +274,102 @@
 .star:nth-child(6) { top: 80%; left: 10%; animation-delay: 0.3s; }
 .star:nth-child(7) { top: 70%; left: 20%; animation-delay: 0.3s; }
 
+
+/* 기본적으로 모달은 보이지 않음 */
+.modal{
+    display: none; /* 기본 상태에서는 숨김 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+}
+
+/*!* 모달을 보이게 하는 CSS :target 사용 *!*/
+/*.modal:target {*/
+/*    display: flex; !* target이 설정되면 표시 *!*/
+/*}*/
+
+/* 모달 내부 스타일 */
+.modal-content-write {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #F9DB7B;
+    width: 400px;
+    max-height: 550px;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+/* 본문 입력 */
+.write-text {
+    width: 100%;
+    height: 300px;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: none;
+}
+
+/* 파일 첨부 */
+.file-upload {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+.file-input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background: #fffefe;
+    border-radius: 5px;
+}
+
+/* 닫기 버튼 */
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 50px;
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+}
+
+/* 반응 버튼 */
+.submit-btn{
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 10px;
+    align-items: center;
+    text-align: center;
+    width: 100px;
+    height: 30px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5587b;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+.submit-btn:hover {
+    background-color: white;
+    color: #F85A7B;
+}

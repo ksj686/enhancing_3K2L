@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
 </head>
 <body>
-    <form id="boardForm" th:action="@{/emotion/{boardCategory}/new(boardCategory=${boardCategory})}" th:object="${board}"  method="post">
+    <form id="boardForm" th:action="@{/emotion/new/{boardCategory}(boardCategory=${boardCategory})}" th:object="${board}"  method="post">
         <input type="hidden" th:value="${boardCategory}" />
         <input type="hidden" id="content" th:field="*{boardContent}" /> <!-- 에디터 내용이 저장될 숨겨진 필드 -->
 
@@ -25,7 +25,7 @@
         <div id="editor"></div> <!-- 에디터 영역 -->
 
         <button class="submit-btn" type="submit">제출</button>
-
+    </form>
     <!-- TUI 에디터 JS CDN -->
     <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
     <script>
@@ -33,7 +33,7 @@
             el: document.querySelector('#editor'),
             height: '300px',
             initialEditType: 'wysiwyg',
-            initialValue: '',
+            initialValue: '나만의 감정을 표현해보세요',
             previewStyle: 'vertical'
         });
 

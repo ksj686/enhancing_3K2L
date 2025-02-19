@@ -1,7 +1,6 @@
 from emotion_filtering import predict_filter
+from classify_emotion import predict_emotion
 from fastapi import FastAPI, Form, HTTPException
-from fastapi.responses import JSONResponse
-from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
@@ -20,8 +19,10 @@ async def emotion_filter(message: str = Form(...)):
 async def diary_feedback(message: str = Form(...)):
     try:
         print(f"Received data: {message}")
-        return JSONResponse(content={'classify': '감정분류',
-                                     'feedback': '일기에 대한 피드백 내용'})
+        pre_emotion = predict_emotion(message)
+        return pre_emotion
+        # return JSONResponse(content={'classify': '감정분류',
+        #                              'feedback': '일기에 대한 피드백 내용'})
     except Exception as e:
         print(f"Error: {e}")
         raise HTTPException(status_code=500, detail="Internal Server Error")
