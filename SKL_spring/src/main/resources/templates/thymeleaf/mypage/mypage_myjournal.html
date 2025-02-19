@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journiverse_home</title>
+    <link rel="stylesheet" href="mypage_myjournal.css">
+</head>
+<body>
+
+<!-- [헤더] 헤더 영역 -->
+<header>
+    <nav>
+        <div class="logo">
+            <img src="/img/haedr,footer/logo.png" alt="Journivers" />
+        </div>
+        <div class="menu">
+            <a href="/home.html">홈</a>
+            <a href="/journal.html">일기행성</a>
+            <a href="/empathy.html">공감행성</a>
+            <a href="/healing.html">힐링행성</a>
+        </div>
+        <div class="account">
+            <a href="/register.html">회원가입</a>
+            <button onclick="location.href='login.html'" class="login-btn">로그인</button>
+        </div>
+    </nav>
+</header>
+
+<div class="main-content">
+    <!-- [타이틀]-->
+        <img src="img/mypage/title-myjournal.png" alt="MyPage" class="mypage-title">
+    
+        <!-- 감정 분석 박스 -->
+        <section class="mypage-content">
+            <!-- 연도 & 월 선택 드롭다운 -->
+            <div class="day-filter">
+                <select id="year-select">
+                    <option>2025 년</option>
+                    <option>2024 년</option>
+                </select>
+                <select id="month-select">
+                    <option>February</option>
+                    <option>January</option>
+                    <option>December</option>
+                </select>
+            </div>
+            <div class="journal-list">
+                <div class="journal1">일기 리스트1</div>
+            </div>
+        </section>
+    </div>
+    
+</body>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/thymeleaf/default_layout}">
+    
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/mypage/mypage.css}" />
+    </th:block>
+
+    <span layout:fragment="pre-content">
+        <!-- 별과 별똥별 -->
+        <div class="comet1"></div>
+        <div class="comet2"></div>
+
+        <div class="stars-container">
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+        </div>
+    </span>
+
+    <div layout:fragment="content">
+
+    <div class="title">
+        <img src="/img/mypage/title-MyPage.png" alt="MyPage" class="mypage-title">
+        <button class="edit-profile-btn" onclick="location.href='/mypage/edit'">회원정보 수정</button>
+    </div>
+
+    <section class="mypage-container">
+        <div class="mypage-menu" onclick="location.href='mypage_myjournal.html'">
+            <img src="/img/mypage/myjournal-btn.png" alt="My Journal" class="mypage-img">
+        </div>
+
+        <div class="mypage-menu" onclick="location.href='mypage_mymission.html'">
+            <img src="/img/mypage/mymission-btn.png" alt="My Mission" class="mypage-img">
+        </div>
+
+        <div class="mypage-menu" onclick="location.href='mypage_myemotion.html'">
+            <img src="/img/mypage/myemotion-btn.png" alt="My Emotion" class="mypage-img">
+        </div>
+    </section>
+    </div>
+    <th:block layout:fragment="script">
+    </th:block>
+</html>
