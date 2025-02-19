@@ -25,11 +25,35 @@
 
 		<!-- 공감행성 -->
 		<section class="planet-section">
-			<img src="../../img/board/home-worry.png" alt="Worry" class="worry" onclick="location.href='/emotion/worry'">
-			<img src="../../img/board/home-joy.png" alt="Joy" class="joy" onclick="location.href='/emotion/joy'">
-			<img src="../../img/board/home-sad.png" alt="Sad" class="sad" onclick="location.href='/emotion/sad'">
-			<img src="../../img/board/home-cheer.png" alt="Cheer" class="cheer" onclick="location.href='/emotion/cheer'">
+			<img src="../../img/board/home-worry.png" alt="Worry" class="worry" onclick="location.href='/emotion/category/worry'">
+			<img src="../../img/board/home-joy.png" alt="Joy" class="joy" onclick="location.href='/emotion/category/joy'">
+			<img src="../../img/board/home-sad.png" alt="Sad" class="sad" onclick="location.href='/emotion/category/sad'">
+			<img src="../../img/board/home-cheer.png" alt="Cheer" class="cheer" onclick="location.href='/emotion/category/cheer'">
 		</section>
 	</div>
+
+<th:block layout:fragment="script">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.0.8/countUp.umd.min.js"></script>
+	<script>
+	$(document).ready(function() { loadCount(); });
+	function loadCount() {
+		$.get('/emotion/count', function(response) {
+			const options = {
+				startVal: 0,        // 시작 값
+				endVal: response.count,       // 끝 값
+				duration: 2,        // 애니메이션 지속 시간 (초)
+				separator: ',',     // 숫자 구분 기호 (옵션)
+				decimal: '.'        // 소수점 기호 (옵션)
+			};
+
+			const counter = new countUp.CountUp('post-count', options.endVal, options);
+			counter.start();
+		}).fail(function() {
+			console.error('Error fetching visitor count');
+			$('#post-count').text('Error'); // 오류 발생 시 텍스트 설정
+		});
+	}
+	</script>
+</th:block>
 </body>
 </html>

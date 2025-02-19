@@ -15,41 +15,39 @@
 		<section class="post-wrapper">
 			<div class="post-container">
 				<div th:each="board: ${boardList}"
-				     th:class="${board.memberId != session.memberid?'my-post-card':'post-card'}">
-					<h3 id="author">[[ ${board.memberId} ]]</h3>
-					<p id="date">[[ ${board.boardDate} ]]</p>
-					<p id="content">[[ ${board.boardTitle} ]]</p>
+				     th:class="${board.memberId == session.memberid?'my-post-card':'post-card'}">
+					<h3>[[ ${board.memberId} ]]</h3>
+					<p>[[ ${board.boardDate} ]]</p>
+					<p>[[ ${board.boardTitle} ]]</p>
 <!--					<p id="content" th:utext="${board.boardContent}"></p>-->
-					<button th:class="${board.memberId != session.memberid?'my-more-button':'more-button'}"
+					<button th:class="${board.memberId == session.memberid?'my-more-button':'more-button'}"
 							th:onclick="|location.href='@{/emotion/Id/{boardId}(boardId=${board.boardId})}'|">more</button>
 				</div>
 			</div>
 		</section>
 		<!-- 글쓰기 버튼 -->
-		<div class="write-section">
-			<button class="write-button" th:onclick="|location.href='@{/emotion/{boardCategory}/new(boardCategory=${boardCategory},)}'|">
+		<div class="write-section modal-button" data-id="01">
+			<button class="write-button">
 				Share your Emotion
 			</button>
 		</div>
+
+		<!-- 모달 창(게시글 쓰기) -->
+		<div id="post-modal-01" class="modal">
+			<div class="modal-content-write">
+				<a href="#" class="close-btn" data-id="01">&times;</a>
+				<h3>[[ ${board.memberId} ]]</h3>
+
+				<!-- 본문 입력 -->
+				<textarea class="write-text" placeholder="일기를 입력하세요"></textarea>
+
+				<!-- 작성 완료 버튼 -->
+				<button class="submit-btn">작성 완료</button>
+			</div>
+		</div>
 	</div>
 
-	<!-- 모달 창(게시글 상세보기) -->
-    <div id="post-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <h3 id="modal-author">닉네임</h3>
-            <p id="modal-date">2025-02-10, 17:00</p>
-            <p id="modal-content">여기에 게시글 내용이 들어갑니다.</p>
-            <img id="modal-image" src="" alt="게시글 이미지">
-            <div class="reaction-buttons">
-                <button>smile</button>
-                <button>cheer up</button>
-                <button>sad</button>
-                <button>surprise</button>
-            </div>
-            <button class="report-btn">신고</button>
-        </div>
-    </div>
+	</div>
 
 	<span layout:fragment="pre-content">
 	    <!-- 별과 별똥별 -->
@@ -66,5 +64,46 @@
 			<div class="star"></div>
 		</div>
     </span>
+
+<th:block layout:fragment="script">
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			const modalButtons = document.querySelectorAll(".modal-button");
+			const closeButton = document.querySelector(".close-btn");
+
+			modalButtons.forEach(button => {
+				button.addEventListener("click", function (event) {
+					event.preventDefault();
+					const modalId = this.getAttribute("data-id");
+					const modal = document.getElementById("post-modal-" + modalId);
+
+					// 모달 표시
+					modal.style.display = "flex";
+
+					// URL 경로 변경 (예: /post/123)
+					// history.pushState({ modalOpen: true }, "", "/post/" + modalId);
+				});
+			});
+
+			closeButton.addEventListener("click", function (event) {
+				event.preventDefault();
+				const modalId = this.getAttribute("data-id");
+				const modal = document.getElementById("post-modal-" + modalId);
+
+				// 모달 닫기
+				modal.style.display = "none";
+
+				// URL 원래대로 복원
+				// history.pushState(null, "", "/");
+			});
+
+			// 뒤로 가기 시 모달 닫기 처리
+			window.addEventListener("popstate", function (event) {
+				if (!event.state || !event.state.modalOpen) {
+					modal.style.display = "none";
+				}
+			});
+		});
+	</script>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package app.labs.board.controller;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -31,16 +32,29 @@ public class BoardController {
 
 	@GetMapping(value= {"", "/"})
 	public String boardMain(Model model) {
-		int boardCount = boardService.getBoardCount();
-		model.addAttribute("boardCount", boardCount);
 		return "thymeleaf/board/board_main";
 	}
 
-	@GetMapping("/{boardCategory}")
+	@GetMapping(value= {"/count"})
+	@ResponseBody
+	public Map<String, Object>  boardCount() {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			response.put("status", "OK");
+			response.put("count", boardService.getBoardCount());
+		} catch (Exception e) {
+			response.put("status", "ERROR");
+			response.put("message", e.getMessage());
+		}
+		return response;
+	}
+
+	@GetMapping("/category/{boardCategory}")
 	public String boardCategory(Model model, @PathVariable("boardCategory") String boardCategory) {
 		model.addAttribute("category", boardCategory);
 		List<Board> boardList = boardService.getBoardList(boardCategory);
 		model.addAttribute("boardList", boardList);
+		model.addAttribute("newBoard", new Board());
 		return "thymeleaf/board/board_category";
 	}
 
@@ -65,22 +79,7 @@ public class BoardController {
 		}
 	}
 
-	@GetMapping("/{boardCategory}/new")
-	public String createBoard(Model model,
-							  @PathVariable("boardCategory") String boardCategory,
-							  HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		String memberId = (String)session.getAttribute("memberid");
-		if (memberId != null) {
-			model.addAttribute("board", new Board());
-			model.addAttribute("boardCategory", boardCategory);
-			return "thymeleaf/board/board_new";
-		} else {
-			return "redirect:/login";
-		}
-	}
-
-	@PostMapping("/{boardCategory}/new")
+	@PostMapping("/new/{boardCategory}")
 	public String createBoard(Board board, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		String memberId = (String)session.getAttribute("memberid");
@@ -97,7 +96,6 @@ public class BoardController {
 		// 응답에 status와 boardReport 추가
         Map<String, Object> response = new HashMap<>();
         try {
-            boardService.reportBoard(boardId);
             response.put("status", "OK");
             response.put("boardReport", boardService.getBoardReport(boardId));
         } catch (Exception e) {
