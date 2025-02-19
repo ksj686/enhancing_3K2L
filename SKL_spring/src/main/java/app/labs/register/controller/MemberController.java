@@ -3,8 +3,6 @@ package app.labs.register.controller;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import app.labs.register.model.Member;
-import app.labs.register.service.BasicMemberService;
 import app.labs.register.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -28,13 +25,11 @@ public class MemberController {
     @Autowired
     private MemberService memberService;
 
-    private static final Logger logger = LoggerFactory.getLogger(BasicMemberService.class);
-
     // 아이디 중복 확인을 위한 API
     @GetMapping("/members/check-memberid")
     public ResponseEntity<Boolean> checkMemberId(@RequestParam(name = "memberId") String memberId) {
         boolean isDuplicated = memberService.isUserIdDuplicated(memberId);
-        logger.debug("memberID check for: {}, isDuplicated: {}", memberId, isDuplicated);
+        log.info("memberID check for: {}, isDuplicated: {}", memberId, isDuplicated);
 
         return ResponseEntity.ok(isDuplicated);
     }
@@ -43,7 +38,7 @@ public class MemberController {
     @GetMapping("/members/check-memberNick")
     public ResponseEntity<Boolean> checkMemberNick(@RequestParam(name = "memberNickname") String memberNickname) {
         boolean isDuplicated = memberService.isMemberNickDuplicated(memberNickname);
-        logger.debug("memberNickname check for: {}, isDuplicated: {}", memberNickname, isDuplicated);
+        log.info("memberNickname check for: {}, isDuplicated: {}", memberNickname, isDuplicated);
 
         return ResponseEntity.ok(isDuplicated);
     }
@@ -63,7 +58,12 @@ public class MemberController {
 
     // 회원가입 페이지를 반환하는 메서드
     @GetMapping("/members/insert")
-    public String insertMember(Model model) {
+    public String insertMember(HttpSession session, Model model) {
+        String memberId = (String) session.getAttribute("memberid");
+
+        if (memberId != null) {
+            return "redirect:/home";
+        }
         return "thymeleaf/register/register";
     }
 
@@ -83,42 +83,48 @@ public class MemberController {
     }
 
     // 회원 정보 수정 폼을 반환하는 메서드
-    @GetMapping("/members/edit")
-    public String showEditProfileForm(HttpSession session, Model model) {
-        String memberId = (String) session.getAttribute("memberid");
-        logger.debug("GET /members/edit - Session memberId: {}", memberId);
-
-        if (memberId != null) {
-            Member member = memberService.findByUserId(memberId);
-            logger.debug("GET /members/edit - Member: {}", member);
-            model.addAttribute("member", member);
-            return "thymeleaf/register/edit_profile";
-        } else {
-            return "redirect:/login";
-        }
-    }
+//    @GetMapping("/members/edit")
+//    public String showEditProfileForm(HttpSession session, Model model) {
+//        String memberId = (String) session.getAttribute("memberid");
+//        log.info("GET /members/edit - Session memberId: {}", memberId);
+//
+//        if (memberId != null) {
+//            Member member = memberService.findByUserId(memberId);
+//            log.info("GET /members/edit - Member: {}", member);
+//            model.addAttribute("member", member);
+//            return "thymeleaf/register/edit_profile";
+//        } else {
+//            return "redirect:/login";
+//        }
+//    }
 
     // 회원 정보 수정 처리 메서드
-    @PostMapping("/members/edit")
-    public String updateProfile(@ModelAttribute Member member, HttpSession session,
-            RedirectAttributes redirectAttributes) {
-        String memberId = (String) session.getAttribute("memberid");
-        logger.debug("POST /members/edit - Session memberId: {}", memberId);
-        logger.debug("Updating member: {}", member);
-
-        if (memberId != null && memberId.equals(member.getMemberId())) {
-            memberService.updateMember(member);
-            redirectAttributes.addFlashAttribute("message", "수정 되었습니다!");
-            return "redirect:/members/mypage";
-        } else {
-            return "redirect:/login";
-        }
-    }
+//    @PostMapping("/members/edit")
+//    public String updateProfile(@ModelAttribute Member member, HttpSession session,
+//            RedirectAttributes redirectAttributes) {
+//        String memberId = (String) session.getAttribute("memberid");
+//        log.info("POST /members/edit - Session memberId: {}", memberId);
+//        log.info("Updating member: {}", member);
+//
+//        if (memberId != null && memberId.equals(member.getMemberId())) {
+//            memberService.updateMember(member);
+//            redirectAttributes.addFlashAttribute("message", "수정 되었습니다!");
+//            return "redirect:/members/mypage";
+//        } else {
+//            return "redirect:/login";
+//        }
+//    }
 
     // 로그인 폼을 반환하는 메서드
     @GetMapping("/login")
-    public String loginMember(Model model) {
-        return "thymeleaf/register/loginform";
+    public String loginMember(Model model, HttpSession session,
+            RedirectAttributes redirectAttributes) {
+        String memberId = (String) session.getAttribute("memberid");
+        if (memberId != null) {
+            return "redirect:/home";
+        } else {
+            return "thymeleaf/register/loginform";
+        }
     }
 
     // 로그인 처리 메서드
@@ -138,7 +144,7 @@ public class MemberController {
                     }
                     session.setMaxInactiveInterval(600); // 10분
                     session.setAttribute("memberid", memberId);
-                    return "redirect:/";
+                    return "redirect:/home";
                 } else {
                     session.invalidate();
                     redirectAttrs.addFlashAttribute("message", "현재 사용할 수 없는 계정입니다.");
@@ -162,7 +168,7 @@ public class MemberController {
     @GetMapping("/logout")
     public String logoutMember(HttpSession session) {
         session.invalidate();
-        return "redirect:/login";
+        return "redirect:/home";
     }
 
     // 아이디 찾기 폼을 반환하는 메서드

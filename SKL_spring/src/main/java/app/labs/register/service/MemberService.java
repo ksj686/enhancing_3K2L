@@ -6,7 +6,7 @@ import java.util.Map;
 import app.labs.register.model.Member;
 
 public interface MemberService {
-	void updateMember(Member member);
+//	void updateMember(Member member);
 
 	void insertMember(Member member);
 
@@ -29,4 +29,8 @@ public interface MemberService {
 	List<Map<String, Object>> checkAttendJoin(String memberId);
 
 	boolean isMemberNickDuplicated(String memberNickname);
+
+	Member getMember(String memberId);
+
+	void updateMember(Member member);
 }

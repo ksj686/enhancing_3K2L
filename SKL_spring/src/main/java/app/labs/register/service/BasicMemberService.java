@@ -3,8 +3,6 @@ package app.labs.register.service;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,15 +19,13 @@ public class BasicMemberService implements MemberService {
 	@Autowired
 	MemberRepository memberRepository;
 
-	private static final Logger logger = LoggerFactory.getLogger(BasicMemberService.class);
-
-	@Override
-	public void updateMember(Member member) {
-		log.info("Updating member: {}", member);
-		memberRepository.updateMember(member.getMemberName(), member.getMemberEmail(), member.getMemberPhone(),
-				member.getMemberId());
-		log.info("Member updated: {}", member);
-	}
+//	@Override
+//	public void updateMember(Member member) {
+//		log.info("Updating member: {}", member);
+//		memberRepository.updateMember(member.getMemberName(), member.getMemberEmail(), member.getMemberPhone(),
+//				member.getMemberId());
+//		log.info("Member updated: {}", member);
+//	}
 
 	public void insertMember(Member member) {
 		System.out.println("Inserting member: " + member);
@@ -114,5 +110,16 @@ public class BasicMemberService implements MemberService {
 			tf = false;
 		log.info("memberNickname exists: {}", exists);
 		return tf;
+	}
+
+	@Override
+	public Member getMember(String memberId) {
+		Member member = memberRepository.getMember(memberId);
+		return member;
+	}
+
+	@Override
+	public void updateMember(Member member) {
+		memberRepository.updateMember(member);
 	}
 }

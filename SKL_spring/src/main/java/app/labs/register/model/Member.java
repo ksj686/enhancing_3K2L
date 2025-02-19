@@ -1,5 +1,6 @@
 package app.labs.register.model;
 
+import org.springframework.web.multipart.MultipartFile;
 //import java.sql.Date;
 //import java.sql.Timestamp;
 
@@ -18,9 +19,11 @@ public class Member {
 	private String memberEmail;
 	private String memberStatus;
 	private String memberClass;
-	// private byte[] memberProfile;
+	private MultipartFile memberProfile_mpf;
+	private byte[] memberProfile;
 	private String memberPhone;
 	private String memberBirthdate;
 	private String memberSignupDate;
 	private String memberLastLogin;
+	private String memberAddress;
 }

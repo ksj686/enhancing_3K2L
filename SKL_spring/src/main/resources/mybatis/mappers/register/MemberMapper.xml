@@ -2,13 +2,13 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="app.labs.register.dao.MemberRepository">
     <!-- 회원 정보 업데이트 쿼리 -->
-    <update id="updateMember" parameterType="map">
+    <!-- <update id="updateMember" parameterType="map">
         UPDATE MEMBER
         SET MEMBER_NAME = #{userName}, 
             MEMBER_EMAIL = #{email}, 
             MEMBER_PHONE = #{phoneNumber}
         WHERE MEMBER_ID = #{userId}
-    </update>
+    </update> -->
 
     <!-- 회원 정보 삽입 쿼리 -->
     <insert id="insertMember" parameterType="app.labs.register.model.Member">
@@ -68,4 +68,32 @@
     <select id="existsByMemberNickname" resultType="int" parameterType="String">
         SELECT COUNT(*) FROM MEMBER WHERE MEMBER_NICKNAME = #{memberNickname}
     </select>
+
+    <!-- 모든 회원 조회 쿼리 -->
+    <select id="getMember" resultType="app.labs.register.model.Member">
+        SELECT MEMBER_ID, MEMBER_NAME, MEMBER_NICKNAME, MEMBER_EMAIL
+        , MEMBER_PHONE
+        , MEMBER_PROFILE
+        , MEMBER_BIRTHDATE
+        , MEMBER_ADDRESS
+        FROM MEMBER
+        WHERE MEMBER_ID = #{memberId}
+    </select>
+
+    <!-- 회원 정보 업데이트 쿼리 -->
+    <update id="updateMember" parameterType="map">
+        UPDATE MEMBER
+        SET 
+            <if test="memberProfile != null">
+                MEMBER_PROFILE = #{memberProfile},
+            </if>
+            MEMBER_NAME = #{memberName}, 
+            MEMBER_BIRTHDATE = #{memberBirthdate},
+            MEMBER_NICKNAME = #{memberNickname},
+            MEMBER_EMAIL = #{memberEmail}, 
+            MEMBER_PWD = #{memberPwd},
+            MEMBER_PHONE = #{memberPhone},
+            MEMBER_ADDRESS = #{memberAddress}
+        WHERE MEMBER_ID = #{memberId}
+    </update>
 </mapper>
