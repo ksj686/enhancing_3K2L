@@ -1,0 +1,137 @@
+body {
+    margin: 0;
+    display: flex;
+    font-family: Arial, sans-serif;
+    flex-direction: column;       
+    background-image: url('/img/account/login_sky.png');
+    background-size: cover;       
+    background-position: center; 
+    background-repeat: no-repeat; 
+    min-height: 100vh;                 
+    width: 100%;
+}
+
+/* 1. 헤더 */
+header {
+    background: transparent;
+    position: static;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 0;
+    z-index: 100;  /* 항상 헤더레이어가 최상위 */
+}
+    nav {
+        width: 95%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .logo img {
+        height: 33px;
+    }
+    .menu {
+        display: flex;
+        align-items: center;
+        gap: 90px;
+    }
+    .menu a:hover, .account a:hover {
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+    .account {
+        display: flex;
+        align-items: center;
+        gap: 20px;       
+    }
+    .menu, .account {
+        text-decoration: none;
+        font-size: 20px;
+        padding: 5px 15px;
+        background: transparent;
+        cursor: pointer;
+    }
+    .login-btn {
+        font-size: 18px;
+        background-color: #ffffff;
+        font-weight: bold !important;
+        color: black;
+        border: none;
+        border-radius: 20px;
+        padding: 5px 15px;
+        cursor: pointer;
+    }
+    /* 하이퍼링크 클릭 시 색상 유지 */
+    .menu a:link, .menu a:visited, .menu a:active, .account a:link, .account a:active, .account a:visited{
+        color: black;
+        text-decoration: none;
+    }
+    .login-btn:hover {
+        background-color: #F5DF2C;
+        color: #F85A7B;
+        transition: background-color 0.3s ease;
+    }
+
+/* 2. 타이틀 영역 */
+.title {
+    margin-top: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+}
+
+.mypage-title {
+    width: 250px;
+}
+
+/* 회원정보 수정 버튼 */
+.edit-profile-btn {
+    margin-left: 30px;
+    right: 18px;
+    background: #f56b7b;
+    color: white;
+    font-size: 20px;
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.edit-profile-btn:hover {
+    background-color: #F5DF2C;
+    color: #F85A7B;
+    transition: background-color 0.3s ease;
+}
+
+/* 마이페이지 컨테이너 */
+.mypage-container {
+    display: flex;
+    justify-content: center;
+    gap: 150px;
+    margin-top: 50px;
+}
+    /* 카드 스타일 */
+    .mypage-card {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 20px;
+        width: 350px;
+        border-radius: 15px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        transition: 0.3s;
+        border: 3px solid transparent;
+    }
+    /* 카드 내부 이미지 */
+    .mypage-img {
+        width: 100%;
+        border-radius: 10px;
+    }
+    /* 카드 호버 효과 */
+    .mypage-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
+        border-color: #F85A7B;
+    }
