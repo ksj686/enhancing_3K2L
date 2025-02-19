@@ -36,6 +36,14 @@ public class DiaryController {
 		
 	@GetMapping(value={"/diary", "/diary/"})
 	public String home(Model model,HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		String memberId = (String) session.getAttribute("memberid");
+
+	    // 🔹 로그인 상태 확인 (세션에 memberid가 없는 경우 로그인 페이지로 리다이렉트)
+	    if (memberId == null) {
+	        return "redirect:/login"; // 로그인 페이지로 이동
+	    }
+	    
 		model.addAttribute("serverTime", "서버시간");
 		
 		return "thymeleaf/diary/home";
@@ -116,6 +124,7 @@ public class DiaryController {
 	    	   attach.setAttachUrl(attachDir);
 	    	   
 	    	   attachService.insertAttach(attach);
+	    	   log.info("attach 등록 성공!");
 	       }
 	        
 	        redirectAttributes.addFlashAttribute("message", "일기가 등록되었습니다.");

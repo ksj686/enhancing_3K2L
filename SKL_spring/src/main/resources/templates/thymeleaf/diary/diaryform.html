@@ -8,13 +8,18 @@
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
     <link rel="stylesheet" href="/css/diary/diaryform.css">
 
-    <title>JOURNIVERSE | DIARY FORM</title>
+    <title>JOURNIVERSE | JOURNAL FORM</title>
 </head>
 
 <body>
 <div class="main-content" layout:fragment="content">
 
     <div class="content-wrapper">
+    	<!-- title -->
+		<div class="title-section">
+			<img src="/img/journal/diary-tojournal.png" class="diary-journal" />
+		</div>
+		
         <div class="main-content-wrapper">
         	<!-- 일기 리스트 링크 -->
         	<div class="list-btn-container">
@@ -41,24 +46,25 @@
              	<input type="hidden" id="content" th:field="*{diaryContent}" /> <!-- 에디터 내용이 저장될 숨겨진 필드 -->
         		<div id="editor" class="diary-text" th:data-content="${diary.diaryContent}"></div> <!-- 에디터 영역 -->
 
-				
+		        <!-- 첨부 파일 -->
+				<div class="file-upload">
+					<!-- <label for="file">파일 선택</label> -->
+					<div class="file-input-wrapper">
+						<input type="text" id="fileName" placeholder="파일을 선택해주세요." readonly>
+						<label for="file" class="file-button">파일 선택</label>
+						<input type="file" th:object="${attach}" id="file" name="file" onchange="updateFileName()">		
+					</div>
+				</div>
             </form>
+            <!-- 작성 완료 버튼 -->
+        	<div class="button-group">
+            	<button class="submit-btn" type="submit" th:text="${update != null ? '수정' : '저장'}"></button>
+            	<button class="cancel-btn" type="button" onclick="resetForm()">취소</button>
+        	</div>
         </div>
-        <!-- 첨부 파일 -->
-		<div class="file-upload">
-			<!-- <label for="file">파일 선택</label> -->
-			<div class="file-input-wrapper">
-				<input type="text" id="fileName" placeholder="파일을 선택해주세요." readonly>
-				<label for="file" class="file-button">파일 선택</label>
-				<input type="file" th:object="${attach}" id="file" name="file" onchange="updateFileName()">		
-			</div>
-		</div>
+
 				
-        <!-- 작성 완료 버튼 -->
-        <div class="button-group">
-            <button class="submit-btn" type="submit" th:text="${update != null ? '수정' : '저장'}"></button>
-            <button class="cancel-btn" type="button" onclick="resetForm()">취소</button>
-        </div>
+        
     </div>
 
 	
@@ -76,7 +82,7 @@
     
     	const editor = new toastui.Editor({
             el: document.querySelector('#editor'),
-            height: '500px',
+            height: '350px',
             initialEditType: 'wysiwyg',
             initialValue: document.querySelector('#editor').getAttribute('data-content') || '',
             previewStyle: 'vertical'
@@ -88,6 +94,9 @@
             	editor.setHTML(''); // 에디터 내용 초기화
             	document.getElementById('fileName').value = ''; // 🌟 파일명 필드 초기화
                 document.getElementById('file').value = ''; // 🌟 파일 선택 초기화
+                
+                // 🌟 다이어리 홈 페이지로 이동
+                window.location.href = "/diary/";
             }               
         }
    		
