@@ -4,13 +4,31 @@ body {
 	background-image: url('/img/journal/diary-sky.png');   
 }
 
+.title-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 39px;
+    font-weight: bold;
+    margin-top: 50px;  
+    color: white;
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5); /* X, Y, 흐림 정도, 색상 */
+}
+
+.diary-journal {
+	max-width: 400px; /* 적절한 크기로 조정 */
+    width: 100%;
+    height: auto;
+    margin: -70px;
+}
+
 /* 🌟 메인 컨테이너 */
 .main-content-wrapper {
     width: 90%;
     max-width: 1200px;
     margin: 50px auto;
     padding: 30px;
-    background: rgba(255, 255, 255, 1);
+    background: rgba(255, 255, 255, 0.69);
     border-radius: 15px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
 }
@@ -25,38 +43,53 @@ body {
     white-space: nowrap; /* 텍스트 줄바꿈 금지 */
 }
 
+/* #editory .diary-text{
+	height: 384px;
+} */
+
 /* 제목 입력 필드 */
 
 
 .diary-title input {
+	display:flex;
 	text-align: center;
 	margin: 30px auto;
-    width: calc(100% - 40px);
+    width: calc(100% - 65px);
     padding: 15px;
     margin-bottom: 10px;
     font-size: 20px;
     font-weight: bold;
     color: #000000;
-    background: rgba(217, 217, 217, 0.4);
+    background: rgba(255, 255, 255, 1);
     border-radius: 10px;
     border-width: 0;
-	/* box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 	
 }
 
 .diary-date {
 	display: flex;
+	justify-content: flex-end;
+	font-size: 16px;
+    font-weight: bold;
+	padding: 0 15px;
 }
 
 /* 날짜 표시 */
 .diary-date input {
-    width: calc(100% - 20px);
+    /* width: calc(100% - 20px); */
     background: rgba(255, 255, 255, 0);
     text-align: right;
     font-size: 16px;
     font-weight: bold;
     color: #333;
     border: none;
+}
+
+.diary-text {
+	padding: 15px;
+	resize: none;
+    /* box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); */
 }
 
 /* 📂 파일 업로드 스타일 */
@@ -72,7 +105,7 @@ body {
 
 /* 파일 입력 필드 컨테이너 */
 .file-input-wrapper {
-    width: 73%; /* 다이어리 콘텐츠와 동일한 넓이 */
+    width: 110%; 
     display: flex;
     align-items: center;
     justify-content: center; /* 파일명 입력란과 버튼 사이 간격 유지 */
@@ -83,9 +116,8 @@ body {
     flex: 0.87;
     padding: 10px;
     border: none;
-   	background: #fffefe;
+   	background: rgba(255, 255, 255, 1);
     border-radius: 5px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* 파일 선택 버튼 숨기기 */
@@ -96,10 +128,14 @@ input[type="file"] {
 /* 커스텀 파일 버튼 */
 .file-button {
     padding: 10px 15px;
-    background-color: #166AA2;
-    color: white;
-    border-radius: 8px;
+    background-color: #f5f5f5;
+    color: #0c96ff89;
+    border-radius: 20px;
+    padding: 10px 30px;
+    font-size: 16px;
+   	font-weight: bold;
     cursor: pointer;
+    transition: background-color 0.3s ease;
     white-space: nowrap; /* 텍스트 줄바꿈 금지 */
 }
 
@@ -110,8 +146,8 @@ input[type="file"] {
     justify-content: center; /* 가운데 정렬 */
     align-items: center; /* 수직 정렬 */
     gap: 10px; /* 버튼 사이 여백 */
-    margin-top: 20px;
-    margin-bottom: 20px;
+    /* margin-top: 20px;
+    margin-bottom: 20px; */
 }
 
 /* 버튼 기본 스타일 */
@@ -130,6 +166,7 @@ input[type="file"] {
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
+    margin-top: 20px;
     transition: background-color 0.3s ease;
 }
 
@@ -142,6 +179,7 @@ input[type="file"] {
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
+    margin-top: 20px;
     transition: background-color 0.3s ease;
 }
 
