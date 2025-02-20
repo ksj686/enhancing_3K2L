@@ -36,24 +36,22 @@
 </div>
 <th:block layout:fragment="script">
 	<script>
-		let isScrolling = false;
-		const scrollThreshold = 100; // 스크롤 임계값 (픽셀)
-
+		
 		document.addEventListener("DOMContentLoaded", function () {
 			const serviceContainer = document.querySelector(".ourservice-img img");
 			const leftArrow = document.querySelector(".left-arrow");
 			const rightArrow = document.querySelector(".right-arrow");
 			const menuBtns = document.querySelectorAll(".menu-btn button");
-
+			
 			// 이미지 목록 (추가 가능)
 			const images = ["/img/home/ourservice-diary.png",
-							"/img/home/ourservice-share.png",
-							"/img/home/ourservice-healing.png"];
-
+			"/img/home/ourservice-share.png",
+			"/img/home/ourservice-healing.png"];
+			
 			const urls = ['/diary', '/emotion', '/healing'];
-
+			
 			let currentIndex = 0;
-
+			
 			function updateServiceImage() {
 				serviceContainer.style.opacity = 0;
 				setTimeout(() => {
@@ -63,14 +61,14 @@
 					location.href = urls[currentIndex]; };
 				}, 300);
 			}
-
+			
 			leftArrow.addEventListener("click", function () {
 				currentIndex = (currentIndex - 1 + images.length) % images.length;
 				updateServiceImage();
 				menuBtns.forEach(btn => btn.classList.remove("selected"));
 				menuBtns[currentIndex].classList.add("selected");
 			});
-
+			
 			rightArrow.addEventListener("click", function () {
 				currentIndex = (currentIndex + 1) % images.length;
 				updateServiceImage();
@@ -78,6 +76,26 @@
 				menuBtns[currentIndex].classList.add("selected");
 			});
 
+			// 스크롤 이벤트 리스너 추가
+			window.addEventListener("wheel", function (event) {
+				if (event.deltaY > 0) {
+					// 아래로 스크롤하는 경우 -> 최하단으로 이동
+					window.scrollTo({
+						top: document.body.scrollHeight,
+						behavior: "smooth",
+					});
+				} else if (event.deltaY < 0) {
+					// 위로 스크롤하는 경우 -> 최상단으로 이동
+					window.scrollTo({
+						top: 0,
+						behavior: "smooth",
+					});
+				}
+			});
+
+			/**
+			let isScrolling = false;
+			const scrollThreshold = 100; // 스크롤 임계값 (픽셀)
 			
             // 스크롤 이벤트 리스너 추가
 			window.addEventListener('scroll', function () {
@@ -106,6 +124,7 @@
 					});
 				}
 			});
+			**/
 
 		});
 	</script>

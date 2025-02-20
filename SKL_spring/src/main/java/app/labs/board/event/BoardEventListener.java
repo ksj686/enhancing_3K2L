@@ -51,7 +51,7 @@ public class BoardEventListener {
         String boardContent = board.getBoardContent();
         String boardTitle = board.getBoardTitle();
         String extractedText = extractTextFromHtml(boardContent); // HTML에서 텍스트 추출
-        String text = boardTitle + extractedText;
+        String text = boardTitle + " " + extractedText;
 
         log.info("추출된 텍스트: {}", text); // 추출된 텍스트 출력
 

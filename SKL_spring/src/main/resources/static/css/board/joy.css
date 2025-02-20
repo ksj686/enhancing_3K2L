@@ -25,3 +25,7 @@ body {
     background-color: #F85A7B;
     color: white;
 }
+
+.modal-content-write {
+    background: #F9DB7B;
+}

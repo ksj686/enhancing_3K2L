@@ -37,7 +37,7 @@ public class BoardController {
 
 	@GetMapping(value= {"/count"})
 	@ResponseBody
-	public Map<String, Object>  boardCount() {
+	public Map<String, Object> boardCount() {
 		Map<String, Object> response = new HashMap<>();
 		try {
 			response.put("status", "OK");
@@ -63,6 +63,11 @@ public class BoardController {
 		Board board = boardService.getBoardInfo(boardId);
 		HttpSession session = request.getSession();
 		String sessionId = (String)session.getAttribute("memberid");
+		String boardCategory = board.getBoardCategory();
+		model.addAttribute("category", boardCategory);
+		List<Board> boardList = boardService.getBoardList(boardCategory);
+		model.addAttribute("boardList", boardList);
+		model.addAttribute("newBoard", new Board());
 		if (board != null) {
 			if ("F".equals(board.getBoardOffensive()) || sessionId.equals(board.getMemberId())) {
 				// 이모지 데이터 변환
@@ -87,7 +92,7 @@ public class BoardController {
 		board.setMemberId(memberId);
 		board.setBoardId(boardId);
 		boardService.createBoard(board);
-		return "redirect:/emotion/Id/" + boardId;
+		return "redirect:/emotion/category/" + board.getBoardCategory();
 	}
 
 	@PutMapping("/report")

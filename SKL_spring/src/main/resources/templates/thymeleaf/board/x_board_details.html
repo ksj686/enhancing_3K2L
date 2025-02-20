@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script> 
+</head>
+<body>
+	<ul th:object=${board}>
+		<li th:text="|작성자: *{memberId}|"></li>
+		<li th:text="|(감정: *{boardCategory})|"></li>
+		<li th:text="|날짜: *{boardDate}|"></li>
+		<li th:text="|제목: *{boardTitle}|"></li>
+		<li th:utext="|내용: *{boardContent}|"></li>
+	</ul>
+	<th:block>
+		<th:block th:if="${board.memberId} != ${session.memberid}">
+			<button id="report-btn" style="font-size: 30px">🚨</button>
+		</th:block>
+		<th:block th:if="${board.memberId} == ${session.memberid}">
+			<p th:text="|🚨신고 누적수: ${board.boardReport}|" style="font-size: 20px"></p>
+		</th:block>
+	</th:block>
+	<div style="font-size: 40px; display: flex;" th:object="${emoji}">
+		<div id="joy-btn" style="cursor: pointer;">
+			<p>☺️</p>
+			<p id="joy-cnt" th:text="*{joy}" style="font-size: 20px;"></p>
+		</div>
+		<div id="cheer-btn" style="cursor: pointer;">
+			<p>😆</p>
+			<p id="cheer-cnt" th:text="*{cheer}" style="font-size: 20px;"></p>
+		</div>
+		<div id="worry-btn" style="cursor: pointer;">
+			<p>🥺</p>
+			<p id="worry-cnt" th:text="*{worry}" style="font-size: 20px;"></p>
+		</div>
+		<div id="sad-btn" style="cursor: pointer;">
+			<p>😭</p>
+			<p id="sad-cnt" th:text="*{sad}" style="font-size: 20px;"></p>
+		</div>
+	</div>
+
+	<button id="boardList">목록으로 돌아가기</button>
+
+	<script>
+		const boardId = [[${board.boardId}]];
+		const boardCategory = `[[${board.boardCategory}]]`;
+		const sessionId = `[[${session.memberid}]]`;
+		const memberId = `[[${board.memberId}]]`;
+
+		$('#report-btn').on('click', function() {
+			if (!sessionId) {
+				window.location.href = '/login';
+				return;
+			}
+			
+			$.ajax({
+				url: '/emotion/report',
+				method: 'PUT',
+				data: { boardId: boardId },
+				success: function(response) {
+					if (response.status === "OK") {
+						// console.log("신고 성공");
+						window.confirm("신고 완료 처리되었습니다.")
+						const boardReport = response.boardReport;
+						// console.log(boardReport);
+						if (boardReport >= 5) {
+							window.confirm("게시글이 숨김 처리되었습니다.")
+							window.location.href = `/emotion/${boardCategory}`;
+						}
+					} else {
+						// console.error("신고 실패:", response);
+					}
+				},
+				error: function(xhr, status, error) {
+					// console.error("신고 실패:", error);
+				}
+			});
+		});
+
+		const emojis = ['joy', 'cheer', 'worry', 'sad'];
+		
+		emojis.forEach(emoji => {
+			$(`#${emoji}-btn`).on('click', function() {
+				if (!sessionId) {
+					window.location.href = '/login';
+					return;
+				} else if (sessionId == memberId) {
+					window.confirm("본인의 게시글에는 공감할 수 없습니다.")
+					return
+				}
+
+				$.ajax({
+					url: '/emoji',
+					method: 'PUT',
+					data: {
+						boardId: boardId,
+						emojiCategory: emoji
+					},
+					success: function(response) {
+						if (response.status === "OK") {
+							// console.log(`${emoji} 반응 성공`);
+							$.ajax({
+								url: `/emoji/${boardId}/${emoji}`,
+								method: 'GET',
+							success: function(response) {
+								if (response.status === "OK") {
+									// console.log(`${emoji} 1 증가`);
+									$(`#${emoji}-cnt`).text(response.emojiCnt);
+								} else {
+									// console.log(`${emoji} 증가 실패:`, response);
+								}
+							},
+							error: function(xhr, status, error) {
+								// console.log(`${emoji} 증가 실패:`, error);
+							}
+						});
+						} else {
+							// console.error(`${emoji} 반응 실패:`, response);
+						}
+					},
+					error: function(xhr, status, error) {
+						// console.error(`${emoji} 반응 실패:`, error);
+					}
+				});
+			});
+		});
+
+		$('#boardList').on('click', function() {
+			window.location.href = `/emotion/${boardCategory}`;
+		})
+	</script>
+</body>
+</html>

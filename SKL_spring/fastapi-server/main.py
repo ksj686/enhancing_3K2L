@@ -1,5 +1,5 @@
 from emotion_filtering import predict_filter
-from classify_emotion import predict_emotion
+from emotion_classify import predict_emotion
 from fastapi import FastAPI, Form, HTTPException
 
 app = FastAPI()

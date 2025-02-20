@@ -16,18 +16,19 @@
 			<div class="post-container">
 				<div th:each="board: ${boardList}"
 				     th:class="${board.memberId == session.memberid?'my-post-card':'post-card'}">
-					<h3>[[ ${board.memberId} ]]</h3>
-					<p>[[ ${board.boardDate} ]]</p>
-					<p>[[ ${board.boardTitle} ]]</p>
-<!--					<p id="content" th:utext="${board.boardContent}"></p>-->
-					<button th:class="${board.memberId == session.memberid?'my-more-button':'more-button'}"
-							th:onclick="|location.href='@{/emotion/Id/{boardId}(boardId=${board.boardId})}'|">more</button>
+					<h3 class="author">[[ ${board.memberId} ]]</h3>
+					<p id="date">[[ ${board.boardDate} ]]</p>
+					<p id="board-content" th:utext="${board.boardTitle}"></p>
+<!--					<p id="board-content" th:utext="${board.boardContent}"></p>-->
+					<button class="modal-button" th:attr="data-board-id=${board.boardId}"
+							th:classappend="${board.memberId == session.memberid?
+							               'my-more-button':'more-button'}">more</button>
 				</div>
 			</div>
 		</section>
 		<!-- 글쓰기 버튼 -->
-		<div class="write-section modal-button" data-id="01">
-			<button class="write-button">
+		<div class="write-section">
+			<button class="write-button" data-id="01">
 				Share your Emotion
 			</button>
 		</div>
@@ -35,19 +36,25 @@
 		<!-- 모달 창(게시글 쓰기) -->
 		<div id="post-modal-01" class="modal">
 			<div class="modal-content-write">
-				<a href="#" class="close-btn" data-id="01">&times;</a>
-				<h3>[[ ${board.memberId} ]]</h3>
+				<div class="close-btn" data-id="01">&times;</div>
+				<form th:action="@{/emotion/new/{boardCategory}(boardCategory=${boardCategory})}"
+					  id="myForm" th:object="${newBoard}"  method="post">
+<!--					<h3 class="author" style="text-align: center">[[ ${session.memberid} ]]</h3>-->
+					<input type="text" class="title-text" th:field="*{boardTitle}" required />
+					<textarea class="write-text" th:field="*{boardContent}"></textarea>
 
-				<!-- 본문 입력 -->
-				<textarea class="write-text" placeholder="일기를 입력하세요"></textarea>
-
-				<!-- 작성 완료 버튼 -->
-				<button class="submit-btn">작성 완료</button>
+					<!-- 작성 완료 버튼 -->
+					<button class="submit-btn" type="submit">작성 완료</button>
+				</form>
 			</div>
 		</div>
-	</div>
+
+		<!-- (상세보기) 모달 창 -->
+		<div layout:fragment="modal-content"></div>
 
 	</div>
+	<!-- content fragment end -->
+
 
 	<span layout:fragment="pre-content">
 	    <!-- 별과 별똥별 -->
@@ -68,40 +75,55 @@
 <th:block layout:fragment="script">
 	<script>
 		document.addEventListener("DOMContentLoaded", function () {
+			const writeButtons = document.querySelector(".write-button");
 			const modalButtons = document.querySelectorAll(".modal-button");
-			const closeButton = document.querySelector(".close-btn");
+			const closeButton = document.querySelectorAll(".close-btn");
+
+			writeButtons.addEventListener("click", function (event) {
+				event.preventDefault();
+				const modalId = this.getAttribute("data-id");
+				const modal = document.getElementById("post-modal-" + modalId);
+				const sessionId = `[[${session.memberid}]]`;
+
+				if (!sessionId) {
+					window.location.href = '/login';
+				} else {
+					// 모달 표시
+					modal.style.display = "flex";
+				}
+
+				// URL 경로 변경 (예: /post/123)
+				// history.pushState({ modalOpen: true }, "", "/post/" + modalId);
+			});
 
 			modalButtons.forEach(button => {
 				button.addEventListener("click", function (event) {
 					event.preventDefault();
-					const modalId = this.getAttribute("data-id");
-					const modal = document.getElementById("post-modal-" + modalId);
+					const modal = document.getElementById("post-modal-02");
+					const boardId = this.getAttribute("data-board-id");
 
-					// 모달 표시
-					modal.style.display = "flex";
+					window.location.href = "/emotion/Id/" + boardId;
+
+					// modal.style.display = "flex";
 
 					// URL 경로 변경 (예: /post/123)
-					// history.pushState({ modalOpen: true }, "", "/post/" + modalId);
+					// history.pushState({ modalOpen: true }, "", "/emotion/Id/" + boardId);
 				});
 			});
 
-			closeButton.addEventListener("click", function (event) {
-				event.preventDefault();
-				const modalId = this.getAttribute("data-id");
-				const modal = document.getElementById("post-modal-" + modalId);
+			closeButton.forEach(button => {
+				button.addEventListener("click", function (event) {
+					event.preventDefault();
+					console.log("close");
+					const modalId = this.getAttribute("data-id");
+					const modal = document.getElementById("post-modal-" + modalId);
 
-				// 모달 닫기
-				modal.style.display = "none";
-
-				// URL 원래대로 복원
-				// history.pushState(null, "", "/");
-			});
-
-			// 뒤로 가기 시 모달 닫기 처리
-			window.addEventListener("popstate", function (event) {
-				if (!event.state || !event.state.modalOpen) {
+					// 모달 닫기
 					modal.style.display = "none";
-				}
+
+					// URL 원래대로 복원
+					// history.pushState(null, "", "/");
+				});
 			});
 		});
 	</script>

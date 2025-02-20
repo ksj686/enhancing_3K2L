@@ -91,8 +91,16 @@ def classify_emotion(sentence):
     predicted_score = main_category_scores[predicted_main_category]
 
     # Return the result as a tuple
-    # return predicted_main_category
-    return predicted_main_category, predicted_score
+    return predicted_main_category
+    # return predicted_main_category, predicted_score
+
+
+'''
+최종으로 사용할 함수
+'''
+def predict_emotion(message):
+    classify_emotion(summary_sentence(message))
+
 
 # 사용 예시
 if __name__ == "__main__":
