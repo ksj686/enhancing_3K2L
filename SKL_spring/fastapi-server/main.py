@@ -31,3 +31,5 @@ async def diary_feedback(message: str = Form(...)):
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+
+    # 가상환경 설정 "C:\labs_python\.venv\Scripts\activate"
