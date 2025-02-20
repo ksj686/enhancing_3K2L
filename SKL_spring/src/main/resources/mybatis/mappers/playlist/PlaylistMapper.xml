@@ -10,7 +10,7 @@
         FETCH FIRST 2 ROWS ONLY
     </select>
     
-       <select id="getRandomPlaylistsFour" parameterType="string" resultType="app.labs.healing.model.Playlist">
+       <select id="getFourRandomPlaylists" parameterType="string" resultType="app.labs.healing.model.Playlist">
        SELECT * FROM PLAYLIST 
        WHERE playlist_tag LIKE '%' || #{keyword} || '%'
        ORDER BY DBMS_RANDOM.VALUE
