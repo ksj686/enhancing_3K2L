@@ -41,11 +41,11 @@ body {
 }
 
 .logo-img {
-    width: 85px;
+    /* width: 85px; */
     height: auto;
     margin-right: 20px;
-    margin-left: -20px;
-    margin-top: -10px;
+    /* margin-left: -20px; */
+    margin-top: -6px;
 }
 
 .logo-text {

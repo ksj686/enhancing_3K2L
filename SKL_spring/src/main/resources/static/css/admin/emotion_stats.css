@@ -13,7 +13,7 @@
     text-align: center;
 }
 .chart-wrapper {
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     padding: 20px;
     height: 400px;  /* 고정 높이 설정 */

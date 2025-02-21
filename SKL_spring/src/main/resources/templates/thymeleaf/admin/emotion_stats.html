@@ -5,11 +5,25 @@
 
 <th:block layout:fragment="css">
     <link rel="stylesheet" th:href="@{/css/admin/emotion_stats.css}" />
+    <style>
+        #downloadPdf {
+            margin-left: 82.5%;
+        }
+        .header-group {
+            align-items: center;
+            display: flex;
+        }
+    </style>
 </th:block>
 
 <div layout:fragment="content" id="reportPage">
-    <h2 class="mb-4">감정 통계</h2>
-
+    <div class="header-group">
+        <h2 class="h3 mb-2 text-gray-800">감정 통계</h2>
+        <a href="" id="downloadPdf" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+            <i class="fas fa-download fa-sm text-white-50"></i>
+            Download as PDF
+        </a>
+    </div>
     <!-- 당일 감정 통계 -->
     <div class="chart-section">
         <!-- <h3 class="section-title">당일 감정 통계</h3> -->
@@ -39,8 +53,8 @@
             </div>
         </div>
     </div>
-    <a href="" id="downloadPdf">Download Report Page as PDF</a>
-    <br/><br/>
+    <!-- <a href="" id="downloadPdf">Download as PDF</a>
+    <br/><br/> -->
 </div>
 
 <th:block layout:fragment="script">
