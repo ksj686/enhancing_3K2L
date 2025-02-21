@@ -1,5 +1,5 @@
 from emotion_filtering import predict_filter
-from classify_emotion import predict_emotion
+from emotion_classify import predict_emotion
 from fastapi import FastAPI, Form, HTTPException
 
 app = FastAPI()
@@ -20,6 +20,8 @@ async def diary_feedback(message: str = Form(...)):
     try:
         print(f"Received data: {message}")
         pre_emotion = predict_emotion(message)
+        print(f"감정분류 결과: ", pre_emotion)
+        pre_emotion = "기쁨"
         return pre_emotion
         # return JSONResponse(content={'classify': '감정분류',
         #                              'feedback': '일기에 대한 피드백 내용'})
@@ -31,3 +33,5 @@ async def diary_feedback(message: str = Form(...)):
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+
+    # 가상환경 설정 "C:\labs_python\.venv\Scripts\activate"

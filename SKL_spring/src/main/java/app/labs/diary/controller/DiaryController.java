@@ -103,7 +103,6 @@ public class DiaryController {
 	        
 	        int diaryId = diaryService.createDiaryId();
 	        diary.setDiaryId(diaryId);
-	        log.info("새로 생성된 diaryId: " + diaryId); // 🔥 로그 추가
 	        
 	        diaryService.insertDiary(diary);
 	        
@@ -168,52 +167,52 @@ public class DiaryController {
 		    Attach existingAttach = attachService.getAttachFile(diary.getDiaryId());
 		    
 		    if(file != null && !file.isEmpty()) { // 새로운 첨부파일이 있는지 확인
-		    	   // 새로운 첨부파일이 있는 경우
+			   // 새로운 첨부파일이 있는 경우
+
+			   if(existingAttach != null) {
+				   // 기존 첨부파일 삭제
+				   int oldAttachId = existingAttach.getAttachId();
+				   attachService.deleteAttach(oldAttachId);
+				   log.info("기존 첨부파일 삭제 완료");
+
+				   // 새로운 첨부파일
+				   Attach attach = new Attach();
+				   attach.setDiaryId(diary.getDiaryId());
+
+				   String attachName = file.getOriginalFilename();
+				   attach.setAttachName(attachName);
+
+				   String attachDir = "C:/labs_python/SamkimILee/SKL_spring/src/main/resources/static/attach/" + attachName;
+				   file.transferTo(new File(attachDir));
+				   attach.setAttachUrl(attachDir);
+
+				   long attachSize = file.getSize();
+				   attach.setAttachSize(attachSize);
+
+				   attachService.insertAttach(attach);
+
+
+			   } else {
+
+				   log.info("기존 첨부파일 없음! insertAttach ");
+
+				   Attach attach = new Attach();
+				   attach.setDiaryId(diary.getDiaryId());
+
+				   String attachName = file.getOriginalFilename();
+				   attach.setAttachName(attachName);
+
+				   String attachDir = "C:/labs_python/SamkimILee/SKL_spring/src/main/resources/static/attach/" + attachName;
+				   file.transferTo(new File(attachDir));
+				   attach.setAttachUrl(attachDir);
+
+				   long attachSize = file.getSize();
+				   attach.setAttachSize(attachSize);
+
+				   attachService.insertAttach(attach);
+			   }
 		    	   
-		    	   if(existingAttach != null) {
-		    		   // 기존 첨부파일 삭제
-		    		   int oldAttachId = existingAttach.getAttachId();
-		    		   attachService.deleteAttach(oldAttachId);
-		    		   log.info("기존 첨부파일 삭제 완료");
-		    		   
-		    		   // 새로운 첨부파일
-		    		   Attach attach = new Attach();
-			    	   attach.setDiaryId(diary.getDiaryId());
-			    	   
-			    	   String attachName = file.getOriginalFilename();
-			    	   attach.setAttachName(attachName);
-			    	   
-			    	   String attachDir = "C:/labs_python/SamkimILee/SKL_spring/src/main/resources/static/attach/" + attachName;
-			    	   file.transferTo(new File(attachDir));
-			    	   attach.setAttachUrl(attachDir);
-		    		   
-		    		   long attachSize = file.getSize();
-			    	   attach.setAttachSize(attachSize);
-		    		   
-		    		   attachService.insertAttach(attach);
-		    		   
-		    		   
-		    	   } else {
-		    		   			    	   
-		    		   log.info("기존 첨부파일 없음! insertAttach ");
-		    		   
-		    		   Attach attach = new Attach();
-			    	   attach.setDiaryId(diary.getDiaryId());
-			    	   
-			    	   String attachName = file.getOriginalFilename();
-			    	   attach.setAttachName(attachName);
-			    	   
-			    	   String attachDir = "C:/labs_python/SamkimILee/SKL_spring/src/main/resources/static/attach/" + attachName;
-			    	   file.transferTo(new File(attachDir));
-			    	   attach.setAttachUrl(attachDir);
-		    		   
-		    		   long attachSize = file.getSize();
-			    	   attach.setAttachSize(attachSize);
-		    		   
-		    		   attachService.insertAttach(attach);
-		    	   }
-		    	   
-		       }
+		    }
 
 		    redirectAttributes.addFlashAttribute("message", "일기가 수정되었습니다.");
 		    log.info("일기 수정 성공");

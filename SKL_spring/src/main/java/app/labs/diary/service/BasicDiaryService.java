@@ -2,7 +2,10 @@ package app.labs.diary.service;
 
 import java.util.List;
 
+import app.labs.board.event.BoardCreateEvent;
+import app.labs.diary.event.DiaryCreateEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import app.labs.attach.dao.AttachRepository;
@@ -18,16 +21,9 @@ public class BasicDiaryService implements DiaryService {
 	
 	@Autowired
 	AttachRepository attachRepository;
-	
-	@Override
-	public int getDiaryCount() {
-		return diaryRepository.getDiaryCount();
-	}
 
-	@Override
-	public int getDiaryCount(String memberId) {
-		return diaryRepository.getDiaryCount(memberId);
-	}
+	@Autowired
+	private ApplicationEventPublisher eventPublisher;
 
 	@Override
 	public List<Diary> getDiaryList(String memberId) {
@@ -35,16 +31,9 @@ public class BasicDiaryService implements DiaryService {
 	}
 
 	@Override
-	public List<Diary> getDiaryListByDate(String memberId, String diaryDate){
-		return diaryRepository.getDiaryListByDate(memberId, diaryDate);
+	public Diary getDiaryByDate(String memberId, String diaryDate){
+		return diaryRepository.getDiaryByDate(memberId, diaryDate);
 	}
-	
-	// 📌 특정 연도/월의 일기 목록 조회
-    @Override
-    public List<Diary> getDiariesByMonth(String memberId, int year, int month) {
-        String yearMonth = String.format("%04d-%02d", year, month); // YYYY-MM 포맷
-        return diaryRepository.getDiaryListByMonth(memberId, yearMonth);
-    }
 	
 	@Override
 	public int createDiaryId() {
@@ -58,11 +47,13 @@ public class BasicDiaryService implements DiaryService {
 
 	@Override
 	public void insertDiary(Diary diary) {
+		eventPublisher.publishEvent(new DiaryCreateEvent(diary));
 		diaryRepository.insertDiary(diary);
 	}
 
 	@Override
 	public void updateDiary(Diary diary) {
+		eventPublisher.publishEvent(new DiaryCreateEvent(diary));
 		diaryRepository.updateDiary(diary);
 	}
 
@@ -72,5 +63,8 @@ public class BasicDiaryService implements DiaryService {
 		return diaryRepository.deleteDiary(diaryId);
 	}
 	
-	
+	@Override
+	public void updateDiaryEmotion(int diaryId, String diaryEmotion) {
+		diaryRepository.updateDiaryEmotion(diaryId, diaryEmotion);
+	}
 }

@@ -1,0 +1,4 @@
+/* 기본적으로 모달은 보이지 않음 */
+.detail-modal{
+    display: flex; !important; /* 기본 상태에서는 숨김 */
+}

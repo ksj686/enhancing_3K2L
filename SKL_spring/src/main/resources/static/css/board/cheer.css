@@ -19,8 +19,14 @@ body {
 .my-more-button {
         background-color: white;
         color: #F5792C;
-    }
-    .my-more-button:hover {
-        background-color: #F5DF2C;
-        color: #F85A7B;
-    }
+}
+.my-more-button:hover {
+    background-color: #F5DF2C;
+    color: #F85A7B;
+}
+
+.modal-content-write {
+    background: #FF9B5C;
+}
+
+
