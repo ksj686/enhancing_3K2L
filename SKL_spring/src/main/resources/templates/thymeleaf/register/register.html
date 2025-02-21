@@ -12,6 +12,18 @@
                 padding: 0;
                 /* margin: 0; */
             }
+            
+            .width-75 {
+                width: 75% !important;
+            }
+
+            .left-section {
+                width: 460px;
+            }
+
+            .at {
+                color: #000000a3;
+            }
         </style>
     </th:block>
 
@@ -47,22 +59,26 @@
                     <ul>
                         <li>
                             <label for="name">이름</label>
+                            <div class="width-75">
                             <input type="text" id="memberName" name="memberName" placeholder="이름을 입력하세요" required>
+                            </div>
                         </li>
                         <li>
                             <label for="dob">생년월일</label>
+                            <div class="width-75">
                             <input type="date" id="memberBirthdate" name="memberBirthdate" required>
+                            </div>
                         </li>
                         <li>
-                    <label for="nickname">닉네임</label>
-                    <div class="input-group">
-                        <input type="text" id="memberNickname" name="memberNickname" placeholder="닉네임을 입력하세요" maxlength="15" required>
-                            <button type="button" class="check-btn" id="nickCheck">중복 확인</button>
-                        </div>
+                        <label for="nickname">닉네임</label>
+                            <div class="input-group">
+                                <input type="text" id="memberNickname" name="memberNickname" placeholder="닉네임을 입력하세요" class="width-75" required>
+                                    <button type="button" class="check-btn" id="nickCheck">중복 확인</button>
+                            </div>
                         </li>
                         <li>
                     <label for="email">이메일</label>
-                    <div class="input-group">
+                    <div class="input-group width-75">
                         <input type="text" id="memberEmail" name="memberEmail" placeholder="이메일을 입력하세요" required>
                         <span class="at">@</span>
                         <input type="text" id="emailDomainInput" disabled>
@@ -80,17 +96,21 @@
                         <li>
                     <label for="userid">ID</label>
                     <div class="input-group">
-                        <input type="text" id="memberId" name="memberId" placeholder="ID를 입력하세요" required>
+                        <input type="text" id="memberId" name="memberId" placeholder="ID를 입력하세요" class="width-75" required>
                         <button type="button" class="check-btn" id="idCheck">중복 확인</button>
                     </div>
                     </li>
                     <li>
                     <label for="password">Password</label>
+                    <div class="width-75">
                     <input type="password" id="memberPwd" name="memberPwd" placeholder="비밀번호를 입력하세요" required>
+                    </div>
                     </li>
                     <li>
                     <label for="password-check">Password Check</label>
+                    <div class="width-75">
                     <input type="password" id="password-check" name="password-check" placeholder="비밀번호를 다시 입력하세요" required>
+                    </div>
                     </li>
                     <li>
                     <p class="error-message" id="passwordMessage">*일치하지 않습니다.</p>
@@ -136,6 +156,14 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.15.10/dist/sweetalert2.all.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+            document.getElementById('memberNickname').addEventListener('input', function() {
+                const input = this.value;
+                const isKorean = /[가-힣]/.test(input); // 한글이 포함되어 있는지 확인
+                const maxLength = isKorean ? 10 : 14; // 한글일 경우 5자, 영문일 경우 10자
+
+                this.setAttribute('maxlength', maxLength); // maxlength 속성 설정
+            });
+
             const memberNicknameInput = document.getElementById('memberNickname');
             const nicknameDisplay = document.getElementById('nicknameDisplay');
 
