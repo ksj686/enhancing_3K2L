@@ -1,0 +1,113 @@
+
+/* 메인 콘텐츠 전체 영역 */
+/* .main-content {
+    justify-content: center;
+    width: 90%;
+    margin: 10px auto;
+    padding: 30px;
+} */
+
+/* 타이틀 */
+.mypage-title {
+    width: 250px;  /* 모든 타이틀 이미지 크기 동일하게 */
+    height: auto;
+    object-fit: contain; /* 이미지 비율 유지 */
+    display: block; /* 혹시 inline 요소 때문에 크기가 달라지는 것 방지 */
+    margin: 0 auto; /* 중앙 정렬 */
+}
+
+/* 콘텐츠 박스 영역 */
+.mypage-content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column; 
+    border-radius: 15px;
+    margin-top: 20px;
+    /* background-image: url('/img/mypage/mymission.png'); */
+    width: 95%;
+    height: 70vh;
+    gap: 20px;
+}
+
+/* 연도 & 월 선택 드롭다운 */
+.day-filter {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    gap: 10px;
+}
+    .day-filter select {
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+/* 미션 박스 스타일 */
+.mission-boxes {
+    max-width: 90%;
+    max-height: 600px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 20px;
+    gap: 50px;
+}
+
+/* 미션 그래프 컨테이너 */
+.mission-graph-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 개별 미션 박스 */
+.mission1-box, .mission2-box {
+    width: 400px;
+    height: 400px;
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 미션 제목 버튼 */
+.mission-title {
+    background: #cccccc3a;
+    color: #f5587b;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: default;
+}
+    /* 미션1 그래프 */
+    .mission1-graph, .mission2-graph {
+        width: 375px;
+        height: auto;
+        position: relative;
+        margin-top: 60px;
+    }
+/* 미션 횟수 */
+.mission-count {
+    font-size: 18px;
+    color: black;
+    margin-bottom: 0;
+    margin-top: 20px;
+}
+    /* 미션 완료 이미지 */
+    .mission-clear, .mission-clear2 {
+        position: absolute;
+        width: 50%;
+        height: auto;
+        transition: opacity 0.3s ease-in-out;
+    }
+/* 출석 미션을 모두 완료했을 때 표시 */
+.mission1-box.complete .mission-clear, .mission-clear2 {
+    opacity: 1;  /* 완료되면 나타남 */
+}

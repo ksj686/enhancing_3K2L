@@ -4,8 +4,8 @@
       layout:decorate="~{/thymeleaf/default_layout}">
     
     <th:block layout:fragment="css">
-        <link rel="stylesheet" th:href="@{/css/mypage/edit.css}" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.15.10/dist/sweetalert2.min.css">
+        <link rel="stylesheet" th:href="@{/css/mypage/mypage_edit.css}" />
+        <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/sweetalert2@11.15.10/dist/sweetalert2.min.css}">
         <style>
             ul {
                 list-style-type: none; /* 불릿 제거 */
@@ -13,7 +13,7 @@
                 /* margin: 0; */
             }
             .profile-box {
-                transform: translate(32%, 0%);
+                transform: translate(31%, 0%);
             }
 
             .journiverse {
@@ -31,45 +31,56 @@
             }
 
             .profile-container {
-    /* position: relative; */
-    width: 170px;
-    /* height: 178px; */
-    left: 600px;
-    top: 288px;
-}
+                /* position: relative; */
+                width: 170px;
+                /* height: 178px; */
+                left: 600px;
+                top: 288px;
+            }
 
-/* 기존 프로필 사진 스타일 수정 */
-.profile-photo {
-    width: 100%;
-    height: 100%;
-    background: #F1F1F1;
-    border: 1px solid #C0BBBB;
-    border-radius: 3px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-    cursor: pointer;
-}
+            /* 기존 프로필 사진 스타일 수정 */
+            .profile-photo {
+                width: 100%;
+                height: 100%;
+                background: #F1F1F1;
+                border: 1px solid #C0BBBB;
+                border-radius: 3px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 5px;
+                cursor: pointer;
+            }
 
-/* 프로필 미리보기 이미지 스타일 */
-.profile-preview {
-    top: 0;
-    left: 0;
-    width: 100%;
-    /* height: 100%; */
-    object-fit: cover;
-    border: 1px solid #C0BBBB;
-    border-radius: 3px;
-    transition: opacity 0.3s;
-    cursor: pointer;
-}
+            /* 프로필 미리보기 이미지 스타일 */
+            .profile-preview {
+                top: 0;
+                left: 0;
+                width: 100%;
+                /* height: 100%; */
+                object-fit: cover;
+                border: 1px solid #C0BBBB;
+                border-radius: 3px;
+                transition: opacity 0.3s;
+                cursor: pointer;
+            }
 
-.profile-preview:hover {
-    opacity: 0.8;
-}
-            
+            .profile-preview:hover {
+                opacity: 0.8;
+            }
+
+            .profile-image {
+                cursor: pointer;
+            }
+                        
+            .width-75 {
+                width: 75% !important;
+            }
+
+            .left-section {
+                width: 460px;
+            }
         </style>
     </th:block>
 
@@ -90,7 +101,9 @@
     </span>
 
     <div layout:fragment="content">
-        <!-- <div class="comet"></div> -->
+        <div class="title">
+            <img src="/img/mypage/title-EditMyProfile.png" alt="MyPage" class="mypage-title">
+        </div>
         <div class="register-wrapper">
             
             <div class="left-section">
@@ -107,12 +120,12 @@
                         <li class="profile-box">
                             <div class="profile-container">
                                 <!-- 프로필 사진 업로드 박스 -->
-                                <div class="profile-photo" onclick="document.getElementById('file-upload-1').click()">
+                                <!-- <div class="profile-photo" onclick="document.getElementById('file-upload-1').click()">
                                     <span class="ic--baseline-upload"></span>
                                     <div class="profile-text">프로필 사진</div>
-                                </div>
+                                </div> -->
 
-                                <img th:if="${memberProfileImage == null}" src="/img/register/register_profile.png" class="profile-image">
+                                <img th:if="${memberProfileImage == null}" src="/img/register/register_profile.png" class="profile-image check-null" onclick="document.getElementById('file-upload-1').click()">
                         
                                 <!-- 파일 입력 필드 -->
                                 <input type="file"
@@ -137,22 +150,26 @@
                         </li>
                         <li>
                             <label for="name">이름</label>
+                            <div class="width-75">
                             <input type="text" id="memberName" name="memberName" placeholder="이름을 입력하세요" th:value="${member.memberName}" required>
+                            </div>
                         </li>
                         <li>
                             <label for="dob">생년월일</label>
+                            <div class="width-75">
                             <input type="date" id="memberBirthdate" name="memberBirthdate" required>
+                            </div>
                         </li>
                         <li>
                     <label for="nickname">닉네임</label>
                     <div class="input-group">
-                        <input type="text" id="memberNickname" name="memberNickname" placeholder="닉네임을 입력하세요" th:value="${member.memberNickname}" required>
+                        <input type="text" id="memberNickname" name="memberNickname" placeholder="닉네임을 입력하세요" th:value="${member.memberNickname}" class="width-75" required>
                             <button type="button" class="check-btn" id="nickCheck">중복 확인</button>
                         </div>
                         </li>
                         <li>
                     <label for="email">이메일</label>
-                    <div class="input-group">
+                    <div class="input-group width-75">
                         <input type="text" id="memberEmail" name="memberEmail" placeholder="이메일을 입력하세요" required>
                         <span class="at">@</span>
                         <input type="text" id="emailDomainInput" disabled>
@@ -170,25 +187,31 @@
                         <li>
                     <label for="userid">ID</label>
                     <div class="input-group">
-                        <input type="text" id="memberId" name="memberId" placeholder="ID를 입력하세요" th:value="${member.memberId}" disabled>
+                        <input type="text" id="memberId" name="memberId" placeholder="ID를 입력하세요" th:value="${member.memberId}" class="width-75" disabled>
                     </div>
                     </li>
                     <li>
                     <label for="password">Password</label>
+                    <div class="width-75">
                     <input type="password" id="memberPwd" name="memberPwd" placeholder="비밀번호를 입력하세요" required>
+                    </div>
                     </li>
                     <li>
                     <label for="password-check">Password Check</label>
+                    <div class="width-75">
                     <input type="password" id="password-check" name="password-check" placeholder="비밀번호를 다시 입력하세요" required>
+                    </div>
                     </li>
                     <li>
                     <p class="error-message" id="passwordMessage">*일치하지 않습니다.</p>
                     </li>
                     <label for="phone">[선택] 전화번호</label>
+                    <div class="width-75">
                     <input type="text" id="memberPhone" name="memberPhone" placeholder="전화번호를 입력하세요" th:value="${member.memberPhone}">
+                    </div>
             
                     <label for="address">[선택] 주소</label>
-                    <div class="input-group">
+                    <div class="width-75">
                         <!-- <select>
                             <option>시/도 선택</option>
                             <option>서울</option>
@@ -209,7 +232,7 @@
                             <option>제주</option>
                         </select> -->
                         <input type="text" id="memberAddress" name="memberAddress" placeholder="나머지 주소를 입력하세요" th:value="${member.memberAddress}">
-                    </div>
+                        </div>
                     <li>
                         <button type="submit" class="signup-btn">수정하기</button>
                     </li>
@@ -226,9 +249,22 @@
     
     <!-- <script th:src="@{/js/register.js}"></script> -->
     <th:block layout:fragment="script">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.15.10/dist/sweetalert2.all.min.js"></script>
+    <script th:src="@{https://cdn.jsdelivr.net/npm/sweetalert2@11.15.10/dist/sweetalert2.all.min.js}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+            document.getElementById('memberNickname').addEventListener('input', function() {
+                const input = this.value;
+                const isKorean = /[가-힣]/.test(input); // 한글이 포함되어 있는지 확인
+                const maxLength = isKorean ? 10 : 14; // 한글일 경우 5자, 영문일 경우 10자
+
+                this.setAttribute('maxlength', maxLength); // maxlength 속성 설정
+            });
+
+            if ($('.check-null').length === 0) {
+                $('.profile-box').css('transform', 'translate(34%, 0%)')
+            }
+
+            
             const preview1 = document.getElementById('profile-preview-1');
             const uploadBox1 = document.querySelector('.profile-photo');
             
@@ -314,6 +350,11 @@
         });
 
         function previewImage(input, previewId) {
+            if ($('.profile-image').is(':visible')) { // 요소가 보이는지 확인
+                $('.profile-image').hide(); // display를 none으로 변경
+            }
+
+            $('.profile-box').css('transform', 'translate(34%, 0%)');
             let preview = document.getElementById(previewId); // const를 let으로 변경
             const uploadBox = document.querySelector('.profile-photo');
             
@@ -321,6 +362,9 @@
                 const reader = new FileReader();
                 
                 reader.onload = function(e) {
+                    if (preview) {
+                        preview.style.display = 'none'; // 기존 이미지 숨기기
+                    }
                     // 이미지 미리보기가 없으면 새로 생성
                     if (!preview) {
                         const newPreview = document.createElement('img');

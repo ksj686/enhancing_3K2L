@@ -4,317 +4,85 @@
       layout:decorate="~{/thymeleaf/default_layout}">
     
     <th:block layout:fragment="css">
-    <style>
-        .board-container {
-  display: block;
-  box-sizing: border-box;
-  width: 80%;
-  min-width: 770px;
-  margin: 10px auto; /* 상하, 좌우 여백 */
-}
-.board-container > h2 {
-  border: none;
-  text-align: left;
-  width: 100%;
-  padding-left: 20px;
-}
-.btn-box {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-}
-.board-top-box {
-  display: flex;
-  width: 100%;
-  padding: 40px 0 5px 0;
-  justify-content: space-between;
-  align-items: baseline;
-  border-bottom: 1px solid #e0e0e0; /* 하단 아웃라인 */
-}
-.scale:hover {
-  transform: scale(1.1); 
-}
-/* 게시글 카테고리, 글쓰기 버튼 */
-.board-btn {
-  max-width: 200px; /* 최대 너비 설정 */
-  background-color: #d9d9d9ad;
-  color: #000000;
-  border: none;
-  border-radius: 50px;
-  height: 40px;
-  width: 150px;
-  min-width:130px;
-  padding: 8px 40px;
-  margin: 0 10px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0px 3px 2px rgba(0, 0, 0, 0.3);
-  &.active {
-  	background-color: #FCD11E;
-  }
-  &.active:hover {
-    background-color: #fde06f;
-  }  
-}
+        <link rel="stylesheet" th:href="@{/css/mypage/mypage_common.css}" />
+        <link rel="stylesheet" th:href="@{/css/mypage/mypage_journal.css}" />
+        <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css}">
+        <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.6/plugins/monthSelect/style.min.css}">
+        <style>
+            .form-control {
+                height: 30px;
+                width: 190px;
+                text-align: center;
+                font-size: 25px; /* 폰트 크기 */
+                color: #333; /* 글씨 색상 */
+                font-family: Arial, sans-serif; /* 폰트 패밀리 */
+                padding: 10px; /* 패딩 조정 */
+                border: 1px solid #ccc; /* 테두리 스타일 */
+                border-radius: 4px; /* 테두리 둥글기 */
+                background-color: #f9f9f9; /* 배경색 */
+            }
 
-.write {
-  background-color: #000000;
-  color: #FCD11E;
-  min-width:150px;
-  padding: 8px 50px;
-}
-
-.write:hover {
-  background-color: #FCD11E;
-  color: #000000;;
-}
- /* 검색창 */
-.search-box {
-  background-color: #fcd01e18;
-  border-radius: 10px;
-  border: 1px solid #FCD11E;
-  width: 400px;
-  height: 30px;;
-  margin-left: auto;
-  margin-bottom: 0;
-  justify-content: flex-end;
-  align-items: center;
-}
-.search-txt {
-  border-radius: 10px;
-  text-align: left;
-  border: none;
-  float: left;
-  padding: 0;
-  background-color: #fcd01e00;
-  color: black;
-  font-size: 16px;
-  line-height: 30px;
-  padding: 0 10px 0 20px;
-  width: 310px;
-}
-.search-btn {
-  background-color: rgba(255, 255, 255, 0);
-  background-color: #FCD11E;
-  border-radius: 10px;
-  border: 1px solid #FCD11E;
-  text-align: center;
-  float: right;
-  width: 60px;
-  height: 30px;
-}
-.search-btn:hover {
-  transform: scale(1.02); /* 카드 확대 */
-}
-
-/* 보드 콘텐츠 */
-/* 게시판 목록 */
-.board-list-container{
-  width: 100%;
-  height: auto;
-  margin:  0 auto;
-}
-
-/* 정렬 옵션 */
-.sort-options {
-  display: flex;
-  gap: 20px; /* 버튼 간 간격 */
-  align-items: center;
-  margin-bottom: 10px;
-}
-/* 라벨 스타일 */
-.sort-label {
-  display: flex;
-  align-items: center;
-  gap: 5px; /* 텍스트와 박스 간격 */
-  font-size: 14px;
-  cursor: pointer;
-}
-/* 라디오 버튼 숨김 */
-input[type="radio"] {
-  display: none;
-}
-/* 정렬 박스 기본 상태 */
-.sort-label::before {
-  content: "";
-  display: inline-block;
-  width: 15px;
-  height: 15px;
-  border: 1px solid #fde06f;
-  border-radius: 2px;
-  background-color: #fff; /* 기본 배경색 */
-}
-/* 클릭된 상태 */
-input[type="radio"]:checked + .sort-label::before {
-  border: 2px solid #fde06f; /* 선택 시 두꺼운 테두리 */
-  background-color: #fde06f; /* 클릭된 상태 배경색 */
-}
-
-  /* 개별 게시판 항목 */
-.board-item {
-  width: 100%;
-  height: 190px;
-  /* border-top: 1px solid #e0e0e0; /* 상단 아웃라인 */
-  border-bottom: 1px solid #e0e0e0; /* 하단 아웃라인 */
-  padding: 20px;
-  box-sizing: border-box;
-  overflow: hidden; /* 콘텐츠가 넘치지 않도록 제한 */
-  a {
-    text-decoration: none; /* 밑줄 제거 */
-    color: inherit; /* 부모 요소의 텍스트 색상 상속 */
-    display: flex; /* 링크를 블록으로 처리하여 전체 클릭 가능 */
-    justify-content: space-between;
-  }
-  a:hover {
-    transform: scale(1.02); /* 카드 확대 */
-  }
-}    
-.board-content {
-  flex: 1;
-  height: 150px;
-  padding-right: 20px; 
-}
-.board-header {
-  display: flex;
-  gap: 15px;
-}
-.board-title {
-  font-size: 18px;
-  font-weight: bold;
-  margin-right: 0;
-  margin-top: auto;
-  padding: 0;
-}
-.board-author {
-  font-size: 14px;
-  margin-top: auto;
-  color: #999;
-}
-.board-description {
-  font-size: 15px;
-  max-width: 90%;
-  height: 60px;
-  margin-top: 10px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.board-footer {
-  display: flex;
-  height: 35px;
-  align-items: center;
-  gap: 40px;
-  position: relative;
-  bottom: 10px;
-}
-.board-date,
-.board-likes {
-  font-size: 14px;
-}
-.board-likes {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-/* 썸네일 */
-.board-image {
-  display: flex; /* 중앙 정렬을 위해 flexbox 사용 */
-  justify-content: center; /* 수평 중앙 정렬 */
-  align-items: center; /* 수직 중앙 정렬 */
-  border-radius: 20px;
-  width: 180px;
-  height: 150px;
-  overflow: hidden;
-  margin-left: auto;
-  /* flex-shrink: 0; 이미지 크기를 고정하여 줄어들지 않도록 설정 */
-  object-fit: cover;
-}
-.board-image img {
-  max-width: 100%;  /* 비율을 유지하며 이미지 크기를 조정 */
-  max-height: 100%; /* 비율을 유지하며 이미지 크기를 조정 */
-  object-fit: contain; /* 이미지 비율 유지하며 컨테이너에 맞춤 */
-  border-radius: 10px;
-}
-
-
-    </style>
+            /* 입력 필드에 포커스가 갔을 때 스타일 조정 */
+            .form-control:focus {
+                border-color: #007bff; /* 포커스 시 테두리 색상 */
+                outline: none; /* 기본 아웃라인 제거 */
+                box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* 포커스 시 그림자 효과 */
+            }
+        </style>
     </th:block>
 
     <span layout:fragment="pre-content">
-	    <!-- 별과 별똥별 -->
-		<div class="comet1"></div>
-		<div class="comet2"></div>
+        <!-- 별과 별똥별 -->
+        <div class="comet1"></div>
+        <div class="comet2"></div>
 
-		<div class="stars-container">
-			<div class="star"></div>
-			<div class="star"></div>
-			<div class="star"></div>
-			<div class="star"></div>
-			<div class="star"></div>
-			<div class="star"></div>
-			<div class="star"></div>
-		</div>
+        <div class="stars-container">
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+            <div class="star"></div>
+        </div>
     </span>
 
-    <div layout:fragment="content" class="main-content-wrapper">
-        <div class="board-container">	
-            <h2>주접 게시판</h2>
-              <!-- 게시글 버튼 -->
-              <div class="btn-box" th:with="category=${boardCategory}">
-                <button onclick="location.href='/board'" th:class="${category==null?'board-btn active scale':'board-btn scale'}">전체</button>
-                <button onclick="location.href='/board/category/dog'" th:class="${category=='dog'?'board-btn active scale':'board-btn scale'}">강아지</button>
-                <button onclick="location.href='/board/category/cat'" th:class="${category=='cat'?'board-btn active scale':'board-btn scale'}">고양이</button>
-                <button onclick="location.href='/board/category/other'" th:class="${category=='other'?'board-btn active scale':'board-btn scale'}">소동물</button>
-                <button onclick="location.href='/board/create'" class="board-btn write scale">글쓰기</button>
-              </div>  
-              
-               <form action="" method="get">
-                 <!-- 정렬 버튼 -->
-                 <div class="board-top-box">
-                  <div class="sort-options">
-                   <input type="radio" id="latest" name="sort" value="latest" onchange="this.form.submit()" th:checked="${sort=='latest' || sort==null}">
-                   <label for="latest" class="sort-label">최신 순</label>
-                   <input type="radio" id="popular" name="sort" value="popular" onchange="this.form.submit()" th:checked="${sort=='popular'}">
-                   <label for="popular" class="sort-label">인기 순</label>
-                  </div>
-                    <!-- 검색창 -->
-                  <div class="search-box">
-                   <input class="search-txt" type="text" name="" placeholder="search">
-                   <button class="search-btn" type="submit"><img src="/images/search.png" alt="검색" /></button>
-                  </div>
-                 </div>
-               </form>
-               
-              <!-- 게시글 리스트 -->
-              <div class="board-list-container">
-               <!-- 게시글1-->
-               <div class="board-item" th:each="board: ${boardList}">
-                 <a th:href="@{/board/{Id}(Id=${board.boardId})}" class="board-link">
-                  <div class="board-content">
-                   <div class="board-header">
-                       <h2 class="board-title" th:utext="${board.boardTitle}"></h2>
-                       <p class="board-author" th:utext="' by. ' + ${board.usersId}"></p>
-                   </div>
-                   <p class="board-description" th:utext="${board.boardContent}"></p>
-                   <div class="board-footer">
-                       <span class="board-date" th:utext="${board.boardDate}"></span>
-                       <span class="board-likes" th:utext="'❤️ : ' + ${board.heartSum}"></span>
-                       <img src="/images/king.svg" alt="주접왕" />
-                   </div>
-                  </div>
-                  <div class="board-image">
-                   <img th:src="${board.attachName != null ?'/attach/' + board.attachName :'/images/cardimgtest.png'}" alt="게시글 이미지" />
-                  </div>
-                 </a>
-               </div>
-              </div>      
+    <div layout:fragment="content">
+        <!-- [타이틀]-->
+        <div class="title">
+            <img src="/img/mypage/title-myjournal.png" alt="MyPage" class="mypage-title">
+        </div>
+    
+        <!-- 감정 분석 박스 -->
+        <section class="mypage-content">
+            <!-- 연도 & 월 선택 드롭다운 -->
+            <div class="day-filter">
+                <input type="text" id="date-select">
             </div>
+            <div class="journal-list">
+                <div class="journal1">일기 리스트1</div>
+            </div>
+        </section>
     </div>
     <th:block layout:fragment="script">
+        <script type="text/javascript" th:src="@{https://cdn.jsdelivr.net/npm/flatpickr}"></script>
+        <script type="text/javascript" th:src="@{https://cdn.jsdelivr.net/npm/flatpickr@latest/dist/plugins/monthSelect/index.js}"></script>
         <script type="text/javascript">
-            
+            $(document).ready(function() {
+                $("#date-select").flatpickr({
+                    plugins: [
+                    new monthSelectPlugin({
+                            shorthand: true, // 'YYYY-MM' 형식으로 표시
+                            dateFormat: "Y-m", // 선택된 날짜 형식
+                            altFormat: "Y F", // 대체 형식
+                        })
+                    ],
+                    minDate: "2025-01",
+                    maxDate: new Date(),
+                    defaultDate: new Date(),
+                    altInput: true,
+                });
+            });
         </script>
     </th:block>
 </html>

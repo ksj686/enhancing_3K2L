@@ -4,6 +4,7 @@
       layout:decorate="~{/thymeleaf/default_layout}">
     
     <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/mypage/mypage_common.css}" />
         <link rel="stylesheet" th:href="@{/css/mypage/mypage.css}" />
     </th:block>
 
@@ -31,15 +32,15 @@
     </div>
 
     <section class="mypage-container">
-        <div class="mypage-menu" onclick="location.href='mypage_myjournal.html'">
+        <div class="mypage-menu" onclick="location.href='/mypage/journal'">
             <img src="/img/mypage/myjournal-btn.png" alt="My Journal" class="mypage-img">
         </div>
 
-        <div class="mypage-menu" onclick="location.href='mypage_mymission.html'">
+        <div class="mypage-menu" onclick="location.href='/mypage/mission'">
             <img src="/img/mypage/mymission-btn.png" alt="My Mission" class="mypage-img">
         </div>
 
-        <div class="mypage-menu" onclick="location.href='mypage_myemotion.html'">
+        <div class="mypage-menu" onclick="location.href='/mypage/emotion'">
             <img src="/img/mypage/myemotion-btn.png" alt="My Emotion" class="mypage-img">
         </div>
     </section>

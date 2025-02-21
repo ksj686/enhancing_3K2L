@@ -1,5 +1,5 @@
 body {       
-    background-image: url('/img/register/register_sky.png');
+    background-image: url('/img/mypage/mypage_sky.png');
 }
 
 /* 메인 콘텐츠 적용 */
@@ -149,17 +149,17 @@ body {
 }
 
 .signup-box {
-    color: black;
+    color: white;
     background: rgba(203, 228, 234, 0.7);
     backdrop-filter: blur(10px);
     padding: 30px;
     border-radius: 15px;
     width: 30%;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
 }
 
 .signup-box h1 {
-    color: black;
     text-align: center;
 }
 
@@ -218,7 +218,7 @@ input[type="text"], input[type="email"], input[type="password"], input[type="dat
 }
 
 .check-btn {
-    width: 100px;
+    width: 120px;
     background-color: #aeaeae;
 }
 
@@ -265,4 +265,22 @@ input[type="text"], input[type="email"], input[type="password"], input[type="dat
 
 .login-link a:hover {
     text-decoration: underline;
+}
+
+/* 2. 타이틀 영역 */
+.title {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+}
+
+.mypage-title {
+    width: 250px;
+}
+
+.at {
+    color: #000000a3;
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import app.labs.mypage.service.MyPageService;
 import app.labs.register.model.Member;
@@ -27,8 +28,8 @@ public class MyPageController {
     @Autowired
     private MemberService memberService;
     
-    // @Autowired
-    // private MyPageService myPageService;
+     @Autowired
+     private MyPageService myPageService;
 
     @GetMapping("/mypage")
     public String showMyPage(HttpSession session, Model model) {
@@ -84,11 +85,51 @@ public class MyPageController {
     }
 
     @GetMapping("/mypage/journal")
-    public String editMyPage(HttpSession session, Model model) {
+    public String myPageJournal(HttpSession session, Model model) {
         String memberId = (String) session.getAttribute("memberid");
         if (memberId == null) {
             return "redirect:/login";
         }
         return "thymeleaf/mypage/mypage_journal";
+    }
+
+    @GetMapping("/mypage/emotion")
+    public String myPageEmotion(HttpSession session, Model model) {
+        String memberId = (String) session.getAttribute("memberid");
+        if (memberId == null) {
+            return "redirect:/login";
+        }
+        return "thymeleaf/mypage/mypage_emotion";
+    }
+
+    @GetMapping("/mypage/mission")
+    public String myPageMission(HttpSession session, Model model) {
+        String memberId = (String) session.getAttribute("memberid");
+        if (memberId == null) {
+            return "redirect:/login";
+        }
+        return "thymeleaf/mypage/mypage_mission";
+    }
+
+    @GetMapping("/mypage/board-stats")
+    @ResponseBody
+    public List<Map<String, Object>> myPageBoardStats(HttpSession session, Model model, @RequestParam("date") String date) {
+        String memberId = (String) session.getAttribute("memberid");
+        if (memberId == null) {
+            return null;
+        }
+        List<Map<String, Object>> boardStats = myPageService.getBoardStats(memberId, date);
+        return boardStats;
+    }
+
+    @GetMapping("/mypage/journal-stats")
+    @ResponseBody
+    public List<Map<String, Object>> myPageJournalStats(HttpSession session, Model model, @RequestParam("date") String date) {
+        String memberId = (String) session.getAttribute("memberid");
+        if (memberId == null) {
+            return null;
+        }
+        List<Map<String, Object>> journalStats = myPageService.getJournalStats(memberId, date);
+        return journalStats;
     }
 }
