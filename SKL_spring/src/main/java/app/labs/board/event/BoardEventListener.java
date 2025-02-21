@@ -50,15 +50,13 @@ public class BoardEventListener {
         Board board = boardCreateEvent.getBoard();
         String boardContent = board.getBoardContent();
         String boardTitle = board.getBoardTitle();
-        String extractedText = extractTextFromHtml(boardContent); // HTML에서 텍스트 추출
-        String text = boardTitle + " " + extractedText;
+        //String extractedText = extractTextFromHtml(boardContent); // HTML에서 텍스트 추출
+        String text = boardTitle + " " + boardContent;
 
         log.info("추출된 텍스트: {}", text); // 추출된 텍스트 출력
 
         String filterResult = aiService.filterService(text);
-        Map<String, String> feedbackResult = aiService.feedbackService(text);
         log.info("필터결과: {}", filterResult);
-        log.info("피드백결과: {}", feedbackResult);
         double filterPercentage;
         try {
             filterPercentage = Double.parseDouble(filterResult);
@@ -95,6 +93,7 @@ public class BoardEventListener {
         noticeService.saveNotice(noticeType, boardId, memberId);
     }
 
+    /**
     public String extractTextFromHtml(String boardContent) {
         // HTML을 파싱하여 Document 객체 생성
         Document document = Jsoup.parse(boardContent);
@@ -103,5 +102,5 @@ public class BoardEventListener {
         String text = document.body().text();
 
         return text; // 추출된 텍스트 반환
-    }
+    } **/
 }

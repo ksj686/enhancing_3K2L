@@ -3,7 +3,6 @@
 /* ✅ 배경 */
 body {     
     background-image: url('/img/journal/diary-sky.png');
-
 }
 
 /* 🌟 메인 컨텐츠 */
@@ -14,6 +13,7 @@ body {
     flex-direction: column;
     width: 100%;
     padding: 103px 0;
+    margin: auto;
 }
 
 /* 🔹 컨테이너 정렬 */
@@ -59,6 +59,7 @@ body {
 .write-btn {
     background-color: #F85A7B;
     color: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
 }
 
 .write-btn:hover {
@@ -69,6 +70,7 @@ body {
 .read-btn {
     background-color: #666;
     color: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
 }
 
 .read-btn:hover {
@@ -77,80 +79,80 @@ body {
 /* 3. [오른쪽] 달력 */
 /* ✅ FullCalendar 스타일 */
 #calendar-container {
-            width: 70%;
-            max-width: 560px; /* 최대 크기 설정 */
-            height: auto; /* 내용에 맞게 자동 조정 */
-            margin: 50px auto;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
+    width: 70%;
+    max-width: 560px; /* 최대 크기 설정 */
+    height: auto; /* 내용에 맞게 자동 조정 */
+    margin: 50px auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
 
-        .fc-toolbar-title {
-            font-size: 24px;
-        }
+.fc-toolbar-title {
+    font-size: 24px;
+}
 
-         :root {
-            --fc-today-bg-color: rgba(255, 255, 255, 0);
-        }
+ :root {
+    --fc-today-bg-color: rgba(255, 255, 255, 0);
+}
 
-        .fc-daygrid-day-frame {
-            display: flex;
-            justify-content: center; /* 가로 중앙 정렬 */
-            align-items: center; /* 세로 중앙 정렬 */
-            height: 100%; /* 셀 전체 높이에 맞춤 */
-        }
+.fc-daygrid-day-frame {
+    display: flex;
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    height: 100%; /* 셀 전체 높이에 맞춤 */
+}
 
-        .fc-daygrid-day-number {
-            display: flex;
-            justify-content: center; /* 숫자를 가로로 중앙 정렬 */
-            align-items: center; /* 숫자를 세로로 중앙 정렬 */
-            width: 40px; /* 원의 크기 */
-            height: 40px; /* 원의 크기 */
-            border: 2px solid rgba(0, 0, 0, 0.4); /* 테두리 추가 */
-            border-radius: 50%; /* 원형으로 만듦 */
-            font-size: 16px;
-            font-weight: bold;
-        }
-       
+.fc-daygrid-day-number {
+    display: flex;
+    justify-content: center; /* 숫자를 가로로 중앙 정렬 */
+    align-items: center; /* 숫자를 세로로 중앙 정렬 */
+    width: 40px; /* 원의 크기 */
+    height: 40px; /* 원의 크기 */
+    border: 2px solid rgba(0, 0, 0, 0.4); /* 테두리 추가 */
+    border-radius: 50%; /* 원형으로 만듦 */
+    font-size: 16px;
+    font-weight: bold;
+}
 
-        .fc-day-today .fc-daygrid-day-number {
-            background-color: rgba(255, 0, 0, 0.4) !important; /* 흰색 배경 */
-            color: white !important; /* 텍스트 색상은 빨간색 */
-            border: 2px solid red; /* 빨간 테두리 */
-        }
 
-        #controls {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+.fc-day-today .fc-daygrid-day-number {
+    background-color: rgba(255, 0, 0, 0.4) !important; /* 흰색 배경 */
+    color: white !important; /* 텍스트 색상은 빨간색 */
+    border: 2px solid red; /* 빨간 테두리 */
+}
 
-        #year-select,
-        #month-select {
-            font-size: 16px;
-            padding: 5px;
-            margin-right: 10px;
-            border: 2px solid white;
-            border-radius: 10px;
-        }
-        /* ✅ 캘린더 테이블의 모든 테두리 제거 */
-		.fc-theme-standard td, .fc-theme-standard th {
-    		border: none !important;
-		}
+#controls {
+    text-align: center;
+    margin-bottom: 20px;
+}
 
-		/* ✅ 날짜 칸 테두리 제거 */
-		.fc-daygrid-day {
-    		border: none !important;
-		}
+#year-select,
+#month-select {
+    font-size: 16px;
+    padding: 5px;
+    margin-right: 10px;
+    border: 2px solid white;
+    border-radius: 10px;
+}
+/* ✅ 캘린더 테이블의 모든 테두리 제거 */
+.fc-theme-standard td, .fc-theme-standard th {
+    border: none !important;
+}
 
-		/* ✅ 요일 헤더(일~토) 아래 선 제거 */
-		.fc-scrollgrid-section-header td {
-    		border-bottom: none !important;
-		}
+/* ✅ 날짜 칸 테두리 제거 */
+.fc-daygrid-day {
+    border: none !important;
+}
 
-		/* ✅ 캘린더 전체 테두리 제거 */
-		.fc-scrollgrid {
-    		border: none !important;
-		}
+/* ✅ 요일 헤더(일~토) 아래 선 제거 */
+.fc-scrollgrid-section-header td {
+    border-bottom: none !important;
+}
+
+/* ✅ 캘린더 전체 테두리 제거 */
+.fc-scrollgrid {
+    border: none !important;
+}
 

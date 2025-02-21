@@ -5,37 +5,85 @@ from transformers import AutoModelForSequenceClassification, AutoTokenizer, Auto
 '''
 요약
 '''
-def summary_sentence(sentence):
+# def summary_sentence(text, task_prompt="감정 표현이 반영된 두 줄 요약:"):
+#     # 입력 텍스트 전처리
+#     text = text.replace('\n', ' ').strip()
+    
+#     # 프롬프트 형식 지정
+#     modified_input = f"{task_prompt} {text}"
+    
+#     # 토크나이징
+#     inputs = tokenizer(
+#         modified_input,
+#         max_length=2048,  # 입력 텍스트의 최대 길이 제한
+#         truncation=True,   # max_length를 초과하는 텍스트는 자동으로 자름
+#         padding='longest',   # 배치 내에서 가장 긴 시퀀스에 맞춰 패딩
+#         return_tensors="pt"   # PyTorch 텐서 형태로 반환
+#     )
+    
+#     # 요약 생성
+#     outputs = model.generate(
+#         input_ids=inputs['input_ids'],  # 토큰화된 입력 텍스트
+#         attention_mask=inputs['attention_mask'],  # 패딩된 부분을 무시하기 위한 마스크
+#         # 생성 품질 관련
+#         num_beams=5,  # 빔 서치 크기 (더 높은 값 = 더 다양한 후보 고려)
+#         length_penalty=2.0,   # 길이에 대한 페널티 (>1: 긴 문장 선호, <1: 짧은 문장 선호)
+#         max_length=200,     # 생성될 텍스트의 최대 길이
+#         min_length=10,      # 생성될 텍스트의 최소 길이
+#         # 반복 방지
+#         no_repeat_ngram_size=2,
+#         do_sample=True,      # 확률적 샘플링 사용 (True: 더 다양한 출력)
+#         top_k=50,        # 각 단계에서 고려할 최상위 k개의 토큰
+#         top_p=0.95,     # 누적 확률이 p가 될 때까지의 토큰만 고려
+#         early_stopping=True   # 모든 빔이 종료 토큰에 도달하면 생성 중단
+#     )
+    
+#     # 디코딩
+#     summary = tokenizer.decode(outputs[0], skip_special_tokens=True)
+#     return summary
+
+def summary_sentence(input_text):
     # 모델과 토크나이저 불러오기
+    # id2label = {
+    # '0': 'NEGATIVE',
+    # '1': 'POSITIVE',
+    # '2': 'NEUTRAL'  # 세 번째 레이블 추가
+    # }
     summary_model_name = "EbanLee/kobart-summary-v3"
-    summary_model = AutoModelForSeq2SeqLM.from_pretrained(summary_model_name)
+    summary_model = AutoModelForSeq2SeqLM.from_pretrained(summary_model_name, num_labels=2)
+    # summary_model = AutoModelForSeq2SeqLM.from_pretrained(
+    #                 summary_model_name,
+    #                 num_labels=3,
+    #                 id2label=id2label
+    #             )
     tokenizer = AutoTokenizer.from_pretrained(summary_model_name)
 
-    summaries = []
     chunk_size = 1024  # 모델의 최대 입력 길이
+    try:
+        # 입력 텍스트를 적절히 나눔
+        input_chunks = [input_text[i:i + chunk_size] for i in range(0, len(input_text), chunk_size)]
 
-    input_text = "senetence"
-    # 입력 텍스트를 적절히 나눔
-    input_chunks = [input_text[i:i + chunk_size] for i in range(0, len(input_text), chunk_size)]
+        chunk_summaries = []
+        for chunk in input_chunks:
+            # 토큰화 및 요약 생성
+            inputs = tokenizer("summarize: " + chunk, return_tensors="pt", max_length=chunk_size, truncation=True)
+            outputs = summary_model.generate(
+                input_ids=inputs['input_ids'], 
+                num_beams=5, 
+                do_sample=True, 
+                min_length=10, 
+                max_length=512  # 생성 텍스트의 최대 길이
+            )
+            chunk_summaries.append(tokenizer.decode(outputs[0], skip_special_tokens=True))
 
-    chunk_summaries = []
-    for chunk in input_chunks:
-        # 토큰화 및 요약 생성
-        inputs = tokenizer("summarize: " + chunk, return_tensors="pt", max_length=chunk_size, truncation=True)
-        outputs = summary_model.generate(
-            input_ids=inputs['input_ids'], 
-            num_beams=5, 
-            do_sample=True, 
-            min_length=10, 
-            max_length=512  # 생성 텍스트의 최대 길이
-        )
-        chunk_summaries.append(tokenizer.decode(outputs[0], skip_special_tokens=True))
-
-    # 각 텍스트의 요약 결합
-    final_summary = " ".join(chunk_summaries)
-    limited_summary = ". ".join(final_summary.split(". ")[:5]) + ("." if not final_summary.endswith(".") else "")
+        # 각 텍스트의 요약 결합
+        final_summary = " ".join(chunk_summaries)
+        limited_summary = ". ".join(final_summary.split(". ")[:5]) + ("." if not final_summary.endswith(".") else "")
     
-    return limited_summary
+        return limited_summary
+    except Exception as e:
+        # 오류 메시지를 무시하고 결과값을 반환
+        return f"Error occurred, but returning the result: {e}"
 
 
 '''
@@ -107,4 +155,7 @@ if __name__ == "__main__":
     sentence = "살면서 착하게 살려고 노력했었는데 그게 무슨소용인지 모르겠다고 눈물을 흘렸다. 내가 할 수 있는건 최대한 빨리 중환자실에 보내서 악화되는 것을 예방하는 것이었고 심리적안정을 주기위해 항상 환자가 해줬던 것처럼 두손을 잡아드렸다. 병원에서 일한다는건 사람이 가장 힘들고 악해질때 만나는 것이라 생각한다. 바쁜 병원은 식사해야하는 5분조차 만들기 어려워 2교대를 하는데도 새벽부터 밤까지 굶는다. 생리대 교환할 시간이 없어 피부염에 걸리고 방광염에 걸린 친구들이 많은게 현실이다 \
 올해는 눈이 오지 않았다. 눈이 온다하여 창문을 열고 바라보면 그저 하염없이 내리는 빗물들의 도닥도닥 거리는 음악의 향연들만이 펼쳐져 있었다. 눈이 오는게 당연한거지 당연하지 않을 수 없다. 그러나 젖어버린 옷을 부여잡고 함박눈처럼 미소지어보는 어느 겨울날 그 한자락 끝에서였다."
     sentence = summary_sentence(sentence)
-    print(classify_emotion(sentence))
+    print(sentence)
+    print(summary_sentence(sentence))
+    print(predict_emotion(sentence))
+
