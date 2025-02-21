@@ -18,16 +18,18 @@
         <!-- 왼쪽: Healing Playlist -->
         <section class="content-container">
             <h1>Healing Playlist</h1>
+			<div class="keyword-box">
+			    <h2> 오늘의 키워드 : <span th:text="${keyword}"></span></h2>
+			</div>
+            <h5>기분도 광합성이 필요하니까!</h5>
             <div class="card-grid">
                 <div class="content-card" th:each="playlist : ${playlists}">
                     <!-- 유튜브 영상 (iframe) -->
                     <iframe width="100%" height="180" th:src="@{${playlist.playlistUrl}}" frameborder="0" allowfullscreen></iframe>
-                    
                     <!-- 제목 -->
-                    <h2 th:text="${playlist.playlistTitle}"></h2>
-                    
+                    <h3 th:text="${playlist.playlistTitle}"></h3>
                     <!-- 태그 -->
-                    <p>
+                    <p class="hashtags">
                         <span th:each="tag : ${#strings.arraySplit(playlist.playlistTag, ',')}">
                             <span th:text="'#' + ${#strings.trim(tag)} + ' '"></span>
                         </span>
@@ -39,35 +41,35 @@
 
         <!-- 오른쪽: Healing App -->
         <section class="content-container">
-            <h1>Healing App</h1>
+            <h6>Healing App</h6>
             <div class="card-grid">
                 <div class="content-card">
                     <img src="../../img/healing/app1.png" alt="MYOASIS">
-                    <h2>My Oasis</h2>
-                    <p>콘텐츠 소개</p>
+                    <h4>My Oasis</h4>
+                    <p class="introduction">시간의 흐름에 따라 변화하는<br>오아시스를 감상하며 행복을 느껴보세요</p>
                     <p class="hashtags">#MY OASIS #감성힐링게임 #스트레스해소</p>
-                    <button class="visit-btn" onclick>Visit now</button>
+                    <button class="visit-btn" onclick="location.href='https://play.google.com/store/apps/details?id=com.buffstudio.myoasis&hl=ko'">Visit now</button>
                 </div>
                 <div class="content-card">
-                    <img src="img/healing/content-default.png" alt="어플 이름">
-                    <h2>콘텐츠 이름</h2>
-                    <p>콘텐츠 소개</p>
-                    <p class="hashtags">#해시태그</p>
-                    <button class="visit-btn">Visit now</button>
+                    <img src="../../img/healing/app2.png" alt="KOKKILI">
+                    <h4>코끼리</h4>
+                    <p class="introduction">나의 몸과 마음을 살피고 다독이며<br>숙면을 취해보세요</p>
+                    <p class="hashtags">#코끼리 #힐링어플 #명상 #수면</p>
+                    <button class="visit-btn" onclick="location.href='https://play.google.com/store/apps/details?id=com.mindclass.android&hl=ko'">Visit now</button>
                 </div>
                 <div class="content-card">
-                    <img src="img/healing/content-default.png" alt="어플 이름">
-                    <h2>콘텐츠 이름</h2>
-                    <p>콘텐츠 소개</p>
-                    <p class="hashtags">#해시태그</p>
-                    <button class="visit-btn">Visit now</button>
+                    <img src="../../img/healing/app3.png" alt="ABYSSRIUM">
+                    <h4>어비스리움</h4>
+                    <p class="introduction">나만의 힐링 아쿠아리움에서<br>휴식을 취해보세요</p>
+                    <p class="hashtags">#기분전환 #스트레스해소 #바닷속여행</p>
+                    <button class="visit-btn" onclick="location.href='https://play.google.com/store/apps/details?id=com.idleif.abyssrium&hl=ko'">Visit now</button>
                 </div>
                 <div class="content-card">
-                    <img src="img/healing/content-default.png" alt="어플 이름">
-                    <h2>콘텐츠 이름</h2>
-                    <p>콘텐츠 소개</p>
-                    <p class="hashtags">#해시태그</p>
-                    <button class="visit-btn">Visit now</button>
+                    <img src="../../img/healing/app4.png" alt="SLOWLY">
+                    <h4>Slowly</h4>
+                    <p class="introduction">세계 각지의 친구들과<br>느리고 깊은 대화를 나눠보세요</p>
+                    <p class="hashtags">#펜팔 #감정공유 #여유로운소통</p>
+                    <button class="visit-btn" onclick="location.href='https://play.google.com/store/apps/details?id=com.slowlyapp&hl=ko'">Visit now</button>
                 </div>
             </div>
         </section>
@@ -76,7 +78,3 @@
 </div>
 </body>
 </html>
-
-
-
-
