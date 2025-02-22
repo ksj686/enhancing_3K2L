@@ -1,3 +1,17 @@
+'''
+    0. fastAPI, uvicorn 설치되지 않았을 경우에는 install 필요
+       cmd에서 다음 설치명령어 실행
+       "pip install fastapi uvicorn"
+
+    1. 가상환경 설정 후 main.py 실행해야됨
+       다음 명령어로 가상환경 진입
+       "C:\labs_python\.venv\Scripts\activate"
+
+    2. 파이썬 서버 시작 후 자바 서버 시작
+       "python C:\labs_python\SamKimILee\SKL_spring\fastapi-server\main.py"
+'''
+
+
 from emotion_filtering import predict_filter
 from emotion_classify import predict_emotion
 from fastapi import FastAPI, Form, HTTPException
@@ -33,4 +47,3 @@ if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
 
-    # 가상환경 설정 "C:\labs_python\.venv\Scripts\activate"
