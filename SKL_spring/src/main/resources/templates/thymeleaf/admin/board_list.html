@@ -5,12 +5,14 @@
 
 <th:block layout:fragment="css">
     <link rel="stylesheet" th:href="@{/css/admin/board_list.css}" />
+    <link rel="stylesheet" th:href="@{https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css}">
+
 </th:block>
 
 <div layout:fragment="content">
     
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">게시글 목록</h1>
+    <h1 class="h3 mb-2 text-gray-800">공감글 관리</h1>
     
 
     <!-- DataTales -->
@@ -25,7 +27,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" th:fragment="boardListFragment">
                     <thead>
                         <tr>
-                            <th>게시글 ID</th>
+                            <th>공감글 ID</th>
                             <th>제목</th>
                             <th>카테고리</th>
                             <!-- <th>내용</th> -->
@@ -38,7 +40,7 @@
                     </thead>
                     <tbody>
                         <tr th:each="board : ${boardList}">
-                            <td th:text="${board.boardId}">게시글 ID</td>
+                            <td th:text="${board.boardId}">공감글 ID</td>
                             <td>
                                 <span class="board-title" 
                                       th:data-board-id="${board.boardId}" 
@@ -65,12 +67,12 @@
             </div>
         </div>
     </div>
-    <!-- 게시글 상세 모달 -->
+    <!-- 상세 모달 -->
     <div class="modal fade" id="boardDetailModal" tabindex="-1" role="dialog" aria-labelledby="boardDetailModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="boardDetailModalLabel">게시글 상세</h5>
+                    <h5 class="modal-title" id="boardDetailModalLabel">공감글 상세</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -78,7 +80,7 @@
                 <div class="modal-body">
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <strong>게시글 ID:</strong> <span id="modalBoardId"></span>
+                            <strong>공감글 ID:</strong> <span id="modalBoardId"></span>
                         </div>
                         <div class="col-md-6">
                             <strong>카테고리:</strong> <span id="modalBoardCategory"></span>
@@ -134,7 +136,10 @@
     <!-- Bootstrap JS -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script> -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script> -->
-
+    <script src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script type="text/javascript" th:src="@{/js/admin/board_list.js}"></script>
 </th:block>
 </html>

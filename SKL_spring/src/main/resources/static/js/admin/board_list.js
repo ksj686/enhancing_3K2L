@@ -80,7 +80,7 @@ function searchBoards() {
             initializeDataTable();
         },
         error: function(xhr, status, error) {
-            alert('게시글 조회 중 오류가 발생했습니다.');
+            alert('공감글 조회 중 오류가 발생했습니다.');
             console.error('Error:', error);
         }
     });
@@ -220,7 +220,7 @@ function showBoardDetail(element) {
         },
         error: function(xhr, status, error) {
             console.error('Error:', error);
-            alert('게시글 상세 정보를 불러오는데 실패했습니다.');
+            alert('공감글 상세 정보를 불러오는데 실패했습니다.');
         }
     });
 

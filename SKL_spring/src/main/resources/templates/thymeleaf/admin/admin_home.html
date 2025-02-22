@@ -103,7 +103,6 @@
                 <canvas id="todayDiaryChart"></canvas>
             </div>
             <div class="chart-wrapper">
-                <!-- <h3 class="chart-title">오늘의 게시판 감정</h3> -->
                 <canvas id="todayBoardChart"></canvas>
             </div>
         </div>
@@ -252,7 +251,7 @@
             $.get('/admin/emotion-stats/board/today', function(response) {
                 const ctx = document.getElementById('todayBoardChart').getContext('2d');
                 if (todayBoardChart) todayBoardChart.destroy();
-                todayBoardChart = createDonutChart(ctx, response, '오늘의 게시판 감정 분포');
+                todayBoardChart = createDonutChart(ctx, response, '오늘의 공감의 방 감정 분포');
             });
         }
 

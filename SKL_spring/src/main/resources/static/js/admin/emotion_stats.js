@@ -215,7 +215,7 @@ function loadTodayBoardStats() {
     $.get('/admin/emotion-stats/board/today', function(response) {
         const ctx = document.getElementById('todayBoardChart').getContext('2d');
         if (todayBoardChart) todayBoardChart.destroy();
-        todayBoardChart = createDonutChart(ctx, response, '오늘의 게시판 감정 분포');
+        todayBoardChart = createDonutChart(ctx, response, '오늘의 공감의 방 감정 분포');
     });
 }
 
@@ -231,6 +231,6 @@ function loadTotalBoardStats() {
     $.get('/admin/emotion-stats/board/total', function(response) {
         const ctx = document.getElementById('totalBoardChart').getContext('2d');
         if (totalBoardChart) totalBoardChart.destroy();
-        totalBoardChart = createStackedBarChart(ctx, response, '전체 게시판 감정 추이');
+        totalBoardChart = createStackedBarChart(ctx, response, '전체 공감의 방 감정 추이');
     });
 }
