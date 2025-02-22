@@ -28,14 +28,12 @@
                 outline: none; /* 기본 아웃라인 제거 */
                 box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* 포커스 시 그림자 효과 */
             }
-            .category-btn-box {
-                width: 100%;
+            .emotion-btn-box {
+                width: 80%;
                 display: flex;
                 justify-content: space-between;
             }
-            .category-btn {
-                display: flex;
-                justify-content: center;
+            .emotion-btn {
                 align-items: center;
                 max-width: 200px; /* 최대 너비 설정 */
                 background-color: #595858ad;
@@ -44,8 +42,8 @@
                 border-radius: 50px;
                 height: 40px;
                 width: 150px;
-                min-width:130px;
-                padding: 8px 40px;
+                min-width:115px;
+                /* padding: 8px 40px; */
                 margin: 0 10px;
                 font-size: 20px;
                 font-weight: bold;
@@ -57,6 +55,12 @@
                 &.active:hover {
                     background-color: #fde06f;
                 }  
+            }
+
+            .emotion-btn:hover {
+                background-color: #F5DF2C;
+                color: #F85A7B;
+                transition: background-color 0.3s ease;
             }
 
             .journal-top-box {
@@ -141,9 +145,8 @@
                 transform: scale(1.02); /* 카드 확대 */
             }
 
-
             .journal-list-container{
-                width: 100%;
+                width: 60%;
                 height: auto;
                 margin:  0 auto;
             }
@@ -151,7 +154,7 @@
              /* 개별 게시판 항목 */
             .journal-item {
                 width: 100%;
-                height: 190px;
+                /* height: 190px; */
                 /* border-top: 1px solid #e0e0e0; /* 상단 아웃라인 */
                 border-bottom: 1px solid #e0e0e0; /* 하단 아웃라인 */
                 padding: 20px;
@@ -168,21 +171,34 @@
                 }
             }    
             .journal-content {
-                flex: 1;
-                height: 150px;
-                padding-right: 20px; 
+                display: grid;
+                grid-template-columns: 0.5fr 2fr 1fr; /* 3열 균등 분할 */
+                grid-template-rows: 60px; /* 두 개의 행 자동 크기 */
+                gap: 10px; /* 요소 간 간격 */
+                align-items: center;
             }
             .journal-header {
                 display: flex;
                 gap: 15px;
             }
-            .journal-title {
+            /* .journal-title {
                 font-size: 18px;
                 font-weight: bold;
                 margin-right: 0;
                 margin-top: auto;
                 padding: 0;
+            } */
+            .journal-title {
+                display: inline-block; /* 가로 길이 조정 가능 */
+                background-color: #FADB14; /* 밝은 노란색 */
+                color: black; /* 글자 색 */
+                font-size: 18px; /* 글자 크기 */
+                font-weight: bold; /* 글자 굵기 */
+                padding: 10px 20px; /* 안쪽 여백 */
+                border-radius: 30px; /* 양쪽 끝을 둥글게 */
+                text-align: center; /* 텍스트 중앙 정렬 */
             }
+
             .journal-author {
                 font-size: 14px;
                 margin-top: auto;
@@ -204,6 +220,67 @@
                 gap: 40px;
                 position: relative;
                 bottom: 10px;
+            }
+
+            .journal-middle {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            form {
+                width: 60%;
+            }
+
+            #date-select {
+                padding-top: 10px;
+                display: flex;
+                gap: 10px; /* 선택 박스 간격 */
+            }
+
+            select {
+                font-size: 18px;
+                font-weight: bold;
+                padding: 8px 12px;
+                border: 1px solid black;
+                border-radius: 8px;
+                appearance: none; /* 기본 스타일 제거 */
+                background-color: white;
+                cursor: pointer;
+                text-align: center;
+                
+                /* 아이콘 추가 */
+                background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="black"><path d="M7 10l5 5 5-5z"></path></svg>');
+                background-repeat: no-repeat;
+                background-position: right 10px center;
+                background-size: 12px;
+                
+                min-width: 120px;
+            }
+
+            /* 선택 박스 크기 조절 */
+            #year-select {
+                min-width: 160px;
+            }
+
+            #month-select {
+                min-width: 160px;
+            }
+
+            /* 파이어폭스에서 기본 화살표 제거 */
+            select::-moz-focus-inner {
+                border: 0;
+            }
+
+            /* 아이콘 숨기기 (일부 브라우저) */
+            select::-ms-expand {
+                display: none;
+            }
+
+            .journal-description {
+                grid-column: span 2; /* 가로 2칸 차지 */
+            }
+            .thumbnail {
+                padding-top: 90px;
             }
         </style>
     </th:block>
@@ -233,19 +310,39 @@
         <!-- 감정 분석 박스 -->
         <section class="mypage-content">
             <!-- 연도 & 월 선택 드롭다운 -->
-            <div class="day-filter">
+             <!-- 드롭다운 컨트롤 -->
+				<div id="date-select">
+					<select id="year-select">
+                        <option value="2025" selected>2025 년</option>
+                    </select>
+					<select id="month-select">
+						<option value="01">January</option>
+						<option value="02" selected>February</option>
+						<!-- <option value="03">March</option>
+						<option value="04">April</option>
+						<option value="05">May</option>
+						<option value="06">June</option>
+						<option value="07">July</option>
+						<option value="08">August</option>
+						<option value="09">September</option>
+						<option value="10">October</option>
+						<option value="11">November</option>
+						<option value="12">December</option> -->
+					</select>
+				</div>
+            <!-- <div class="day-filter">
                 <input type="text" id="date-select">
-            </div>
+            </div> -->
             <div class="journal-list">
-                <div class="category-btn-box">
-                    <button onclick="journal_sel('전체')" class="category-btn">전체</button>
-                    <button onclick="journal_sel('기쁨')" class="category-btn">기쁨</button>
-                    <button onclick="journal_sel('슬픔')" class="category-btn">슬픔</button>
-                    <button onclick="journal_sel('분노')" class="category-btn">분노</button>
-                    <button onclick="journal_sel('불안')" class="category-btn">불안</button>
-                    <button onclick="journal_sel('당황')" class="category-btn">당황</button>
-                    <button onclick="journal_sel('상처')" class="category-btn">상처</button>
-                    <button onclick="journal_sel('중립')" class="category-btn">중립</button>
+                <div class="emotion-btn-box">
+                    <button onclick="journal_sel('전체')" th:class="'emotion-btn ' + (${emotion == null} ? 'active' : '')">전체</button>
+                    <button onclick="journal_sel('기쁨')" th:class="'emotion-btn ' + (${emotion == '기쁨'} ? 'active' : '')">기쁨</button>
+                    <button onclick="journal_sel('슬픔')" th:class="'emotion-btn ' + (${emotion == '슬픔'} ? 'active' : '')">슬픔</button>
+                    <button onclick="journal_sel('분노')" th:class="'emotion-btn ' + (${emotion == '분노'} ? 'active' : '')">분노</button>
+                    <button onclick="journal_sel('불안')" th:class="'emotion-btn ' + (${emotion == '불안'} ? 'active' : '')">불안</button>
+                    <button onclick="journal_sel('당황')" th:class="'emotion-btn ' + (${emotion == '당황'} ? 'active' : '')">당황</button>
+                    <button onclick="journal_sel('상처')" th:class="'emotion-btn ' + (${emotion == '상처'} ? 'active' : '')">상처</button>
+                    <button onclick="journal_sel('중립')" th:class="'emotion-btn ' + (${emotion == '중립'} ? 'active' : '')">중립</button>
                   </div>
             </div>
 
@@ -253,40 +350,40 @@
                 <!-- 정렬 버튼 -->
                 <div class="journal-top-box">
                  <div class="sort-options">
-                  <input type="radio" id="latest" name="sort" value="latest" onchange="this.form.submit()" th:checked="${sort=='latest' || sort==null}">
+                  <input type="radio" id="latest" name="sort" value="latest" onclick="journal_sel('전체')" th:checked="${sort == null}">
                   <label for="latest" class="sort-label">최신 순</label>
-                  <input type="radio" id="popular" name="sort" value="popular" onchange="this.form.submit()" th:checked="${sort=='popular'}">
-                  <label for="popular" class="sort-label">인기 순</label>
+                  <input type="radio" id="oldest" name="sort" value="oldest" onclick="journal_sel('전체')" th:checked="${sort != null}">
+                  <label for="oldest" class="sort-label">오래된 순</label>
                  </div>
                    <!-- 검색창 -->
-                 <div class="search-box">
+                 <!-- <div class="search-box">
                   <input class="search-txt" type="text" name="" placeholder="search">
                   <button class="search-btn" type="submit"><img src="/images/search.png" alt="검색" /></button>
-                 </div>
+                 </div> -->
                 </div>
               </form>
               
              <!-- 게시글 리스트 -->
              <div class="journal-list-container">
               <!-- 게시글1-->
+              <!-- <div class="journal-item" 
+              th:each="diary: ${selectedSort != null ? #lists.sort(diaryList, 'diaryDate') : diaryList}"> -->
               <div class="journal-item" th:each="diary: ${diaryList}">
-                <a th:href="@{/journal/{Id}(Id=${diary.diaryId})}" class="journal-link">
+                <!-- <a th:href="@{/journal/{Id}(Id=${diary.diaryId})}" class="journal-link"> -->
                  <div class="journal-content">
-                  <div class="journal-header">
-                      <h2 class="journal-title" th:utext="${diary.diaryTitle}"></h2>
-                      <p class="journal-author" th:utext="' by. ' + ${diary.memberId}"></p>
+                    <a th:href="@{/diary/update?diaryId={Id}(Id=${diary.diaryId})}" class="journal-link">
+                      <div><h2 class="journal-title" th:utext="${diary.diaryTitle}"></h2></div>
+                    </a>
+                      <!-- <p class="journal-author" th:utext="' by. ' + ${diary.memberId}"></p> -->
+                    <div><span class="journal-date" th:utext="'DATE : ' + ${diary.diaryDate}"></span></div>
+                    <div>
+                    <img src="/img/mypage/journal_thumb.png" alt="검색" class="thumbnail"/>
+                    </div>
+                  <div class="journal-middle">
+                    <p class="journal-description" th:utext="${diary.diaryContent}"></p>
                   </div>
-                  <p class="journal-description" th:utext="${diary.diaryContent}"></p>
-                  <div class="journal-footer">
-                      <span class="journal-date" th:utext="${diary.diaryDate}"></span>
-                      <!-- <span class="journal-likes" th:utext="'❤️ : ' + ${diary.heartSum}"></span>
-                      <img src="/images/king.svg" alt="주접왕" /> -->
-                  </div>
+                  
                  </div>
-                 <!-- <div class="journal-image">
-                  <img th:src="${diary.attachName != null ?'/attach/' + diary.attachName :'/images/cardimgtest.png'}" alt="게시글 이미지" />
-                 </div> -->
-                </a>
               </div>
              </div>
         </section>
@@ -296,69 +393,102 @@
         <script type="text/javascript" th:src="@{https://cdn.jsdelivr.net/npm/flatpickr@latest/dist/plugins/monthSelect/index.js}"></script>
         <script type="text/javascript">
             $(document).ready(function() {
-                $("#date-select").flatpickr({
-                    plugins: [
-                    new monthSelectPlugin({
-                            shorthand: true, // 'YYYY-MM' 형식으로 표시
-                            dateFormat: "Y-m", // 선택된 날짜 형식
-                            altFormat: "Y F", // 대체 형식
-                        })
-                    ],
-                    minDate: "2025-01",
-                    maxDate: new Date(),
-                    defaultDate: new Date(),
-                    altInput: true,
-                });
-                journal_sel('전체');
+                // $("#date-select").flatpickr({
+                //     plugins: [
+                //     new monthSelectPlugin({
+                //             shorthand: true, // 'YYYY-MM' 형식으로 표시
+                //             dateFormat: "Y-m", // 선택된 날짜 형식
+                //             altFormat: "Y F", // 대체 형식
+                //         })
+                //     ],
+                //     minDate: "2025-01",
+                //     maxDate: new Date(),
+                //     defaultDate: new Date(),
+                //     altInput: true,
+                // });
+
+                // 드롭다운 초기화
+                // const yearSelect = document.getElementById('year-select');
+                // const monthSelect = document.getElementById('month-select');
+
+                //monthSelect selected value 설정
+                // monthSelect.value = new Date().getMonth() + 1;
+
+                // const currentYear = new Date().getFullYear();
+
+                // 년도 드롭다운 채우기 (현재 년도 기준 ±5년)
+                // for (let i = currentYear - 5; i <= currentYear + 5; i++) {
+                //     const option = document.createElement('option');
+                //     option.value = i;
+                //     option.textContent = `${i} 년`;
+                //     if (i === currentYear) option.selected = true; // 현재 년도 선택
+                //     yearSelect.appendChild(option);
+                // }
+
             });
 
-            function journal_sel(category) {
-                let date = $("#date-select").val();
-                if(category == '전체') {
-                    $.ajax({
-                        type: 'POST',
-                        url: '/mypage/getMyPageJournal',
-                        data: {date: date},
-                        dataType: 'json',
-                        success: function(data) {
-                            updateThymeleafContent(data);
-                        },
-                        error: function(xhr, status, error) {
-                            alert('조회 중 오류가 발생했습니다.');
-                            console.error('Error:', error);
-                        }
-                    });
-                } else {
-                    $.ajax({
-                        type: 'POST',
-                        url: '/mypage/getMyPageJournal',
-                        data: {category: category, date: date},
-                        success: function(fragment) {
-                            console.log(fragment);
-                        },
-                        error: function(xhr, status, error) {
-                            alert('조회 중 오류가 발생했습니다.');
-                            console.error('Error:', error);
-                        }
-                    });
-                }
+            function journal_sel(emotion) {
+                // let date = $("#date-select").val();
+                const radio = document.getElementById('oldest'); // Replace 'sort' with your radio button group name
+
+                let year = $("#year-select").val();
+                let month = $("#month-select").val();
+                
+                if(emotion == '전체') emotion = '';
+                url = "/mypage/journal?";
+                if(emotion != '') url += "emotion=" + emotion + "&";
+                url += "date=" + year + "-" + month;
+                if(radio.checked) url += "&sort=oldest";
+                location.href = url;
             }
 
-            function updateThymeleafContent(data) {
-                let htmlContent = '';
+            // function journal_sel(category) {
+            //     let date = $("#date-select").val();
+            //     if(category == '전체') {
+            //         $.ajax({
+            //             type: 'POST',
+            //             url: '/mypage/getMyPageJournal',
+            //             data: {date: date},
+            //             dataType: 'json',
+            //             success: function(data) {
+            //                 updateThymeleafContent(data);
+            //             },
+            //             error: function(xhr, status, error) {
+            //                 alert('조회 중 오류가 발생했습니다.');
+            //                 console.error('Error:', error);
+            //             }
+            //         });
+            //     } else {
+            //         $.ajax({
+            //             type: 'POST',
+            //             url: '/mypage/getMyPageJournal',
+            //             data: {category: category, date: date},
+            //             success: function(fragment) {
+            //                 console.log(fragment);
+            //             },
+            //             error: function(xhr, status, error) {
+            //                 alert('조회 중 오류가 발생했습니다.');
+            //                 console.error('Error:', error);
+            //             }
+            //         });
+            //     }
+            // }
 
-                // 데이터를 기반으로 HTML 생성
-                data.forEach(item => {
-                    htmlContent += `<div class="diary-entry">
-                                        <h3>${item.title}</h3>
-                                        <p>${item.content}</p>
-                                        <span>${item.date}</span>
-                                    </div>`;
-                });
+            // function updateThymeleafContent(data) {
+            //     let htmlContent = '';
 
-                // 특정 요소에 HTML 삽입
-                $('#diaryContainer').html(htmlContent); // #diaryContainer는 업데이트할 요소의 ID
-            }
+            //     // 데이터를 기반으로 HTML 생성
+            //     data.forEach(item => {
+            //         htmlContent += `<div class="diary-entry">
+            //                             <h3>${item.title}</h3>
+            //                             <p>${item.content}</p>
+            //                             <span>${item.date}</span>
+            //                         </div>`;
+            //     });
+
+            //     // 특정 요소에 HTML 삽입
+            //     $('#diaryContainer').html(htmlContent); // #diaryContainer는 업데이트할 요소의 ID
+            // }
         </script>
     </th:block>
 </html>

@@ -26,7 +26,7 @@ public class BasicMyPageService implements MyPageService {
     }
 
     @Override
-    public List<Diary> getMyPageJournal(String memberId, String category, String date) {
-        return mypageRepository.getMyPageJournal(memberId, category, date);
+    public List<Diary> getMyPageJournal(String memberId, String emotion, String date) {
+        return mypageRepository.getMyPageJournal(memberId, emotion, date);
     }
 }

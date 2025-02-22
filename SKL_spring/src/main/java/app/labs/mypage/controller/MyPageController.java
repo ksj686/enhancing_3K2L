@@ -3,6 +3,7 @@ package app.labs.mypage.controller;
 import java.util.List;
 import java.util.Map;
 import java.util.Base64;
+import java.util.Comparator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -85,15 +86,6 @@ public class MyPageController {
         return "redirect:/mypage/edit";
     }
 
-    @GetMapping("/mypage/journal")
-    public String myPageJournal(HttpSession session, Model model) {
-        String memberId = (String) session.getAttribute("memberid");
-        if (memberId == null) {
-            return "redirect:/login";
-        }
-        return "thymeleaf/mypage/mypage_journal";
-    }
-
     @GetMapping("/mypage/emotion")
     public String myPageEmotion(HttpSession session, Model model) {
         String memberId = (String) session.getAttribute("memberid");
@@ -134,15 +126,37 @@ public class MyPageController {
         return journalStats;
     }
 
-    @PostMapping("/mypage/getMyPageJournal")
-    @ResponseBody
-    public List<Diary> getMyPageJournal(HttpSession session, Model model, @RequestParam(value = "category", required = false) String category, @RequestParam("date") String date) {
+    
+    @GetMapping("/mypage/journal")
+    public String myPageJournal(HttpSession session, Model model
+    , @RequestParam(value = "emotion", required = false) String emotion
+    , @RequestParam(value = "date", required = false) String date
+    , @RequestParam(value = "sort", required = false) String sort) {
         String memberId = (String) session.getAttribute("memberid");
         if (memberId == null) {
-            return null;
+            return "redirect:/login";
         }
-        List<Diary> diaryList = myPageService.getMyPageJournal(memberId, category, date);
+        List<Diary> diaryList = myPageService.getMyPageJournal(memberId, emotion, date);
+        
+        if(sort != null) {
+            diaryList.sort(Comparator.comparing(Diary::getDiaryDate)); // Sort by date ascending
+        }
+        log.info("emotion : " + emotion);
         model.addAttribute("diaryList", diaryList);
-        return diaryList;
+        model.addAttribute("emotion", emotion);
+        model.addAttribute("sort", sort);
+        return "thymeleaf/mypage/mypage_journal";
     }
+
+    // @PostMapping("/mypage/getMyPageJournal")
+    // @ResponseBody
+    // public List<Diary> getMyPageJournal(HttpSession session, Model model, {
+    //     String memberId = (String) session.getAttribute("memberid");
+    //     if (memberId == null) {
+    //         return null;
+    //     }
+    //     List<Diary> diaryList = myPageService.getMyPageJournal(memberId, category, date);
+    //     model.addAttribute("diaryList", diaryList);
+    //     return diaryList;
+    // }
 }
