@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import app.labs.mypage.service.MyPageService;
 import app.labs.register.model.Member;
 import app.labs.register.service.MemberService;
+import app.labs.diary.model.Diary;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
@@ -131,5 +132,17 @@ public class MyPageController {
         }
         List<Map<String, Object>> journalStats = myPageService.getJournalStats(memberId, date);
         return journalStats;
+    }
+
+    @PostMapping("/mypage/getMyPageJournal")
+    @ResponseBody
+    public List<Diary> getMyPageJournal(HttpSession session, Model model, @RequestParam(value = "category", required = false) String category, @RequestParam("date") String date) {
+        String memberId = (String) session.getAttribute("memberid");
+        if (memberId == null) {
+            return null;
+        }
+        List<Diary> diaryList = myPageService.getMyPageJournal(memberId, category, date);
+        model.addAttribute("diaryList", diaryList);
+        return diaryList;
     }
 }

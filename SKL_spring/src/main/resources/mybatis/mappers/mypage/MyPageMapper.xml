@@ -3,20 +3,67 @@
 <mapper namespace="app.labs.mypage.dao.MyPageRepository">
 
     <select id="getBoardStats" parameterType="java.util.Map" resultType="map">
-        SELECT BOARD_CATEGORY, COUNT(BOARD_CATEGORY) AS COUNT_CATEGORY
-        FROM BOARD
-        WHERE MEMBER_ID = #{memberId} 
-        AND TO_CHAR(BOARD_DATE, 'YYYY-MM') = #{date}
-        GROUP BY BOARD_CATEGORY
-        ORDER BY BOARD_CATEGORY
+        WITH EMOTION_LIST AS (
+            SELECT 'cheer' AS BOARD_CATEGORY FROM DUAL
+            UNION ALL
+            SELECT 'joy' FROM DUAL
+            UNION ALL
+            SELECT 'sad' FROM DUAL
+            UNION ALL
+            SELECT 'worry' FROM DUAL
+        )
+        SELECT 
+            e.BOARD_CATEGORY,
+            COALESCE(COUNT(b.BOARD_CATEGORY), 0) AS COUNT_CATEGORY
+        FROM 
+            EMOTION_LIST e
+        LEFT JOIN 
+            BOARD b ON e.BOARD_CATEGORY = b.BOARD_CATEGORY 
+            AND b.MEMBER_ID = #{memberId}
+            AND TO_CHAR(b.BOARD_DATE, 'YYYY-MM') = #{date}
+        GROUP BY 
+            e.BOARD_CATEGORY
+        ORDER BY 
+            e.BOARD_CATEGORY
     </select>
 
     <select id="getJournalStats" parameterType="java.util.Map" resultType="map">
-        SELECT DIARY_EMOTION, COUNT(DIARY_EMOTION) AS COUNT_EMOTION
-        FROM DIARY
+        WITH EMOTION_LIST AS (
+            SELECT '기쁨' AS DIARY_EMOTION FROM DUAL
+            UNION ALL
+            SELECT '슬픔' FROM DUAL
+            UNION ALL
+            SELECT '분노' FROM DUAL
+            UNION ALL
+            SELECT '불안' FROM DUAL
+            UNION ALL
+            SELECT '당황' FROM DUAL
+            UNION ALL
+            SELECT '상처' FROM DUAL
+            UNION ALL
+            SELECT '중립' FROM DUAL
+        )
+        SELECT 
+            e.DIARY_EMOTION,
+            COALESCE(COUNT(d.DIARY_EMOTION), 0) AS COUNT_EMOTION
+        FROM 
+            EMOTION_LIST e
+        LEFT JOIN 
+            DIARY d ON e.DIARY_EMOTION = d.DIARY_EMOTION 
+            AND d.MEMBER_ID = #{memberId}
+            AND TO_CHAR(d.DIARY_DATE, 'YYYY-MM') = #{date}
+        GROUP BY 
+            e.DIARY_EMOTION
+        ORDER BY 
+            e.DIARY_EMOTION
+    </select>
+
+    <select id="getMyPageJournal" parameterType="java.util.Map" resultType="app.labs.diary.model.Diary">
+        SELECT DIARY_ID, DIARY_TITLE, DIARY_CONTENT, DIARY_EMOTION, TO_CHAR(DIARY_DATE, 'YYYY-MM-DD') AS DIARY_DATE, DIARY_FEED FROM DIARY
         WHERE MEMBER_ID = #{memberId}
         AND TO_CHAR(DIARY_DATE, 'YYYY-MM') = #{date}
-        GROUP BY DIARY_EMOTION
-        ORDER BY DIARY_EMOTION
+        <if test="category != null">
+            AND BOARD_CATEGORY = #{category}
+        </if>
     </select>
 </mapper>

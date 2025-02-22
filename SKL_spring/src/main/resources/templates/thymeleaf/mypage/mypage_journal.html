@@ -28,6 +28,183 @@
                 outline: none; /* 기본 아웃라인 제거 */
                 box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* 포커스 시 그림자 효과 */
             }
+            .category-btn-box {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+            }
+            .category-btn {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                max-width: 200px; /* 최대 너비 설정 */
+                background-color: #595858ad;
+                color: #ffffff;
+                border: none;
+                border-radius: 50px;
+                height: 40px;
+                width: 150px;
+                min-width:130px;
+                padding: 8px 40px;
+                margin: 0 10px;
+                font-size: 20px;
+                font-weight: bold;
+                cursor: pointer;
+                box-shadow: 0px 3px 2px rgba(0, 0, 0, 0.3);
+                &.active {
+                    background-color: #FCD11E;
+                }
+                &.active:hover {
+                    background-color: #fde06f;
+                }  
+            }
+
+            .journal-top-box {
+                display: flex;
+                width: 100%;
+                padding: 40px 0 5px 0;
+                justify-content: space-between;
+                align-items: baseline;
+                border-bottom: 1px solid #e0e0e0; /* 하단 아웃라인 */
+            }
+
+            /* 정렬 옵션 */
+            .sort-options {
+                display: flex;
+                gap: 20px; /* 버튼 간 간격 */
+                align-items: center;
+                margin-bottom: 10px;
+            }
+            /* 라벨 스타일 */
+            .sort-label {
+                display: flex;
+                align-items: center;
+                gap: 5px; /* 텍스트와 박스 간격 */
+                font-size: 14px;
+                cursor: pointer;
+            }
+            /* 라디오 버튼 숨김 */
+            input[type="radio"] {
+                display: none;
+            }
+            /* 정렬 박스 기본 상태 */
+            .sort-label::before {
+                content: "";
+                display: inline-block;
+                width: 15px;
+                height: 15px;
+                border: 1px solid #fde06f;
+                border-radius: 2px;
+                background-color: #fff; /* 기본 배경색 */
+            }
+            /* 클릭된 상태 */
+            input[type="radio"]:checked + .sort-label::before {
+                border: 2px solid #fde06f; /* 선택 시 두꺼운 테두리 */
+                background-color: #fde06f; /* 클릭된 상태 배경색 */
+            }
+
+            .search-box {
+                background-color: #fcd01e18;
+                border-radius: 10px;
+                border: 1px solid #FCD11E;
+                width: 400px;
+                height: 30px;;
+                margin-left: auto;
+                margin-bottom: 0;
+                justify-content: flex-end;
+                align-items: center;
+            }
+            .search-txt {
+                border-radius: 10px;
+                text-align: left;
+                border: none;
+                float: left;
+                padding: 0;
+                background-color: #fcd01e00;
+                color: black;
+                font-size: 16px;
+                line-height: 30px;
+                padding: 0 10px 0 20px;
+                width: 310px;
+            }
+            .search-btn {
+                background-color: rgba(255, 255, 255, 0);
+                background-color: #FCD11E;
+                border-radius: 10px;
+                border: 1px solid #FCD11E;
+                text-align: center;
+                float: right;
+                width: 60px;
+                height: 30px;
+            }
+            .search-btn:hover {
+                transform: scale(1.02); /* 카드 확대 */
+            }
+
+
+            .journal-list-container{
+                width: 100%;
+                height: auto;
+                margin:  0 auto;
+            }
+
+             /* 개별 게시판 항목 */
+            .journal-item {
+                width: 100%;
+                height: 190px;
+                /* border-top: 1px solid #e0e0e0; /* 상단 아웃라인 */
+                border-bottom: 1px solid #e0e0e0; /* 하단 아웃라인 */
+                padding: 20px;
+                box-sizing: border-box;
+                overflow: hidden; /* 콘텐츠가 넘치지 않도록 제한 */
+                a {
+                    text-decoration: none; /* 밑줄 제거 */
+                    color: inherit; /* 부모 요소의 텍스트 색상 상속 */
+                    display: flex; /* 링크를 블록으로 처리하여 전체 클릭 가능 */
+                    justify-content: space-between;
+                }
+                a:hover {
+                    transform: scale(1.02); /* 카드 확대 */
+                }
+            }    
+            .journal-content {
+                flex: 1;
+                height: 150px;
+                padding-right: 20px; 
+            }
+            .journal-header {
+                display: flex;
+                gap: 15px;
+            }
+            .journal-title {
+                font-size: 18px;
+                font-weight: bold;
+                margin-right: 0;
+                margin-top: auto;
+                padding: 0;
+            }
+            .journal-author {
+                font-size: 14px;
+                margin-top: auto;
+                color: #999;
+            }
+            .journal-description {
+                font-size: 15px;
+                max-width: 90%;
+                height: 60px;
+                margin-top: 10px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            .journal-footer {
+                display: flex;
+                height: 35px;
+                align-items: center;
+                gap: 40px;
+                position: relative;
+                bottom: 10px;
+            }
         </style>
     </th:block>
 
@@ -60,8 +237,58 @@
                 <input type="text" id="date-select">
             </div>
             <div class="journal-list">
-                <div class="journal1">일기 리스트1</div>
+                <div class="category-btn-box">
+                    <button onclick="journal_sel('전체')" class="category-btn">전체</button>
+                    <button onclick="journal_sel('기쁨')" class="category-btn">기쁨</button>
+                    <button onclick="journal_sel('슬픔')" class="category-btn">슬픔</button>
+                    <button onclick="journal_sel('분노')" class="category-btn">분노</button>
+                    <button onclick="journal_sel('불안')" class="category-btn">불안</button>
+                    <button onclick="journal_sel('당황')" class="category-btn">당황</button>
+                    <button onclick="journal_sel('상처')" class="category-btn">상처</button>
+                    <button onclick="journal_sel('중립')" class="category-btn">중립</button>
+                  </div>
             </div>
+
+            <form action="" method="get">
+                <!-- 정렬 버튼 -->
+                <div class="journal-top-box">
+                 <div class="sort-options">
+                  <input type="radio" id="latest" name="sort" value="latest" onchange="this.form.submit()" th:checked="${sort=='latest' || sort==null}">
+                  <label for="latest" class="sort-label">최신 순</label>
+                  <input type="radio" id="popular" name="sort" value="popular" onchange="this.form.submit()" th:checked="${sort=='popular'}">
+                  <label for="popular" class="sort-label">인기 순</label>
+                 </div>
+                   <!-- 검색창 -->
+                 <div class="search-box">
+                  <input class="search-txt" type="text" name="" placeholder="search">
+                  <button class="search-btn" type="submit"><img src="/images/search.png" alt="검색" /></button>
+                 </div>
+                </div>
+              </form>
+              
+             <!-- 게시글 리스트 -->
+             <div class="journal-list-container">
+              <!-- 게시글1-->
+              <div class="journal-item" th:each="diary: ${diaryList}">
+                <a th:href="@{/journal/{Id}(Id=${diary.diaryId})}" class="journal-link">
+                 <div class="journal-content">
+                  <div class="journal-header">
+                      <h2 class="journal-title" th:utext="${diary.diaryTitle}"></h2>
+                      <p class="journal-author" th:utext="' by. ' + ${diary.memberId}"></p>
+                  </div>
+                  <p class="journal-description" th:utext="${diary.diaryContent}"></p>
+                  <div class="journal-footer">
+                      <span class="journal-date" th:utext="${diary.diaryDate}"></span>
+                      <!-- <span class="journal-likes" th:utext="'❤️ : ' + ${diary.heartSum}"></span>
+                      <img src="/images/king.svg" alt="주접왕" /> -->
+                  </div>
+                 </div>
+                 <!-- <div class="journal-image">
+                  <img th:src="${diary.attachName != null ?'/attach/' + diary.attachName :'/images/cardimgtest.png'}" alt="게시글 이미지" />
+                 </div> -->
+                </a>
+              </div>
+             </div>
         </section>
     </div>
     <th:block layout:fragment="script">
@@ -82,7 +309,56 @@
                     defaultDate: new Date(),
                     altInput: true,
                 });
+                journal_sel('전체');
             });
+
+            function journal_sel(category) {
+                let date = $("#date-select").val();
+                if(category == '전체') {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/mypage/getMyPageJournal',
+                        data: {date: date},
+                        dataType: 'json',
+                        success: function(data) {
+                            updateThymeleafContent(data);
+                        },
+                        error: function(xhr, status, error) {
+                            alert('조회 중 오류가 발생했습니다.');
+                            console.error('Error:', error);
+                        }
+                    });
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/mypage/getMyPageJournal',
+                        data: {category: category, date: date},
+                        success: function(fragment) {
+                            console.log(fragment);
+                        },
+                        error: function(xhr, status, error) {
+                            alert('조회 중 오류가 발생했습니다.');
+                            console.error('Error:', error);
+                        }
+                    });
+                }
+            }
+
+            function updateThymeleafContent(data) {
+                let htmlContent = '';
+
+                // 데이터를 기반으로 HTML 생성
+                data.forEach(item => {
+                    htmlContent += `<div class="diary-entry">
+                                        <h3>${item.title}</h3>
+                                        <p>${item.content}</p>
+                                        <span>${item.date}</span>
+                                    </div>`;
+                });
+
+                // 특정 요소에 HTML 삽입
+                $('#diaryContainer').html(htmlContent); // #diaryContainer는 업데이트할 요소의 ID
+            }
         </script>
     </th:block>
 </html>

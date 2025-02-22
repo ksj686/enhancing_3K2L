@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import app.labs.mypage.dao.MyPageRepository;
-
+import app.labs.diary.model.Diary;
 
 @Service
 @Slf4j
@@ -25,4 +25,8 @@ public class BasicMyPageService implements MyPageService {
         return mypageRepository.getJournalStats(memberId, date);
     }
 
+    @Override
+    public List<Diary> getMyPageJournal(String memberId, String category, String date) {
+        return mypageRepository.getMyPageJournal(memberId, category, date);
+    }
 }
