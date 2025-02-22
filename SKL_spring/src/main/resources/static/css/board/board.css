@@ -90,26 +90,26 @@ body {
 }
 .planet-section img {
     position: absolute;
-    width: 400px;
+    width: 350px;
     height: auto;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
 }
 .worry {
     top: 15%;
-    right: 50%;
+    right: 45%;
 }
 .joy {
     top: 50%;
     right: 55%;
 }
 .cheer {
-    top: 25%;
-    right: 5%;
+    top: 21%;
+    right: 4%;
 }
 .sad {
     top: 55%;
-    right: 10%;
+    right: 15%;
 }
 .worry:hover, .joy:hover, .sad:hover, .cheer:hover {
     transform: scale(1.2);

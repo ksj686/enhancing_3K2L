@@ -10,7 +10,7 @@
 <div class="main-content" layout:fragment="content">
 	<!-- title -->
 	<div class="title-section">
-		<span class="memberid" th:text="${diary.memberId}">아이디</span>
+		<span class="memberid" th:text="${diary.memberNickname}">아이디</span>
 		<img src="/img/journal/diary-sjournal.png" class="diary-journal" />
 	</div>
 
@@ -162,7 +162,7 @@
 				case "기쁨":
 					// message = "오늘 정말 좋은 하루였군요! 이 행복한 순간이 오래도록 기억에 남길 바라요."
 					message = "오늘 정말 좋은 일이 있었군요! 이런 순간들은 삶을 더 빛나게 만들어 주죠. 기쁨을 충분히 만끽하고, 나중에 돌아봤을 때도 웃을 수 있도록 소중한 기억으로 남겨보세요. 이 행복한 기운이 오래도록 이어지길 바라요! 🩷";
-					feedContainer.style.backgroundColor = "#ffdcf2";
+					feedContainer.style.backgroundColor = "#ffdedc";
 					break;
 				case "슬픔":
 					// message = "힘든 순간이지만, 이 또한 지나갈 거예요. 당신의 마음이 조금이라도 편해지길 바라요."

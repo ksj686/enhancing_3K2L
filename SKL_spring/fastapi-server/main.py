@@ -1,6 +1,6 @@
 '''
     0. fastAPI, uvicorn 설치되지 않았을 경우에는 install 필요
-       cmd에서 다음 설치명령어 실행
+       터메널에서 다음 설치명령어 실행
        "pip install fastapi uvicorn"
 
     1. 가상환경 설정 후 main.py 실행해야됨
@@ -9,6 +9,8 @@
 
     2. 파이썬 서버 시작 후 자바 서버 시작
        "python C:\labs_python\SamKimILee\SKL_spring\fastapi-server\main.py"
+
+    (tip: 1번, 2번 터미널에 그냥 붙여넣으면 됨)
 '''
 
 

@@ -16,7 +16,8 @@ public class Diary {
 	private String diaryFeed;
 	private String diaryEmotion;
 	private String memberId;
-	
+	private String memberNickname;
+
 	private int month;
 	private int year;
 }

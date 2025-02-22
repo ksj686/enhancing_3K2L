@@ -16,13 +16,15 @@
 			<div class="post-container">
 				<div th:each="board: ${boardList}"
 				     th:class="${board.memberId == session.memberid?'my-post-card':'post-card'}">
-					<h3 class="author">[[ ${board.memberId} ]]</h3>
+					<h3 class="author">[[ ${board.memberNickname} ]]</h3>
 					<p id="date">[[ ${board.boardDate} ]]</p>
 					<p id="board-content" th:utext="${board.boardTitle}"></p>
 <!--					<p id="board-content" th:utext="${board.boardContent}"></p>-->
+
 					<button class="modal-button" th:attr="data-board-id=${board.boardId}"
 							th:classappend="${board.memberId == session.memberid?
-							               'my-more-button':'more-button'}">more</button>
+							               'my-more-button':'more-button'}">more
+					</button>
 				</div>
 			</div>
 		</section>
@@ -31,6 +33,12 @@
 			<button class="write-button" data-id="01">
 				Share your Emotion
 			</button>
+		</div>
+
+		<!-- 페이지 이동 버튼 -->
+		<div class="arrow-container">
+			<img src="/img/home/left-arrow.png" alt="⬅️" class="arrow left-arrow">
+			<img src="/img/home/right-arrow.png" alt="➡️" class="arrow right-arrow">
 		</div>
 
 		<!-- 모달 창(게시글 쓰기) -->
@@ -79,6 +87,7 @@
 			const modalButtons = document.querySelectorAll(".modal-button");
 			const closeButton = document.querySelectorAll(".close-btn");
 
+
 			writeButtons.addEventListener("click", function (event) {
 				event.preventDefault();
 				const modalId = this.getAttribute("data-id");
@@ -94,7 +103,8 @@
 
 				// URL 경로 변경 (예: /post/123)
 				// history.pushState({ modalOpen: true }, "", "/post/" + modalId);
-			});
+			}); // 작성 버튼 클릭 이벤트
+
 
 			modalButtons.forEach(button => {
 				button.addEventListener("click", function (event) {
@@ -109,7 +119,8 @@
 					// URL 경로 변경 (예: /post/123)
 					// history.pushState({ modalOpen: true }, "", "/emotion/Id/" + boardId);
 				});
-			});
+			}); //more 버튼 클릭 이벤트 끝
+
 
 			closeButton.forEach(button => {
 				button.addEventListener("click", function (event) {
@@ -124,7 +135,33 @@
 					// URL 원래대로 복원
 					// history.pushState(null, "", "/");
 				});
-			});
+
+
+				const boardCategory = `[[${boardCategory}]]`;
+				const leftArrow = document.querySelector(".left-arrow");
+				const rightArrow = document.querySelector(".right-arrow");
+
+				const emotion = ['joy', 'cheer', 'worry', 'sad'];
+				let urlIndex = 0
+
+				leftArrow.addEventListener("click", function () {
+					emotion.forEach((category, index) => {
+						if (category == boardCategory) {
+							urlIndex = (index + 3) % 4;
+							location.href = '/emotion/category/' + emotion[urlIndex];
+						}
+					});
+				});
+				rightArrow.addEventListener("click", function () {
+					emotion.forEach((category, index) => {
+						if (category == boardCategory) {
+							urlIndex = (index + 1) % 4;
+							location.href = '/emotion/category/' + emotion[urlIndex];
+						}
+					});
+				}); // 페이지 이동 버튼 이벤트 끝
+
+			}); // 모달 닫기 버튼 이벤트 끝
 		});
 	</script>
 </body>

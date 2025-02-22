@@ -15,5 +15,6 @@ public class Board {
 	private String boardOffensive; // "T" | "F"
 	private int boardReport;       // 신고 누적수
 	private String memberId;
+	private String memberNickname;
 	// DTO
 }

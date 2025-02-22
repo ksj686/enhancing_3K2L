@@ -13,7 +13,7 @@
         <div class="modal-content">
             <div class="close-btn" data-id="02">&times;</div>  <!-- 닫기 버튼 -->
             <div class="post-card-detail" th:object="${board}">
-                <h3 class="author" th:text="*{memberId}">닉네임</h3>
+                <h3 class="author" th:text="*{memberNickname}">닉네임</h3>
                 <p id="date" th:text="*{boardDate}">2025-02-10, 17:00</p>
                 <div id="board-content" th:utext="*{boardContent}"></div>
             </div>
@@ -23,7 +23,8 @@
                 <button class="report-btn" id="report-btn">신고</button>
             </div>
             <div class="report-container"  th:if="${board.memberId} == ${session.memberid}">
-                <button class="report-btn" id="report-btn"th:text="|신고 누적수: ${board.boardReport}|"></button>
+                <button class="report-btn" id="report-btn" style="pointer-events: none"
+                        th:text="|신고 누적수: ${board.boardReport}|"></button>
             </div>
 
 
@@ -68,7 +69,7 @@
                         window.location.href = "/emotion/category/" + boardCategory;
 
                     });
-                });
+                }); // 모달 닫기 이벤트 끝
 
                 $('#report-btn').on('click', function() {
                     if (!sessionId) {
@@ -98,7 +99,8 @@
                             // console.error("신고 실패:", error);
                         }
                     });
-                });
+                });  // 신고버튼 이벤트 끝
+
 
                 const emojis = ['joy', 'cheer', 'worry', 'sad'];
 
@@ -146,8 +148,9 @@
                             }
                         });
                     });
-                });
-            });
+                }); // 공감버튼 이벤트 끝
+
+            }); // document 이벤트 끝
         </script>
     </th:block>
 </body>

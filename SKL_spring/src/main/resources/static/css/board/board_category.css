@@ -1,5 +1,5 @@
 body {
-    background-position: bottom 50px right;
+    background-position: bottom 50px center;
     height: 100vh !important;
 }
 
@@ -24,9 +24,32 @@ body {
     margin-top: 50px;
 }
 
+
+/* 화살표 컨테이너 (중앙 정렬) */
+.arrow-container {
+    position: absolute;
+    width: 85%;
+    top: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 50px;
+    transform: translateY(-50%);
+}
+.arrow {
+    width: 70px;
+    height: 70px;
+    cursor: pointer;
+}
+.arrow:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transition: background-color 0.3s ease;
+}
+
 /* 2. 게시글 영역 */
 .post-wrapper {
-    margin-top: 50px;
+    margin-top: 20px;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -149,8 +172,8 @@ body {
     padding: 10px 20px;
     border: none;
     border-radius: 20px;
-    position: relative;
-    bottom: -180px;
+    position: absolute;
+    bottom: 105px;
     left: 50%;
     transform: translateX(-50%);
     cursor: pointer;
@@ -404,6 +427,7 @@ body {
     font-weight: bold;
     border: none;
     padding: 0;
+    cursor: pointer;
 }
 .reaction-buttons button:hover {
     background-color: #F5DF2C;
