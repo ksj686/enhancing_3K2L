@@ -147,15 +147,16 @@ def classify_emotion(sentence):
 최종으로 사용할 함수
 '''
 def predict_emotion(message):
-    classify_emotion(summary_sentence(message))
+    return classify_emotion(summary_sentence(message))
 
 
 # 사용 예시
 if __name__ == "__main__":
     sentence = "살면서 착하게 살려고 노력했었는데 그게 무슨소용인지 모르겠다고 눈물을 흘렸다. 내가 할 수 있는건 최대한 빨리 중환자실에 보내서 악화되는 것을 예방하는 것이었고 심리적안정을 주기위해 항상 환자가 해줬던 것처럼 두손을 잡아드렸다. 병원에서 일한다는건 사람이 가장 힘들고 악해질때 만나는 것이라 생각한다. 바쁜 병원은 식사해야하는 5분조차 만들기 어려워 2교대를 하는데도 새벽부터 밤까지 굶는다. 생리대 교환할 시간이 없어 피부염에 걸리고 방광염에 걸린 친구들이 많은게 현실이다 \
 올해는 눈이 오지 않았다. 눈이 온다하여 창문을 열고 바라보면 그저 하염없이 내리는 빗물들의 도닥도닥 거리는 음악의 향연들만이 펼쳐져 있었다. 눈이 오는게 당연한거지 당연하지 않을 수 없다. 그러나 젖어버린 옷을 부여잡고 함박눈처럼 미소지어보는 어느 겨울날 그 한자락 끝에서였다."
-    sentence = summary_sentence(sentence)
-    print(sentence)
-    print(summary_sentence(sentence))
+    # sentence = summary_sentence(sentence)
+    # print(sentence)
+    # print(summary_sentence(sentence))
     print(predict_emotion(sentence))
+    # print(classify_emotion(sentence))
 

@@ -25,9 +25,9 @@
 			<img src="/img/home/right-arrow.png" alt="➡️" class="arrow right-arrow">
 		</div>
 		<div class="menu-btn">
-			<button class="selected">Journal Planet</button>
-			<button>Empathy Planet</button>
-			<button>Healing Planet</button>
+			<button class="selected">Journal Space</button>
+			<button>Empathy Space</button>
+			<button>Healing Space</button>
 		</div>
 		<div class="ourservice-img">
 			<img src="/img/home/ourservice-diary.png" alt="Our Service">
@@ -48,32 +48,39 @@
 			"/img/home/ourservice-share.png",
 			"/img/home/ourservice-healing.png"];
 			
-			const urls = ['/diary', '/emotion', '/healing'];
+			const urls = ['/diary', '/emotion', '/playlist/recommend'];
 			
 			let currentIndex = 0;
 			
-			function updateServiceImage() {
+			function updateServiceImage(currentIndex) {
 				serviceContainer.style.opacity = 0;
 				setTimeout(() => {
-				serviceContainer.src = images[currentIndex];
-				serviceContainer.style.opacity = 1;
-				serviceContainer.onclick = function() {
-					location.href = urls[currentIndex]; };
+					serviceContainer.src = images[currentIndex];
+					serviceContainer.style.opacity = 1;
+					serviceContainer.onclick = function() {
+						location.href = urls[currentIndex];
+					};
 				}, 300);
+
+				menuBtns.forEach(btn => btn.classList.remove("selected"));
+				menuBtns[currentIndex].classList.add("selected");
 			}
 			
 			leftArrow.addEventListener("click", function () {
 				currentIndex = (currentIndex - 1 + images.length) % images.length;
-				updateServiceImage();
-				menuBtns.forEach(btn => btn.classList.remove("selected"));
-				menuBtns[currentIndex].classList.add("selected");
+				updateServiceImage(currentIndex);
 			});
 			
 			rightArrow.addEventListener("click", function () {
 				currentIndex = (currentIndex + 1) % images.length;
-				updateServiceImage();
-				menuBtns.forEach(btn => btn.classList.remove("selected"));
-				menuBtns[currentIndex].classList.add("selected");
+				updateServiceImage(currentIndex);
+			});
+
+			menuBtns.forEach((btn,index) => {
+				btn.addEventListener("click", function() {
+					currentIndex = index;
+					updateServiceImage(currentIndex);
+				});
 			});
 
 			// 스크롤 이벤트 리스너 추가

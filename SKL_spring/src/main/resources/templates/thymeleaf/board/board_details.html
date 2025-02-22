@@ -15,7 +15,7 @@
             <div class="post-card-detail" th:object="${board}">
                 <h3 class="author" th:text="*{memberId}">닉네임</h3>
                 <p id="date" th:text="*{boardDate}">2025-02-10, 17:00</p>
-                <p id="board-content" th:utext="*{boardContent}"></p>
+                <div id="board-content" th:utext="*{boardContent}"></div>
             </div>
 
             <!-- 신고 버튼 (본인 게시물인지 확인) -->
