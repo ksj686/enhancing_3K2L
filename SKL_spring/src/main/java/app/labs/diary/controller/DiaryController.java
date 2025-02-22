@@ -65,7 +65,7 @@ public class DiaryController {
 		return "thymeleaf/diary/list";
 	}
 	
-	@GetMapping("/diary/{diaryId}")
+	@GetMapping("/diary/Id/{diaryId}")
 	public String getDiaryInfo(@PathVariable("diaryId") int diaryId, Model model) {
 		
 		Diary diary = diaryService.getDiaryInfo(diaryId);
@@ -77,6 +77,14 @@ public class DiaryController {
 		log.info("diary id: " + diaryId + " attach info: " + attach );
 				
 	    return "thymeleaf/diary/view";
+	}
+
+	@GetMapping("/diary/lately")
+	public String getDiaryIdLately(HttpSession session, Model model) {
+		String memberId = (String) session.getAttribute("memberid");
+		int diaryId = diaryService.getDiaryIdLately(memberId);
+
+		return "redirect:/diary/Id/" + diaryId;
 	}
 
 	
@@ -128,12 +136,15 @@ public class DiaryController {
 	        
 	        redirectAttributes.addFlashAttribute("message", "일기가 등록되었습니다.");
 	        log.info("일기 등록 성공");
+
+			return "redirect:/diary/Id/" + diaryId;
 	        
 	    } catch (Exception ex) {
 	    		ex.printStackTrace();
 	    		log.error("일기 등록 오류: ", ex.getMessage());
+
+			return "redirect:/diary";
 	    }
-	    return "redirect:/diary/list";
 	}
 
 	@GetMapping("/diary/update")
@@ -159,12 +170,13 @@ public class DiaryController {
 	public String updateDiary(@ModelAttribute Diary diary, RedirectAttributes redirectAttributes, 
 		                      HttpServletRequest request, @RequestParam(value= "file", required = false) MultipartFile file) {  
 		try {
-		    log.info("수정 요청된 Diary ID : " + diary.getDiaryId()); // ✅ 수정 요청된 Diary 로그 확인
+			int diaryId = diary.getDiaryId();
+		    log.info("수정 요청된 Diary ID : " + diaryId); // ✅ 수정 요청된 Diary 로그 확인
 		    diaryService.updateDiary(diary);
 		   
 		    
 		    // 기존 첨부파일 확인
-		    Attach existingAttach = attachService.getAttachFile(diary.getDiaryId());
+		    Attach existingAttach = attachService.getAttachFile(diaryId);
 		    
 		    if(file != null && !file.isEmpty()) { // 새로운 첨부파일이 있는지 확인
 			   // 새로운 첨부파일이 있는 경우
@@ -177,7 +189,7 @@ public class DiaryController {
 
 				   // 새로운 첨부파일
 				   Attach attach = new Attach();
-				   attach.setDiaryId(diary.getDiaryId());
+				   attach.setDiaryId(diaryId);
 
 				   String attachName = file.getOriginalFilename();
 				   attach.setAttachName(attachName);
@@ -197,7 +209,7 @@ public class DiaryController {
 				   log.info("기존 첨부파일 없음! insertAttach ");
 
 				   Attach attach = new Attach();
-				   attach.setDiaryId(diary.getDiaryId());
+				   attach.setDiaryId(diaryId);
 
 				   String attachName = file.getOriginalFilename();
 				   attach.setAttachName(attachName);
@@ -217,11 +229,14 @@ public class DiaryController {
 		    redirectAttributes.addFlashAttribute("message", "일기가 수정되었습니다.");
 		    log.info("일기 수정 성공");
 
+			return "redirect:/diary/Id/" + diaryId;
+
 		} catch (Exception ex) {
 		    ex.printStackTrace();
 		    log.error("일기 수정 오류: ", ex.getMessage());
+
+			return "redirect:/diary";
 		}
-		return "redirect:/diary/list";
 	}
 
 

@@ -28,7 +28,7 @@
 			
 			<div class="diary-list-container">
 				<div class="diary-item" th:each="diary:${diaryList}">
-					<a th:href="@{/diary/{id}(id=${diary.diaryId})}" class="diary-link">
+					<a th:href="@{/diary/Id/{id}(id=${diary.diaryId})}" class="diary-link">
 						<span class="diary-title" th:utext="${diary.diaryTitle}"></span>
 						<span class="diary-date" th:utext="${diary.diaryDate}"></span>
 					</a>

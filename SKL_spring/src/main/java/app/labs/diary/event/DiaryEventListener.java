@@ -49,11 +49,11 @@ public class DiaryEventListener {
 
         log.info("Diary created: " + text);
 
-        String feedbackResult = aiService.feedbackService(text);
-        log.info("피드백결과: {}", feedbackResult);
+        String diaryEmotion = aiService.feedbackService(text);
+        log.info("피드백결과: {}", diaryEmotion);
 
-        createNotice(diaryId, "DIARY_FEED_"+feedbackResult);
-       diaryRepository.updateDiaryEmotion(diaryId, feedbackResult);
+        createNotice(diaryId, "DIARY_FEED_" + diaryEmotion);
+        diaryRepository.updateDiaryEmotion(diaryId, diaryEmotion);
     }
 
     private void createNotice(int diaryId, String  noticeType) {

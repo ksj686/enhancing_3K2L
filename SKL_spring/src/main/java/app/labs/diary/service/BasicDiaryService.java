@@ -4,6 +4,7 @@ import java.util.List;
 
 import app.labs.board.event.BoardCreateEvent;
 import app.labs.diary.event.DiaryCreateEvent;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,11 @@ public class BasicDiaryService implements DiaryService {
 	@Override
 	public Diary getDiaryInfo(int diaryId) {
 		return diaryRepository.getDiaryInfo(diaryId);
+	}
+
+	@Override
+	public int getDiaryIdLately(@Param("memberId") String memberId) {
+		return diaryRepository.getDiaryIdLately(memberId);
 	}
 
 	@Override

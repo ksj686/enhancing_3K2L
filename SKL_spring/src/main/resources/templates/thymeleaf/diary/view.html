@@ -87,8 +87,9 @@
 
 				<!-- 피드백 -->
 				<div class="feed-container">
-					<h3 id="diaryEmotion" th:text="${diary.diaryEmotion != null ? diary.diaryEmotion : '⏳ 피드백을 생성 중입니다...'}"></h3>
-					<p id="diaryFeedback" th:text="${diary.diaryEmotion}?:'잠시만 기다려 주세요...'"></p>
+					<h3 id="diaryEmotion" th:text="${diary.diaryEmotion != null ? diary.diaryEmotion:'⏳ 피드백을 생성 중입니다...'}"></h3>
+					<p id="diaryFeedback" th:text="${diary.diaryEmotion}?:'잠시만 기다려 주세요...'"
+					   style="text-align: left"></p>
 				</div>
 			</div>
 

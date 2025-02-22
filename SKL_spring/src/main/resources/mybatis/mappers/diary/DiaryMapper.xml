@@ -11,6 +11,17 @@
     	ORDER BY DIARY_DATE DESC
    	</select>
 
+	<!-- 최신 일기 -->
+	<select id="getDiaryIdLately" parameterType="string" resultType="int">
+		SELECT d.DIARY_ID
+		FROM DIARY d
+		JOIN MEMBER m
+		ON d.MEMBER_ID = m.MEMBER_ID
+		WHERE m.MEMBER_ID = #{memberId}
+		ORDER BY DIARY_DATE DESC
+		FETCH FIRST ROW ONLY
+	</select>
+
 	<!-- 날짜별 일기 리스트 -->
 	<select id="getDiaryByDate" parameterType="string" resultType="app.labs.diary.model.Diary">
 		SELECT d.DIARY_ID, d.DIARY_TITLE, d.DIARY_CONTENT, d.DIARY_DATE,

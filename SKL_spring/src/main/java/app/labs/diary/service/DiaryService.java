@@ -11,6 +11,7 @@ public interface DiaryService {
 	Diary getDiaryByDate(@Param("memberId") String memberId, @Param("diaryDate") String diaryDate);
 	int createDiaryId();
 	Diary getDiaryInfo(int diaryId);
+	int getDiaryIdLately(@Param("memberId") String memberId);
 	void insertDiary(Diary diary);
 	void updateDiary(Diary diary);
 	int deleteDiary(int diaryId);

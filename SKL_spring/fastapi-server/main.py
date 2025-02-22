@@ -1,6 +1,6 @@
 '''
     0. fastAPI, uvicorn 설치되지 않았을 경우에는 install 필요
-       터메널에서 다음 설치명령어 실행
+       터미널에서 다음 설치명령어 실행
        "pip install fastapi uvicorn"
 
     1. 가상환경 설정 후 main.py 실행해야됨

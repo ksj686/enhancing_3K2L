@@ -1,7 +1,16 @@
 @charset "UTF-8";
 
-body {      
+body {
+    padding: 0;
     background-image: url('/img/journal/diary-sky.png');
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
 }
 
 /* 2. [상단] 문구 */ 
@@ -11,7 +20,8 @@ body {
     align-items: center;
     font-size: 39px;
     font-weight: bold;
-    margin-top: 50px;  
+    margin-top: 50px;
+    margin-bottom: 30px;
     color: white;
     text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5); /* X, Y, 흐림 정도, 색상 */
 }
@@ -136,7 +146,7 @@ body {
     width: 100%;
     max-width: 1000px;
     height: 650px;
-    margin: 0px 50px;
+    margin: 0 80px;
 }
 
 /* 🔹 [일기장 컨테이너] */
@@ -209,7 +219,7 @@ body {
 /* 🔹 [오른쪽] 피드백 */
 .feed-container {
     right: 11%;
-    top: 40%;
+    top: 45%;
     width: 27%;
     height: 50%;
     text-align: center;
@@ -227,7 +237,7 @@ body {
     display: flex;
     justify-content: flex-end;
     gap: 15px;
-    margin: 0px 90px 130px 0px;
+    margin: 0px 90px 105px 0px;
     width: 100%;
     align-self: flex-end;
 }
