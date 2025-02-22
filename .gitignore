@@ -38,3 +38,8 @@ SKL_spring/out/
 /.nb-gradle/
 
 
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
