@@ -21,7 +21,7 @@ async def diary_feedback(message: str = Form(...)):
         print(f"Received data: {message}")
         pre_emotion = predict_emotion(message)
         print(f"감정분류 결과: ", pre_emotion)
-        return pre_emotion
+        return {"result": pre_emotion}
         # return JSONResponse(content={'classify': '감정분류',
         #                              'feedback': '일기에 대한 피드백 내용'})
     except Exception as e:

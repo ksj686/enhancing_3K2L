@@ -1,5 +1,7 @@
 package app.labs;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType; // 한글일 경우 꼭 필요함
@@ -53,11 +55,19 @@ public class AiService {
 
             // JSON 응답을 처리
             String result = resultMono.block(); // 비동기처리를 동기적으로 블록해서 결과를 반환
-            return result; // FastAPI에서 반환한 결과
+            System.out.println(result);
+            // JSON 파싱
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(result);
+            System.out.println(jsonNode);
+            return jsonNode.get("result").asText(); // "result" 필드의 값을 반환
 
         } catch (WebClientResponseException e) {
             // 오류 처리
             System.err.println("Error occurred: " + e.getStatusCode() + " " + e.getResponseBodyAsString());
+            return "Error occurred while processing the request.";
+        } catch (Exception e) {
+            System.err.println("Error parsing JSON: " + e.getMessage());
             return "Error occurred while processing the request.";
         }
     }
