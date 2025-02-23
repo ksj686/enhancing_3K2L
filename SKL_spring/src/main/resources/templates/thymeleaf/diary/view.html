@@ -88,8 +88,8 @@
 				<!-- 피드백 -->
 				<div class="feed-container">
 					<h3 id="diaryEmotion" th:text="${diary.diaryEmotion != null ? diary.diaryEmotion:'⏳ 피드백을 생성 중입니다...'}"></h3>
-					<p id="diaryFeedback" th:text="${diary.diaryEmotion}?:'잠시만 기다려 주세요...'"
-					   style="text-align: left"></p>
+<!--					<p id="diaryFeedback" th:text="${diary.diaryEmotion}?:'잠시만 기다려 주세요...'"-->
+					<p id="diaryFeedback" style="text-align:left">잠시만 기다려 주세요...</p>
 				</div>
 			</div>
 
@@ -106,6 +106,7 @@
 	<!-- FullCalendar JS -->
 	<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.8/index.global.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.8/index.global.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/diary/getFeedbackMessage.js}"></script>
 
 	<!-- Custom JS -->
 	<script>
@@ -155,48 +156,47 @@
 			yearSelect.addEventListener('change', updateCalendar);
 			monthSelect.addEventListener('change', updateCalendar);
 
+
+
+			// AI 피드백 처리
+			const feedContainer = document.querySelector(".feed-container");
 			const diaryEmotion = document.getElementById("diaryEmotion");
 			const diaryFeedback = document.getElementById("diaryFeedback");
-			const feedContainer = document.querySelector(".feed-container");
 
-			switch (diaryEmotion.textContent) {
-				case "기쁨":
-					// message = "오늘 정말 좋은 하루였군요! 이 행복한 순간이 오래도록 기억에 남길 바라요."
-					message = "오늘 정말 좋은 일이 있었군요! 이런 순간들은 삶을 더 빛나게 만들어 주죠. 기쁨을 충분히 만끽하고, 나중에 돌아봤을 때도 웃을 수 있도록 소중한 기억으로 남겨보세요. 이 행복한 기운이 오래도록 이어지길 바라요! 🩷";
-					feedContainer.style.backgroundColor = "#ffdedc";
-					break;
-				case "슬픔":
-					// message = "힘든 순간이지만, 이 또한 지나갈 거예요. 당신의 마음이 조금이라도 편해지길 바라요."
-					message = "마음이 많이 힘들었겠어요. 하지만 어떤 감정이든 우리에게 필요한 순간이 있어요. 충분히 슬퍼하고, 스스로를 위로해 주세요. 혼자가 아니라는 걸 잊지 마세요. 당신의 마음이 점점 따뜻해지고, 힘든 순간을 잘 지나갈 수 있길 진심으로 응원할게요. 💙";
-					feedContainer.style.backgroundColor = "#dcf5ff";
-					break;
-				case "분노":
-					// message = "속상하고 억울한 일이 있었나 보네요. 감정을 솔직하게 표현하는 건 중요해요. 조금만 마음을 가라앉히고 스스로를 다독여 보세요.";
-					message = "정말 속상하고 화가 났겠어요. 때로는 감정을 드러내는 것도 필요한 법이죠. 하지만 그 감정에 휩쓸리기보다는, 차분하게 정리해 보면 나를 더 지키는 방법을 찾을 수도 있을 거예요. 당신의 감정은 소중하고 정당한 것이니, 천천히 다독이며 좋은 방향으로 풀어나가길 바라요. 💜";
-					feedContainer.style.backgroundColor = "#eedcff";
-					break;
-				case "불안":
-					// message = 불안한 마음이 들 때는 깊게 숨을 쉬고, 지금 할 수 있는 것에 집중해 보세요. 당신은 충분히 잘해내고 있어요!";
-					message = "불안한 마음이 들 때는 정말 아무것도 손에 잡히지 않을 때가 많죠. 하지만 지금 이 순간에도 당신은 잘 해내고 있어요. 작은 것부터 하나씩 해결해 나가다 보면 어느새 불안함도 조금씩 옅어질 거예요. 무엇보다 스스로를 너무 몰아붙이지 말고, 충분히 쉬어가며 나아가길 바라요. 당신은 분명 좋은 방향으로 가고 있어요! 💚";
-					feedContainer.style.backgroundColor = "#dcffe6";
-					break;
-				case "당황":
-					// message = "예상치 못한 일이 있었군요! 하지만 이런 경험이 우리를 더 유연하고 지혜롭게 만들어 준답니다. 괜찮아요! 💛";
-					message = "예상치 못한 일이 생기면 순간적으로 어떻게 해야 할지 막막할 때가 있죠. 하지만 이런 경험들이 쌓이면 점점 더 유연하고 지혜로운 사람이 되어갈 거예요. 처음엔 당황스럽겠지만, 지금의 경험이 나중에는 하나의 이야기로 남을 수도 있어요. 너무 자책하지 말고, 오늘도 충분히 잘해냈다는 걸 기억하세요! 💛";
-					feedContainer.style.backgroundColor = "#fffddc";
-					break;
-				case "상처":
-					// message = "마음이 아픈 일이 있었나 봐요. 하지만 당신의 가치는 변하지 않아요. 충분히 소중한 사람이니까요. 💖";
-					message = "마음이 많이 아팠겠어요. 때때로 우리는 다른 사람의 말이나 행동에 상처를 받기도 하지만, 그 누구도 당신의 가치를 결정할 수 없어요. 당신은 소중하고, 그 자체로 충분히 빛나는 사람이에요. 상처받은 마음이 천천히 회복될 수 있도록 스스로를 아껴 주세요. 그리고 꼭 기억하세요, 당신은 사랑받을 자격이 있는 존재랍니다. 💖";
-					feedContainer.style.backgroundColor = "#ffeadc";
-					break;
-				default:
-					// message = "평온한 하루를 보냈군요. 이런 일상이 쌓이면 마음도 한결 편안해질 거예요. 오늘도 수고 많았어요! 🤍";
-					message = "무난한 하루를 보내셨나요? 때로는 이런 평범한 날들이 가장 소중한 순간이 되기도 해요. 조용한 하루 속에서도 작은 행복을 찾아보는 건 어떨까요? 좋아하는 음악을 듣거나, 따뜻한 차 한 잔을 마시면서 스스로에게 작은 휴식을 선물해 보세요. 오늘도 수고 많았어요! 🤍";
-					feedContainer.style.backgroundColor = "#ebebeb";
-					break;
+			function fetchEmotion(diaryId) {
+				fetch(`/api/diary/emotion/${diaryId}`) // 피드백 결과를 가져올 API 엔드포인트
+					.then(response => {
+						if (!response.ok) {
+							throw new Error('네트워크 응답이 좋지 않습니다.');
+						}
+						return response.json(); // JSON 형태로 응답을 변환
+					})
+					.then(data => {
+						// console.log(data.emotion);
+						const feedback = getFeedbackMessage(data.emotion);
+
+						diaryEmotion.textContent = data.emotion;
+						diaryFeedback.textContent = feedback.message;
+						feedContainer.style.backgroundColor = feedback.backgroundColor;
+					})
+					.catch(error => {
+						console.error('피드백을 가져오는 중 오류 발생:', error);
+					});
 			}
-			diaryFeedback.textContent = message;
+
+
+			// 피드백 결과를 주기적으로 확인
+			const intervalId = setInterval(() => {
+				if (!diaryFeedback.textContent.includes("잠시만 기다려 주세요")) {
+					clearInterval(intervalId); // 피드백이 생성되면 주기적 확인 중지
+				} else {
+					const diaryId = [[ ${diary.diaryId} ]];
+					fetchEmotion(diaryId); // 피드백 결과를 가져오는 함수 호출
+				}
+			}, 1000); // 5초마다 확인
+
+
+
 		});
 	</script>
 	<!--

@@ -13,8 +13,8 @@
         <div class="modal-content">
             <div class="close-btn" data-id="02">&times;</div>  <!-- 닫기 버튼 -->
             <div class="post-card-detail" th:object="${board}">
-                <h3 class="author" th:text="*{memberNickname}">닉네임</h3>
-                <p id="date" th:text="*{boardDate}">2025-02-10, 17:00</p>
+                <h3 class="author" th:text="*{memberNickname}"></h3>
+                <p id="date" th:text="*{boardDate}"></p>
                 <div id="board-content" th:utext="*{boardContent}"></div>
             </div>
 
@@ -89,7 +89,7 @@
                                 // console.log(boardReport);
                                 if (boardReport >= 5) {
                                     window.confirm("게시글이 숨김 처리되었습니다.")
-                                    window.location.href = `/emotion/${boardCategory}`;
+                                    window.location.href = `/emotion/category/${boardCategory}`;
                                 }
                             } else {
                                 // console.error("신고 실패:", response);
