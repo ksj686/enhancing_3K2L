@@ -60,6 +60,12 @@
 	</footer>
 
 	<script th:fragment="notification-script">
+
+		const currentUrl = window.location.href;
+
+		// Check if the current URL matches a specific condition
+		if (!(currentUrl.includes('login') || currentUrl.includes('members/insert'))) {
+
 		const notificationBtn = document.querySelector('.notification-btn');
 		const notificationPopover = document.getElementById('notificationPopover');
 
@@ -151,5 +157,6 @@
 				notificationPopover.classList.remove('show');
 			}
 		});
+		}
 	</script>
 </html>
