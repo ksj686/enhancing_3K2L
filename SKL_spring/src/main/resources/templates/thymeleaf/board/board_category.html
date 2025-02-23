@@ -14,8 +14,8 @@
 		</div>
 		<section class="post-wrapper">
 			<div class="post-container">
-				<div th:each="board: ${boardList}"
-				     th:class="${board.memberId == session.memberid?'my-post-card':'post-card'}">
+				<div th:each="board: ${boardList}" th:class="${board.memberId == session.memberid?
+							                                 'my-post-card':'post-card'}">
 					<h3 class="author">[[ ${board.memberNickname} ]]</h3>
 					<p id="date">[[ ${board.boardDate} ]]</p>
 					<p id="board-content" th:utext="${board.boardTitle}"></p>
@@ -23,7 +23,7 @@
 
 					<button class="modal-button" th:attr="data-board-id=${board.boardId}"
 							th:classappend="${board.memberId == session.memberid?
-							               'my-more-button':'more-button'}">more
+										'my-more-button':'more-button'}">more
 					</button>
 				</div>
 			</div>

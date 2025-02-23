@@ -56,20 +56,19 @@
 					//if (confirm('정말로 이 알림을 삭제하시겠습니까?')) {
 					fetch(`/notice/delete/${noticeId}`, {
 						method: 'DELETE'
-					})
-					.then(response => {
-						if (response.ok) {
-							// 삭제 성공 시, 해당 알림 행을 제거
-							this.closest('li').remove(); // li 요소를 제거하여 삭제
-						} else {
-							alert('알림 삭제에 실패했습니다.');
-						}
-					})
-					.catch(error => {
-						console.error('삭제 중 오류 발생:', error);
-						alert('알림 삭제 중 오류가 발생했습니다.');
+						.then(response => {
+							if (response.ok) {
+								// 삭제 성공 시, 해당 알림 행을 제거
+								this.closest('li').remove(); // li 요소를 제거하여 삭제
+							} else {
+								alert('알림 삭제에 실패했습니다.');
+							}
+						})
+						.catch(error => {
+							console.error('삭제 중 오류 발생:', error);
+							alert('알림 삭제 중 오류가 발생했습니다.');
+						})
 					});
-					}
 				});
 			});
 		});

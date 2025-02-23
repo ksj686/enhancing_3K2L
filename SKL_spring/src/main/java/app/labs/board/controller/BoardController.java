@@ -101,6 +101,7 @@ public class BoardController {
 		// 응답에 status와 boardReport 추가
         Map<String, Object> response = new HashMap<>();
         try {
+			boardService.reportBoard(boardId);
             response.put("status", "OK");
             response.put("boardReport", boardService.getBoardReport(boardId));
         } catch (Exception e) {
