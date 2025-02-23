@@ -12,5 +12,5 @@ import app.labs.diary.model.Diary;
 public interface MyPageRepository {
     List<Map<String, Object>> getBoardStats(@Param("memberId") String memberId, @Param("date") String date);
     List<Map<String, Object>> getJournalStats(@Param("memberId") String memberId, @Param("date") String date);
-    List<Diary> getMyPageJournal(@Param("memberId") String memberId, @Param("category") String category, @Param("date") String date);
+    List<Diary> getMyPageJournal(@Param("memberId") String memberId, @Param("emotion") String emotion, @Param("date") String date);
 }

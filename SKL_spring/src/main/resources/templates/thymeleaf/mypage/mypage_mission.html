@@ -15,6 +15,51 @@
             .margin-top-important-83 {
                 margin-top: 83px !important; /* !important 사용 */
             }
+
+            #date-select {
+                padding-top: 10px;
+                display: flex;
+                gap: 10px; /* 선택 박스 간격 */
+            }
+
+            select {
+                font-size: 18px;
+                font-weight: bold;
+                padding: 8px 12px;
+                border: 1px solid black;
+                border-radius: 8px;
+                appearance: none; /* 기본 스타일 제거 */
+                background-color: white;
+                cursor: pointer;
+                text-align: center;
+                
+                /* 아이콘 추가 */
+                background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="black"><path d="M7 10l5 5 5-5z"></path></svg>');
+                background-repeat: no-repeat;
+                background-position: right 10px center;
+                background-size: 12px;
+                
+                min-width: 120px;
+            }
+
+            /* 선택 박스 크기 조절 */
+            #year-select {
+                min-width: 160px;
+            }
+
+            #month-select {
+                min-width: 160px;
+            }
+
+            /* 파이어폭스에서 기본 화살표 제거 */
+            select::-moz-focus-inner {
+                border: 0;
+            }
+
+            /* 아이콘 숨기기 (일부 브라우저) */
+            select::-ms-expand {
+                display: none;
+            }
         </style>
     </th:block>
 
@@ -43,18 +88,28 @@
         <!-- 감정 분석 박스 -->
         <section class="mypage-content">
             <!-- 연도 & 월 선택 드롭다운 -->
-            <div class="day-filter">
-                <input type="text" id="date-select">
-                <!-- <select id="year-select">
-                    <option>2025 년</option>
-                    <option>2024 년</option>
-                </select>
-                <select id="month-select">
-                    <option>February</option>
-                    <option>January</option>
-                    <option>December</option>
-                </select> -->
-            </div>
+            <!-- <div class="day-filter"> -->
+                <!-- <input type="text" id="date-select"> -->
+                <div id="date-select">
+					<select id="year-select">
+                        <option value="2025" selected>2025 년</option>
+                    </select>
+					<select id="month-select">
+						<option value="01">January</option>
+						<option value="02" selected>February</option>
+						<!-- <option value="03">March</option>
+						<option value="04">April</option>
+						<option value="05">May</option>
+						<option value="06">June</option>
+						<option value="07">July</option>
+						<option value="08">August</option>
+						<option value="09">September</option>
+						<option value="10">October</option>
+						<option value="11">November</option>
+						<option value="12">December</option> -->
+					</select>
+				</div>
+            <!-- </div> -->
             <div class="mission-boxes">    
                 <!-- 출석 미션 -->
                 <div class="mission1-box">
@@ -84,22 +139,38 @@
         <script type="text/javascript" th:src="@{https://cdn.jsdelivr.net/npm/flatpickr@latest/dist/plugins/monthSelect/index.js}"></script>
         <script type="text/javascript">
             $(document).ready(function() {
-                const today = getCurrentDateFormatted();
-                $("#date-select").flatpickr({
-                    plugins: [
-                    new monthSelectPlugin({
-                            shorthand: true, // 'YYYY-MM' 형식으로 표시
-                            dateFormat: "Y-m", // 선택된 날짜 형식
-                            altFormat: "Y년 F", // 대체 형식
-                        })
-                    ],
-                    minDate: "2025-01",
-                    maxDate: today,
-                    defaultDate: today,
-                    altInput: true,
-                    // altFormat: "Y F",
-                    // dateFormat: "Y-m",
-                });
+                // const today = getCurrentDateFormatted();
+                // $("#date-select").flatpickr({
+                //     plugins: [
+                //     new monthSelectPlugin({
+                //             shorthand: true, // 'YYYY-MM' 형식으로 표시
+                //             dateFormat: "Y-m", // 선택된 날짜 형식
+                //             altFormat: "Y년 F", // 대체 형식
+                //         })
+                //     ],
+                //     minDate: "2025-01",
+                //     maxDate: today,
+                //     defaultDate: today,
+                //     altInput: true,
+                // });
+
+                // 드롭다운 초기화
+                // const yearSelect = document.getElementById('year-select');
+                // const monthSelect = document.getElementById('month-select');
+
+                //monthSelect selected value 설정
+                // monthSelect.value = new Date().getMonth() + 1;
+
+                // const currentYear = new Date().getFullYear();
+
+                // 년도 드롭다운 채우기 (현재 년도 기준 ±5년)
+                // for (let i = currentYear - 5; i <= currentYear + 5; i++) {
+                //     const option = document.createElement('option');
+                //     option.value = i;
+                //     option.textContent = `${i} 년`;
+                //     if (i === currentYear) option.selected = true; // 현재 년도 선택
+                //     yearSelect.appendChild(option);
+                // }
 
                 //attendance-count의 값 변경
                 $("#attendance-count").text("17");
@@ -109,8 +180,9 @@
 
                 $(".mission-count").addClass("margin-top-important-83");
 
-                $("#date-select").on("change", function() {
-                    if ($(this).val() == "2025-01") {
+                $("#year-select, #month-select").on("change", function() {
+                    let date_selected = $("#year-select").val() + "-" + $("#month-select").val();
+                    if (date_selected == "2025-01") {
                         //mission1-graph의 이미지 변경
                         $(".mission1-graph").attr("src", "/img/mypage/mission(january)_clear1.png");
                         
@@ -126,7 +198,7 @@
                         $(".mission-count").removeClass("margin-top-important-83");
                         //full-day의 값 변경
                         $(".full-day").text(new Date(2025, 1, 0).getDate());
-                    } else if($(this).val() == "2025-02") {
+                    } else if(date_selected == "2025-02") {
                         //mission1-graph의 이미지 변경
                         $(".mission1-graph").attr("src", "/img/mypage/mission(feburary)_unclear2.png");
                         //mission-clear의 이미지 변경

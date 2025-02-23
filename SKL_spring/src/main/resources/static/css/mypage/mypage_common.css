@@ -131,7 +131,8 @@ body {
 }
 
 .mypage-title {
-    width: 250px;
+    width: 250px;  /* 모든 타이틀 이미지 크기 동일하게 */
+    height: 50px;
 }
 
 .main-content {

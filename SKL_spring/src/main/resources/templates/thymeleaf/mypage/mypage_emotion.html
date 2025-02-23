@@ -9,6 +9,50 @@
         <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css}">
         <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.6/plugins/monthSelect/style.min.css}">
         <style>
+            #date-select {
+                padding-top: 10px;
+                display: flex;
+                gap: 10px; /* 선택 박스 간격 */
+            }
+
+            select {
+                font-size: 18px;
+                font-weight: bold;
+                padding: 8px 12px;
+                border: 1px solid black;
+                border-radius: 8px;
+                appearance: none; /* 기본 스타일 제거 */
+                background-color: white;
+                cursor: pointer;
+                text-align: center;
+                
+                /* 아이콘 추가 */
+                background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="black"><path d="M7 10l5 5 5-5z"></path></svg>');
+                background-repeat: no-repeat;
+                background-position: right 10px center;
+                background-size: 12px;
+                
+                min-width: 120px;
+            }
+
+            /* 선택 박스 크기 조절 */
+            #year-select {
+                min-width: 160px;
+            }
+
+            #month-select {
+                min-width: 160px;
+            }
+
+            /* 파이어폭스에서 기본 화살표 제거 */
+            select::-moz-focus-inner {
+                border: 0;
+            }
+
+            /* 아이콘 숨기기 (일부 브라우저) */
+            select::-ms-expand {
+                display: none;
+            }
         </style>
     </th:block>
 
@@ -38,9 +82,29 @@
         <!-- 감정 분석 박스 -->
         <section class="mypage-content">
             <!-- 연도 & 월 선택 드롭다운 -->
-            <div class="day-filter">
-                <input type="text" id="date-select">
+            <div id="date-select">
+                <select id="year-select">
+                    <option value="2025" selected>2025 년</option>
+                </select>
+                <select id="month-select">
+                    <option value="01">January</option>
+                    <option value="02" selected>February</option>
+                    <!-- <option value="03">March</option>
+                    <option value="04">April</option>
+                    <option value="05">May</option>
+                    <option value="06">June</option>
+                    <option value="07">July</option>
+                    <option value="08">August</option>
+                    <option value="09">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option> -->
+                </select>
             </div>
+            <!-- <div class="day-filter">
+                <input type="text" id="date-select">
+            </div> -->
+
             <div class="emotion-boxes">
                 <div class="emotion-box1">
                     <canvas id="journalChart"></canvas>
@@ -60,24 +124,24 @@
         <script type="text/javascript" th:src="@{https://cdn.jsdelivr.net/npm/flatpickr@latest/dist/plugins/monthSelect/index.js}"></script>
         <script type="text/javascript">
             $(document).ready(function() {
-                $("#date-select").flatpickr({
-                    plugins: [
-                    new monthSelectPlugin({
-                            shorthand: true, // 'YYYY-MM' 형식으로 표시
-                            dateFormat: "Y-m", // 선택된 날짜 형식
-                            altFormat: "Y년 F", // 대체 형식
-                        })
-                    ],
-                    minDate: "2025-01",
-                    maxDate: new Date(),
-                    defaultDate: new Date(),
-                    altInput: true,
-                });
+                // $("#date-select").flatpickr({
+                //     plugins: [
+                //     new monthSelectPlugin({
+                //             shorthand: true, // 'YYYY-MM' 형식으로 표시
+                //             dateFormat: "Y-m", // 선택된 날짜 형식
+                //             altFormat: "Y년 F", // 대체 형식
+                //         })
+                //     ],
+                //     minDate: "2025-01",
+                //     maxDate: new Date(),
+                //     defaultDate: new Date(),
+                //     altInput: true,
+                // });
 
                 loadBoardStats();
                 loadJournalStats();
 
-                $("#date-select").on("change", function() {
+                $("#year-select, #month-select").on("change", function() {
                     loadBoardStats();
                     loadJournalStats();
                 });
@@ -150,7 +214,10 @@
             // };
 
             function loadBoardStats() {
-                const date = $("#date-select").val();
+                // const date = $("#date-select").val();
+                const year = $("#year-select").val();
+                const month = $("#month-select").val();
+                const date = year + "-" + month;
                 $.get('/mypage/board-stats', { date: date }, function(response) {
                     const ctx = document.getElementById('boardChart').getContext('2d');
                     if (boardChart) boardChart.destroy();
@@ -159,7 +226,10 @@
             }
 
             function loadJournalStats() {
-                const date = $("#date-select").val();
+                // const date = $("#date-select").val();
+                const year = $("#year-select").val();
+                const month = $("#month-select").val();
+                const date = year + "-" + month;
                 $.get('/mypage/journal-stats', { date: date }, function(response) {
                     const ctx = document.getElementById('journalChart').getContext('2d');
                     if (journalChart) journalChart.destroy();
@@ -170,6 +240,26 @@
             function doughnutChart(ctx, data, title) {
                 // 데이터가 없을 경우 처리
                 if (!data || data.length === 0) {
+                    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // 차트 초기화
+                    ctx.font = '20px Arial';
+                    ctx.fillStyle = '#000'; // 텍스트 색상
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('데이터가 없습니다', ctx.canvas.width / 2, ctx.canvas.height / 2); // 중앙에 메시지 표시
+                    return; // 함수 종료
+                }
+
+                if(data.length === 4 && data.every(item => item.COUNT_CATEGORY === 0)) {
+                    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // 차트 초기화
+                    ctx.font = '20px Arial';
+                    ctx.fillStyle = '#000'; // 텍스트 색상
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('데이터가 없습니다', ctx.canvas.width / 2, ctx.canvas.height / 2); // 중앙에 메시지 표시
+                    return; // 함수 종료
+                }
+                
+                if(data.length === 7 && data.every(item => item.COUNT_EMOTION === 0)) {
                     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height); // 차트 초기화
                     ctx.font = '20px Arial';
                     ctx.fillStyle = '#000'; // 텍스트 색상

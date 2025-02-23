@@ -59,11 +59,25 @@
     </select>
 
     <select id="getMyPageJournal" parameterType="java.util.Map" resultType="app.labs.diary.model.Diary">
-        SELECT DIARY_ID, DIARY_TITLE, DIARY_CONTENT, DIARY_EMOTION, TO_CHAR(DIARY_DATE, 'YYYY-MM-DD') AS DIARY_DATE, DIARY_FEED FROM DIARY
+        SELECT DIARY_ID, MEMBER_ID, DIARY_TITLE, DIARY_CONTENT, DIARY_EMOTION, TO_CHAR(DIARY_DATE, 'YYYY-MM-DD') AS DIARY_DATE, DIARY_FEED FROM DIARY
         WHERE MEMBER_ID = #{memberId}
-        AND TO_CHAR(DIARY_DATE, 'YYYY-MM') = #{date}
-        <if test="category != null">
-            AND BOARD_CATEGORY = #{category}
+        <if test="date != null">
+            AND TO_CHAR(DIARY_DATE, 'YYYY-MM') = #{date}
         </if>
+        <if test="date == null">
+            AND TO_CHAR(DIARY_DATE, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM')
+        </if>
+        <if test="emotion != null">
+            AND DIARY_EMOTION = #{emotion}
+        </if>
+        ORDER BY DIARY_DATE DESC
+        <!-- <choose>
+        <when test="oldest == null">
+            ORDER BY DIARY_DATE DESC
+        </when>
+        <otherwise>
+            ORDER BY DIARY_DATE
+        </otherwise>
+        </choose> -->
     </select>
 </mapper>
