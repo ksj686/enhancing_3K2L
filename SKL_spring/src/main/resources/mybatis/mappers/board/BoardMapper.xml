@@ -11,9 +11,9 @@
         JOIN MEMBER m
         ON b.MEMBER_ID = m.MEMBER_ID
         WHERE b.BOARD_CATEGORY = #{boardCategory}
-          AND b.BOARD_OFFENSIVE = 'F'
-          AND b.BOARD_DATE >= SYSDATE - 7
-          <!-- AND BOARD_DATE >= SYSDATE - 1 -->
+        AND b.BOARD_OFFENSIVE = 'F'
+        AND BOARD_DATE >= SYSDATE - 1
+        ORDER BY b.BOARD_ID
     </select>
 
     <!-- 글 개수 조회 -->
@@ -26,7 +26,7 @@
     <!-- 글 조회 -->
     <select id="getBoardInfo" parameterType="int" resultType="app.labs.board.model.Board">
         SELECT b.BOARD_ID, b.BOARD_TITLE, b.BOARD_CATEGORY,
-               TO_CHAR(b.BOARD_DATE, 'YYYY"년"MM"월"DD"일" HH24"시"MI"분"SS"초"') AS BOARD_DATE,
+               TO_CHAR(b.BOARD_DATE, 'YYYY"-"MM"-"DD"," HH24"시"MI"분') AS BOARD_DATE,
                b.BOARD_CONTENT, b.BOARD_OFFENSIVE, b.BOARD_REPORT, b.MEMBER_ID, m.MEMBER_NICKNAME
         FROM BOARD b
         JOIN MEMBER m

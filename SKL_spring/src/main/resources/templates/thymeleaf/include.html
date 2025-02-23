@@ -64,7 +64,8 @@
 		const currentUrl = window.location.href;
 
 		// Check if the current URL matches a specific condition
-		if (!(currentUrl.includes('login') || currentUrl.includes('members/insert'))) {
+		if ([[ ${session.memberid} != null ]]) {
+		// if (!(currentUrl.includes('login') || currentUrl.includes('members/insert')) ) {
 
 		const notificationBtn = document.querySelector('.notification-btn');
 		const notificationPopover = document.getElementById('notificationPopover');
