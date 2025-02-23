@@ -145,7 +145,7 @@
                     <button type="submit" class="signup-btn">Sign Up</button></li>
                 </ul>
                 </form>
-                <p class="login-link">이미 계정이 있으신가요? <a href="#">로그인</a></p>
+                <p class="login-link">이미 계정이 있으신가요? <a href="/login">로그인</a></p>
             
             </div>
             
@@ -156,6 +156,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.15.10/dist/sweetalert2.all.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+            document.getElementById('memberBirthdate').value = '2000-01-01';
             document.getElementById('memberNickname').addEventListener('input', function() {
                 const input = this.value;
                 const isKorean = /[가-힣]/.test(input); // 한글이 포함되어 있는지 확인
