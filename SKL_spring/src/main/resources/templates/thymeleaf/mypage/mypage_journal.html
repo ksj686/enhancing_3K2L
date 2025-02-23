@@ -394,6 +394,7 @@
         <script type="text/javascript">
             $(document).ready(function() {
                 let stringDate = '[[${date}]]';
+                if (stringDate == '') stringDate = '2025-02';
                 let [year, month] = stringDate.split("-");
                 $('#year-select').val(year);
                 $('#month-select').val(month);
