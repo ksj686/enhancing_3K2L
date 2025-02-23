@@ -1,5 +1,6 @@
 body {       
     background-image: url('/img/mypage/mypage_sky.png');
+    overflow-x: hidden;
 }
 
 /* 메인 콘텐츠 적용 */

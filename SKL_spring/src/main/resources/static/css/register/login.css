@@ -1,5 +1,6 @@
 body {     
     background-image: url('/img/register/login_sky.png');
+    overflow: hidden;
 }
 
 /* 메인 콘텐츠 적용 */
