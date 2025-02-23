@@ -30,7 +30,8 @@ public class NoticeInterceptor implements HandlerInterceptor {
            if (memberId != null) {
                int count = noticeRepository.countNotice(memberId);
                log.info("읽지 않은 알림 수: {}", count);
-               modelAndView.addObject("hasNotice", count > 0);
+//               modelAndView.addObject("hasNotice", count > 0);
+               modelAndView.addObject("noticeCount", count);
            } else {
                log.info("알림 없음");
                modelAndView.addObject("hasNotice", false);

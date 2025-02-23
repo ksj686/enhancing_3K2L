@@ -25,64 +25,201 @@ header {
     color: #454343;
     font-weight: bold;
 }
-    nav {
-        width: 95%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    /* .logo img {
-        height: 33px;
-    } */
-    .menu {
-        padding: 5px 15px;
-        gap: 90px;
-    }
-    .menu a, .account a {
-        text-decoration: none;
-    }
-    .menu a:hover, .account a:hover {
-        text-decoration: underline;
-        text-decoration-color: rgb(8, 8, 8);
-        /* text-decoration-style: solid; */
-        transition: all 0.3s ease;
-    }
-    .account {
-        width: 500px;              
-        justify-content: flex-end; 
-        padding: 5px 0;            
-        box-sizing: border-box;  
-        gap: 20px;   
-    }
-    .menu, .account {
-        display: flex;
-        align-items: center;
-        text-decoration: none;
-        font-size: 20px;
-        background: transparent;
-        cursor: pointer;
-    }
-    
-    .login-btn {
-        font-size: 18px;
-        background-color: #ffffff;
-        font-weight: bold !important;
-        color: #454343;
-        border: none;
-        border-radius: 20px;
-        padding: 5px 15px;
-        cursor: pointer;
-    }
-    /* 하이퍼링크 클릭 시 색상 유지 */
-    .menu a:link, .menu a:visited, .menu a:active, .account a:link, .account a:active, .account a:visited{
-        color: #454343;
-        /* text-decoration: none; */
-    }
-    .login-btn:hover {
-        background-color: #F5DF2C;
-        color: #F85A7B;
-        transition: background-color 0.3s ease;
-    }
+
+nav {
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-block: 10px;
+}
+/* .logo img {
+    height: 33px;
+} */
+.menu {
+    padding: 5px 15px;
+    gap: 90px;
+}
+.menu a, .account a {
+    text-decoration: none;
+}
+.menu a:hover, .account a:hover {
+    text-decoration: underline;
+    text-decoration-color: rgb(8, 8, 8);
+    /* text-decoration-style: solid; */
+    transition: all 0.3s ease;
+}
+.account {
+    width: 500px;
+    justify-content: flex-end;
+    padding: 5px 0;
+    box-sizing: border-box;
+    gap: 20px;
+}
+.menu, .account {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-size: 20px;
+    background: transparent;
+    cursor: pointer;
+}
+
+.login-btn {
+    font-size: 18px;
+    background-color: #ffffff;
+    font-weight: bold !important;
+    color: #454343;
+    border: none;
+    border-radius: 20px;
+    padding: 5px 15px;
+    cursor: pointer;
+}
+/* 하이퍼링크 클릭 시 색상 유지 */
+.menu a:link, .menu a:visited, .menu a:active, .account a:link, .account a:active, .account a:visited{
+    color: #454343;
+    /* text-decoration: none; */
+}
+.login-btn:hover {
+    background-color: #F5DF2C;
+    color: #F85A7B;
+    transition: background-color 0.3s ease;
+}
+
+
+/* 알림 */
+.notification-btn {
+    background: url('/img/notification.svg') no-repeat center center;
+    background-size: cover;
+    border: none;
+    height: 35px;
+    width: 35px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+}
+@keyframes bellRing {
+    0%, 100% { transform: rotate(0); }
+    20% { transform: rotate(10deg); }
+    40% { transform: rotate(-10deg); }
+    60% { transform: rotate(5deg); }
+    80% { transform: rotate(-5deg); }
+}
+.notification-btn:hover {
+    /*background-color: rgba(10, 10, 10, 0.2);*/
+    animation: bellRing 0.3s ease-in-out;
+}
+
+.notification-badge {
+    position: relative;
+    top: -10px;
+    right: -10px;
+    background-color: #ef4444;
+    color: white;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.notification-container {
+    position: relative;
+    display: inline-block;
+}
+
+.notification-popover {
+    position: absolute;
+    right: 100px;
+    margin-top: 60px;
+    min-width: 350px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    display: none;
+    z-index: 10;
+}
+
+.notification-popover.show {
+    display: block;
+}
+
+.notification-arrow {
+    position: absolute;
+    top: -8px;
+    right: 190px;
+    width: 16px;
+    height: 16px;
+    background: white;
+    transform: rotate(45deg);
+}
+
+.notification-header {
+    padding: 16px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.notification-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.notification-list {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.notification-item {
+    padding: 16px;
+    border-bottom: 1px solid #e5e7eb;
+    cursor: pointer;
+}
+
+.notification-item .read{
+    color: #6b7280;
+}
+
+.notification-item:hover {
+    background-color: #f9fafb;
+}
+
+.notification-item:last-child {
+    border-bottom: none;
+}
+
+.notification-message {
+    font-size: 14px;
+    color: #1f2937;
+}
+
+.notification-time {
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 4px;
+}
+
+.notification-footer {
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid #e5e7eb;
+}
+
+.view-all-btn {
+    color: #2563eb;
+    font-size: 14px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.view-all-btn:hover {
+    text-decoration: underline;
+}
+
 
 /* 4. 푸터 스타일 */
 .footer {

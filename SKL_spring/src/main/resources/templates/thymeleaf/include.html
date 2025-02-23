@@ -18,7 +18,13 @@
 				<a href="/playlist/recommend">Healing Space</a>
 			</div>
 			<div class="account">
-				<img src="/img/notification.svg"/>
+				<div class="notification-container">
+					<button th:if="${session.memberid != null}" class="notification-btn">
+							<span th:if="${noticeCount} > 0" class="notification-badge">
+								[[ ${noticeCount} ]]
+							</span>
+					</button>
+				</div>
 				<a href="/members/insert" th:if="${session.memberid == null}">회원가입</a>
 				<a href="/mypage" th:if="${session.memberid != null}">마이페이지</a>
 				<button onclick="location.href='/login'" class="login-btn" th:if="${session.memberid == null}">로그인</button>
@@ -26,15 +32,85 @@
 			</div>
 		</nav>
 	</header>
-    
 
 
-	 <!-- [푸터] 푸터영역-->
+	<!-- 알림 모달 영역 -->
+	<th:block  th:fragment="notification">
+		<div class="notification-popover" id="notificationPopover">
+			<div class="notification-arrow"></div>
+			<div class="notification-header">
+				<h3>알림</h3>
+			</div>
+			<div class="notification-list"></div>
+			<div class="notification-footer">
+				<!-- <button class="view-all-btn">모든 알림 보기</button> -->
+			</div>
+		</div>
+	</th:block>
+
+
+	<!-- [푸터] 푸터영역-->
 	<footer class="footer" th:fragment="footer">
 		<img src="/img/SKL logo.png" alt="SamKimLee2 Logo" class="footer-logo">
 		<div class="footer-text">
 			<h3>SamKimLee2 Company</h3>
 			<p>78, Gosanja-ro 32-gil, Dongdaemun-gu, <u>Seoul</u>, Republic of Korea</p>
 			<!-- <p>Samkimlee2@saesac.com</p> -->
-	</footer> 
+		</div>
+	</footer>
+
+	<script th:fragment="notification-script">
+		const notificationBtn = document.querySelector('.notification-btn');
+		const notificationPopover = document.getElementById('notificationPopover');
+
+		// 알림 버튼 클릭 이벤트
+		notificationBtn.addEventListener('click', (e) => {
+			e.stopPropagation();
+			notificationPopover.classList.toggle('show');
+			// window.location.href = "/notice";
+
+			const notificationList = document.querySelector('.notification-list');
+			
+			$.ajax({
+				url: '/notice',
+				success(response) {
+					
+					response.forEach(notificationData => {
+						const notification = document.createElement('div');
+						notification.classList.add('notification-item');
+						notification.setAttribute('onclick', `location.href='${notificationData.url}'`);
+
+						if (notificationData.noticeRead == 'T') {
+							notification.innerHTML = `<div class="notification-message read">
+													  	  ${notificationData.message}
+													  </div>
+													  <div class="notification-time">
+													      ${notificationData.date}
+													  </div>`;
+						} else {
+							notification.innerHTML = `<div class="notification-message">
+													  	  ${notificationData.message}
+													  </div>
+													  <div class="notification-time">
+													      ${notificationData.date}
+													  </div>`;
+						}
+						notificationList.appendChild(notification);
+					});
+				},
+				error: function(xhr, status, error) {
+					console.error('Error:', error);
+					alert('알림 목록을 불러오는데 실패했습니다.');
+				}
+			});
+
+		});
+
+		// 다른 영역 클릭시 팝오버 닫기
+		document.addEventListener('click', (e) => {
+			if (!notificationPopover.contains(e.target) && !notificationBtn.contains(e.target)) {
+				notificationPopover.classList.remove('show');
+			}
+		});
+	</script>
 </html>

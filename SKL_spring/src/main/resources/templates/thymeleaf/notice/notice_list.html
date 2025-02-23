@@ -1,26 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-	<meta charset="UTF-8">
-	<title>Insert title here</title>
-</head>
-<style>
-	a {
-		text-decoration-line: none;
-		color: black;
-	}
-	.deactive, .deactive a {
-		color: gray; !important;
-	}
-</style>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{/thymeleaf/home}">
+
 <body>
-<h5 th:if="${session.memberid != null}">[[${session.memberid}]]님</h5>
-<a href="/login" th:if="${session.memberid == null}">로그인</a>
-<a href="/members/insert"  th:if="${session.memberid == null}">회원가입</a>
-<a href="/logout" th:if="${session.memberid != null}">로그아웃</a>
-<div style="text-align:center;">
-	<h1> [[${session.memberid}]]님의 읽지 않은 [[${unreadCount}]]개의 알람이 있습니다. </h1>
-	<hr>
+<!-- 알림 모달 영역 -->
+<th:block th:fragment="notification">
 	<ul th:each="notice: ${noticeList}">
 		<li th:switch="${notice.noticeType}" th:class="${notice.noticeRead=='T'?'deactive':'active'}">
 			<a th:case="BOARD_HIDE_REPORT" th:href="@{/emotion/Id/{Id}(Id=${notice.boardId})}">
@@ -32,7 +17,7 @@
 			<a th:case="BOARD_REPORT" th:href="@{/emotion/Id/{Id}(Id=${notice.boardId})}">
 				[[${session.memberid}]]님의 글이 신고되었어요.
 			</a>
-			<a th:case="DIARY_FEED" th:href="@{/diary/{Id}(Id=${notice.boardId})}">
+			<a th:case="DIARY_FEED" th:href="@{/diary/Id/{Id}(Id=${notice.boardId})}">
 				[[${session.memberid}]]님의 일기에 메시지가 도착했어요.
 			</a>
 			<span th:switch="${notice.noticeDate}">
@@ -45,32 +30,45 @@
 			</span>
 		</li>
 	</ul>
-</div>
+</th:block>
+
 	<script>
-		// 삭제 버튼 클릭 이벤트 핸들러
 		document.addEventListener('DOMContentLoaded', function() {
+			const notificationBtn = document.querySelector('.notification-btn');
+			const notificationPopover = document.getElementById('notificationPopover');
+
+			notificationPopover.classList.toggle('show');
+
+			// 다른 영역 클릭시 팝오버 닫기
+			document.addEventListener('click', (e) => {
+				if (!notificationPopover.contains(e.target) && !notificationBtn.contains(e.target)) {
+					notificationPopover.classList.remove('show');
+				}
+			});
+
+			// 삭제 버튼 클릭 이벤트 핸들러
 			const deleteButtons = document.querySelectorAll('.delete-notice');
 
 			deleteButtons.forEach(button => {
 				button.addEventListener('click', function() {
 					const noticeId = this.dataset.noticeId; // data-notice-id에서 ID 가져오기
 
-					if (confirm('정말로 이 알림을 삭제하시겠습니까?')) {
-						fetch(`/notice/delete/${noticeId}`, {
-							method: 'DELETE'
-						})
-						.then(response => {
-							if (response.ok) {
-								// 삭제 성공 시, 해당 알림 행을 제거
-								this.closest('li').remove(); // li 요소를 제거하여 삭제
-							} else {
-								alert('알림 삭제에 실패했습니다.');
-							}
-						})
-						.catch(error => {
-							console.error('삭제 중 오류 발생:', error);
-							alert('알림 삭제 중 오류가 발생했습니다.');
-						});
+					//if (confirm('정말로 이 알림을 삭제하시겠습니까?')) {
+					fetch(`/notice/delete/${noticeId}`, {
+						method: 'DELETE'
+					})
+					.then(response => {
+						if (response.ok) {
+							// 삭제 성공 시, 해당 알림 행을 제거
+							this.closest('li').remove(); // li 요소를 제거하여 삭제
+						} else {
+							alert('알림 삭제에 실패했습니다.');
+						}
+					})
+					.catch(error => {
+						console.error('삭제 중 오류 발생:', error);
+						alert('알림 삭제 중 오류가 발생했습니다.');
+					});
 					}
 				});
 			});
