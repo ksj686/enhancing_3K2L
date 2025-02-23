@@ -350,9 +350,9 @@
                 <!-- 정렬 버튼 -->
                 <div class="journal-top-box">
                  <div class="sort-options">
-                  <input type="radio" id="latest" name="sort" value="latest" onclick="journal_sel('전체')" th:checked="${sort == null}">
+                  <input type="radio" id="latest" name="sort" value="latest" onclick="journal_sel('')" th:checked="${sort == null}">
                   <label for="latest" class="sort-label">최신 순</label>
-                  <input type="radio" id="oldest" name="sort" value="oldest" onclick="journal_sel('전체')" th:checked="${sort != null}">
+                  <input type="radio" id="oldest" name="sort" value="oldest" onclick="journal_sel('')" th:checked="${sort != null}">
                   <label for="oldest" class="sort-label">오래된 순</label>
                  </div>
                    <!-- 검색창 -->
@@ -393,6 +393,10 @@
         <script type="text/javascript" th:src="@{https://cdn.jsdelivr.net/npm/flatpickr@latest/dist/plugins/monthSelect/index.js}"></script>
         <script type="text/javascript">
             $(document).ready(function() {
+                let stringDate = '[[${date}]]';
+                let [year, month] = stringDate.split("-");
+                $('#year-select').val(year);
+                $('#month-select').val(month);
                 // $("#date-select").flatpickr({
                 //     plugins: [
                 //     new monthSelectPlugin({
@@ -424,11 +428,20 @@
                 //     if (i === currentYear) option.selected = true; // 현재 년도 선택
                 //     yearSelect.appendChild(option);
                 // }
-
+                $("#year-select, #month-select").on("change", function() {
+                    journal_sel('');
+                });
             });
 
             function journal_sel(emotion) {
-                // let date = $("#date-select").val();
+                if(emotion == "") {
+                    // active class 붙어있는 btn의 txt값 가져오기
+                    const txt = document.querySelector('.emotion-btn.active').textContent;
+
+                    emotion = txt;
+                }
+
+
                 const radio = document.getElementById('oldest'); // Replace 'sort' with your radio button group name
 
                 let year = $("#year-select").val();

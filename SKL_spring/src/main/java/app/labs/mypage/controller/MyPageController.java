@@ -141,9 +141,9 @@ public class MyPageController {
         if(sort != null) {
             diaryList.sort(Comparator.comparing(Diary::getDiaryDate)); // Sort by date ascending
         }
-        log.info("emotion : " + emotion);
         model.addAttribute("diaryList", diaryList);
         model.addAttribute("emotion", emotion);
+        model.addAttribute("date", date);
         model.addAttribute("sort", sort);
         return "thymeleaf/mypage/mypage_journal";
     }
