@@ -172,10 +172,11 @@
             }    
             .journal-content {
                 display: grid;
-                grid-template-columns: 0.5fr 2fr 1fr; /* 3열 균등 분할 */
+                grid-template-columns: 1fr 2.5fr 1fr;
                 grid-template-rows: 60px; /* 두 개의 행 자동 크기 */
                 gap: 10px; /* 요소 간 간격 */
                 align-items: center;
+                font-weight: bold;
             }
             .journal-header {
                 display: flex;
@@ -192,7 +193,7 @@
                 display: inline-block; /* 가로 길이 조정 가능 */
                 background-color: #FADB14; /* 밝은 노란색 */
                 color: black; /* 글자 색 */
-                font-size: 18px; /* 글자 크기 */
+                font-size: 25px; /* 글자 크기 */
                 font-weight: bold; /* 글자 굵기 */
                 padding: 10px 20px; /* 안쪽 여백 */
                 border-radius: 30px; /* 양쪽 끝을 둥글게 */
@@ -205,7 +206,7 @@
                 color: #999;
             }
             .journal-description {
-                font-size: 15px;
+                font-size: 17px;
                 max-width: 90%;
                 height: 60px;
                 margin-top: 10px;
@@ -276,8 +277,11 @@
                 display: none;
             }
 
-            .journal-description {
+            .journal-middle {
                 grid-column: span 2; /* 가로 2칸 차지 */
+                overflow: hidden;          /* Hide overflow content */
+                white-space: nowrap;      /* Prevent text from wrapping */
+                text-overflow: ellipsis;
             }
             .thumbnail {
                 padding-top: 90px;
