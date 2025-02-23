@@ -34,7 +34,7 @@ public class NoticeController {
         String memberId = (String) session.getAttribute("memberid");
         noticeService.readNotice(memberId);
         List<Map<String, Object>> response = new ArrayList<>();
-        Map<String, Object> content = new HashMap<>();
+       
 
         try {
             List<Notice> noticeList = noticeService.getNoticeList(memberId);
@@ -43,27 +43,25 @@ public class NoticeController {
                 String message;
                 String url;
                 String noticeRead = notice.getNoticeRead();
-                switch (notice.getNoticeType()) {
-                    case "BOARD_HIDE_REPORT":
-                        message = memberId + "님의 글이 신고 누적으로 인해 숨김 처리되었어요.";
-                        url = "/emotion/Id/" + notice.getBoardId();
-                        break;
-                    case "BOARD_HIDE_FILTER":
-                        message = memberId + "님의 글이 부적절한 내용으로 인해 숨김 처리되었어요.";
-                        url = "/emotion/Id/" + notice.getBoardId();
-                        break;
-                    case "BOARD_REPORT":
-                        message = memberId + "님의 글이 신고되었어요.";
-                        url = "/emotion/Id/" + notice.getBoardId();
-                        break;
-                    case "DIARY_FEED":
-                        message = memberId + "님의 일기에 메시지가 도착했어요.";
-                        url = "/diary/Id/" + notice.getBoardId();
-                        break;
-                    default:
-                        message = "새로운 메시지가 도착했어요.";
-                        url = "";
-                        break;
+                int noticeId = notice.getNoticeId();
+                String noticeType = notice.getNoticeType();
+
+                // 알림 타입에 따라 메시지 및 URL 설정
+                if (noticeType.startsWith("DIARY_FEED")) {
+                    message = memberId + "님의 일기에 메시지가 도착했어요.";
+                    url = "/diary/Id/" + notice.getBoardId();
+                } else if ("BOARD_HIDE_REPORT".equals(noticeType)) {
+                    message = memberId + "님의 글이 신고 누적으로 인해 숨김 처리되었어요.";
+                    url = "/emotion/Id/" + notice.getBoardId();
+                } else if ("BOARD_HIDE_FILTER".equals(noticeType)) {
+                    message = memberId + "님의 글이 부적절한 내용으로 인해 숨김 처리되었어요.";
+                    url = "/emotion/Id/" + notice.getBoardId();
+                } else if ("BOARD_REPORT".equals(noticeType)) {
+                    message = memberId + "님의 글이 신고되었어요.";
+                    url = "/emotion/Id/" + notice.getBoardId();
+                } else {
+                    message = "새로운 메시지가 도착했어요.";
+                    url = "";
                 }
 
                 // 날짜 처리
@@ -76,11 +74,12 @@ public class NoticeController {
                     dateMessage = notice.getNoticeDate() + "일 전";
                 }
 
-
                 // 최종 메시지 생성
+                Map<String, Object> content = new HashMap<>();
                 content.put("message", message);
                 content.put("date", dateMessage);
                 content.put("url", url);
+                content.put("noticeId", noticeId);
                 content.put("noticeRead", noticeRead);
 
                 response.add(content);
@@ -88,6 +87,7 @@ public class NoticeController {
             }
 
         } catch (Exception e) {
+            Map<String, Object> content = new HashMap<>();
             content.put("status", "ERROR");
             content.put("message", e.getMessage());
 

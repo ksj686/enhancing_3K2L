@@ -80,22 +80,61 @@
 						notification.classList.add('notification-item');
 						notification.setAttribute('onclick', `location.href='${notificationData.url}'`);
 
+						const noticeId = notificationData.noticeId; // 알림 ID 가져오기
+
 						if (notificationData.noticeRead == 'T') {
-							notification.innerHTML = `<div class="notification-message read">
-													  	  ${notificationData.message}
+							notification.innerHTML = `<div>
+														  <div class="notification-message read">
+															  ${notificationData.message}
+														  </div>
+														  <div class="notification-time">
+															  ${notificationData.date}
+														  </div>
 													  </div>
-													  <div class="notification-time">
-													      ${notificationData.date}
-													  </div>`;
+													  <button class="delete-notification" data-id="${noticeId}">
+													  	  &times;
+													  </button>`;
 						} else {
-							notification.innerHTML = `<div class="notification-message">
-													  	  ${notificationData.message}
+							notification.innerHTML = `<div>
+														  <div class="notification-message">
+															  ${notificationData.message}
+														  </div>
+														  <div class="notification-time">
+															  ${notificationData.date}
+														  </div>
 													  </div>
-													  <div class="notification-time">
-													      ${notificationData.date}
-													  </div>`;
+							                          <button class="delete-notification" data-id="${noticeId}">
+												          &times;
+													  </button>`;
 						}
+
+
+						// 삭제 버튼 클릭 이벤트
+						notification.querySelector('.delete-notification').addEventListener('click', (event) => {
+							event.stopPropagation(); // 클릭 이벤트 전파 방지
+
+							// AJAX 요청으로 알림 삭제
+							$.ajax({
+								url: `/notice/delete/${noticeId}`, // 삭제 요청 URL
+								type: 'DELETE', // DELETE 메서드 사용
+								success: function (response) {
+									if (response.status === "OK") {
+										console.log("삭제 성공")
+										notificationList.removeChild(notification);
+									} else {
+										alert('알림 삭제에 실패했습니다.');
+									}
+								},
+								error: function (xhr, status, error) {
+									console.error('Error deleting notification:', error);
+									alert('알림 삭제에 실패했습니다.');
+								}
+							});
+						});
+
 						notificationList.appendChild(notification);
+
+
 					});
 				},
 				error: function(xhr, status, error) {
