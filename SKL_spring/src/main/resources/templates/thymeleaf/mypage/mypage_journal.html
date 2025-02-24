@@ -172,7 +172,7 @@
             }    
             .journal-content {
                 display: grid;
-                grid-template-columns: 1fr 2.5fr 1fr;
+                grid-template-columns: 1.5fr 2fr 1fr;
                 grid-template-rows: 60px; /* 두 개의 행 자동 크기 */
                 gap: 10px; /* 요소 간 간격 */
                 align-items: center;
@@ -208,12 +208,12 @@
             .journal-description {
                 font-size: 17px;
                 max-width: 90%;
-                height: 60px;
+                /* height: 60px; */
                 margin-top: 10px;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 display: -webkit-box;
-                -webkit-line-clamp: 3; /* 원하는 줄 수 (예: 2줄까지 표시) */
+                -webkit-line-clamp: 2; /* 원하는 줄 수 (예: 2줄까지 표시) */
                 -webkit-box-orient: vertical;
                 white-space: normal; /* 자동 줄바꿈 허용 */
                 word-wrap: break-word;

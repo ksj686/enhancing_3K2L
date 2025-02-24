@@ -306,7 +306,21 @@
                     indexAxis: 'y',
                     responsive: true,
                     maintainAspectRatio: true,
-                    aspectRatio: 1.5
+                    aspectRatio: 1.5,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: title,
+                            font: {
+                                size: 18,
+                                weight: 'bold'
+                            },
+                            padding: {
+                                top: 10,
+                                bottom: 20
+                            }
+                        }
+                    }
                 }
             });
         }
