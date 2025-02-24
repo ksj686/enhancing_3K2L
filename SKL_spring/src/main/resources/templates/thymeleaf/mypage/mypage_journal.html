@@ -212,7 +212,11 @@
                 margin-top: 10px;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                white-space: nowrap;
+                display: -webkit-box;
+                -webkit-line-clamp: 3; /* 원하는 줄 수 (예: 2줄까지 표시) */
+                -webkit-box-orient: vertical;
+                white-space: normal; /* 자동 줄바꿈 허용 */
+                word-wrap: break-word;
             }
             .journal-footer {
                 display: flex;
