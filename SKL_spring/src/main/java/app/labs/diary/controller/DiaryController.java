@@ -80,9 +80,17 @@ public class DiaryController {
 	@GetMapping("/diary/lately")
 	public String getDiaryIdLately(HttpSession session, Model model) {
 		String memberId = (String) session.getAttribute("memberid");
-		int diaryId = diaryService.getDiaryIdLately(memberId);
+		try{
+			int diaryId = diaryService.getDiaryIdLately(memberId);
 
-		return "redirect:/diary/Id/" + diaryId;
+			return "redirect:/diary/Id/" + diaryId;
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			log.error("일기 없음: ", ex.getMessage());
+
+			return "redirect:/diary";
+		}
 	}
 
 	

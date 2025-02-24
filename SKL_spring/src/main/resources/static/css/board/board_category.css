@@ -54,7 +54,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     overflow-x: auto;
     overflow-y: hidden;
     padding: 40px 0;
@@ -68,7 +68,6 @@ body {
 .post-container {
     display: flex;
     gap: 23px;
-    padding: 0 40px;
 }
 
 /* 다른 유저의 게시글 */

@@ -23,7 +23,7 @@
         <div class="main-content-wrapper">
         	<!-- 일기 리스트 링크 -->
         	<div class="list-btn-container">
-        		<a th:href="@{/diary/list}" class="list-btn">← 리스트로 돌아가기</a>
+        		<a th:href="@{/diary}" class="list-btn">← 일기의 방으로 돌아가기</a>
         	</div>
         	
             <form id="diaryform" th:action="${update != null ? '/diary/update' : '/diary/insert'}" 
