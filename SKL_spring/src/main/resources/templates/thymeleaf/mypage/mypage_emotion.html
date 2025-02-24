@@ -221,7 +221,7 @@
                 $.get('/mypage/board-stats', { date: date }, function(response) {
                     const ctx = document.getElementById('boardChart').getContext('2d');
                     if (boardChart) boardChart.destroy();
-                    boardChart = doughnutChart(ctx, response, '게시판 감정 분포');
+                    boardChart = doughnutChart(ctx, response, '공감의 방 감정 분포');
                 });
             }
 
