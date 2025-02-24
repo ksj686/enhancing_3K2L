@@ -263,7 +263,7 @@ public class DiaryController {
 		
 		redirectAttributes.addFlashAttribute("message", "일기가 삭제되었습니다.");
 		
-		return "redirect:/diary/list";
+		return "redirect:/diary";
 	}
 
 

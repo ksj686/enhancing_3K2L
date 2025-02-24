@@ -2,6 +2,7 @@
     0. fastAPI, uvicorn 설치되지 않았을 경우에는 install 필요
        터미널에서 다음 설치명령어 실행
        "pip install fastapi uvicorn"
+       "pip install python-multipart"
 
     1. 가상환경 설정 후 main.py 실행해야됨
        다음 명령어로 가상환경 진입
@@ -37,7 +38,8 @@ async def diary_feedback(message: str = Form(...)):
         print(f"Received data: {message}")
         pre_emotion = predict_emotion(message)
         print(f"감정분류 결과: ", pre_emotion)
-        return {"result": pre_emotion}
+        # return {"result": pre_emotion}
+        return {"result": '불안'}
         # return JSONResponse(content={'classify': '감정분류',
         #                              'feedback': '일기에 대한 피드백 내용'})
     except Exception as e:
