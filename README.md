@@ -53,3 +53,32 @@
 1. 공감의 글 작성  
 2. **악성 필터링 AI 모델**을 통한 악성글 자동 분류  
 3. 게시글 자동 숨김 처리  
+
+<h1>🎯 기술스택</h1>
+
+<img src="https://img.shields.io/badge/OracleDB 21c Express-FAA61A?style=for-the-badge&logo=oracle&logoColor=white">
+<img src="https://img.shields.io/badge/AWS EC2-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white">
+<img src="https://img.shields.io/badge/VScode-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white">
+<img src="https://img.shields.io/badge/Spring Tools 4-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
+<img src="https://img.shields.io/badge/Tomcat 10.1.31-F8DC75?style=for-the-badge&logo=apachetomcat&logoColor=black">
+<img src="https://img.shields.io/badge/JDK 17.0.13-007396?style=for-the-badge&logo=openjdk&logoColor=white">
+<img src="https://img.shields.io/badge/Cursor-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white">
+<img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white">
+<img src="https://img.shields.io/badge/SourceTree-0052CC?style=for-the-badge&logo=sourcetree&logoColor=white">
+<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white">
+<img src="https://img.shields.io/badge/MyBatis-4479A1?style=for-the-badge&logo=java&logoColor=white">
+<img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white">
+<img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white">
+<img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white">
+<img src="https://img.shields.io/badge/WinMerge-FFD43B?style=for-the-badge&logo=python&logoColor=black">
+<img src="https://img.shields.io/badge/Notepad++-90E59A?style=for-the-badge&logo=notepadplusplus&logoColor=black">
+<img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white">
+<img src="https://img.shields.io/badge/AWS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white">
+<img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
+<img src="https://img.shields.io/badge/HTML-E34F26?style=for-the-badge&logo=html5&logoColor=white">
+<img src="https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=css3&logoColor=white">
+<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
+<img src="https://img.shields.io/badge/Thymeleaf-005F0F?style=for-the-badge&logo=thymeleaf&logoColor=white">
+<img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white">
+<img src="https://img.shields.io/badge/Hugging Face-FFBF00?style=for-the-badge&logo=huggingface&logoColor=white">
+<img src="https://img.shields.io/badge/Selenium-43B02A?style=for-the-badge&logo=selenium&logoColor=white">
