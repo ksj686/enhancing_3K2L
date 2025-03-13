@@ -17,10 +17,6 @@
 
 <h1>Role</h1>
 
-<p align="center">
-<img src="https://github.com/user-attachments/assets/1ae630a5-7172-40f4-b73d-2942298e2e0c">
-</p>
-
 🏷 **이효림** (📌 _팀장_)  
 - **프로젝트 총괄**, 일정 관리, DB 설계  
 - **AI 모델 연동, 알림 기능 개발**  
