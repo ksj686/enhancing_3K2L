@@ -1,5 +1,6 @@
 ![logo](https://github.com/user-attachments/assets/50dbb390-fd92-4986-ac8b-d5dbfc54f11e)
-
+ ### 프로젝트 기간 : 2024.01.17 ~ 2025.02.25
+ <br>
 
 <h1>🎯 Architecture</h1>
 
