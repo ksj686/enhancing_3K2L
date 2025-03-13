@@ -17,7 +17,7 @@
 
 <h1>Role</h1>
 
-![Image](https://github.com/user-attachments/assets/7b0c1c2e-501e-488d-8251-f6c6a21df750)
+![Image](https://github.com/user-attachments/assets/49ba6cb8-b4cb-4b5c-be01-204e47535424)
 
 🏷 **이효림** (📌 _팀장_)  
 - **프로젝트 총괄**, 일정 관리, DB 설계  
