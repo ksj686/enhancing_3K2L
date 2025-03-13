@@ -18,7 +18,7 @@
 <h1>Role</h1>
 
 <p align="center">
-![Image](https://github.com/user-attachments/assets/1ae630a5-7172-40f4-b73d-2942298e2e0c)
+<img src="https://github.com/user-attachments/assets/1ae630a5-7172-40f4-b73d-2942298e2e0c">
 </p>
 
 🏷 **이효림** (📌 _팀장_)  
