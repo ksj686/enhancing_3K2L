@@ -14,3 +14,27 @@
 <h1>Class Diagram</h1>
 
 ![스크린샷 2025-03-10 140633](https://github.com/user-attachments/assets/88b90b8d-256c-4a68-a68d-78ea95638647)
+
+<h1>Role</h1>
+
+🏷 **이효림** (📌 _팀장_)  
+- **프로젝트 총괄**, 일정 관리, DB 설계  
+- **AI 모델 연동, 알림 기능 개발**  
+- 감정의 방 **Front-end, Back-end 개발**  
+
+🏷 **김경민**  
+- **일기 요약 모델 튜닝, 감정 분류 모델 튜닝**  
+- 힐링 공간 **Front-end, Back-end 개발**  
+
+🏷 **김미지**  
+- **웹 디자인 총괄**, 퍼블리싱  
+- 악성글 필터링 모델링  
+
+🏷 **김세준**  
+- **Git 관리, DB 설계**  
+- 관리자 페이지 **Front-end, Back-end 개발**  
+- 마이페이지 **Front-end, Back-end 개발**  
+
+🏷 **이민정**  
+- 감정 분류 모델 튜닝  
+- **일기의 방 Front-end, Back-end 개발**  
