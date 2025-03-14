@@ -1,10 +1,15 @@
-![logo](https://github.com/user-attachments/assets/50dbb390-fd92-4986-ac8b-d5dbfc54f11e)
+<div align="center">
+<img src=https://github.com/user-attachments/assets/50dbb390-fd92-4986-ac8b-d5dbfc54f11e>
+ 
  ### 프로젝트 기간 : 2024.01.17 ~ 2025.02.25
+ 
+ </div>
  <br>
 
 <h1>🎯 Architecture</h1>
 
-![Architecture-3](https://github.com/user-attachments/assets/7bfb64a8-0da8-49b7-b7ff-b74bfdd152e2)
+<!-- ![Architecture-3](https://github.com/user-attachments/assets/7bfb64a8-0da8-49b7-b7ff-b74bfdd152e2) -->
+<img src=https://github.com/user-attachments/assets/0269df3b-0a6e-480e-b038-315bce7e9aba>
 
 
 <h1>🎯 ERD</h1>
@@ -66,7 +71,6 @@
 <img src="https://img.shields.io/badge/Cursor-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white">
 <img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=notion&logoColor=white">
 <img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white">
-<img src="https://img.shields.io/badge/WinMerge-FFD43B?style=for-the-badge&logo=python&logoColor=black">
 
 <br>
 
