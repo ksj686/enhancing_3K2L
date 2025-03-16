@@ -4,7 +4,7 @@
 
 <h2>🎯 프로젝트 소개</h2>
 
-#### ☝️ AI를 접목한, 나만의 감정을 인식하고 기록할 수 있는 **`일기 공간`** 서로의 감정을 공유할 수 있는 **`공감 공간`** 을 제공하는 웹 서비스
+#### ☝️ `AI`를 접목한, 나만의 감정을 인식하고 기록할 수 있는 **`일기 공간`** 서로의 감정을 공유할 수 있는 **`공감 공간`** 을 제공하는 웹 서비스
 ##### 🔹 프로젝트 기간 : 2025.01.17 ~ 2025.02.25
 
 <br>
@@ -26,7 +26,7 @@
 
 <h2>🎯 프로젝트 구성원</h2>
 
-🏷 **`이효림`** (📌 _팀장_)
+🏷 **`이효림 (📌 팀장)`**
 - **프로젝트 총괄**, 일정 관리, DB 설계  
 - **AI 서버(FastAPI)와 웹 서버(Spring Boot) 연동**
 - **알림 기능 개발**  
@@ -37,8 +37,8 @@
 - 힐링 공간 **Front-end, Back-end 개발**  
 
 🏷 **`김미지`**  
-- **웹 디자인 총괄**, 퍼블리싱  
-- 악성글 필터링 모델링  
+- **UI/UX 총괄**  
+- 퍼블리싱  
 
 🏷 **`김세준`**  
 - **Git 관리, DB 설계**  
@@ -54,7 +54,7 @@
 
 | **📝 일기 작성 과정**  | **💬 공감의 글 작성 과정**  |
 | ----------------- | ----------------- |
-|1. 일기 작성<br>2. **일기 요약 AI 모델**을 통한 `일기 줄거리 자동 요약`<br>3. **감정 분류 AI 모델**을 통한 `"주요 감정" 자동 결정`<br>4. `주요 감정에 대한 피드백 제공`|1. 공감의 글 작성<br>2. **악성 필터링 AI 모델**을 통한 `악성글 자동 분류`<br>3. 게시글 `자동 숨김 처리`<br>4. 게시글 작성자에게 알림 전송|
+|1. 일기 작성<br>2. **일기 요약 AI 모델**을 통한 **`일기 줄거리 자동 요약`**<br>3. **감정 분류 AI 모델**을 통한 **`"주요 감정" 자동 결정`**<br>4. **`주요 감정에 대한 피드백 제공`**|1. 공감의 글 작성<br>2. **악성 필터링 AI 모델**을 통한 **`악성글 자동 분류`**<br>3. 게시글 **`자동 숨김 처리`**<br>4. 게시글 작성자에게 **`숨김 처리 알림 전송`**|
 
 <br>
 <h2>🎯 기술스택</h2>
@@ -75,3 +75,24 @@
 
 ### 📝 언어
 <img src="https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=openjdk&logoColor=white"> <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white"> <img src="https://img.shields.io/badge/HTML-E34F26?style=for-the-badge&logo=html5&logoColor=white"> <img src="https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=css3&logoColor=white"> <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
+
+<br>
+<h2>🎯 구현</h2>
+<table>
+ <tr>
+  <th>
+   Home
+  </th>
+  <th>
+   Sign Up
+  </th>
+ <tr>
+  <td>
+   <image src=https://github.com/user-attachments/assets/7707e3f8-ef4d-4ed0-9869-cae43abf68c4 width="500"> 
+  </td>
+  <td>
+   <image src=https://github.com/user-attachments/assets/7cc362e1-1637-421a-ad58-e483f094913b width="500"> 
+
+  </td>
+ </tr>
+</table>
