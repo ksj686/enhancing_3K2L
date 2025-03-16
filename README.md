@@ -1,10 +1,12 @@
 <div align="center">
-<img src=https://github.com/user-attachments/assets/50dbb390-fd92-4986-ac8b-d5dbfc54f11e>
+<img src="https://github.com/user-attachments/assets/50dbb390-fd92-4986-ac8b-d5dbfc54f11e">
 </div>
 
 <h2>🎯 프로젝트 소개</h2>
 
-#### ☝️ `AI`를 접목한, 나만의 감정을 인식하고 기록할 수 있는 **`일기 공간`** 서로의 감정을 공유할 수 있는 **`공감 공간`** 을 제공하는 웹 서비스
+#### ☝️ `AI`를 접목한,
+#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;나만의 감정을 인식하고 기록할 수 있는 **`  일기 공간  `** 과
+#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;서로의 감정을 공유할 수 있는 **`  공감 공간  `** 을 제공하는 웹 서비스
 ##### 🔹 프로젝트 기간 : 2025.01.17 ~ 2025.02.25
 
 <br>
@@ -42,7 +44,8 @@
 
 🏷 **`김세준`**  
 - **Git 관리, DB 설계**  
-- 관리자 페이지 **Front-end, Back-end 개발**  
+- 관리자 페이지 **Front-end, Back-end 개발**
+- 로그인 및 회원가입 페이지 **Front-end, Back-end 개발**  
 - 마이페이지 **Front-end, Back-end 개발**  
 
 🏷 **`이민정`**  
@@ -75,53 +78,129 @@
 | **📝 일기 작성 과정**  | **💬 공감의 글 작성 과정**  |
 | ----------------- | ----------------- |
 |1. 일기 작성<br>2. **일기 요약 AI 모델**을 통한 **`일기 줄거리 자동 요약`**<br>3. **감정 분류 AI 모델**을 통한 **`"주요 감정" 자동 결정`**<br>4. **`주요 감정에 대한 피드백 제공`**|1. 공감의 글 작성<br>2. **악성 필터링 AI 모델**을 통한 **`악성글 자동 분류`**<br>3. 게시글 **`자동 숨김 처리`**<br>4. 게시글 작성자에게 **`숨김 처리 알림 전송`**|
-| <image src=https://github.com/user-attachments/assets/68e93d0c-8421-4f8d-8ce7-6a9f7f8ec6ec width="500">  | <image src=https://github.com/user-attachments/assets/18cf2bc0-9ed1-4dca-a584-6d98e9cdff21 width="500">  |
-
+| <img src=https://github.com/user-attachments/assets/68e93d0c-8421-4f8d-8ce7-6a9f7f8ec6ec width="500">  | <img src=https://github.com/user-attachments/assets/18cf2bc0-9ed1-4dca-a584-6d98e9cdff21 width="500">  |
 
 <br>
+<br>
+<br>
 <h2>🎯 상세페이지 화면 구성</h2>
+<b>
 <table>
  <tr>
-  <th>Home</th>
-  <th>Sign in / Sign Up</th>
+  <th>홈 화면</th>
+  <th width="330">상세 기능</th>
  </tr>
  <tr>
   <td>
-   <h6>홈 화면</h6>
-   <image src=https://github.com/user-attachments/assets/7707e3f8-ef4d-4ed0-9869-cae43abf68c4 width="500">
+   <img src=https://github.com/user-attachments/assets/0245fce0-65fc-4258-8f51-009e76ab3bf9 width="500">
   </td>
   <td>
-   <h6>로그인 화면</h6>
-   <image src=https://github.com/user-attachments/assets/c6fba1e5-2ff5-4ac9-bb3b-eae339f2f859 width="500">
-   <h6>회원가입 화면</h6>
-   <image src=https://github.com/user-attachments/assets/aab5b784-5cba-492c-84f3-1853739b2b48 width="500">
+   <ul>
+    <li>슬라이딩&nbsp&nbsp</li>
+    <li>3가지 서비스 연결&nbsp&nbsp</li>
+   </ul>
   </td>
  </tr>
 </table>
-<br>    
+<br>
 <table>
  <tr>
-  <th>일기의 방</th>
-  <th>공감의 방</th>
+  <th>회원가입 및 로그인</th>
+  <th width="330">상세 기능</th>
  </tr>
  <tr>
   <td>
-   <h6>[일기의 방]홈</h6>
-   <image src=https://github.com/user-attachments/assets/a5f5754f-7b26-4ade-840e-cb8d98439c33 width="500">
-   <h6>[일기의 방]일기 작성 페이지</h6>
-   <image src=https://github.com/user-attachments/assets/1b02da84-5624-4a3c-b8e5-32fe2e523ad6 width="500">
-   <h6>[일기의 방]일기 상세 페이지 / AI 피드백</h6>
-   <image src=https://github.com/user-attachments/assets/c061ca3d-d365-4ef7-aab3-95ba4747ad45 width="500">
+   <img src=https://github.com/user-attachments/assets/04059072-9db0-4b18-bcf7-27f0201adc12 width="500">
   </td>
   <td>
-   <h6>[감정의 방]홈</h6>
-   <image src=https://github.com/user-attachments/assets/ef010adc-f7b9-4d8f-9fe7-2f8f263628ff width="500">
-   <h6>[감정의 방]기쁨의 방 </h6>
-   <image src=https://github.com/user-attachments/assets/cc315ada-e452-4147-b042-9ec539a92273 width="500">
-   <h6>[감정의 방]작성 모달</h6>
-   <image src=https://github.com/user-attachments/assets/b410f502-1672-4dcc-a605-0d16371ce021 width="500">
-   <h6>[감정의 방]글 상세 모달 / 감정 버튼 / 신고 버튼</h6>
-   <image src=https://github.com/user-attachments/assets/c2c77a19-2128-438e-8006-fd0da2cd7fb8 width="500">
+  &nbsp;&nbsp;&nbsp;【 회원가입 기능 】<br>
+   <ul>
+    <li>
+     아이디 중복 검사
+    </li>
+    <li>
+     닉네임 중복 검사사
+    </li>
+   </ul>
+   &nbsp;&nbsp;&nbsp;【 로그인 기능 】<br>
+  </td>
+ </tr>
+</table>
+<br>
+<table>
+ <tr>
+  <th>일기의 방</th>
+  <th width="330">상세 기능</th>
+ </tr>
+ <tr>
+  <td>
+   <img src=https://github.com/user-attachments/assets/b9225909-4338-4345-bf34-f12274ab23b0 width="500">
+  </td>
+  <td>
+  &nbsp;&nbsp;&nbsp;【 일기의 방 주요 기능 】<br>
+   <ul>
+    <li>일기 작성 및 파일 첨부</li>
+    <li>TOAST UI Editor 적용</li>
+   </ul>
+   &nbsp;&nbsp;&nbsp;【 AI 감정 분류 및 피드백 기능 】<br>
+   <ul>
+    <li>AI 감정 분류 결과 제공</li>
+    <li>감정에 따른 피드백 제공</li>
+   </ul>
+  </td>
+ </tr>
+</table>
+<br>
+<table>
+ <tr>
+  <th>공감의 방</th>
+  <th width="300">상세 기능</th>
+ </tr>
+ <tr>
+  <td>
+   <img src=https://github.com/user-attachments/assets/4b358f69-e71f-48b2-b7ad-40ee54b6e688 width="500">
+  </td>
+  <td>
+  &nbsp;&nbsp;&nbsp;【 공감의 방 주요 기능 】<br>
+   <ul>
+    <li>
+     4가지 공감의 방<br>
+     (joy / sad / cheer / worry)
+    </li>
+    <li>
+     공감글 작성 모달
+    </li>
+    <li>
+     공감글 상세보기 모달
+    </li>
+    <li>
+     4가지 공감 버튼<br>
+     (joy / sad / cheer / worry)<br>
+     (본인 게시글에는 불가)
+    </li>
+   </ul>
+    &nbsp;&nbsp;&nbsp;【 AI 악성글 필터링 기능 】<br>
+   <ul>
+    <li>
+     AI 악성글 필터링 적용
+    </li>
+    <li>
+     필터링 결과에 따른 글 숨김 처리
+    </li>
+   </ul>
+   </ul>
+   &nbsp;&nbsp;&nbsp;【 알림 및 신고 기능 】<br>
+   <ul>
+    <li>
+     숨김 처리 후 작성자에 알림 제공
+    </li>
+    <li>신고 기능<br>
+        (신고 받은 글 작성자에 알림 제공)
+    </li>
+    <li>
+     신고 누적수 5회 이상 숨김 처리
+    </li>
+   </ul>
   </td>
  </tr>
 </table>
@@ -129,21 +208,156 @@
 <table>
  <tr>
   <th>힐링의 방</th>
-  <th>공감의 방</th>
+  <th width="300">상세 기능</th>
  </tr>
  <tr>
   <td>
-   <image src=https://github.com/user-attachments/assets/a5f5754f-7b26-4ade-840e-cb8d98439c33 width="500"> <br>
-   <image src=https://github.com/user-attachments/assets/1b02da84-5624-4a3c-b8e5-32fe2e523ad6 width="500"> <br> 
-   <image src=https://github.com/user-attachments/assets/c061ca3d-d365-4ef7-aab3-95ba4747ad45 width="500">
-  
-    ![image](https://github.com/user-attachments/assets/834df8d1-e435-4470-82e6-7270a7766c47)
+   <img src="https://github.com/user-attachments/assets/5c6dfb51-b531-4dd4-9d7c-561caa369c51" width="500">
   </td>
-  <td>
-   <image src=https://github.com/user-attachments/assets/ef010adc-f7b9-4d8f-9fe7-2f8f263628ff width="500"> <br>
-   <image src=https://github.com/user-attachments/assets/cc315ada-e452-4147-b042-9ec539a92273 width="500"> <br>
-   <image src=https://github.com/user-attachments/assets/b410f502-1672-4dcc-a605-0d16371ce021 width="500"> <br>
-   <image src=https://github.com/user-attachments/assets/c2c77a19-2128-438e-8006-fd0da2cd7fb8 width="500">
+ <td>
+ &nbsp;&nbsp;&nbsp;【 힐링 플레이리스트 추천 】<br>
+  <ul>
+   <li>
+     크롤링으로 수집한 플레이리스트
+    </li>
+    <li>
+     그 날의 키워드에 따라<br>
+     랜덤 플레이리스트 추천
+    </li>
+    <li>
+     Youtube Player API로<br>
+     플레이리스트 영상 제공
+    </li>
+   </ul>
+   &nbsp;&nbsp;&nbsp;【 힐링 어플 추천 】<br>
+   <ul>
+    <li>
+     외부 어플 추천 및 연결 링크 제공
+    </li>
+   </ul>
   </td>
  </tr>
 </table>
+<br>
+<table>
+ <tr>
+  <th>마이페이지</th>
+  <th width="300">상세 기능</th>
+ </tr>
+ <tr>
+  <td>
+   <img src="https://github.com/user-attachments/assets/48837fce-1245-42ce-946d-840cc2f80181" width="500">
+  <td>
+   <ul>
+    <li>회원정보 수정</li>
+    <li>【 My Journal 】<br>
+         나의 일기를 월별, 감정분류별로<br>
+         최신순/오래된 순으로 확인 가능
+    </li>
+    <li>【 My Mission 】<br>
+         출석 미션과 일기 작성 미션으로<br>
+         획득 성공한 별자리 확인 가능
+    </li>
+    <li>【 My Emotion 】<br>
+         작성한 일기의 감정 분포와<br>
+         공감 글의 감정 분포 확인 가능
+    </li>
+   </ul>
+  </td>
+ </tr>
+</table>
+<br>
+<table>
+ <tr>
+  <th>관리자 페이지</th>
+  <th width="330">상세 기능</th>
+ </tr>
+ <tr>
+  <td>
+   <img src="https://github.com/user-attachments/assets/5792457a-87eb-4f53-a604-b8926add4940" width="500"><br>
+  </td>
+  <td>
+   &nbsp;&nbsp;&nbsp;【 사이트 실시간 현황 페이지 】<br>
+   <ul>
+    <li>
+     오늘의 사이트의 총 사용자 수 통계
+    </li>
+    <li>
+     전체 회원의 이벤트 참여도 통계
+    </li>
+    <li>
+     일기의 방과 공감의 방의<br>
+     서비스별 감정 분포 통계
+    </li>
+    <li>
+     전 통계 차트 PDF 다운로드 가능
+    </li>
+   </ul>
+   &nbsp;&nbsp;&nbsp;【 회원 관리 페이지 】<br>
+   <ul>
+    <li>
+     회원 현황 확인 및 관리
+    </li>
+    <li>
+     스팸 계정 일괄 차단 기능
+    </li>
+    <li>
+     탈퇴 계정 수정 불가
+    </li>
+   </ul>
+   &nbsp;&nbsp;&nbsp;【 회원 통계 페이지 】<br>
+   <ul>
+    <li>
+     특정 기간별로<br>
+     회원가입률 및 탈퇴율 확인 가능
+    </li>
+   </ul>
+  </td>
+ </tr>
+ <tr>
+  <td>
+   <img src="https://github.com/user-attachments/assets/8dad1317-c264-4848-bcf1-08aa84923dbd" width="500">
+  </td>
+  <td>
+   &nbsp;&nbsp;&nbsp;【 감정 통계 페이지 】<br>
+   <ul>
+    <li>
+     오늘의 일기 및 공감의 방 감정 분포,<br>
+     전체 일기 및 공감의 방 감정 추이 확인
+    </li>
+    <li>
+     전 통계 차트 PDF 다운로드 가능
+    </li>
+   </ul>
+   &nbsp;&nbsp;&nbsp;【 공감글 관리 페이지 】<br>
+   <ul>
+    <li>
+     악성글 필터링 수동 및 일괄 처리 기능
+    </li>
+    <li>
+     공감글 상세 내용 확인
+    </li>
+   </ul>
+   &nbsp;&nbsp;&nbsp;【 이벤트 관리 페이지 】<br>
+   <ul>
+    <li>
+     이벤트 등록 및 수정, 삭제 가능
+    </li>
+   </ul>
+   &nbsp;&nbsp;&nbsp;【 이벤트 참여율 페이지 】<br>
+   <ul>
+    <li>
+     이벤트별 특정 기간(월별, 연도별)<br>
+     참여율 통계 확인 가능
+    </li>
+    <li>
+     오늘의 이벤트 참여율 통계
+    </li>
+    <li>
+     분기별 이벤트 참여율 통계
+    </li>
+   </ul>
+  </td>
+ </tr>
+</table>
+</b>
