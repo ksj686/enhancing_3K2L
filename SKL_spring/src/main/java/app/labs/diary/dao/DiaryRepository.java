@@ -17,5 +17,5 @@ public interface DiaryRepository {
 	void insertDiary(Diary diary);
 	void updateDiary(Diary diary);
 	int deleteDiary(@Param("diaryId") int diaryId);
-	void updateDiaryEmotion(int diaryId, String diaryEmotion);
+	void updateDiaryEmotion(@Param("diaryId") int diaryId, @Param("diaryEmotion") String diaryEmotion);
 }
