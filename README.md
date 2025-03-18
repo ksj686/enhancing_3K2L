@@ -26,6 +26,7 @@
 <img src=https://github.com/user-attachments/assets/88b90b8d-256c-4a68-a68d-78ea95638647 width="800">
 </div>
 
+<br>
 <h2>🎯 프로젝트 구성원</h2>
 
 🏷 **`이효림 (📌 팀장)`**
@@ -52,7 +53,8 @@
 - 감정 분류 모델 튜닝  
 - **일기의 방 Front-end, Back-end 개발**  
 
-<br>
+
+<br><br>
 <h2>🎯 기술스택</h2>
 
 ### 🖥️ 개발 환경
@@ -72,7 +74,8 @@
 ### 📝 언어
 <img src="https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=openjdk&logoColor=white"> <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white"> <img src="https://img.shields.io/badge/HTML-E34F26?style=for-the-badge&logo=html5&logoColor=white"> <img src="https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=css3&logoColor=white"> <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
 
-<br>
+
+<br><br>
 <h2>🎯 AI 자동화 시스템</h2>
 
 | **📝 일기 작성 과정**  | **💬 공감의 글 작성 과정**  |
@@ -80,10 +83,8 @@
 |1. 일기 작성<br>2. **일기 요약 AI 모델**을 통한 **`일기 줄거리 자동 요약`**<br>3. **감정 분류 AI 모델**을 통한 **`"주요 감정" 자동 결정`**<br>4. **`주요 감정에 대한 피드백 제공`**|1. 공감의 글 작성<br>2. **악성 필터링 AI 모델**을 통한 **`악성글 자동 분류`**<br>3. 게시글 **`자동 숨김 처리`**<br>4. 게시글 작성자에게 **`숨김 처리 알림 전송`**|
 | <img src=https://github.com/user-attachments/assets/68e93d0c-8421-4f8d-8ce7-6a9f7f8ec6ec width="500">  | <img src=https://github.com/user-attachments/assets/18cf2bc0-9ed1-4dca-a584-6d98e9cdff21 width="500">  |
 
-<br>
-<br>
-<br>
-<h2>🎯 상세페이지 화면 구성</h2>
+<br><br>
+<h2>🎯 상세페이지 구현</h2>
 <b>
 <table>
  <tr>
