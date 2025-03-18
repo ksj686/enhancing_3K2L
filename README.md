@@ -68,7 +68,7 @@
 <br>
 
 ### 🌱 프레임워크 및 라이브러리
-<img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"> <img src="https://img.shields.io/badge/MyBatis-4479A1?style=for-the-badge&logo=java&logoColor=white"> <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white"> <img src="https://img.shields.io/badge/Thymeleaf-005F0F?style=for-the-badge&logo=thymeleaf&logoColor=white"> <img src="https://img.shields.io/badge/Hugging Face-FFBF00?style=for-the-badge&logo=huggingface&logoColor=white"> <img src="https://img.shields.io/badge/Selenium-43B02A?style=for-the-badge&logo=selenium&logoColor=white">
+<img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"> <img src="https://img.shields.io/badge/MyBatis-4479A1?style=for-the-badge&logo=java&logoColor=white"> <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white"> <img src="https://img.shields.io/badge/Thymeleaf-005F0F?style=for-the-badge&logo=thymeleaf&logoColor=white"> <img src="https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jQuery&logoColor=white"/> <img src="https://img.shields.io/badge/Hugging Face-FFBF00?style=for-the-badge&logo=huggingface&logoColor=white"> <img src="https://img.shields.io/badge/Selenium-43B02A?style=for-the-badge&logo=selenium&logoColor=white">
 <br>
 
 ### 📝 언어
@@ -89,7 +89,7 @@
 <table>
  <tr>
   <th>홈 화면</th>
-  <th width="330">상세 기능</th>
+  <th width="300">상세 기능</th>
  </tr>
  <tr>
   <td>
@@ -107,7 +107,7 @@
 <table>
  <tr>
   <th>회원가입 및 로그인</th>
-  <th width="330">상세 기능</th>
+  <th width="300">상세 기능</th>
  </tr>
  <tr>
   <td>
@@ -131,7 +131,7 @@
 <table>
  <tr>
   <th>일기의 방</th>
-  <th width="330">상세 기능</th>
+  <th width="300">상세 기능</th>
  </tr>
  <tr>
   <td>
@@ -271,7 +271,7 @@
 <table>
  <tr>
   <th>관리자 페이지</th>
-  <th width="330">상세 기능</th>
+  <th width="300">상세 기능</th>
  </tr>
  <tr>
   <td>
@@ -281,7 +281,7 @@
    &nbsp;&nbsp;&nbsp;【 사이트 실시간 현황 페이지 】<br>
    <ul>
     <li>
-     오늘의 사이트의 총 사용자 수 통계
+     오늘의 사이트의 사용자 수 통계
     </li>
     <li>
      전체 회원의 이벤트 참여도 통계
@@ -313,6 +313,20 @@
      회원가입률 및 탈퇴율 확인 가능
     </li>
    </ul>
+   &nbsp;&nbsp;&nbsp;【 감정 통계 페이지 】<br>
+   <ul>
+    <li>
+     오늘의 일기 감정분포 및<br>
+     오늘의 공감의 방 감정분포 확인
+    </li>
+    <li>
+     전체 일기 감정 추이 및<br>
+     전체 공감의 방 감정 추이 확인
+    </li>
+    <li>
+     전 통계 차트 PDF 다운로드 가능
+    </li>
+   </ul>
   </td>
  </tr>
  <tr>
@@ -320,20 +334,13 @@
    <img src="https://github.com/user-attachments/assets/8dad1317-c264-4848-bcf1-08aa84923dbd" width="500">
   </td>
   <td>
-   &nbsp;&nbsp;&nbsp;【 감정 통계 페이지 】<br>
-   <ul>
-    <li>
-     오늘의 일기 및 공감의 방 감정 분포,<br>
-     전체 일기 및 공감의 방 감정 추이 확인
-    </li>
-    <li>
-     전 통계 차트 PDF 다운로드 가능
-    </li>
-   </ul>
    &nbsp;&nbsp;&nbsp;【 공감글 관리 페이지 】<br>
    <ul>
     <li>
-     악성글 필터링 수동 및 일괄 처리 기능
+     악성글 필터링 수동 처리 기능
+    </li>
+    <li>
+     공감글 일괄 처리 기능
     </li>
     <li>
      공감글 상세 내용 확인
