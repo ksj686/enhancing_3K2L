@@ -75,7 +75,7 @@
 
 <br><br>
 <h2>🎯 Git-flow </h2>
-<img src="https://github.com/user-attachments/assets/a3a2bb5d-253d-4781-839e-bfe991677262">
+<img src="https://github.com/user-attachments/assets/b9340e7e-7107-4338-b08c-6a8bf6640ae7">
 
 #### `Description`
 1. 로컬에 메인 저장소(main repository) 클론
