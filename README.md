@@ -75,7 +75,7 @@
 
 <br><br>
 <h2>🎯 Git-flow </h2>
-<img src="https://github.com/user-attachments/assets/c3918d49-0ec0-4ce2-830e-f9363661371a">
+<img src="https://github.com/user-attachments/assets/a3a2bb5d-253d-4781-839e-bfe991677262">
 
 <br><br>
 <h2>🎯 Challenge & Solution</h2>
