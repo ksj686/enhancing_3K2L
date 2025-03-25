@@ -2,7 +2,20 @@
 <img src="https://github.com/user-attachments/assets/50dbb390-fd92-4986-ac8b-d5dbfc54f11e">
 </div>
 
-<h2>🎯 프로젝트 소개</h2>
+<h2>🎯 목차</h2>
+01. <a href=#1>프로젝트 소개</a><br>
+02. <a href=#2> Architecture</a><br>
+03. <a href=#3>ERD</a><br>
+04. <a href=#4>Class Diagram</a><br>
+05. <a href=#5>프로젝트 구성원</a><br>
+06. <a href=#6>기술 스택</a><br>
+07. <a href=#7>Git-flow</a><br>
+08. <a href=#8>AI 자동화 시스템</a><br>
+09. <a href=#9>상세페이지 구현</a><br>
+
+<br>
+
+<h2 id=1>🎯 프로젝트 소개</h2>
 
 #### ☝️ `AI`를 접목한,
 #### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;나만의 감정을 인식하고 기록할 수 있는 **`  일기 공간  `** 과
@@ -10,38 +23,44 @@
 ##### 🔹 프로젝트 기간 : 2025.01.17 ~ 2025.02.25
 
 <br>
-<h2>🎯 Architecture</h2>
+<h2 id=2>🎯 Architecture</h2>
 <div align="center">
 <!-- ![Architecture-3](https://github.com/user-attachments/assets/7bfb64a8-0da8-49b7-b7ff-b74bfdd152e2) -->
 <img src=https://github.com/user-attachments/assets/0269df3b-0a6e-480e-b038-315bce7e9aba width="700">
 </div>
 
-<h2>🎯 ERD</h2>
+<h2 id=3>🎯 ERD</h2>
 <div align="center">
 <img src=https://github.com/user-attachments/assets/39f96cb1-c564-4eed-bfe8-d583659d8a4b width=900">
 </div>
 
-<h2>🎯 Class Diagram</h2>
+<h2 id=4>🎯 Class Diagram</h2>
 <div align="center">
 <img src=https://github.com/user-attachments/assets/88b90b8d-256c-4a68-a68d-78ea95638647 width="800">
 </div>
 
 <br>
-<h2>🎯 프로젝트 구성원</h2>
+<h2 id=5>🎯 프로젝트 구성원</h2>
 
 🏷 **`이효림 (📌 팀장)`**
+<!--
 - **프로젝트 총괄**, 일정 관리, DB 설계  
 - **AI 서버(FastAPI)와 웹 서버(Spring Boot) 연동**
 - **알림 기능 개발**  
 - 감정의 방 **Front-end, Back-end 개발**  
+-->
 
 🏷 **`김경민`**  
+<!--
 - **일기 요약 모델 튜닝, 감정 분류 모델 튜닝**  
 - 힐링 공간 **Front-end, Back-end 개발**  
+-->
 
 🏷 **`김미지`**  
+<!--
 - **UI/UX 총괄**  
 - 퍼블리싱  
+-->
 
 🏷 **`김세준`**  
 - **Git 관리, DB 설계**  
@@ -50,12 +69,13 @@
 - 마이페이지 **Front-end, Back-end 개발**  
 
 🏷 **`이민정`**  
+<!--
 - 감정 분류 모델 튜닝  
 - **일기의 방 Front-end, Back-end 개발**  
-
+-->
 
 <br><br>
-<h2>🎯 기술스택</h2>
+<h2 id=6>🎯 기술스택</h2>
 
 ### 🖥️ 개발 환경
  <img src="https://img.shields.io/badge/Spring Tools 4-6DB33F?style=for-the-badge&logo=spring&logoColor=white"> <img src="https://img.shields.io/badge/OracleDB 21c Express-FAA61A?style=for-the-badge&logo=oracle&logoColor=white">
@@ -74,7 +94,7 @@
 <img src="https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=openjdk&logoColor=white"> <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white"> <img src="https://img.shields.io/badge/HTML-E34F26?style=for-the-badge&logo=html5&logoColor=white"> <img src="https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=css3&logoColor=white"> <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
 
 <br><br>
-<h2>🎯 Git-flow </h2>
+<h2 id=7>🎯 Git-flow </h2>
 <img src="https://github.com/user-attachments/assets/b9340e7e-7107-4338-b08c-6a8bf6640ae7">
 
 #### `Description`
@@ -87,7 +107,8 @@
 7. 2번부터 반복
 
 <br><br>
-<h2>🎯 Challenge & Solution</h2>
+<!--
+<h2 id=8>🎯 Challenge & Solution</h2>
 
 1) 
 - 해결 : 
@@ -96,7 +117,9 @@
 - 해결 : 
 
 <br><br>
-<h2>🎯 AI 자동화 시스템</h2>
+-->
+
+<h2 id=8>🎯 AI 자동화 시스템</h2>
 
 | **📝 일기 작성 과정**  | **💬 공감의 글 작성 과정**  |
 | ----------------- | ----------------- |
@@ -104,7 +127,7 @@
 | <img src=https://github.com/user-attachments/assets/68e93d0c-8421-4f8d-8ce7-6a9f7f8ec6ec width="500">  | <img src=https://github.com/user-attachments/assets/18cf2bc0-9ed1-4dca-a584-6d98e9cdff21 width="500">  |
 
 <br><br>
-<h2>🎯 상세페이지 구현</h2>
+<h2 id=9>🎯 상세페이지 구현</h2>
 <b>
 <table>
  <tr>
