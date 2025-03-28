@@ -11,8 +11,8 @@
 06. <a href=#6>기술 스택</a><br>
 07. <a href=#7>Git-flow</a><br>
 08. <a href=#8>Challenge & Solution</a><br>
-08. <a href=#9>AI 자동화 시스템</a><br>
-09. <a href=#10>상세페이지 구현</a><br>
+09. <a href=#9>AI 자동화 시스템</a><br>
+10. <a href=#10>상세페이지 구현</a><br>
 
 <br>
 
