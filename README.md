@@ -184,7 +184,7 @@
 - 해결책3: STS 자체 설정으로 해결. java compiler설정에서 Store information about method parameters 체크.
 
 ### ⚠️ 스크립트 에러 
-  `Uncaught TypeError: Cannot read properties of null (reading 'addEventListener') at (index):207:19`
+    `Uncaught TypeError: Cannot read properties of null (reading 'addEventListener') at (index):207:19`
 > 💡 **원인:** 
 - session 값이 필요한 기능을 include 템플릿에 추가하여서 발생한 에러. session 값이 없을때(로그인하지 않은 상태) 발생.
 > 🚀 **해결:** 
