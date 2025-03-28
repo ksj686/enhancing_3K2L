@@ -123,6 +123,8 @@
 - DB 초기 생성 및 설정 쿼리 공유
 - 환경 세팅 완료된 후 git push, 팀원들은 git clone 진행 후 개발 시작
 
+<br>
+
 ### 🔥 Thymeleaf 설정
 > 🚀 **해결:**
 
@@ -144,15 +146,22 @@
      ```html
      <div layout:fragment="content"></div>
      ```
+
+<br>
+
 ### 🔥 메소드 안의 복수 쿼리/반복문 안의 쿼리가 일관되게 실행되도록 보장
 > 🚀 **해결:** 
 - Service 클래스의 해당 메소드에 Transactional 어노테이션 추가.
+
+<br>
 
 ### 🔥 관리자 페이지에 bootstrap 적용
 > 🚀 **해결:** 
 - 템플릿 선택: sbadmin2
 - 해당 템플릿 구조에 맞게 default_layout 수정.
 - include 에 공통 UI 요소 추가.
+
+<br>
 
 ### ⚠️ dev 브랜치 merge 도중 git 충돌 
 > 💡 **원인:**  
@@ -161,6 +170,8 @@
 > 🚀 **해결:**  
 - 변경사항이 많지 않아 팀원 한명이 해당 파일만 롤백 후 push.
 - dev 브랜치 새로 생성 후 다시 merge 진행.
+
+<br>
 
 ### ⚠️ Mybatis 에러
 **1. Caused by: java.io.IOException: Failed to parse mapping resource: 'file [C:\labs_python\SamKimILee\SKL_spring\bin\main\mybatis\mappers\admin\AdminMapper.xml]'**
@@ -183,6 +194,8 @@
 - 해결책2: 매개변수를 Map 형태로 받는다
 - 해결책3: STS 자체 설정으로 해결. java compiler설정에서 Store information about method parameters 체크.
 
+<br>
+
 ### ⚠️ 스크립트 에러 
     `Uncaught TypeError: Cannot read properties of null (reading 'addEventListener') at (index):207:19`
 > 💡 **원인:** 
@@ -190,6 +203,8 @@
 > 🚀 **해결:** 
 - 해결책1: 해당 기능이 필요없는 페이지(ex.로그인/회원가입 페이지)에서는 해당 기능 실행 안되도록 수정.
 - 해결책2: 로그인 되지 않았을때 해당 기능 실행 안되도록 수정.
+
+<br>
 
 ### ⚠️ dataTable 내부에 select 태그 사용 시 정렬 안되는 문제
 > 🚀 **해결:** 
