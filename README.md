@@ -338,7 +338,7 @@
     </table>
   </details>
   
-  <details>
+  <details open>
     <summary>관리자 페이지 상세보기</summary>
     <table>
      <tr>
