@@ -113,9 +113,89 @@
 
 <h2 id=8>🎯 Challenge & Solution</h2>
 <!--
-### 🔥 bootstrap 적용
+### 🔥 초기 개발 환경 세팅
 > 🚀 **해결:** 
-- 
+- 버전에 맞게 build.gradle 파일 설정
+- 공유할 필요없는 폴더 gitignore 설정
+- application.properties 세부 설정(DB 연결 포함)
+- 로그인, 홈 화면, MVC 패턴 구조
+- 도메인 별로 폴더 분리되도록 협의
+- DB 초기 생성 및 설정 쿼리 공유
+- 환경 세팅 완료된 후 git push, 팀원들은 git clone 진행 후 개발 시작
+-->
+
+<!--
+### 🔥 Thymeleaf 설정
+> 🚀 **해결:** 
+1. **default_layout 템플릿**:
+   - 전체 페이지 레이아웃을 정의하는 레이아웃 템플릿.
+   - 공통 요소들을 포함시켜 재사용 가능하도록 설정.
+   - 전체 페이지에 적용되는 공통 CSS 및 JavaScript 리소스 추가
+
+2. include 템플릿:
+   - 공통적으로 필요한 UI 구성 요소(예: 상단바, 푸터 등)를 별도의 템플릿 파일로 분리.
+   - **`th:replace`**를 사용하여 컴포넌트 재사용:
+     ```html
+     <div th:replace="~{/thymeleaf/admin/include::topbar}"></div>
+     <div th:replace="~{/thymeleaf/admin/include::footer}"></div>
+     ```
+
+3. **페이지별 콘텐츠**:
+   - 각 페이지에서 고유 콘텐츠는 `layout:fragment="content"`로 정의.
+   - 예시:
+     ```html
+     <div layout:fragment="content"></div>
+     ```
+
+4. **
+-->
+
+<!--
+### 🔥 관리자 페이지에 bootstrap 적용
+> 🚀 **해결:** 
+- 템플릿 선택(sbadmin2)
+- default_layout 페이지 공통부분 include 템플릿에 추가
+-->
+
+<!--
+### ⚠️ 개발자 도구 에러 메시지(콘솔에도 뜨나?)
+> 💡 **원인:** 
+notice 추가 후 모든 페이지에서 실행되서 발생한 오류
+> 🚀 **해결:** 
+- notice - 로그인 되지 않는 페이지(login, 회원가입 페이지)에서는 script 실행 안되도록 수정
+- 추후 로그인 되지 않았을때 스크립트 실행 안되도록 수정
+-->
+
+
+<!--
+
+### ⚠️ Mybatis 에러
+1.콘솔 에러 메시지 복붙
+> 💡 **원인:**  
+-  Mybatis 구문 에러시 발생하는 에러
+> 🚀 **해결:** 
+- Mybatis 파일은 여러 부분을 한번에 수정하면 에러를 찾기가 쉽지 않다. 하나씩 수정후 서버 구동시 에러 나는지 체크해야함.
+
+2.콘솔 에러 메시지 복붙
+> 💡 **원인:**  
+-  Mybatis에서는 세미콜론이 있으면 안됨
+> 🚀 **해결:** 
+- 세미콜론 삭제
+
+3. 콘솔 에러 메시지 복붙
+> 💡 **원인:**  
+- 복수개의 매개변수 작성시 @Param 붙이지 않으면 발생하는 에러 
+> 🚀 **해결:** 
+- 해결책1: @Param을 붙인다
+- 해결책2: Map 형태로 받는다
+- 해결책3: STS 자체 설정으로 해결. java compiler설정에서 Store information about method parameters 체크.
+
+-->
+
+<!--
+### ⚠️ dataTable 내부에 select 태그 사용 시 정렬 안되는 문제
+> 🚀 **해결:** 
+- 헤더 class를 설정 후 dataTable 초기화시 해당 컬럼 정렬시 select된 값으로 정렬되도록 설정.
 -->
 
 ### ⚠️ dev 브랜치 merge 도중 git 충돌 
