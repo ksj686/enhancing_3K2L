@@ -42,6 +42,12 @@
 <br>
 <h2 id=5>🎯 프로젝트 구성원</h2>
 
+🏷 **`김세준`**  
+- **Git 관리, DB 설계**  
+- 관리자 페이지 **Front-end, Back-end 개발**
+- 로그인 및 회원가입 페이지 **Front-end, Back-end 개발**  
+- 마이페이지 **Front-end, Back-end 개발**
+  
 🏷 **`이효림 (📌 팀장)`**
 <!--
 - **프로젝트 총괄**, 일정 관리, DB 설계  
@@ -68,11 +74,6 @@
 - **일기의 방 Front-end, Back-end 개발**  
 -->
 
-🏷 **`김세준`**  
-- **Git 관리, DB 설계**  
-- 관리자 페이지 **Front-end, Back-end 개발**
-- 로그인 및 회원가입 페이지 **Front-end, Back-end 개발**  
-- 마이페이지 **Front-end, Back-end 개발**  
 
 
 <br><br>
