@@ -141,7 +141,6 @@
 
 **3. 페이지별 콘텐츠**:
    - 각 페이지에서 고유 콘텐츠는 `layout:fragment="content"`로 정의.
-   - 예시:
      ```html
      <div layout:fragment="content"></div>
      ```
