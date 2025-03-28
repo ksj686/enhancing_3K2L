@@ -112,7 +112,7 @@
 
 <h2 id=8>🎯 Challenge & Solution</h2>
 
-### 🔥 Issue: dev 브랜치 merge 도중 git 충돌 
+### ⚠️ dev 브랜치 merge 도중 git 충돌 
 💡 **원인:**  
 - 두 팀원이 같은 파일을 수정해서 충돌 발생
 
