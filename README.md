@@ -171,9 +171,9 @@
 
 **2. Cause: java.sql.SQLSyntaxErrorException: ORA-00933: SQL 명령어가 올바르게 종료되지 않았습니다**
 > 💡 **원인:**  
--  쿼리 구문 오류시 발생하는 에러. 쿼리에 세미 콜론을 붙여서 발생함.
+-  SQL 구문 오류로 인해 발생하는 에러. 쿼리에 세미콜론을 추가해도 동일한 에러 발생.
 > 🚀 **해결:** 
-- 세미콜론 삭제
+- SQL 구문 수정.
 
 **3. Caused by: org.apache.ibatis.binding.BindingException: Parameter 'noticeType' not found. Available parameters are [arg2, arg1, arg0, param3, param1, param2]**
 > 💡 **원인:**  
