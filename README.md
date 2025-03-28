@@ -157,7 +157,7 @@
 
 ### 🔥 관리자 페이지에 bootstrap 적용
 > 🚀 **해결:** 
-- 템플릿 선택 - sbadmin2
+- 템플릿 선택 - SB Admin 2
 - 해당 템플릿 구조에 맞게 default_layout 수정.
 - include 에 공통 UI 요소 추가.
 
