@@ -132,7 +132,7 @@
    - 전체 페이지에 적용되는 공통 CSS 및 JavaScript 리소스 추가.
 
 **2. include 템플릿**:
-   - 공통적으로 필요한 UI 구성 요소(예: 상단바, 푸터 등)를 별도의 템플릿 파일로 분리.
+   - 공통적으로 필요한 UI 구성 요소(예: 상단 영역, 하단 영역 등)를 별도의 템플릿 파일로 분리.
    - `th:replace`를 사용하여 컴포넌트 재사용:
      ```html
      <div th:replace="~{/thymeleaf/admin/include::topbar}"></div>
