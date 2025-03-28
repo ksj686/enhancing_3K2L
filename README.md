@@ -194,7 +194,7 @@ notice 추가 후 모든 페이지에서 실행되서 발생한 오류
 
 ### ⚠️ dataTable 내부에 select 태그 사용 시 정렬 안되는 문제
 > 🚀 **해결:** 
-- 헤더 class를 설정 후 dataTable 초기화시 해당 컬럼 정렬시 select된 값으로 정렬되도록 설정.
+- 테이블 헤더 class를 설정 후 dataTable 초기화시 해당 컬럼 정렬시 select된 값으로 정렬되도록 설정.
 
 <br><br>
 
