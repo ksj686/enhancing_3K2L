@@ -13,6 +13,7 @@
 08. <a href=#8>Challenge & Solution</a><br>
 09. <a href=#9>AI 자동화 시스템</a><br>
 10. <a href=#10>상세페이지 구현</a><br>
+11. <a href=#11>회고</a><br>
 
 <br>
 
@@ -526,3 +527,9 @@
     </table>
   </details>
 </b>
+
+<h2 id=11>🎯 회고</h2>
+- Bootstrap, Chart.js, DataTables 등의 다양한 외부 라이브러리를 활용해볼 수 있었습니다.
+- Thymeleaf를 보다 능숙하게 다룰 수 있게 되었습니다.
+- Git을 관리하는 과정에서 버전 관리 시스템에 대한 이해도가 한층 높아졌습니다.
+- 다양한 기능을 구현하면서 전반적인 프론트엔드, 백엔드 기술 역량이 향상되었습니다.
