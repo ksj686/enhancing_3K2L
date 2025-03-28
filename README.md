@@ -163,13 +163,13 @@
 - dev 브랜치 새로 생성 후 다시 merge 진행.
 
 ### ⚠️ Mybatis 에러
-**1.Caused by: java.io.IOException: Failed to parse mapping resource: 'file [C:\labs_python\SamKimILee\SKL_spring\bin\main\mybatis\mappers\admin\AdminMapper.xml]'**
+**1. Caused by: java.io.IOException: Failed to parse mapping resource: 'file [C:\labs_python\SamKimILee\SKL_spring\bin\main\mybatis\mappers\admin\AdminMapper.xml]'**
 > 💡 **원인:**  
 -  Mybatis 구문 오류 시 발생하는 에러
 > 🚀 **해결:** 
 - Mybatis 파일은 한 번에 많은 수정이 이루어지면 에러를 찾기 어려우므로, 작은 단위로 수정한 후 서버를 구동하여 에러를 확인해야 한다.
 
-**2.Cause: java.sql.SQLSyntaxErrorException: ORA-00933: SQL 명령어가 올바르게 종료되지 않았습니다**
+**2. Cause: java.sql.SQLSyntaxErrorException: ORA-00933: SQL 명령어가 올바르게 종료되지 않았습니다**
 > 💡 **원인:**  
 -  쿼리 구문 오류시 발생하는 에러. 쿼리에 세미 콜론을 붙여서 발생함.
 > 🚀 **해결:** 
@@ -183,14 +183,12 @@
 - 해결책2: 매개변수를 Map 형태로 받는다
 - 해결책3: STS 자체 설정으로 해결. java compiler설정에서 Store information about method parameters 체크.
 
-<!--
-### ⚠️ 개발자 도구 에러 메시지(콘솔에도 뜨나?)
+### ⚠️ 스크립트 에러 `Uncaught TypeError: Cannot read properties of null (reading 'addEventListener') at (index):207:19`
 > 💡 **원인:** 
-notice 추가 후 모든 페이지에서 실행되서 발생한 오류
+- session 값이 필요한 메소드를 include 템플릿에 추가하여서 발생한 에러. session 값이 없을때(로그인하지 않은 상태) 발생.
 > 🚀 **해결:** 
-- notice - 로그인 되지 않는 페이지(login, 회원가입 페이지)에서는 script 실행 안되도록 수정
-- 추후 로그인 되지 않았을때 스크립트 실행 안되도록 수정
--->
+- 해결책1: 해당 기능이 필요없는 페이지(ex.로그인/회원가입 페이지)에서는 script 실행 안되도록 수정
+- 해결책2: 로그인 되지 않았을때 스크립트 실행 안되도록 수정
 
 ### ⚠️ dataTable 내부에 select 태그 사용 시 정렬 안되는 문제
 > 🚀 **해결:** 
