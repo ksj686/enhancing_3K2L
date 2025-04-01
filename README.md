@@ -31,11 +31,13 @@
 <img src=https://github.com/user-attachments/assets/0269df3b-0a6e-480e-b038-315bce7e9aba width="700">
 </div>
 
+<br>
 <h2 id=3>🎯 ERD</h2>
 <div align="center">
 <img src=https://github.com/user-attachments/assets/39f96cb1-c564-4eed-bfe8-d583659d8a4b width=900">
 </div>
 
+<br>
 <h2 id=4>🎯 Class Diagram</h2>
 <div align="center">
 <img src=https://github.com/user-attachments/assets/88b90b8d-256c-4a68-a68d-78ea95638647 width="800">
@@ -111,7 +113,6 @@
 7. 2번부터 반복
 
 <br><br>
-
 <h2 id=8>🎯 Challenge & Solution</h2>
 
 ### 🔥 초기 개발 환경 세팅
@@ -212,7 +213,6 @@
 - 테이블 헤더 class를 설정 후 dataTable 초기화시 해당 컬럼 정렬시 select된 값으로 정렬되도록 설정.
 
 <br><br>
-
 <h2 id=9>🎯 AI 자동화 시스템</h2>
 
 | **📝 일기 작성 과정**  | **💬 공감의 글 작성 과정**  |
@@ -528,6 +528,7 @@
   </details>
 </b>
 
+<br><br>
 <h2 id=11>🎯 회고</h2>
 
 - Bootstrap, Chart.js, DataTables 등의 다양한 외부 라이브러리를 활용해볼 수 있었습니다.
